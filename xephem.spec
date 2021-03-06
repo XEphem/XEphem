@@ -1,6 +1,6 @@
 Name:		xephem
 Version:	4.0.1
-Release:        1%{?dist}
+Release:        1
 Summary:        XEphem is an interactive astronomy program for all UNIX platforms.
 License:	MIT
 
@@ -45,5 +45,7 @@ install -m 0444 %{name}.1x.gz %{buildroot}/%{_mandir}/man1x/
 %{_mandir}/man1x/%{name}.1x.gz
 
 %changelog
+* Fri Mar 05 2021 Douglas Needham <cinnion+github@gmail.com> 4.0.1-1
+- New RPM package built with tito
 
 
