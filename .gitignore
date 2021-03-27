@@ -1,0 +1,10 @@
+# Build targets
+
+*.a
+*.o
+/GUI/xephem/xephem
+/GUI/xephem/xephem.1
+
+# macOS HFS+ files
+
+._*
