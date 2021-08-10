@@ -55,6 +55,9 @@ explains how you can compile XEphem yourself from its source code.
   [INSTALL](https://github.com/XEphem/XEphem/blob/main/INSTALL)
   file in the `main` branch of the repository.
 
+* Planet moons ephemeris have been updated from IMCCE/BdL for period 2020 to 2040
+  (Mars, Jupiter, Saturn, Uranus)
+
 * Direct questions to the main repository’s
   [GitHub Discussions](https://github.com/XEphem/XEphem/discussions)
   by clicking “New discussion” and writing up your question.
