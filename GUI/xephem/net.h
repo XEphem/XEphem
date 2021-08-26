@@ -42,8 +42,4 @@ extern int ssl_readbytes (XE_SSL_FD *ssl_fd, unsigned char buf[], int n);
 extern int ssl_recvline (XE_SSL_FD *ssl_fd, char buf[], int max);
 extern int ssl_recvlineb (XE_SSL_FD *ssl_fd, char *buf, int size);
 
-/* For RCS Only -- Do Not Edit
- * @(#) $RCSfile: net.h,v $ $Date: 2003/03/17 07:26:21 $ $Revision: 1.3 $ $Name:  $
- */
-
 #endif /* _NET_H */
