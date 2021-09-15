@@ -44,7 +44,7 @@ LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
 # CFLAGS = $(LIBINC) $(CLDFLAGS) -O2 -Wall -I$(MOTIFI) -I$(OLI)
 # LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) -L$(OLL)
 # XLIBS = -lXm $(OLL)/libXp.a $(OLL)/libXt.a $(OLL)/libSM.a $(OLL)/libICE.a $(OLL)/libXext.a $(OLL)/libXmu.a $(OLL)/libX11.a $(OLL)/libxcb.a $(OLL)/libXau.a $(OLL)/libXdmcp.a
-# LIBS = $(XLIBS) $(LIBLIB) -lm
+# LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
 
 # for ppc Apple OS X to make universal (i386 and ppc binary), requires
 # Xcode 2.2, /Developers/SDK/MacOSX10.4u.sdk and all libs, including libXm,
@@ -206,4 +206,3 @@ clean:
 
 clobber: clean
 	rm -fr xephem xephem.1
-
