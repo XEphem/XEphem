@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -ex
+NAME=xephem-ubuntu-14.04
 
 if [ ! -f /usr/bin/docker ]
 then
@@ -15,7 +16,14 @@ cd "$(dirname $0)"
 # Build the Docker image from the instructions in the Dockerfile.
 # Name the resulting image "xephem".
 
-docker build -t xephem-ubuntu-14.04 . 1>&2
+if [ "$1" = "--no-cache" ]
+then
+    NO_CACHE=--no-cache
+    shift
+else
+    NO_CACHE=
+fi
+docker build -t $NAME . 1>&2 $NO_CACHE
 
 # Run the "xephem" image, exposing several files from the host system
 # that together should let XEphem run and connect to X Windows:
@@ -30,5 +38,5 @@ exec docker run -ti \
      -v ${PWD}/../..:/src \
      -v /tmp/.X11-unix:/tmp/.X11-unix \
      -v ${XAUTHORITY}:/root/.Xauthority \
-     xephem-ubuntu-14.04 \
+     $NAME \
      "$@"
