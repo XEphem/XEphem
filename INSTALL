@@ -15,7 +15,7 @@ How to install XEphem, either for just yourself or system-wide:
     distributions, look for Motif packages equivalent to the ones
     installed here):
 
-	$ sudo apt install build-essential groff-base libmotif-dev libxext-dev libxmu-dev libxt-dev
+	$ sudo apt install build-essential groff-base libmotif-dev libssl-dev libxext-dev libxmu-dev libxt-dev
 	$ make
 
     On Mac OS X just do this:
