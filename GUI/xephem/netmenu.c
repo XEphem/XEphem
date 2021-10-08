@@ -72,8 +72,28 @@ static int rb_unk;		/* index of first unknown char */
 
 static char netcategory[] = "Network";	/* Save category */
 
-static SSL_METHOD *ssl_method;	/* global ssl dispatch structure for creating a ssl context */
-static SSL_CTX *ssl_ctx;	/* global ssl context structure for creating ssl connections */
+static const SSL_METHOD *ssl_method;	/* global ssl dispatch structure for creating a ssl context */
+static SSL_CTX *ssl_ctx;		/* global ssl context structure for creating ssl connections */
+
+/* initalize the OpenSSL library.
+ * return -1 and with excuse in msg[], else 0 if ok.
+ * N.B. is called implicit in httpsGET.
+ */
+int
+init_ssl(char msg[])
+{
+	if (!ssl_ctx) {
+	    if (!OPENSSL_init_ssl (0, NULL)) {		/* since openssl 1.1.x */
+		(void) sprintf (msg, "Could not initialize the OpenSSL library!");
+		return (-1);
+	    } else {
+		ssl_method = TLS_client_method();	/* since openssl 1.1.x */
+		ssl_ctx = SSL_CTX_new (ssl_method);
+		SSL_CTX_set_options (ssl_ctx, SSL_OP_NO_SSLv2);
+	    };
+	}
+	return (0);
+}
 
 /* call to set up without actually bringing up the menus.
  */
@@ -81,15 +101,6 @@ void
 net_create()
 {
 	if (!netshell_w) {
-	    if (SSL_library_init() < 0) {
-		fprintf (stderr, "Could not initialize the OpenSSL library !\n");
-	    } else {
-		ssl_method = SSLv23_client_method();	/* deprecated since openssl 1.1.x */
-//		ssl_method = TLS_client_method();	/* since openssl 1.1.x */
-		ssl_ctx = SSL_CTX_new (ssl_method);
-		SSL_CTX_set_options (ssl_ctx, SSL_OP_NO_SSLv2);
-	    };
-
 	    net_create_form();
 	    (void) net_save();	/* confirming here is just annoying */
 	}
@@ -495,6 +506,11 @@ httpsGET (char *host, char *GETcmd, char msg[], XE_SSL_FD *ssl_fd)
 	int n;
 	int ret;
 	int httpsport = 443;
+
+	/* initialize the ssl library */
+	if (init_ssl (msg) < 0) {
+	    return (-1);
+	}
 
 	/* open connection */
 	if (proxy_on) {
