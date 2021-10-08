@@ -63,6 +63,7 @@ static XtIntervalId read_to;	/* callback to poll for read cancel */
 static void fits_read_to (XtPointer client, XtIntervalId *id);
 static void fits_read_abort (FImage *fip);
 static int fr_socket;		/* FITS reading socket */
+static XE_SSL_FD fr_ssl_fd;	/* FITS reading ssl descriptor */
 
 static Widget sf_w;		/* main dialog */
 static Widget savefn_w;		/* TF for save filename */
@@ -1081,6 +1082,55 @@ setup_gunzip_pipe(int sockfd)
 	return (pid);
 }
 
+/* setup the pipe between ssl decryption and xephem to decrypt the data.
+ * return pid if ok, else -1.
+ */
+static int
+setup_ssldecryption_pipe(int sockfd)
+{
+	int ssldecryptfd[2];		/* file descriptors for ssl decryption pipe */
+	int pid;
+	unsigned char buf[2048];
+	int nr;
+
+	/* make the pipe to ssl decryption */
+	if (pipe(ssldecryptfd) < 0) {
+	    xe_msg (1, "Can not make pipe for ssl decryption");
+	    return (-1);
+	}
+
+	/* fork and start ssl decryption */
+	switch((pid = fork())) {
+	case 0:				/* child: put ssl decryption between socket and us */
+	    close (ssldecryptfd[0]);	/* do not need read side of pipe */
+
+	    while ((nr = SSL_read (fr_ssl_fd.ssl, buf, sizeof(buf))) > 0) {
+		write (ssldecryptfd[1], buf, nr);
+	    }
+
+	    close (ssldecryptfd[1]);	/* close when ssl decryption finishes */
+	    SSL_free (fr_ssl_fd.ssl);
+	    close (fr_ssl_fd.fd);
+	    _exit(EXIT_SUCCESS);	/* exit when ssl decryption finishes  */
+	    break;			/* :) */
+
+	case -1:	/* fork failed */
+	    xe_msg (1, "Can not fork for ssl decryption");
+	    return (-1);
+
+	default:	/* parent */
+	    break;
+	}
+
+	/* put ssl decryption between the socket and us */
+	close (ssldecryptfd[1]);	/* do not need write side of pipe */
+	dup2 (ssldecryptfd[0], sockfd);	/* read side of pipe masquarades as socket */
+	close (ssldecryptfd[0]);	/* do not need after dup */
+
+	/* return pid of ssl decryption */
+	return (pid);
+}
+
 static Survey
 whichSurvey()
 {
@@ -1104,6 +1154,10 @@ eso_fits()
 	int gzpid;
 	int aamode;
 	int sawfits;
+	int ssldecryptpid;
+
+	ssldecryptpid = 0;
+	memset(&fr_ssl_fd, 0, sizeof(fr_ssl_fd));
 
 	/* do not turn off watch until completely finished */
 	watch_cursor (1);
@@ -1142,16 +1196,25 @@ eso_fits()
 	fs_sexa (decstr, dec, 3, 3600);
 	for (decp = decstr; *decp == ' '; decp++)
 	    continue;
-	(void) sprintf (buf, "GET http://%s/dss/dss?ra=%s&dec=%s&equinox=J2000&Sky-Survey=%s&mime-type=%s&x=%.0f&y=%.0f HTTP/1.0\r\nUser-Agent: xephem/%s\r\n\r\n",
+	(void) sprintf (buf, "GET https://%s/dss/dss?ra=%s&dec=%s&equinox=J2000&Sky-Survey=%s&mime-type=%s&x=%.0f&y=%.0f HTTP/1.0\r\nUser-Agent: xephem/%s\r\n\r\n",
 						host, rap, decp, survey,
 			use_gunzip() ? "display/gz-fits" : "application/x-fits",
 						fov, fov, PATCHLEVEL);
 	xe_msg (0, "Command to %s:\n%s", host, buf);
-	fr_socket = httpGET (host, buf, msg);
+	fr_socket = httpsGET (host, buf, msg, &fr_ssl_fd);
 	if (fr_socket < 0) {
-	    xe_msg (1, msg);
+	    xe_msg (1, "https get: %s", msg);
 	    stopd_down();
 	    watch_cursor (0);
+	    return;
+	}
+
+	/* switch on ssl decryption */
+	ssldecryptpid = setup_ssldecryption_pipe(fr_socket);
+	if (ssldecryptpid < 0) {
+	    watch_cursor (0);
+	    close (fr_socket);
+	    stopd_down();
 	    return;
 	}
 
@@ -1184,6 +1247,8 @@ eso_fits()
 	if (use_gunzip()) {
 	    gzpid = setup_gunzip_pipe(fr_socket);
 	    if (gzpid < 0) {
+		if (ssldecryptpid > 0)
+		    kill (ssldecryptpid, SIGTERM);
 		watch_cursor (0);
 		close (fr_socket);
 		stopd_down();
@@ -1199,6 +1264,8 @@ eso_fits()
 	    xe_msg (1, "%s", buf);
 	    resetFImage (fip);
 	    close (fr_socket);
+	    if (ssldecryptpid > 0)
+		kill (ssldecryptpid, SIGTERM);
 	    if (gzpid > 0)
 		kill (gzpid, SIGTERM);
 	    stopd_down();
@@ -1224,6 +1291,10 @@ stsci_fits()
 	int gzpid;
 	int aamode;
 	int sawfits;
+	int ssldecryptpid;
+
+	ssldecryptpid = 0;
+	memset(&fr_ssl_fd, 0, sizeof(fr_ssl_fd));
 
 	/* do not turn off watch until completely finished */
 	watch_cursor (1);
@@ -1254,16 +1325,25 @@ stsci_fits()
 	}
 
 	/* format and send the request */
-	(void) sprintf(buf,"GET http://%s/cgi-bin/dss_search?ra=%.5f&dec=%.5f&equinox=J2000&v=%s&height=%.0f&width=%.0f&format=FITS&compression=%s&version=3 HTTP/1.0\nUser-Agent: xephem/%s\r\n\r\n",
+	(void) sprintf(buf,"GET https://%s/cgi-bin/dss_search?ra=%.5f&dec=%.5f&equinox=J2000&v=%s&height=%.0f&width=%.0f&format=FITS&compression=%s&version=3 HTTP/1.0\r\nUser-Agent: xephem/%s\r\n\r\n",
 						host, ra, dec, survey, fov, fov,
 						use_gunzip() ? "gz" : "NONE",
 						PATCHLEVEL);
 	xe_msg (0, "Command to %s:\n%s", host, buf);
-	fr_socket = httpGET (host, buf, msg);
+	fr_socket = httpsGET (host, buf, msg, &fr_ssl_fd);
 	if (fr_socket < 0) {
-	    xe_msg (1, "http get: %s", msg);
+	    xe_msg (1, "https get: %s", msg);
 	    stopd_down();
 	    watch_cursor (0);
+	    return;
+	}
+
+	/* switch on ssl decryption */
+	ssldecryptpid = setup_ssldecryption_pipe(fr_socket);
+	if (ssldecryptpid < 0) {
+	    watch_cursor (0);
+	    close (fr_socket);
+	    stopd_down();
 	    return;
 	}
 
@@ -1291,11 +1371,12 @@ stsci_fits()
 	    return;
 	}
 
-
 	/* possibly connect via gunzip -- weird if have gunzip but can't */
 	if (use_gunzip()) {
 	    gzpid = setup_gunzip_pipe(fr_socket);
 	    if (gzpid < 0) {
+		if (ssldecryptpid > 0)
+		    kill (ssldecryptpid, SIGTERM);
 		watch_cursor (0);
 		close (fr_socket);
 		stopd_down();
@@ -1310,6 +1391,8 @@ stsci_fits()
 	    xe_msg (1, "%s", buf);
 	    resetFImage (fip);
 	    close (fr_socket);
+	    if (ssldecryptpid > 0)
+		kill (ssldecryptpid, SIGTERM);
 	    if (gzpid > 0)
 		kill (gzpid, SIGTERM);
 	    stopd_down();
@@ -1345,7 +1428,7 @@ XtInputId *id;
 	}
 
 	/* report progress */
-	pm_set (fip->nbytes * 100 / fip->totbytes);
+	pm_set ((ulong)fip->nbytes * 100 / fip->totbytes);
 	XmUpdateDisplay (toplevel_w);
 
 	/* keep going if expecting more */
