@@ -83,14 +83,21 @@ int
 init_ssl(char msg[])
 {
 	if (!ssl_ctx) {
-	    if (!OPENSSL_init_ssl (0, NULL)) {		/* since openssl 1.1.x */
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+	    if (SSL_library_init() < 0) {
+#else
+	    if (!OPENSSL_init_ssl (0, NULL)) {
+#endif
 		(void) sprintf (msg, "Could not initialize the OpenSSL library!");
 		return (-1);
-	    } else {
-		ssl_method = TLS_client_method();	/* since openssl 1.1.x */
-		ssl_ctx = SSL_CTX_new (ssl_method);
-		SSL_CTX_set_options (ssl_ctx, SSL_OP_NO_SSLv2);
-	    };
+	    }
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+	    ssl_method = SSLv23_client_method();
+#else
+	    ssl_method = TLS_client_method();
+#endif
+	    ssl_ctx = SSL_CTX_new (ssl_method);
+	    SSL_CTX_set_options (ssl_ctx, SSL_OP_NO_SSLv2);
 	}
 	return (0);
 }
