@@ -2192,7 +2192,7 @@ double *rap, double *decp)
 								rap, decp);
 
 	*aamodep = aa_mode;
-	*fovp = sv_vfov;
+	*fovp = (sv_vfov > sv_hfov) ? sv_vfov : sv_hfov;
 }
 
 /* return to the caller our current field star list.
