@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # convert MPCORB.DAT to 2 .edb files.
 # Usage: [-f] <base>
-#   if -f then use ftp to get the script from harvard, else read it from stdin.
+#   if -f then use curl to get the script from harvard, else read it from stdin.
 #   <base> is a prefix used in naming the generated .edb files.
 # Two files are created:
 #   <base>.edb contains only those asteroids which might ever be brighter
@@ -9,7 +9,7 @@
 #   <base>_dim.edb contains the remaining asteroids.
 #
 # mpcorb.dat is a service of the Minor Planet Center,
-# http://cfa-www.harvard.edu/cfa/ps/mpc.html.
+# https://www.minorplanetcenter.net/iau/MPCORB
 #
 # Copyright (c) 2000 Elwood Downey
 # 16 Mar 1999: first draft
@@ -20,6 +20,7 @@
 # 24 Sep 2004: only remove files if downloaded fresh
 #  1 Nov 2012: change from ftp to curl for better error handling.
 #  4 Jul 2014: change download site
+# 12 Oct 2021: access to https: (R. J. Mathar)
 
 # grab RCS version
 my $ver = '$Revision: 1.3 $';
@@ -33,7 +34,7 @@ my $XCN=<<EOF;
 # ---------------------------
 # MPC Orbit Database
 # * The MPC Orbit Database (MPCORB) is available for downloading from the anon-ftp
-#   link ftp://cfa-ftp.harvard.edu/pub/MPCORB/.
+#   link https://www.minorplanetcenter.net/iau/MPCORB/.
 #   Download either the complete file or daily updates.
 # * Note that the security features used in  this  ftp  server require  that  your
 #   machine be found  in  a  "reverse DNS lookup"  in order to access this site. A
@@ -67,7 +68,7 @@ my $XCN=<<EOF;
 #    acknowledged.
 #
 #    New versions of this file, updated on a daily basis,will be available
-#    at: ftp://cfa-ftp.harvard.edu/pub/MPCORB/MPCORB.DAT
+#    at: https://www.minorplanetcenter.net/iau/MPCORB/MPCORB.DAT
 #    These  files  are  rebuilt  each  night,  generally between 02:00 and
 #    03:00 EST  (07:00  and 08:00 UT), except during the short period each
 #    month  when  the  next  batch  of   Minor  Planet Circulars are being
@@ -79,7 +80,7 @@ EOF
 my $dimmag = 13;			# dimmest mag to be saved in "bright" file
 # set site and file in case of -f
 my $MPCSITE = "https://www.minorplanetcenter.net";
-my $MPCFTPDIR = "/iau/MPCORB";
+my $MPCFTPDIR = "iau/MPCORB";
 my $MPCFILE = "MPCORB.DAT";
 my $MPCZIPFILE = "MPCORB.DAT.gz";
 my $MPCOUTFILE = "AstMPC";
@@ -247,7 +248,7 @@ sub fetch
 {
     # transfer
     print "Getting $MPCFTPDIR/$MPCZIPFILE from $MPCSITE...\n";
-    $cmd = "curl -connect-timeout 10 -s -u 'anonymous:xephem\@clearskyinstitute.com' $MPCSITE/$MPCFTPDIR/$MPCZIPFILE > $MPCZIPFILE";
+    $cmd = "curl -connect-timeout 10 -s -u 'anonymous:xephem\@github.com' $MPCSITE/$MPCFTPDIR/$MPCZIPFILE > $MPCZIPFILE";
     print "$cmd\n";
     !system "$cmd" or exit(1);
 
@@ -261,3 +262,5 @@ sub fetch
     $fetchok = 1;
 }
 
+# For RCS Only -- Do Not Edit
+# @(#) $RCSfile: mpcorb2edb.pl,v $ $Date: 2014/07/11 02:46:32 $ $Revision: 1.3 $ $Name:  $
