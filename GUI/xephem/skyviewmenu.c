@@ -214,6 +214,7 @@ static void chkFS_to (XtPointer client, XtIntervalId *id);
 #define	LOSTBSZ		10	/* Label option TB and Scale size */
 #define	MAXXW		16000	/* max X Win pos (SHRT_MAX broke XFree 4.2.0) */
 #define	PUTW		10	/* popup line title width */
+#define SCROLL_WHEEL_ZOOM 1.1   /* factor by which scrollwheel affects FOV */
 
 static char telAnon[] = "Anonymous";	/* name used for anon (pure loc) objs */
 static char cns_suffix[] = ".csf";	/* constellation figure file suffix */
@@ -4730,6 +4731,7 @@ Boolean *continue_to_dispatch;
 	int m1, b1p, b1r;
 	int m2, b2p, b2r;
 	int     b3p, b3r;
+	int     sup, sdn;
 	int inwin, inside;
 
 	/* what happened? */
@@ -4746,9 +4748,24 @@ Boolean *continue_to_dispatch;
 	b2r = br && ev->xbutton.button == Button2;
 	b3p = bp && ev->xbutton.button == Button3;
 	b3r = br && ev->xbutton.button == Button3;
+	sdn = bp && ev->xbutton.button == Button4;
+	sup = bp && ev->xbutton.button == Button5;
+
+	if (sdn) {  /* scroll wheel down: zoom in */
+	    sv_set_fov(sv_vfov / SCROLL_WHEEL_ZOOM);
+	    sv_set_scale(FOV_S, 0);
+	    sv_all(np);
+	    return;
+	}
+	if (sup) {  /* scroll wheel up: zoom out */
+	    sv_set_fov(sv_vfov * SCROLL_WHEEL_ZOOM);
+	    sv_set_scale(FOV_S, 0);
+	    sv_all(np);
+	    return;
+	}
 
 	/* where are we?
-	 * N.B. can't depend on en/lv for inwin if moving fast 
+	 * N.B. can't depend on en/lv for inwin if moving fast
 	 */
 	XQueryPointer (dsp, win, &root, &child, &rx, &ry, &wx, &wy, &mask);
 	inwin = wx>=0 && wx<sv_w && wy>=0 && wy<sv_h;
