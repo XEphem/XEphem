@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -34,7 +35,7 @@ static void ast_icb (XtPointer client, int *fdp, XtInputId *idp);
 
 static Widget wdbshell_w;	/* the main shell */
 
-#define	WDBNFILES	8	/* number of web files in table */
+#define	WDBNFILES	10	/* number of web files in table */
 #define	WDBINDENT	20	/* table indent, pixels */
 #define	POLLINT		2000	/* ast download status polling interval, ms */
 
@@ -418,6 +419,8 @@ char *url;
 	XE_SSL_FD ssl_fd;
 	int sockfd;
 	int nfound;
+    time_t nowtime;
+    struct tm *datetime;
 
 	memset(&ssl_fd, 0, sizeof(ssl_fd));
 
@@ -477,7 +480,14 @@ char *url;
 	    close (ssl_fd.fd);
 	    return;
 	}
-
+    
+	/* add header data to file */
+	nowtime = time(NULL);
+	datetime = localtime(&nowtime);
+	fprintf (fp, "# Data From %s\n", url); 
+	fprintf (fp, "# Date Obtained %02d-%02d-%04d\n", datetime->tm_mon + 1, datetime->tm_mday, datetime->tm_year + 1900);
+	fprintf (fp, "#=================================================================\n");	
+	
 	/* copy to file, insuring only .edb lines.
 	 */
 	nfound = 0;
