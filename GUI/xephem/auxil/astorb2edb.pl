@@ -76,7 +76,7 @@ EOF
 $dimmag = 13;			# dimmest mag to be saved in "bright" file
 
 # set site and file in case of -f
-my $ORBSITE = "ftp.lowell.edu";
+my $ORBSITE = "https://ftp.lowell.edu";
 my $ORBFTPDIR = "/pub/elgb";
 my $ORBFILE = "astorb.dat";
 my $ORBGZFILE = "astorb.dat.gz";
@@ -233,19 +233,9 @@ sub fetch
 {
     # transfer
     print "Getting $ORBFTPDIR/$ORBGZFILE from $ORBSITE...\n";
-    $cmd_v1 = "curl -s --connect-timeout 10 -u 'anonymous:xephem\@clearskyinstitute.com' ftp://$ORBSITE/$ORBFTPDIR/$ORBGZFILE > $ORBGZFILE";
-    $cmd_v2 = "curl -s --disable-epsv --connect-timeout 10 -u 'anonymous:xephem\@clearskyinstitute.com' ftp://$ORBSITE/$ORBFTPDIR/$ORBGZFILE > $ORBGZFILE";
-    print "trying $cmd_v1\n";
-    $curl_return = system "$cmd_v1";
-    $curl_return = $curl_return >> 8;
-    if ($curl_return != 0) {
-        print "trying $cmd_v2\n";
-        $curl_return = system "$cmd_v2";
-        $curl_return = $curl_return >> 8;
-    }
-    if ($curl_return != 0) {
-        die "curl failed\n";
-    }
+    $cmd = "curl -s --connect-timeout 10 -u 'anonymous:xephem\@clearskyinstitute.com' $ORBSITE/$ORBFTPDIR/$ORBGZFILE > $ORBGZFILE";
+    print "$cmd\n";
+    !system "$cmd" or exit(1);
 
     # explode
     print "Decompressing $ORBGZFILE ...\n";
