@@ -12,7 +12,7 @@ There are more screenshots at bottom of this README.
 ## Documentation
 
 * [Home Page](https://xephem.github.io/XEphem/Site/xephem.html)
-* [Reference Manual](https://xephem.github.io/XEphem/GUI/xephem/help/xephem.html)
+* [Reference Manual](https://xephem.github.io/XEphem/Site/help/xephem.html)
 * [Changelog](https://xephem.github.io/XEphem/Site/changes.html)
 
 ## Resources
