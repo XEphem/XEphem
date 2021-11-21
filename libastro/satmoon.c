@@ -143,6 +143,8 @@ MoonData md[S_NMOONS])	/* fill md[1..NM-1].x/y/z for each moon */
 	    fn = "saturne.9910";
 	else if (JD < 2459215.5)	/* Jan 1 2021 UTC */
 	    fn = "saturne.1020";
+	else if (JD < 2466520.5)	/* Jan 1 2041 UTC */
+	    fn = "saturne.2040";
 	else
 	    return (-1);
 
@@ -506,5 +508,3 @@ moonTrans (MoonData md[S_NMOONS])
 	}
 }
 
-/* For RCS Only -- Do Not Edit */
-static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile: satmoon.c,v $ $Date: 2007/07/24 18:15:28 $ $Revision: 1.8 $ $Name:  $"};

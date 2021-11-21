@@ -78,7 +78,7 @@ EOF
 # setup cutoff mag
 my $dimmag = 13;			# dimmest mag to be saved in "bright" file
 # set site and file in case of -f
-my $MPCSITE = "http://www.minorplanetcenter.net";
+my $MPCSITE = "https://www.minorplanetcenter.net";
 my $MPCFTPDIR = "/iau/MPCORB";
 my $MPCFILE = "MPCORB.DAT";
 my $MPCZIPFILE = "MPCORB.DAT.gz";
@@ -261,5 +261,3 @@ sub fetch
     $fetchok = 1;
 }
 
-# For RCS Only -- Do Not Edit
-# @(#) $RCSfile: mpcorb2edb.pl,v $ $Date: 2014/07/11 02:46:32 $ $Revision: 1.3 $ $Name:  $

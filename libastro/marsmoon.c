@@ -129,6 +129,8 @@ MoonData md[M_NMOONS])	/* fill md[1..NM-1].x/y/z for each moon */
 	    fn = "mars.9910";
 	else if (JD < 2459215.5)	/* Jan 1 2021 UTC */
 	    fn = "mars.1020";
+        else if (JD < 2466520.5)        /* Jan 1 2041 UTC */
+            fn = "mars.2040";
 	else
 	    return (-1);
 
@@ -261,5 +263,3 @@ moonTrans (MoonData md[M_NMOONS])
 }
 
 
-/* For RCS Only -- Do Not Edit */
-static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile: marsmoon.c,v $ $Date: 2006/08/29 03:16:47 $ $Revision: 1.8 $ $Name:  $"};

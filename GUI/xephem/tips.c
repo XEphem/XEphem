@@ -45,7 +45,6 @@ static void tip_sort (void);
 #define	VOFFSET		15	/* dist from pointer to window top, pixels */
 #define	EDGE		10	/* min space to edge of screen */
 #define	TIPTO		1100	/* time to wait before raising tip, ms */
-#define	MAXDW		1280	/* max dsp width, beware large virtual roots */
 
 static Tip *tips;		/* all current tips -- w==0 when not in use */
 static int ntips;		/* total tips in tips[] */
@@ -298,8 +297,6 @@ Tip *tp;
 	hei = oa.ascent + oa.descent + 2*GAP;
 
 	/* set position near pointer but never over it and beware screen edge */
-	if (dw > MAXDW)
-	    dw = MAXDW;
 	XQueryPointer (dsp, win, &root, &child, &x, &y, &wx, &wy, &pqmask);
 	if (x + wid + 2*BW > dw-EDGE)
 	    x = dw-EDGE - wid - 2*BW;
@@ -397,5 +394,3 @@ tip_sort ()
 	tips_sorted = 1;
 }
 
-/* For RCS Only -- Do Not Edit */
-static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile: tips.c,v $ $Date: 2009/01/05 20:55:54 $ $Revision: 1.14 $ $Name:  $"};

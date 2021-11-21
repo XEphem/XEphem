@@ -3,7 +3,6 @@
 # Sample compile and link flags for a few systems. Find your system or similar
 # and uncomment as required. The default is for linux or Mac OS X systems.
 # The only real challenge usually is to set the MOTIFI and MOTIFL macros.
-# Note that some Motif libraries use the printing frame buffer and so need -lXp.
 
 # The basic idea to build XEphem is to first go compile the libraries in
 # ../../lib* then come back here and compile and link all the *.c files into
@@ -34,8 +33,8 @@ CC = gcc
 CLDFLAGS = -g
 CFLAGS = $(LIBINC) $(CLDFLAGS) -O2 -Wall -I$(MOTIFI) -I/opt/X11/include
 LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) -L/opt/X11/lib
-XLIBS = -lXm -lXp -lXt -lXext -lXmu -lX11
-LIBS = $(XLIBS) $(LIBLIB) -lm
+XLIBS = -lXm -lXt -lXext -lXmu -lX11
+LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
 
 # static linking on Apple using X11 libs from ports
 # CC = gcc
@@ -45,7 +44,7 @@ LIBS = $(XLIBS) $(LIBLIB) -lm
 # CFLAGS = $(LIBINC) $(CLDFLAGS) -O2 -Wall -I$(MOTIFI) -I$(OLI)
 # LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) -L$(OLL)
 # XLIBS = -lXm $(OLL)/libXp.a $(OLL)/libXt.a $(OLL)/libSM.a $(OLL)/libICE.a $(OLL)/libXext.a $(OLL)/libXmu.a $(OLL)/libX11.a $(OLL)/libxcb.a $(OLL)/libXau.a $(OLL)/libXdmcp.a
-# LIBS = $(XLIBS) $(LIBLIB) -lm
+# LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
 
 # for ppc Apple OS X to make universal (i386 and ppc binary), requires
 # Xcode 2.2, /Developers/SDK/MacOSX10.4u.sdk and all libs, including libXm,
@@ -207,6 +206,3 @@ clean:
 
 clobber: clean
 	rm -fr xephem xephem.1
-
-# For RCS Only -- Do Not Edit
-# @(#) $RCSfile: Makefile,v $ $Date: 2015/08/09 21:36:36 $ $Revision: 1.54 $ $Name:  $

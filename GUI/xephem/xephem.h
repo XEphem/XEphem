@@ -12,12 +12,12 @@
 
 #include <stdarg.h>		/* be kind to those who don't use xe_msg() */
 
+#include "net.h"		/* has to be included before astro.h because of openssl */
 #include "astro.h"
 #include "ip.h"
 
 /* local glue files */
 #include "map.h"
-#include "net.h"
 #include "patchlevel.h"
 #include "preferences.h"
 #include "db.h"
@@ -456,6 +456,3 @@ extern void wtip (Widget w, char *tip);
 
 #endif /* _XEPHEM_H */
 
-/* For RCS Only -- Do Not Edit
- * @(#) $RCSfile: xephem.h,v $ $Date: 2012/12/30 17:01:02 $ $Revision: 1.63 $ $Name:  $
- */
