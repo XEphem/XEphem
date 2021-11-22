@@ -49,7 +49,7 @@ my $XCN=<<EOF;
 #
 #       Second,  all  the  orbits  in a given version of the file have an epoch of
 # osculation near the  present.  Consequently,  the ephemerides of most non-Earth-
-# -approaching asteroids can be computed to  arcsec accuracy or better within ± 50
+# -approaching asteroids can be computed to  arcsec accuracy or better within Â± 50
 # days of the epoch using a 2-body ephemeris program.
 #
 #       Third, current and future ephemeris uncertainties are given.Observers will
@@ -76,7 +76,7 @@ EOF
 $dimmag = 13;			# dimmest mag to be saved in "bright" file
 
 # set site and file in case of -f
-my $ORBSITE = "ftp.lowell.edu";
+my $ORBSITE = "https://ftp.lowell.edu";
 my $ORBFTPDIR = "/pub/elgb";
 my $ORBFILE = "astorb.dat";
 my $ORBGZFILE = "astorb.dat.gz";
