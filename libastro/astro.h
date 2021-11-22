@@ -50,6 +50,7 @@ typedef enum {
  */
 #define MJD0  2415020.0
 #define J2000 (2451545.0 - MJD0)      /* yes, 2000 January 1 at 12h */
+#define J2015 (2457024.0 - MJD0)
 
 /* the Now and Obj typedefs.
  * also, a few miscellaneous constants and declarations.
