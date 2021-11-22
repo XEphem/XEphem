@@ -390,11 +390,7 @@ crack5 (U5Star u, int dz, int znm, Obj *op)
 {
 	int rawpmra, rawpmdec;
 	double epu;  // UCAC5
-	double spd;
     uint64_t srcid=*((uint64_t *)u);
-    double ra, dec, rasec, dsec;
-
-    int ddeg, dmin, rhr,rmin;
 
 	memset (op, 0, sizeof(ObjF));	/* N.B. ObjF, not Obj */
 
@@ -1015,7 +1011,7 @@ openIndex (char dir[], char msg[], int *ucacvp)
                 if (fp) {
                     *ucacvp = 5;
                 } else {
-                sprintf (msg, "Can not find %s or %s or %s", u2, u3, u4, u5);
+                sprintf (msg, "Can not find %s or %s or %s or %s", u2, u3, u4, u5);
                 }
             }
         }
