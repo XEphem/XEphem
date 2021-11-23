@@ -931,7 +931,7 @@ openIndex (char dir[], char msg[], int *ucacvp)
 		    if (fp) {
 			*ucacvp = 5;
 			} else {
-			    sprintf (msg, "Can not find %s or %s or %s or %s", u2, u3, u4, u5);
+			sprintf (msg, "Can not find %s or %s or %s or %s", u2, u3, u4, u5);
 		    }
 		}
 	    }
