@@ -1,9 +1,9 @@
-/* read the UCAC2, 3 or 4 catalog, depending on which index file is found.
+/* read the UCAC2, 3, 4 or 5 catalog, depending on which index file is found.
  * UCACSetup(): call to change options and base directories.
  * UCACFetch(): return an array of ObjF matching the given criteria.
  * UCAC2 and 3 stars are in 360 files each .5 deg hi, within 240 bins each
     .1 hour RA wide.
- * UCAC4 stars are in 900 files each .2 deg hi, within 1440 bins each
+ * UCAC4 and UCAC5 stars are in 900 files each .2 deg hi, within 1440 bins each
     1 minute of RA wide.
  */
 
@@ -68,7 +68,6 @@ static int add5Bin (ObjFArray *oap, int rz, int dz);
 static int read5Index (int rz, int dz, int *nskip, int *nnew);
 static int read5Raw (U5Star u[], int dz, int nskip, int nraw);
 static void crack5 (U5Star u, int dz, int znm, Obj *op);
-static int readu5hpm (int rnm, int *pmra, int *pmdec);
 static int add4Bin (ObjFArray *oap, int rz, int dz);
 static int read4Index (int rz, int dz, int *nskip, int *nnew);
 static int read4Raw (U4Star u[], int dz, int nskip, int nraw);
@@ -389,96 +388,35 @@ static void
 crack5 (U5Star u, int dz, int znm, Obj *op)
 {
 	int rawpmra, rawpmdec;
-	double epu;  // UCAC5
-    uint64_t srcid=*((uint64_t *)u);
+	double epu;						/* UCAC epoch */
+	uint64_t srcid=*((uint64_t *)u);
 
 	memset (op, 0, sizeof(ObjF));	/* N.B. ObjF, not Obj */
 
 	op->o_type = FIXED;
 	op->f_class = 'S';
-	op->f_RA = degrad (I4(u,8)*DPMAS);   // rag, Gaia RA  at epoch 2015.0  (from DR1, rounded to mas)
-	op->f_dec = degrad (I4(u,12)*DPMAS); // dcg, Gaia RA  at epoch 2015.0  (from DR1, rounded to mas);
-	op->f_epoch = J2000;                 // CHECKME FIXME UCAC5
-	set_fmag (op, I2(u,40)/1000.0);     //  Gaia DR1 G magnitude      (1/1000 mag)
-	epu = I2(u,22)*.001+1997;	// mean UCAC epoch (1/1000 yr after 1997.0) CHECKME FIXME UCAC5
-	rawpmra = I2(u,36);		/* .1 mas/yr, on sky */
-	rawpmdec = I2(u,38);		/* .1 mas/yr */
-	if (rawpmra == 32767 || rawpmdec == 32767) {
-	    int rnm = I4(u,68);
-	    if (readu5hpm (rnm, &rawpmra, &rawpmdec) < 0)
-		xe_msg (1, "Can not find proper motion for star UCAC5 %d", rnm);
-	}
+	op->f_RA = degrad (I4(u,8)*DPMAS);   /* rag, Gaia RA  at epoch 2015.0  (from DR1, rounded to mas) */
+	op->f_dec = degrad (I4(u,12)*DPMAS); /* dcg, Gaia RA  at epoch 2015.0  (from DR1, rounded to mas);*/
+	op->f_epoch = J2000;
+	set_fmag (op, I2(u,40)/1000.0);		/*  Gaia DR1 G magnitude      (1/1000 mag) */
+	epu = I2(u,22)*.001+1997;			/*  mean UCAC epoch (1/1000 yr after 1997.0) */
+	rawpmra = I2(u,32);					/* .1 mas/yr, on sky */
+	rawpmdec = I2(u,34);				/* .1 mas/yr */
 	op->f_pmRA =  degrad(rawpmra*0.1*DPMAS)/365.25/cos(op->f_dec);	/* want RA rad/day */
-	op->f_pmdec = degrad(rawpmdec*0.1*DPMAS)/365.25;		/* want Dec rad/day */
-	op->f_RA += op->f_pmRA * (2000.0 - epu)*365.25;		/* move to 2015 CHECKME FIXME UCAC5 */
-	op->f_dec += op->f_pmdec * (2000.0 - epu)*365.25;	/* move to 2015 CHECKME FIXME UCAC5 */
+	op->f_pmdec = degrad(rawpmdec*0.1*DPMAS)/365.25;	/* want Dec rad/day */
+	op->f_RA += op->f_pmRA * (2000.0 - epu)*365.25;		/* move to 2000 */
+	op->f_dec += op->f_pmdec * (2000.0 - epu)*365.25;	/* move to 2000 */
 
 	jkspect (I2(u,46)*0.001, I2(u,50)*0.001, op);
 
-	//
-    // set id to gaia srcid :
-    //
+	/*
+	 * set id to gaia srcid :
+	 */
     sprintf (op->o_name, "%lu", srcid);
-    //
-    // replace with following line to set if to ucac5 id :
-    // sprintf (op->o_name, "UCAC5-%03d-%06d", dz, znm);
-    //
-}
-
-/* convert running star number to proper motion.
- * return 0 if ok, else -1
- */
-static int
-readu5hpm (int rnm, int *pmra, int *pmdec)     // CHECKME FIXME UCAC5
-{
-	typedef struct {
-	    int rnm;
-	    int zn;
-	    int rnz;
-	    int pmrc;
-	    int pmd;
-	    int ra;
-	    int spd;
-	    int maga;
-	} U5HPM;
-	static U5HPM *u5hpm;
-	static int nu5hpm;
-	int i;
-
-	/* cache file first time only */
-	if (!u5hpm) {
-	    char fn[1024];
-	    char line[128];
-	    FILE*fp;
-
-	    sprintf (fn, "%s/u5hpm.dat", basedir);
-	    fp = fopen (fn, "r");
-	    if (!fp) {
-		xe_msg (1, "Can not open %s (UCAC5)", fn);
-		return (-1);
-	    }
-	    while (fgets (line, sizeof(line), fp)) {
-		u5hpm = (U5HPM *) realloc (u5hpm, (nu5hpm+1)*sizeof(U5HPM));
-		U5HPM *up = &u5hpm[nu5hpm++];
-		sscanf (line, "%d %d %d %d %d %d %d %d", &up->rnm, &up->zn, &up->rnz,
-				&up->pmrc, &up->pmd, &up->ra, &up->spd, &up->maga);
-	    }
-	    fclose (fp);
-
-	};
-
-	/* search for matching rnm */
-	for (i = 0; i < nu5hpm; i++) {
-	    if (rnm == u5hpm[i].rnm) {
-		*pmra = u5hpm[i].pmrc;
-		*pmdec = u5hpm[i].pmd;
-		return (0);
-	    }
-	}
-
-	xe_msg (1, "Can not find UCAC5 u5hpm entry for %d", rnm);
-	/* not found */
-	return (-1);
+    /*
+    * replace with following line to set id to ucac5 id :
+    * sprintf (op->o_name, "UCAC5-%03d-%06d", dz, znm);
+    */
 }
 
 //
