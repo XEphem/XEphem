@@ -134,7 +134,7 @@ char msg[] 	/* status or error message if msg[0] != '\0' on return */
 	int dz;				/* scanning dec zone number */
 	double zw = 0, zh = 0;		/* zone width and height */
 	int nzw = 0, nzh = 0;		/* number of zones wide and high */
-	int ucacv;			/* version 2, 3, or 4 ; 5 under work */
+	int ucacv;			/* version 2, 3, 4 or 5 */
 
 	/* init message */
 	msg[0] = '\0';
@@ -251,15 +251,6 @@ char msg[] 	/* status or error message if msg[0] != '\0' on return */
 	/* return list */
 	return (oa.n);
 }
-//
-//                                 #######
-//  #    #   ####     ##     ####  #
-//  #    #  #    #   #  #   #    # #
-//  #    #  #       #    #  #       #####
-//  #    #  #       ######  #            #
-//  #    #  #    #  #    #  #    # #     #
-//   ####    ####   #    #   ####   #####
-//
 
 /* add the stars in the given 0-based ra/dec zone to oap.
  * return 0 if ok, else -1
@@ -412,22 +403,13 @@ crack5 (U5Star u, int dz, int znm, Obj *op)
 	/*
 	 * set id to gaia srcid :
 	 */
-    sprintf (op->o_name, "%lu", srcid);
-    /*
-    * replace with following line to set id to ucac5 id :
-    * sprintf (op->o_name, "UCAC5-%03d-%06d", dz, znm);
-    */
+	sprintf (op->o_name, "%lu", srcid);
+	/*
+	* replace with following line to set id to ucac5 id :
+	* sprintf (op->o_name, "UCAC5-%03d-%06d", dz, znm);
+	*/
 }
 
-//
-//                                 #
-//  #    #   ####     ##     ####  #    #
-//  #    #  #    #   #  #   #    # #    #
-//  #    #  #       #    #  #      #######
-//  #    #  #       ######  #           #
-//  #    #  #    #  #    #  #    #      #
-//   ####    ####   #    #   ####       #
-//
 /* add the stars in the given 0-based ra/dec zone to oap.
  * return 0 if ok, else -1
  * N.B. rz may wrap 
@@ -944,13 +926,13 @@ openIndex (char dir[], char msg[], int *ucacvp)
 		if (fp) {
 		    *ucacvp = 4;
 		} else {
-                sprintf (full, "%s/%s", dir, u5);
-                fp = fopen (full, "r");
-                if (fp) {
-                    *ucacvp = 5;
-                } else {
-                    sprintf (msg, "Can not find %s or %s or %s or %s", u2, u3, u4, u5);
-			}
+		    sprintf (full, "%s/%s", dir, u5);
+		    fp = fopen (full, "r");
+		    if (fp) {
+			*ucacvp = 5;
+			} else {
+			    sprintf (msg, "Can not find %s or %s or %s or %s", u2, u3, u4, u5);
+		    }
 		}
 	    }
 	}
