@@ -233,8 +233,8 @@ sub fetch
 {
     # transfer
     print "Getting $ORBFTPDIR/$ORBGZFILE from $ORBSITE...\n";
-    $cmd_v1 = "curl -s --connect-timeout 10 -u 'anonymous:xephem\@github.com' https://$ORBSITE/$ORBFTPDIR/$ORBGZFILE > $ORBGZFILE";
-    $cmd_v2 = "curl -s --disable-epsv --connect-timeout 10 -u 'anonymous:xephem\@github.com' https://$ORBSITE/$ORBFTPDIR/$ORBGZFILE > $ORBGZFILE";
+    $cmd_v1 = "curl -s --connect-timeout 10 -u 'anonymous:xephem\@github.com' $ORBSITE/$ORBFTPDIR/$ORBGZFILE > $ORBGZFILE";
+    $cmd_v2 = "curl -s --disable-epsv --connect-timeout 10 -u 'anonymous:xephem\@github.com' $ORBSITE/$ORBFTPDIR/$ORBGZFILE > $ORBGZFILE";
     print "trying $cmd_v1\n";
     $curl_return = system "$cmd_v1";
     $curl_return = $curl_return >> 8;
