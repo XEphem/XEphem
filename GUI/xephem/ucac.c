@@ -492,7 +492,7 @@ readu5hpm (int rnm, int *pmra, int *pmdec)     // CHECKME FIXME UCAC5
 //
 /* add the stars in the given 0-based ra/dec zone to oap.
  * return 0 if ok, else -1
- * N.B. rz may wrap
+ * N.B. rz may wrap 
  */
 static int
 add4Bin (ObjFArray *oap, int rz, int dz)
@@ -707,7 +707,7 @@ readu4hpm (int rnm, int *pmra, int *pmdec)
 
 /* add the stars in the given 0-based ra/dec zone to oap.
  * return 0 if ok, else -1
- * N.B. rz may wrap
+ * N.B. rz may wrap 
  */
 static int
 add3Bin (ObjFArray *oap, int rz, int dz)
@@ -845,7 +845,7 @@ crack3 (U3Star u, Obj *op)
 
 /* add the stars in the given 0-based ra/dec zone to oap.
  * return 0 if ok, else -1
- * N.B. rz may wrap
+ * N.B. rz may wrap 
  */
 static int
 add2Bin (ObjFArray *oap, int rz, int dz)
@@ -984,39 +984,39 @@ crack2 (U2Star u, int id, Obj *op)
 static FILE *
 openIndex (char dir[], char msg[], int *ucacvp)
 {
-    static char u2[] = "u2index.da";	/* zone index file name */
-    static char u3[] = "u3index.unf";	/* zone index file name */
-    static char u4[] = "u4index.unf";	/* zone index file name */
-    static char u5[] = "u5index.unf";	/* zone index file name */
-    char full[1024];
-    FILE *fp;
+	static char u2[] = "u2index.da";	/* zone index file name */
+	static char u3[] = "u3index.unf";	/* zone index file name */
+	static char u4[] = "u4index.unf";	/* zone index file name */
+	static char u5[] = "u5index.unf";	/* zone index file name */
+	char full[1024];
+	FILE *fp;
 
-    sprintf (full, "%s/%s", dir, u2);
-    fp = fopen (full, "r");
-    if (fp) {
-        *ucacvp = 2;
-    } else {
-        sprintf (full, "%s/%s", dir, u3);
-        fp = fopen (full, "r");
-        if (fp) {
-            *ucacvp = 3;
-        } else {
-            sprintf (full, "%s/u4i/%s", dir, u4);
-            fp = fopen (full, "r");
-            if (fp) {
-                *ucacvp = 4;
-            } else {
+	sprintf (full, "%s/%s", dir, u2);
+	fp = fopen (full, "r");
+	if (fp) {
+	    *ucacvp = 2;
+	} else {
+	    sprintf (full, "%s/%s", dir, u3);
+	    fp = fopen (full, "r");
+	    if (fp) {
+		*ucacvp = 3;
+	    } else {
+		sprintf (full, "%s/u4i/%s", dir, u4);
+		fp = fopen (full, "r");
+		if (fp) {
+		    *ucacvp = 4;
+		} else {
                 sprintf (full, "%s/%s", dir, u5);
                 fp = fopen (full, "r");
                 if (fp) {
                     *ucacvp = 5;
                 } else {
-                sprintf (msg, "Can not find %s or %s or %s or %s", u2, u3, u4, u5);
-                }
-            }
-        }
-    }
-    return (fp);
+                    sprintf (msg, "Can not find %s or %s or %s or %s", u2, u3, u4, u5);
+			}
+		}
+	    }
+	}
+	return (fp);
 }
 
 /* given the J and K_s fields in the UCAC catalog, fill in f_spect[] in op.
