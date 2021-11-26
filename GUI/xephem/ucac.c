@@ -386,8 +386,8 @@ crack5 (U5Star u, int dz, int znm, Obj *op)
 
 	op->o_type = FIXED;
 	op->f_class = 'S';
-	op->f_RA = degrad (I4(u,8)*DPMAS);   /* rag, Gaia RA  at epoch 2015.0  (from DR1, rounded to mas) */
-	op->f_dec = degrad (I4(u,12)*DPMAS); /* dcg, Gaia RA  at epoch 2015.0  (from DR1, rounded to mas);*/
+	op->f_RA = degrad (I4(u,24)*DPMAS);  /* ira, UCAC RA  at epoch epu   */
+	op->f_dec = degrad (I4(u,28)*DPMAS); /* dcg, UCAC DEC at epoch epu   */
 	op->f_epoch = J2000;
 	set_fmag (op, I2(u,40)/1000.0);		/*  Gaia DR1 G magnitude      (1/1000 mag) */
 	epu = I2(u,22)*.001+1997;			/*  mean UCAC epoch (1/1000 yr after 1997.0) */
