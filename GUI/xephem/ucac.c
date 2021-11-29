@@ -1,9 +1,9 @@
-/* read the UCAC2, 3 or 4 catalog, depending on which index file is found.
+/* read the UCAC2, 3, 4 or 5 catalog, depending on which index file is found.
  * UCACSetup(): call to change options and base directories.
  * UCACFetch(): return an array of ObjF matching the given criteria.
  * UCAC2 and 3 stars are in 360 files each .5 deg hi, within 240 bins each
     .1 hour RA wide.
- * UCAC4 stars are in 900 files each .2 deg hi, within 1440 bins each
+ * UCAC4 and UCAC5 stars are in 900 files each .2 deg hi, within 1440 bins each
     1 minute of RA wide.
  */
 
@@ -41,20 +41,33 @@ typedef struct {
 #define	ZH	(180./NZH)		/* zone height, degrees */
 
 /* zones sizes for UCAC4 */
+/* source for doc : https://irsa.ipac.caltech.edu/data/UCAC4/readme_u4.txt (checked 20211121)*/
 #define	NZW4	1440			/* number ra zones wide */
 #define	ZW4	(24./NZW4)		/* zone width, hours */
 #define	NZH4	900			/* number dec zones hi */
 #define	ZH4	(180./NZH4)		/* zone height, degrees */
+
+/* zones sizes for UCAC5 */
+/* source for doc : http://tdc-www.harvard.edu/software/catalogs/ucac5_format.html (checked 20211121)*/
+#define	NZW5	1440			/* number ra zones wide */
+#define	ZW5	(24./NZW5)		/* zone width, hours */
+#define	NZH5	900			/* number dec zones hi */
+#define	ZH5	(180./NZH5)		/* zone height, degrees */
 
 #define	DPMAS	(1.0/3600000.0)		/* degrees per milliarcsecond */
 
 typedef XE_UC U2Star[44];		/* UCAC2 record */
 typedef XE_UC U3Star[84];		/* UCAC3 record */
 typedef XE_UC U4Star[78];		/* UCAC4 record */
+typedef XE_UC U5Star[52];		/* UCAC5 record */
 static char *basedir;			/* full dir with zone files and index */
 static FILE *indexfp;			/* index file handle */
 
 static FILE *openIndex (char dir[], char msg[], int *ucacvp);
+static int add5Bin (ObjFArray *oap, int rz, int dz);
+static int read5Index (int rz, int dz, int *nskip, int *nnew);
+static int read5Raw (U5Star u[], int dz, int nskip, int nraw);
+static void crack5 (U5Star u, int dz, int znm, Obj *op);
 static int add4Bin (ObjFArray *oap, int rz, int dz);
 static int read4Index (int rz, int dz, int *nskip, int *nnew);
 static int read4Raw (U4Star u[], int dz, int nskip, int nraw);
@@ -121,7 +134,7 @@ char msg[] 	/* status or error message if msg[0] != '\0' on return */
 	int dz;				/* scanning dec zone number */
 	double zw = 0, zh = 0;		/* zone width and height */
 	int nzw = 0, nzh = 0;		/* number of zones wide and high */
-	int ucacv;			/* version 2, 3, or 4 */
+	int ucacv;			/* version 2, 3, 4 or 5 */
 
 	/* init message */
 	msg[0] = '\0';
@@ -167,6 +180,14 @@ char msg[] 	/* status or error message if msg[0] != '\0' on return */
 	    zh = ZH4;
 	    nzw = NZW4;
 	    nzh = NZH4;
+	    break;
+
+	case 5:
+	    doucac = add5Bin;
+	    zw = ZW5;
+	    zh = ZH5;
+	    nzw = NZW5;
+	    nzh = NZH5;
 	    break;
 	}
 
@@ -229,6 +250,164 @@ char msg[] 	/* status or error message if msg[0] != '\0' on return */
 
 	/* return list */
 	return (oa.n);
+}
+
+/* add the stars in the given 0-based ra/dec zone to oap.
+ * return 0 if ok, else -1
+ * N.B. rz may wrap
+ */
+static int
+add5Bin (ObjFArray *oap, int rz, int dz)
+{
+	int nskip, nnew;
+	U5Star *u;
+	int i;
+
+	/* beware of ra wrap */
+	if (rz < 0)
+	    rz += NZW5;
+	if (rz >= NZW5)
+	    rz -= NZW5;
+
+	/* n stars up through and including this patch */
+	if (read5Index (rz, dz, &nskip, &nnew) < 0)
+	    return (-1);
+
+	/* read the raw star records in this record */
+	u = malloc (nnew * sizeof(U5Star));
+	if (!u) {
+	    xe_msg (0, "UCAC: malloc(%d) failed", nnew*sizeof(U5Star));
+	    return (-1);
+	}
+	if (read5Raw (u, dz, nskip, nnew) < 0) {
+	    free ((char *)u);
+	    return (-1);
+	}
+
+	/* expand obj memory and crack if interested */
+	if (oap->mem) {
+	    char *moreobj = realloc (oap->mem, (oap->n + nnew)*sizeof(ObjF));
+	    if (!moreobj) {
+		xe_msg (0, "UCAC5: malloc failed");
+		free (u);
+		return (-1);
+	    }
+	    oap->mem = (ObjF *)moreobj;
+
+	    for (i = 0; i < nnew; i++)
+		crack5 (u[i], dz+1, nskip+i+1, (Obj *)(oap->mem + oap->n + i));
+	}
+
+	/* always update count */
+	oap->n += nnew;
+
+	/* ok */
+	free ((char *)u);
+	return (0);
+}
+
+/* given 0-based ra and dec zone, return number of stars to skip in dec band
+ * and how many are in the zone.
+ * return 0 if ok, else -1
+ */
+static int
+read5Index (int rz, int dz, int *nskip, int *nnew)
+{
+	off_t offset;
+	XE_UC i4[4];
+
+	offset = (rz*NZH5 + dz)*sizeof(i4);
+	if (fseek (indexfp, offset, SEEK_SET) < 0) {
+	    xe_msg (0, "UCAC: index n0 seek %ld: %s", offset, syserrstr());
+	    return (-1);
+	}
+	if (fread (i4, sizeof(i4), 1, indexfp) != 1) {
+	    xe_msg (0, "UCAC: index n0 read %d: %s", sizeof(i4), syserrstr());
+	    return (-1);
+	}
+	*nskip = I4(i4, 0);
+
+
+	offset = (NZW5*NZH5 + rz*NZH5 + dz)*sizeof(i4);
+	if (fseek (indexfp, offset, SEEK_SET) < 0) {
+	    xe_msg (0, "UCAC: index nn seek %ld: %s", offset, syserrstr());
+	    return (-1);
+	}
+	if (fread (i4, sizeof(i4), 1, indexfp) != 1) {
+	    xe_msg (0, "UCAC: index nn read %d: %s", sizeof(i4), syserrstr());
+	    return (-1);
+	}
+	*nnew  = I4(i4, 0);
+
+	return (0);
+}
+
+/* read the nnew raw star records starting after nskip records for the given
+ * 0-based dec zone.
+ * return 0 if ok, else -1
+ */
+static int
+read5Raw (U5Star u[], int dz, int nskip, int nnew)
+{
+	char fn[1024];
+	FILE *fp;
+
+	sprintf (fn, "%s/z%03d", basedir, dz+1);
+	fp = fopen (fn, "r");
+	if (!fp) {
+	    xe_msg (0, "UCAC: open %s: %s", fn, syserrstr());
+	    return (-1);
+	}
+	if (fseek (fp, nskip*sizeof(U5Star), SEEK_SET) < 0) {
+	    xe_msg (0, "UCAC: seek %ld %s: %s", nskip*sizeof(U5Star), fn, syserrstr());
+	    fclose (fp);
+	    return (-1);
+	}
+	if (fread (u, sizeof(U5Star), nnew, fp) != nnew) {
+	    xe_msg (0, "UCAC: read %d, %s: %s", sizeof(U5Star), fn, syserrstr());
+	    fclose (fp);
+	    return (-1);
+	}
+	fclose (fp);
+	return (0);
+}
+
+/* convert the raw UCAC record into the ObjF portion of op.
+ * proper motion applied to 2000, libastro::circum.c takes it from there.
+ */
+static void
+crack5 (U5Star u, int dz, int znm, Obj *op)
+{
+	int rawpmra, rawpmdec;
+	double epu;						/* UCAC epoch */
+	uint64_t srcid=*((uint64_t *)u);
+
+	memset (op, 0, sizeof(ObjF));	/* N.B. ObjF, not Obj */
+
+	op->o_type = FIXED;
+	op->f_class = 'S';
+	op->f_RA = degrad (I4(u,24)*DPMAS);  /* ira, UCAC RA  at epoch epu   */
+	op->f_dec = degrad (I4(u,28)*DPMAS); /* dcg, UCAC DEC at epoch epu   */
+	op->f_epoch = J2000;
+	set_fmag (op, I2(u,40)/1000.0);		/*  Gaia DR1 G magnitude      (1/1000 mag) */
+	epu = I2(u,22)*.001+1997;			/*  mean UCAC epoch (1/1000 yr after 1997.0) */
+	rawpmra = I2(u,32);					/* .1 mas/yr, on sky */
+	rawpmdec = I2(u,34);				/* .1 mas/yr */
+	op->f_pmRA =  degrad(rawpmra*0.1*DPMAS)/365.25/cos(op->f_dec);	/* want RA rad/day */
+	op->f_pmdec = degrad(rawpmdec*0.1*DPMAS)/365.25;	/* want Dec rad/day */
+	op->f_RA += op->f_pmRA * (2000.0 - epu)*365.25;		/* move to 2000 */
+	op->f_dec += op->f_pmdec * (2000.0 - epu)*365.25;	/* move to 2000 */
+
+	jkspect (I2(u,46)*0.001, I2(u,50)*0.001, op);
+
+	/*
+	 * set id to gaia srcid :
+	 */
+	sprintf (op->o_name, "%lu", srcid);
+	/*
+	* replace with following line to set id to ucac5 id :
+	* sprintf (op->o_name, "UCAC5-%03d-%06d", dz, znm);
+	*/
 }
 
 /* add the stars in the given 0-based ra/dec zone to oap.
@@ -728,6 +907,7 @@ openIndex (char dir[], char msg[], int *ucacvp)
 	static char u2[] = "u2index.da";	/* zone index file name */
 	static char u3[] = "u3index.unf";	/* zone index file name */
 	static char u4[] = "u4index.unf";	/* zone index file name */
+	static char u5[] = "u5index.unf";	/* zone index file name */
 	char full[1024];
 	FILE *fp;
 
@@ -746,7 +926,13 @@ openIndex (char dir[], char msg[], int *ucacvp)
 		if (fp) {
 		    *ucacvp = 4;
 		} else {
-		    sprintf (msg, "Can not find %s or %s or %s", u2, u3, u4);
+		    sprintf (full, "%s/%s", dir, u5);
+		    fp = fopen (full, "r");
+		    if (fp) {
+			*ucacvp = 5;
+			} else {
+			sprintf (msg, "Can not find %s or %s or %s or %s", u2, u3, u4, u5);
+		    }
 		}
 	    }
 	}
