@@ -29,12 +29,12 @@ MOTIFL = /usr/lib
 endif
 
 # for linux and Apple OS X
-CC = gcc
-CLDFLAGS = -g
-CFLAGS = $(LIBINC) $(CLDFLAGS) -O2 -Wall -I$(MOTIFI) -I/opt/X11/include
-LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) -L/opt/X11/lib
-XLIBS = -lXm -lXt -lXext -lXmu -lX11
-LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
+# CC = TEST-gcc
+# CLDFLAGS = -g
+# CFLAGS = $(LIBINC) $(CLDFLAGS) -O2 -Wall -I$(MOTIFI) -I/opt/X11/include
+# LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) -L/opt/X11/lib
+# XLIBS = -lXm -lXt -lXext -lXmu -lX11
+# LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
 
 # static linking on Apple using X11 libs from ports
 # CC = gcc
@@ -87,12 +87,16 @@ LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
 # LIBS = $(XLIBS) $(LIBLIB) -lm -lsocket -lnsl
 
 # HP-UX
-# MOTIFI = -I/usr/include
-# MOTIFL = -L/usr/lib
-# CC = cc
-# CLDFLAGS =
-# CFLAGS = $(LIBINC) $(CLDFLAGS) -Aa -fast -I$(MOTIFI)
-# LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL)
+MOTIFI = -I/usr/include
+MOTIFL = -L/usr/lib
+CC = gcc
+CLDFLAGS = -D_XOPEN_SOURCE_EXTENDED
+CFLAGS = $(LIBINC) $(CLDFLAGS) -Aa -fast -I$(MOTIFI) \
+ -I/usr/include/netinet/ -I/usr/local/ssl/include
+LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) \
+ -L/usr/local/ssl/lib
+XLIBS = -lXm -lXt -lXext -lX11
+LIBS = $(XLIBS) $(LIBLIB) -lm -lssl -lcrypt -lcrypto
 
 # AIX
 # MOTIFI = -I/usr/include
