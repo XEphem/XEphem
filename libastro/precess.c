@@ -105,7 +105,7 @@ double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
 	/* From from_equinox to 2000.0 */
 	if (fabs (from_equinox-2000.0) > .02) {
 	    T = (from_equinox - 2000.0)/100.0;
-		/* Get coefficients in arcseconds and convert them to degrees */
+	    /* Get coefficients in arcseconds and convert them to degrees */
 	    zeta_A  = get_zeta_A(T)/3600.0;
 	    z_A  = get_z_A(T)/3600.0;
 	    theta_A  = get_theta_A(T)/3600.0;
@@ -129,7 +129,7 @@ double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
 	/* From 2000.0 to to_equinox */
 	if (fabs (to_equinox - 2000.0) > .02) {
 	    T = (to_equinox - 2000.0)/100.0;
-		/* Get coefficients in arcseconds and convert them to degrees */
+	    /* Get coefficients in arcseconds and convert them to degrees */
 	    zeta_A  = get_zeta_A(T)/3600.0;
 	    z_A  = get_z_A(T)/3600.0;
 	    theta_A  = get_theta_A(T)/3600.0;
