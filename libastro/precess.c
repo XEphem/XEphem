@@ -22,6 +22,32 @@ double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
 {
 	precess_hiprec (mjd1, mjd2, ra, dec);
 }
+/*
+ *
+ * Precession formulas zeta_A, z_A and theta_A
+ *	NB : all 3 functions get_zeta_A(), get_z_A(), get_theta_A()
+ *	return arcseconds
+ */
+static double
+get_zeta_A (
+double T)
+{
+	return 2.650545 + T*(2306.083227+T*(0.2988499 + T*(0.01801828 +T*(-5.971e-6-3.173e-7*T)))) ;
+}
+
+static double
+get_z_A (
+double T)
+{
+	return -2.650545+T*(2306.077181+T*(1.0927348+T*(0.01826837 +T*(-28.596e-6-2.904e-7*T)))) ;
+}
+
+static double
+get_theta_A (
+double T)
+{
+	return T*(2004.191903-T*(0.4294934+T*(0.04182264+T*(7.089e-6+1.274e-7*T)))) ;
+}
 
 /*
  * Copyright (c) 1990 by Craig Counterman. All rights reserved.
@@ -79,9 +105,10 @@ double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
 	/* From from_equinox to 2000.0 */
 	if (fabs (from_equinox-2000.0) > .02) {
 	    T = (from_equinox - 2000.0)/100.0;
-	    zeta_A  = 0.6406161* T + 0.0000839* T*T + 0.0000050* T*T*T;
-	    z_A     = 0.6406161* T + 0.0003041* T*T + 0.0000051* T*T*T;
-	    theta_A = 0.5567530* T - 0.0001185* T*T - 0.0000116* T*T*T;
+		/* Get coefficients in arcseconds and convert them to degrees */
+	    zeta_A  = get_zeta_A(T)/3600.0;
+	    z_A  = get_z_A(T)/3600.0;
+	    theta_A  = get_theta_A(T)/3600.0;
 
 	    A = DSIN(alpha_in - z_A) * DCOS(delta_in);
 	    B = DCOS(alpha_in - z_A) * DCOS(theta_A) * DCOS(delta_in)
@@ -102,9 +129,10 @@ double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
 	/* From 2000.0 to to_equinox */
 	if (fabs (to_equinox - 2000.0) > .02) {
 	    T = (to_equinox - 2000.0)/100.0;
-	    zeta_A  = 0.6406161* T + 0.0000839* T*T + 0.0000050* T*T*T;
-	    z_A     = 0.6406161* T + 0.0003041* T*T + 0.0000051* T*T*T;
-	    theta_A = 0.5567530* T - 0.0001185* T*T - 0.0000116* T*T*T;
+		/* Get coefficients in arcseconds and convert them to degrees */
+	    zeta_A  = get_zeta_A(T)/3600.0;
+	    z_A  = get_z_A(T)/3600.0;
+	    theta_A  = get_theta_A(T)/3600.0;
 
 	    A = DSIN(alpha2000 + zeta_A) * DCOS(delta2000);
 	    B = DCOS(alpha2000 + zeta_A) * DCOS(theta_A) * DCOS(delta2000)
