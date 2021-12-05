@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -34,7 +35,7 @@ static void ast_icb (XtPointer client, int *fdp, XtInputId *idp);
 
 static Widget wdbshell_w;	/* the main shell */
 
-#define	WDBNFILES	8	/* number of web files in table */
+#define	WDBNFILES	10	/* number of web files in table */
 #define	WDBINDENT	20	/* table indent, pixels */
 #define	POLLINT		2000	/* ast download status polling interval, ms */
 
@@ -133,7 +134,7 @@ wdb_create()
 	n = 0;
 	XtSetArg (args[n], XmNalignment, XmALIGNMENT_BEGINNING); n++;
 	w = XmCreateLabel (rc_w, "WTL", args, n);
-	set_xmstring (w, XmNlabelString, 
+	set_xmstring (w, XmNlabelString,
 			    "Download a file containing .edb or TLE formats:");
 	XtManageChild (w);
 
@@ -418,6 +419,8 @@ char *url;
 	XE_SSL_FD ssl_fd;
 	int sockfd;
 	int nfound;
+	time_t nowtime;
+	struct tm *datetime;
 
 	memset(&ssl_fd, 0, sizeof(ssl_fd));
 
@@ -478,6 +481,20 @@ char *url;
 	    return;
 	}
 
+	/* An experiment from Dave Kaye: add a header to the data file.
+	   The file will no longer be pristine and match exactly what's
+	   on the site; but users can tell how old their download is.
+	   We'll see if users report problems with the fact that no two
+	   downloads ever yield exactly the same file any more. */
+	nowtime = time(NULL);
+	datetime = localtime(&nowtime);
+	fprintf (fp, "# URL: %s\n", url);
+	fprintf (fp, "# Date: %04d-%02d-%02d\n",
+		 datetime->tm_year + 1900,
+		 datetime->tm_mon + 1,
+		 datetime->tm_mday);
+	fprintf (fp, "#\n");
+
 	/* copy to file, insuring only .edb lines.
 	 */
 	nfound = 0;
@@ -518,4 +535,3 @@ char *url;
 	stopd_down();
 	watch_cursor(0);
 }
-
