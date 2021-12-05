@@ -5,7 +5,6 @@
 
 static void precess_hiprec (double mjd1, double mjd2, double *ra, double *dec);
 
-
 #define	DCOS(x)		cos(degrad(x))
 #define	DSIN(x)		sin(degrad(x))
 #define	DASIN(x)	raddeg(asin(x))
@@ -29,24 +28,49 @@ double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
  *	return arcseconds
  */
 static double
-get_zeta_A (
-double T)
+do_precess (
+double equinox, double *alpha, double *delta, int dir
+)
 {
-	return 2.650545 + T*(2306.083227+T*(0.2988499 + T*(0.01801828 +T*(-5.971e-6-3.173e-7*T)))) ;
-}
+	double T;
+	double zeta_A, z_A, theta_A;
+	double A, B, C;
 
-static double
-get_z_A (
-double T)
-{
-	return -2.650545+T*(2306.077181+T*(1.0927348+T*(0.01826837 +T*(-28.596e-6-2.904e-7*T)))) ;
-}
+	/* precession progresses about 1 arc second in .047 years */
+	if (fabs (equinox - 2000.0) > .02) {
+	    T = (equinox - 2000.0)/100.0;
 
-static double
-get_theta_A (
-double T)
-{
-	return T*(2004.191903-T*(0.4294934+T*(0.04182264+T*(7.089e-6+1.274e-7*T)))) ;
+	    /* Compute coefficients in arcseconds from */
+	    /*	Astronomical Ephemeris 2020, p. B25 */
+	    /* and convert them to degrees */
+
+	    zeta_A= (2.650545 + T*(2306.083227+T*(0.2988499 + T*(0.01801828 +T*(-5.971e-6-3.173e-7*T)))))/3600.00 ;
+	    z_A=(-2.650545+T*(2306.077181+T*(1.0927348+T*(0.01826837 +T*(-28.596e-6-2.904e-7*T)))))/3600.00 ;
+	    theta_A=(T*(2004.191903-T*(0.4294934+T*(0.04182264+T*(7.089e-6+1.274e-7*T)))))/3600.00 ;
+
+	    if (dir<0){
+	    	/* If dir is negative, go from equinox to 2000.0 */
+	    	A = DSIN(*alpha - z_A) * DCOS(*delta);
+	    	B = DCOS(*alpha - z_A) * DCOS(theta_A) * DCOS(*delta)
+	    	  + DSIN(theta_A) * DSIN(*delta);
+	    	C = -DCOS(*alpha - z_A) * DSIN(theta_A) * DCOS(*delta)
+	    	  + DCOS(theta_A) * DSIN(*delta);
+	    	*alpha = DATAN2(A,B) - zeta_A;
+	    }
+
+	    if (dir>0){
+	    	/* If dir is positive, go from 2000.0 to equinox */
+	    	A = DSIN(*alpha + zeta_A) * DCOS(*delta);
+	    	B = DCOS(*alpha + zeta_A) * DCOS(theta_A) * DCOS(*delta)
+	    	    - DSIN(theta_A) * DSIN(*delta);
+	    	C = DCOS(*alpha + zeta_A) * DSIN(theta_A) * DCOS(*delta)
+	    	    + DCOS(theta_A) * DSIN(*delta);
+
+	    	*alpha = DATAN2(A,B) + z_A;
+	    }
+	    range (alpha, 360.0);
+	    *delta = DASIN(C);
+	}
 }
 
 /*
@@ -60,9 +84,6 @@ double T)
  * software for any purpose.  It is provided "as is" without express or
  * implied warranty, to the extent permitted by applicable law.
  *
- * Rigorous precession. From Astronomical Ephemeris 1989, p. B18
- *
- * 96-06-20 Hayo Hase <hase@wettzell.ifag.de>: theta_a corrected
  */
 static void
 precess_hiprec (
@@ -71,13 +92,8 @@ double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
 {
 	static double last_mjd1 = -213.432, last_from;
 	static double last_mjd2 = -213.432, last_to;
-	double zeta_A, z_A, theta_A;
-	double T;
-	double A, B, C;
 	double alpha, delta;
-	double alpha_in, delta_in;
 	double from_equinox, to_equinox;
-	double alpha2000, delta2000;
 
 	/* convert mjds to years;
 	 * avoid the remarkably expensive calls to mjd_year()
@@ -96,59 +112,16 @@ double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
 	    last_mjd2 = mjd2;
 	    last_to = to_equinox;
 	}
+	/* convert coords from rads to degs */
+	alpha = raddeg(*ra);
+	delta = raddeg(*dec);
 
-	/* convert coords in rads to degs */
-	alpha_in = raddeg(*ra);
-	delta_in = raddeg(*dec);
+	/* From from_equinox to 2000.0, "backwards" inplace transformation : */
+	do_precess(from_equinox, &alpha, &delta, -1);
+	/* From 2000.0 to to_equinox, "forward" inplace transformation : */
+	do_precess(to_equinox, &alpha, &delta, 1);
 
-	/* precession progresses about 1 arc second in .047 years */
-	/* From from_equinox to 2000.0 */
-	if (fabs (from_equinox-2000.0) > .02) {
-	    T = (from_equinox - 2000.0)/100.0;
-	    /* Get coefficients in arcseconds and convert them to degrees */
-	    zeta_A  = get_zeta_A(T)/3600.0;
-	    z_A  = get_z_A(T)/3600.0;
-	    theta_A  = get_theta_A(T)/3600.0;
-
-	    A = DSIN(alpha_in - z_A) * DCOS(delta_in);
-	    B = DCOS(alpha_in - z_A) * DCOS(theta_A) * DCOS(delta_in)
-	      + DSIN(theta_A) * DSIN(delta_in);
-	    C = -DCOS(alpha_in - z_A) * DSIN(theta_A) * DCOS(delta_in)
-	      + DCOS(theta_A) * DSIN(delta_in);
-
-	    alpha2000 = DATAN2(A,B) - zeta_A;
-	    range (&alpha2000, 360.0);
-	    delta2000 = DASIN(C);
-	} else {
-	    /* should get the same answer, but this could improve accruacy */
-	    alpha2000 = alpha_in;
-	    delta2000 = delta_in;
-	};
-
-
-	/* From 2000.0 to to_equinox */
-	if (fabs (to_equinox - 2000.0) > .02) {
-	    T = (to_equinox - 2000.0)/100.0;
-	    /* Get coefficients in arcseconds and convert them to degrees */
-	    zeta_A  = get_zeta_A(T)/3600.0;
-	    z_A  = get_z_A(T)/3600.0;
-	    theta_A  = get_theta_A(T)/3600.0;
-
-	    A = DSIN(alpha2000 + zeta_A) * DCOS(delta2000);
-	    B = DCOS(alpha2000 + zeta_A) * DCOS(theta_A) * DCOS(delta2000)
-	      - DSIN(theta_A) * DSIN(delta2000);
-	    C = DCOS(alpha2000 + zeta_A) * DSIN(theta_A) * DCOS(delta2000)
-	      + DCOS(theta_A) * DSIN(delta2000);
-
-	    alpha = DATAN2(A,B) + z_A;
-	    range(&alpha, 360.0);
-	    delta = DASIN(C);
-	} else {
-	    /* should get the same answer, but this could improve accruacy */
-	    alpha = alpha2000;
-	    delta = delta2000;
-	};
-
+	/* convert result coords from degs to rads */
 	*ra = degrad(alpha);
 	*dec = degrad(delta);
 }
