@@ -23,9 +23,9 @@ double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
 }
 /*
  *
- * Precession formulas zeta_A, z_A and theta_A
- *	NB : all 3 functions get_zeta_A(), get_z_A(), get_theta_A()
- *	return arcseconds
+ * Precession computation to or from 2000.0 depending on parameter dir :
+ *	if dir < 0 go from equinox to 2000.0
+ *	if dir > 0 go from 2000.0 to equinox
  */
 static double
 do_precess (
