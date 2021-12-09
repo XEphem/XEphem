@@ -3,29 +3,11 @@
 
 #include "astro.h"
 
-static void precess_hiprec (double mjd1, double mjd2, double *ra, double *dec);
-
-#define	DCOS(x)		cos(degrad(x))
-#define	DSIN(x)		sin(degrad(x))
-#define	DASIN(x)	raddeg(asin(x))
-#define	DATAN2(y,x)	raddeg(atan2((y),(x)))
-
-/* corrects ra and dec, both in radians, for precession from epoch 1 to epoch 2.
- * the epochs are given by their modified JDs, mjd1 and mjd2, respectively.
- * N.B. ra and dec are modifed IN PLACE.
- */
-void
-precess (
-double mjd1, double mjd2,	/* initial and final epoch modified JDs */
-double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
-{
-	precess_hiprec (mjd1, mjd2, ra, dec);
-}
 /*
  *
- * Precession computation to or from 2000.0 depending on parameter dir :
- *	if dir < 0 go from equinox to 2000.0
- *	if dir > 0 go from 2000.0 to equinox
+ * Precession computation to or from J2000 depending on parameter dir :
+ *	if dir < 0 go from equinox to J2000
+ *	if dir > 0 go from J2000 to equinox
  */
 static double
 do_precess (
@@ -35,111 +17,60 @@ double equinox, double *alpha, double *delta, int dir
 	double T;
 	double zeta_A, z_A, theta_A;
 	double A, B, C;
+	/* precession progresses about 1 arc second in .047 years
+	 * that is 17 days
+	 * threshold must be at most 1.7 days for 0.1 arcsec accuracy */
 
-	/* precession progresses about 1 arc second in .047 years */
-	if (fabs (equinox - 2000.0) > .02) {
-	    T = (equinox - 2000.0)/100.0;
+	double threshhold=1;
+
+	if (fabs (equinox - J2000) > threshhold) {
+	    T = (equinox - J2000)/36525.0;
 
 	    /* Compute coefficients in arcseconds from */
 	    /*	Astronomical Ephemeris 2020, p. B25 */
-	    /* and convert them to degrees */
+	    /* and convert them to radians */
 
-	    zeta_A= (2.650545 + T*(2306.083227+T*(0.2988499 + T*(0.01801828 +T*(-5.971e-6-3.173e-7*T)))))/3600.00 ;
-	    z_A=(-2.650545+T*(2306.077181+T*(1.0927348+T*(0.01826837 +T*(-28.596e-6-2.904e-7*T)))))/3600.00 ;
-	    theta_A=(T*(2004.191903-T*(0.4294934+T*(0.04182264+T*(7.089e-6+1.274e-7*T)))))/3600.00 ;
+	    zeta_A= (2.650545 + T*(2306.083227+T*(0.2988499 + T*(0.01801828 +T*(-5.971e-6-3.173e-7*T)))))*arcsecrad;
+	    z_A= (-2.650545+T*(2306.077181+T*(1.0927348+T*(0.01826837 +T*(-28.596e-6-2.904e-7*T)))))*arcsecrad;
+	    theta_A=(T*(2004.191903-T*(0.4294934+T*(0.04182264+T*(7.089e-6+1.274e-7*T)))))*arcsecrad;
 
 	    if (dir<0){
 	    	/* If dir is negative, go from equinox to 2000.0 */
-	    	A = DSIN(*alpha - z_A) * DCOS(*delta);
-	    	B = DCOS(*alpha - z_A) * DCOS(theta_A) * DCOS(*delta)
-	    	  + DSIN(theta_A) * DSIN(*delta);
-	    	C = -DCOS(*alpha - z_A) * DSIN(theta_A) * DCOS(*delta)
-	    	  + DCOS(theta_A) * DSIN(*delta);
-	    	*alpha = DATAN2(A,B) - zeta_A;
+	    	A = sin(*alpha - z_A) * cos(*delta);
+	    	B = cos(*alpha - z_A) * cos(theta_A) * cos(*delta)
+	    	  + sin(theta_A) * sin(*delta);
+	    	C = -cos(*alpha - z_A) * sin(theta_A) * cos(*delta)
+	    	  + cos(theta_A) * sin(*delta);
+	    	*alpha = atan2(A,B) - zeta_A;
 	    }
 
 	    if (dir>0){
 	    	/* If dir is positive, go from 2000.0 to equinox */
-	    	A = DSIN(*alpha + zeta_A) * DCOS(*delta);
-	    	B = DCOS(*alpha + zeta_A) * DCOS(theta_A) * DCOS(*delta)
-	    	    - DSIN(theta_A) * DSIN(*delta);
-	    	C = DCOS(*alpha + zeta_A) * DSIN(theta_A) * DCOS(*delta)
-	    	    + DCOS(theta_A) * DSIN(*delta);
+	    	A = sin(*alpha + zeta_A) * cos(*delta);
+	    	B = cos(*alpha + zeta_A) * cos(theta_A) * cos(*delta)
+	    	    - sin(theta_A) * sin(*delta);
+	    	C = cos(*alpha + zeta_A) * sin(theta_A) * cos(*delta)
+	    	    + cos(theta_A) * sin(*delta);
 
-	    	*alpha = DATAN2(A,B) + z_A;
+	    	*alpha = atan2(A,B) + z_A;
 	    }
-	    range (alpha, 360.0);
-	    *delta = DASIN(C);
+	    range (alpha, TWOPI);
+	    *delta = asin(C);
 	}
 }
 
-/*
- * Copyright (c) 1990 by Craig Counterman. All rights reserved.
- *
- * This software may be redistributed freely, not sold.
- * This copyright notice and disclaimer of warranty must remain
- *    unchanged. 
- *
- * No representation is made about the suitability of this
- * software for any purpose.  It is provided "as is" without express or
- * implied warranty, to the extent permitted by applicable law.
- *
+/* corrects ra and dec, both in radians, for precession from epoch 1 to epoch 2.
+ * the epochs are given by their modified JDs, from_mjd and to_mjd, respectively.
+ * N.B. ra and dec are modifed IN PLACE.
  */
-static void
-precess_hiprec (
-double mjd1, double mjd2,	/* initial and final epoch modified JDs */
+void
+precess (
+double from_mjd, double to_mjd,	/* initial and final epoch modified JDs */
 double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
 {
-	static double last_mjd1 = -213.432, last_from;
-	static double last_mjd2 = -213.432, last_to;
-	double alpha, delta;
-	double from_equinox, to_equinox;
-
-	/* convert mjds to years;
-	 * avoid the remarkably expensive calls to mjd_year()
-	 */
-	if (last_mjd1 == mjd1)
-	    from_equinox = last_from;
-	else {
-	    mjd_year (mjd1, &from_equinox);
-	    last_mjd1 = mjd1;
-	    last_from = from_equinox;
-	}
-	if (last_mjd2 == mjd2)
-	    to_equinox = last_to;
-	else {
-	    mjd_year (mjd2, &to_equinox);
-	    last_mjd2 = mjd2;
-	    last_to = to_equinox;
-	}
-	/* convert coords from rads to degs */
-	alpha = raddeg(*ra);
-	delta = raddeg(*dec);
-
-	/* From from_equinox to 2000.0, "backwards" inplace transformation : */
-	do_precess(from_equinox, &alpha, &delta, -1);
-	/* From 2000.0 to to_equinox, "forward" inplace transformation : */
-	do_precess(to_equinox, &alpha, &delta, 1);
-
-	/* convert result coords from degs to rads */
-	*ra = degrad(alpha);
-	*dec = degrad(delta);
+	/* From mjd1  to J2000, "backwards" inplace transformation : */
+	do_precess(from_mjd, ra, dec, -1);
+	/* From J2000 to mjd2, "forward" inplace transformation : */
+	do_precess(to_mjd, ra, dec, 1);
 }
-
-#if 0
-static void
-precess_fast (
-double mjd1, double mjd2,	/* initial and final epoch modified JDs */
-double *ra, double *dec)	/* ra/dec for mjd1 in, for mjd2 out */
-{
-#define	N	degrad (20.0468/3600.0)
-#define	M	hrrad (3.07234/3600.0)
-	double nyrs;
-
-	nyrs = (mjd2 - mjd1)/365.2425;
-	*dec += N * cos(*ra) * nyrs;
-	*ra += (M + (N * sin(*ra) * tan(*dec))) * nyrs;
-	range (ra, 2.0*PI);
-}
-#endif
 
