@@ -1428,7 +1428,7 @@ XtInputId *id;
 	}
 
 	/* report progress */
-	pm_set ((ulong)fip->nbytes * 100 / fip->totbytes);
+	pm_set (fip->nbytes * 100 / fip->totbytes);
 	XmUpdateDisplay (toplevel_w);
 
 	/* keep going if expecting more */
