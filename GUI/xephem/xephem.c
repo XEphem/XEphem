@@ -146,20 +146,6 @@ char *argv[];
 	/* check for -nosplash or nosplash file .. can't wait for resources */
 	splashOpen (&argc, argv, options, XtNumber(options));
 
-#ifdef __APPLE__
-	/* hack around two-level namespace linker problem in libXt wrt libXm.
-	 * first appeared in XFree86 4.2.0 build; should remain harmless in
-	 * subsequent builds even if the problem is fixed.
-	 */
-	{
-	    extern void *topLevelShellClassRec;
-	    extern void *transientShellClassRec;
-	    extern void *vendorShellClassRec;
-	    topLevelShellClassRec  = (void *) &vendorShellClassRec;
-	    transientShellClassRec = (void *) &vendorShellClassRec;
-	}
-#endif
-
 	/* check for alternate env before starting toolkit.
 	 * (don't even ask why this is here)
 	 */
