@@ -245,6 +245,7 @@ sc_create_w()
 	XtSetArg (args[n], XmNcolormap, xe_cm); n++;
 	XtSetArg (args[n], XmNtitle, "xephem INDI configuration"); n++;
 	XtSetArg (args[n], XmNiconName, "INDI conf"); n++;
+        XtSetArg (args[n], XmNdeleteResponse, XmUNMAP); n++;
 	scopeshell_w = XtCreatePopupShell ("INDIConfig",
 				topLevelShellWidgetClass, toplevel_w, args, n);
 	setup_icon (scopeshell_w);
