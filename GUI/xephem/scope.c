@@ -85,6 +85,7 @@ static Widget gotodecb_w;	/* INDI goto dec offset */
 
 static Widget edbon_w;		/* TB whether edb GOTO is on */
 static Widget rdon_w;		/* TB whether ra/dec GOTO is on */
+static Widget teleod_w;		/* TB whether ra/dec sent as EOD else J2000 */
 static Widget markeron_w;	/* TB whether skyview marker is on */
 
 static XtIntervalId marker_tid;	/* timer to display sky marker */
@@ -162,27 +163,34 @@ Obj *op;
 	    }
 	}
 
-	/* send as astrometric J2000 ra/dec if on */
+	/* send as INDI if on */
 	if (XmToggleButtonGetState (rdon_w)) {
+            Now *np = mm_get_now();
 	    char *dev, *prop, *ele[2];
 	    double v[2];
-	    Now now, *np;
-	    Obj obj;
+            double ra, dec;
 
-	    /* update ephemeris for op */
-	    np = mm_get_now();
-	    if (epoch != J2000) {
-		now = *np;
-		np = &now;
-		epoch = J2000;
-		obj = *op;
-		op = &obj;
-	    }
-	    obj_cir (np, op);
+	    /* convert op to desired telescope's coords */
+            ra = op->f_RA;
+            dec = op->f_dec;
+
+            if (XmToggleButtonGetState(teleod_w)) {
+                /* telescope wants apparent @ EOD */
+                if (epoch != EOD) {
+                    as_ap (np, op->f_epoch, &ra, &dec);
+                } /* else op is already apparent */
+            } else {
+                /* telescope wants astrometric @ 2000 */
+                if (epoch == EOD) {
+                    ap_as (np, J2000, &ra, &dec);
+                } else {
+                    precess (op->f_epoch, J2000, &ra, &dec);
+                }
+            }
 
 	    /* scale to INDI coords */
-	    v[0] = toINDIValue (op->s_ra, gotoram_w, gotorab_w);
-	    v[1] = toINDIValue (op->s_dec, gotodecm_w, gotodecb_w);
+	    v[0] = toINDIValue (ra, gotoram_w, gotorab_w);
+	    v[1] = toINDIValue (dec, gotodecm_w, gotodecb_w);
 
 	    /* send INDI ra/dec elements */
 	    if (getINDIele (gotorav_w, gotodecv_w, &dev, &prop, ele) < 0) {
@@ -339,9 +347,10 @@ sc_create_w()
 				    "EDB", &edbv_w, NULL, NULL);
 	oneConfigRow (rc_w, &rdon_w, NULL, "EnableRADec",
 				    "Enable sending RA/Dec goto to",
-				"GotoRA", &gotorav_w, &gotoram_w, &gotorab_w);
-	oneConfigRow (rc_w, NULL, NULL, NULL, NULL,
-			    "GotoDec", &gotodecv_w, &gotodecm_w, &gotodecb_w);
+				    "GotoRA", &gotorav_w, &gotoram_w, &gotorab_w);
+	oneConfigRow (rc_w, &teleod_w, NULL, "TelEOD",
+                                    "Tel uses EOD, else J2000",
+                                    "GotoDec", &gotodecv_w, &gotodecm_w, &gotodecb_w);
 	oneConfigRow (rc_w, &markeron_w, marker_cb, "SkyMarker",
 				    "Enable Sky marker from",
 				    "SkyRA", &rav_w, &ram_w, &rab_w);
@@ -717,19 +726,28 @@ marker_tcb (XtPointer client, XtIntervalId *id)
 		    if (rnp) {
 			INumber *dnp = findNumber (rap, ele[1]);
 			if (dnp) {
+			    Now *np = mm_get_now();
 			    Obj o;
-			    Now *np;
 
-			    /* build object */
+                            /* get telescope's coords */
+			    double ra = fromINDIValue (rnp->value, ram_w, rab_w);
+			    double dec = fromINDIValue (dnp->value, decm_w,decb_w);
+
+			    /* convert from telescope's coords to astrometric J2000 */
+			    if (XmToggleButtonGetState(teleod_w)) {
+                                /* telescope is sending us apparent at EOD */
+                                ap_as (np, J2000, &ra, &dec);
+                            } /* else no change, telescope already sending us astrometric @ J2000 */
+
+                            /* find sky fields */
 			    memset (&o, 0, sizeof(o));
-			    o.f_RA = fromINDIValue (rnp->value, ram_w, rab_w);
-			    o.f_dec = fromINDIValue (dnp->value, decm_w,decb_w);
+			    o.f_RA = ra;
+			    o.f_dec = dec;
 			    o.o_type = FIXED;
 			    o.f_epoch = J2000;
+			    obj_cir (np, &o);
 
 			    /* mark, on screen */
-			    np = mm_get_now();
-			    obj_cir (np, &o);
 			    sv_scopeMark (&o);
 			} else {
 			    xe_msg(1,"INDI:%s.%s.%s not found",dev,prop,ele[1]);
@@ -864,3 +882,5 @@ fromINDIValue (double indiv, Widget m_w, Widget b_w)
 	return (localv);
 }
 
+/* For RCS Only -- Do Not Edit */
+static char *rcsid[2] = {(char *)rcsid, "@(#) $RCSfile: scope.c,v $ $Date: 2021/12/14 19:10:55 $ $Revision: 1.29 $ $Name:  $"};
