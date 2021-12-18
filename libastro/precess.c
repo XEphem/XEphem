@@ -30,9 +30,9 @@ double equinox, double *alpha, double *delta, int dir
 	    /*	Astronomical Ephemeris 2020, p. B25 */
 	    /* and convert them to radians */
 
-	    zeta_A= (2.650545 + T*(2306.083227+T*(0.2988499 + T*(0.01801828 +T*(-5.971e-6-3.173e-7*T)))))*arcsecrad;
-	    z_A= (-2.650545+T*(2306.077181+T*(1.0927348+T*(0.01826837 +T*(-28.596e-6-2.904e-7*T)))))*arcsecrad;
-	    theta_A=(T*(2004.191903-T*(0.4294934+T*(0.04182264+T*(7.089e-6+1.274e-7*T)))))*arcsecrad;
+	    zeta_A= arcsecrad(2.650545 + T*(2306.083227+T*(0.2988499 + T*(0.01801828 +T*(-5.971e-6-3.173e-7*T)))));
+	    z_A= arcsecrad(-2.650545+T*(2306.077181+T*(1.0927348+T*(0.01826837 +T*(-28.596e-6-2.904e-7*T)))));
+	    theta_A=arcsecrad(T*(2004.191903-T*(0.4294934+T*(0.04182264+T*(7.089e-6+1.274e-7*T)))));
 
 	    if (dir<0){
 	    	/* If dir is negative, go from equinox to 2000.0 */

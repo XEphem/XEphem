@@ -8,14 +8,14 @@
 #endif
 
 #ifndef TWOPI
-#define	TWOPI	6.283185307179586577
+#define	TWOPI	6.283185307179586477
 #endif
 
 /* conversions among hours (of ra), degrees and radians. */
 #define	degrad(x)	((x)*PI/180.)
 #define	raddeg(x)	((x)*180./PI)
-#define	radarcsec	(2.06264806247096355e5)
-#define	arcsecrad	(4.84813681109535994e-6)
+#define	radarcsec(x)	((x)*2.06264806247096355e5)
+#define	arcsecrad(x)	((x)*4.84813681109535993e-6)
 #define	hrdeg(x)	((x)*15.)
 #define	deghr(x)	((x)/15.)
 #define	hrrad(x)	degrad(hrdeg(x))
