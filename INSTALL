@@ -90,10 +90,13 @@ Next do either 3a or 3b, not both:
 	$ cp -R help /usr/local/xephem		# copy help files
 	$ cp -R lo /usr/local/xephem		# copy lunar db
 
-    3b.3 Do the same as step 3a.3 above but create the new file in a place
-    where XEphem can find it from anywhere:
+    3b.3 Create an initial resource file called /etc/XEphem with
+    just one line in it as follows:
 
-	/etc/XEphem
+	XEphem.ShareDir: /usr/local/xephem
+
+    If in the previous step you created a different directory than
+    /usr/local/xephem, then provide that directory's path instead.
 
     3b.4 Copy the man page:
 
