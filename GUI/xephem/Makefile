@@ -28,11 +28,18 @@ ifndef MOTIFL
 MOTIFL = /usr/lib
 endif
 
-# for linux and Apple OS X
+# For Linux and Apple OS X
+
+UNAME_S = $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+  PLATI = -I/usr/local/opt/openssl@3/include -I/opt/X11/include
+  PLATL = -L/usr/local/opt/openssl@3/lib -L/opt/X11/lib
+endif
+
 CC = gcc
 CLDFLAGS = -g
-CFLAGS = $(LIBINC) $(CLDFLAGS) -O2 -Wall -I$(MOTIFI) -I/opt/X11/include
-LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) -L/opt/X11/lib
+CFLAGS = $(LIBINC) $(CLDFLAGS) -O2 -Wall -I$(MOTIFI) $(PLATI)
+LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) $(PLATL)
 XLIBS = -lXm -lXt -lXext -lXmu -lX11
 LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
 
