@@ -17,9 +17,9 @@ jobs:
     - name: Install Ubuntu packages
       run: grep 'sudo apt install' INSTALL | sed 's/\$//' | sh
     - name: Compile
-      run: make -C GUI/xephem
+      run: make -C src/GUI/xephem
     - name: Test
-      run: make -C tests
+      run: make -C src/tests
 
   compile-macos:
     runs-on: macos-latest
@@ -32,4 +32,4 @@ jobs:
     - name: Install XQuartz
       run: brew install xquartz --cask && brew info xquartz
     - name: Compile
-      run: make -C GUI/xephem
+      run: make -C src/GUI/xephem

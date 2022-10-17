@@ -2,8 +2,8 @@
 
 *.a
 *.o
-/GUI/xephem/xephem
-/GUI/xephem/xephem.1
+/src/GUI/xephem/xephem
+/src//GUI/xephem/xephem.1
 
 # macOS HFS+ files
 

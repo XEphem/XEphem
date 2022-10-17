@@ -64,14 +64,14 @@ for building an XEphem RPM package.
 
 ## More Screenshots
 
-![Sun view](/GUI/xephem/help/png/sun-view.png?raw=true)
+![Sun view](/src/GUI/xephem/help/png/sun-view.png?raw=true)
 
-![Solar system view](/GUI/xephem/help/png/solsys.png?raw=true)
+![Solar system view](/src/GUI/xephem/help/png/solsys.png?raw=true)
 
-![Saturn and its moons](/GUI/xephem/help/png/saturn.png?raw=true)
+![Saturn and its moons](/src/GUI/xephem/help/png/saturn.png?raw=true)
 
-![Binary star view](/GUI/xephem/help/png/sky-binary.png?raw=true)
+![Binary star view](/src/GUI/xephem/help/png/sky-binary.png?raw=true)
 
-![Moon view](/GUI/xephem/help/png/moon.png?raw=true)
+![Moon view](/src/GUI/xephem/help/png/moon.png?raw=true)
 
-![Earth view](/GUI/xephem/help/png/earth.png?raw=true)
+![Earth view](/src/GUI/xephem/help/png/earth.png?raw=true)
