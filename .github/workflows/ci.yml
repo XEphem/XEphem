@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  compile-linux-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Ubuntu packages
+      run: grep 'sudo apt install' INSTALL | sed 's/\$//' | sh
+    - name: Compile
+      run: make -C GUI/xephem
+    - name: Test
+      run: make -C tests
+
+  compile-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install OpenMotif
+      run: brew install openmotif && brew info openmotif
+    - name: Install OpenSSL
+      run: brew install openssl && brew info openssl
+    - name: Install XQuartz
+      run: brew install xquartz --cask && brew info xquartz
+    - name: Compile
+      run: make -C GUI/xephem
