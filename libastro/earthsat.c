@@ -4,7 +4,7 @@
  *   the original FORTRAN to C by Magnus Backstrom. The paper "Spacetrack
  *   Report Number 3: Models for Propagation of NORAD Element Sets" describes
  *   the calculations.
- *   See http://www.celestrak.com/NORAD/documentation/spacetrk.pdf.
+ *   See http://www.celestrak.org/NORAD/documentation/spacetrk.pdf.
  *
  * A few topocentric routines are also used from the 'orbit' program which is
  *   Copyright (c) 1986,1987,1988,1989,1990 Robert W. Berger N3EMO
