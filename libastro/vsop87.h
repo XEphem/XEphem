@@ -1,5 +1,5 @@
 /* Position of planets mercury to neptune; from:
-ftp://ftp.bdl.fr/pub/ephem/planets/vsop87/
+ftp://ftp.imcce.fr/pub/ephem/planets/vsop87/
 from README:
 
 ==========================                         ===========================
@@ -60,31 +60,33 @@ reports to:                    E-mail     : comments@bdl.fr
 ==============================================================================
   implemented for C: stern
 */
+/******************************************************************
+ * added entire vsop87 data set (31577 terms)
+ * change use of indexes for pointers
+ * delete VSOP_SCALE macro
+ * delete precision control as always called with 0 (full precision)
+ * Gustavo A. Corradi - Dec - 2022 (gcorrad@gmail.com)
+ ******************************************************************/
 
-#define VSOP_ASCALE	1e8	/* amplitude factor as stored */
+#ifndef _VSOP87_H_
+#define _VSOP87_H_
 
 /* coding flags */
 #define VSOP_SPHERICAL	1	/* version in data.c uses spherical coords */
 #define VSOP_GETRATE	0	/* calculate time derivatives of coordinates */
 
-/* data tables */
-extern double vx_mercury[][3];
-extern int vn_mercury[][3];
-extern double vx_venus[][3];
-extern int vn_venus[][3];
-extern double vx_earth[][3];
-extern int vn_earth[][3];
-extern double vx_mars[][3];
-extern int vn_mars[][3];
-extern double vx_jupiter[][3];
-extern int vn_jupiter[][3];
-extern double vx_saturn[][3];
-extern int vn_saturn[][3];
-extern double vx_uranus[][3];
-extern int vn_uranus[][3];
-extern double vx_neptune[][3];
-extern int vn_neptune[][3];
 
-extern int vsop87 (double mj, int obj, double prec, double *ret);
+typedef struct s_vsop87 {
+    double L;
+    double B;
+    double r;
+} t_vsop87;
 
+typedef struct s_vsop87v {
+    t_vsop87    *vars;
+    int         maxt;
+} t_vsop87v;
+   
+extern int vsop87 (double mj, int obj, double *ret);
 
+#endif /* _VSOP87_H_ */

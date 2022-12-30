@@ -10,7 +10,7 @@
 
 static void pluto_ell (double mj, double *ret);
 static void chap_trans (double mj, double *ret);
-static void planpos (double mj, int obj, double prec, double *ret);
+static void planpos (double mj, int obj, double *ret);
 
 /* coordinate transformation
  * from:
@@ -79,18 +79,18 @@ double *ret)	/* ecliptic coordinates {l,b,r} at equinox of date */
  * (not corrected for light-time)
  */
 static void
-planpos (double mj, int obj, double prec, double *ret)
+planpos (double mj, int obj, double *ret)
 {
 	if (mj >= CHAP_BEGIN && mj <= CHAP_END) {
 	    if (obj >= JUPITER) {		/* prefer Chapront */
-		chap95(mj, obj, prec, ret);
+		chap95(mj, obj, 0.0, ret);
 		chap_trans (mj, ret);
 	    } else {				/* VSOP for inner planets */
-		vsop87(mj, obj, prec, ret);
+		vsop87(mj, obj, ret);
 	    }
 	} else {				/* outside Chapront time: */
 	    if (obj != PLUTO) {			/* VSOP for all but Pluto */
-		vsop87(mj, obj, prec, ret);
+		vsop87(mj, obj, ret);
 	    } else {				/* Pluto mean elliptic orbit */
 		pluto_ell(mj, ret);
 	    }
@@ -175,7 +175,7 @@ double *rho0, double *lam, double *bet, double *dia, double *mag)
 	     * retarded for light time in second pass;
 	     * alternative option:  vsop allows calculating rates.
 	     */
-	    planpos(mj - dt, p, 0.0, ret);
+	    planpos(mj - dt, p, ret);
 
 	    lp = ret[0];
 	    bp = ret[1];

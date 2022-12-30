@@ -27,7 +27,7 @@ sunpos (double mj, double *lsn, double *rsn, double *bsn)
 	    return;
 	}
 
-	vsop87(mj, SUN, 0.0, ret);	/* full precision earth pos */
+	vsop87(mj, SUN, ret);	/* full precision earth pos */
 
 	*lsn = ret[0] - PI;		/* revert to sun pos */
 	range (lsn, 2*PI);		/* normalise */

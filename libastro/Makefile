@@ -80,7 +80,14 @@ OBJS =			\
 	umoon.o		\
 	twobody.o	\
 	vsop87.o	\
-	vsop87_data.o
+	vsop87_ear.o	\
+	vsop87_jup.o	\
+	vsop87_mar.o	\
+	vsop87_mer.o	\
+	vsop87_nep.o	\
+	vsop87_sat.o	\
+	vsop87_ura.o	\
+	vsop87_ven.o
 
 libastro.a: $(HS) $(OBJS)
 	ar rv $@ $(OBJS)

@@ -808,7 +808,7 @@ extern void utc_gst (double m, double utc, double *gst);
 extern void gst_utc (double m, double gst, double *utc);
 
 /* vsop87.c */
-extern int vsop87 (double m, int obj, double prec, double *ret);
+extern int vsop87 (double m, int obj, double *ret);
 
 #endif /* _ASTRO_H */
 
