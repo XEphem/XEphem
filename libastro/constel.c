@@ -1673,7 +1673,7 @@ cns_loadfigs (FILE *fp, char *msg)
 		continue;
 
 	    /* ok, line looks interesting, look more carefully */
-	    if (sscanf (lp, "%d %s %s", &code, rastr, decstr) == 3) {
+	    if (sscanf (lp, "%d %63s %63s", &code, rastr, decstr) == 3) {
 		/* looks like a drawing line */
 		double ra, dec;
 
