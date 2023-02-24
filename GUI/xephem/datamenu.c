@@ -109,7 +109,7 @@ static ColHdr col[] = {
     {MISC_COL,	"SnLght",  "Light travel time from Sun"},
     {MISC_COL,	"Uranom",  "Volume and page number in Uranometria"},
     {MISC_COL,	"Uran2k",  "Volume and page number in Uranometria 2000"},
-    {MISC_COL,	"MillSA",  "Volume and page number in Millenium Star Atlas"},
+    {MISC_COL,	"MillSA",  "Volume and page number in Millennium Star Atlas"},
 
     {RISET_COL,	"RisTm",   "Rise time, today"},
     {RISET_COL,	"RisAz",   "Rise azimuth, today"},

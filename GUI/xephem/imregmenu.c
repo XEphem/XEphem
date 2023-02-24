@@ -229,7 +229,7 @@ ir_create()
 	s2_w = XmCreateToggleButton (irshell_w, "S1TB", args, n);
 	XtAddCallback (s2_w, XmNvalueChangedCallback, reg_cb, NULL);
 	set_xmstring (s2_w, XmNlabelString,
-		    "Image to be registed is loaded, now click same 2 stars");
+		    "Image to be registered is loaded, now click same 2 stars");
 	XtManageChild (s2_w);
 
 	/* labels for second set of reference stars */
