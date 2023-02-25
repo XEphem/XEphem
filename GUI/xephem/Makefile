@@ -1,4 +1,4 @@
-# Sample Makefile for xephem v3.7
+# Sample Makefile for xephem v4.1.0
 
 # Sample compile and link flags for a few systems. Find your system or similar
 # and uncomment as required. The default is for linux or Mac OS X systems.
@@ -42,6 +42,13 @@ CFLAGS = $(LIBINC) $(CLDFLAGS) -O2 -Wall -I$(MOTIFI) $(PLATI)
 LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) $(PLATL)
 XLIBS = -lXm -lXt -lXext -lXmu -lX11
 LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
+
+# Variables installation for Linux
+prefix := /usr/local
+bindir = $(prefix)/bin
+datadir = $(prefix)/share
+mandir = $(datadir)/man
+export datadir
 
 # static linking on Apple using X11 libs from ports
 # CC = gcc
@@ -192,24 +199,43 @@ OBJS =			\
 	xephem.o	\
 	xmisc.o
 
-all: libs xephem xephem.1
+all: xephem xephem.1
 
-xephem: $(INCS) $(OBJS)
+xephem: libs $(INCS) $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
 xephem.1: xephem.man
-	nroff -man $? > $@
+	cp $? $@
 
 libs:
-	cd ../../libastro; make
-	cd ../../libip; make
-	cd ../../libjpegd; make
-	cd ../../liblilxml; make
-	cd ../../libpng; make
-	cd ../../libz; make
+	$(MAKE) -C ../../libastro
+	$(MAKE) -C ../../libip
+	$(MAKE) -C ../../libjpegd
+	$(MAKE) -C ../../liblilxml
+	$(MAKE) -C ../../libpng
+	$(MAKE) -C ../../libz
 
 clean:
 	rm -fr *.o ../../lib*/*.[ao]
 
 clobber: clean
 	rm -fr xephem xephem.1
+
+# Installation
+install: install-binary install-man install-data install-desktopfiles
+
+install-binary:
+	install -Dm 755 xephem -t $(DESTDIR)$(bindir)
+
+install-man:
+	install -Dm 644 xephem.1 -t $(DESTDIR)$(mandir)/man1
+
+install-data:
+	install -dm 755 $(DESTDIR)$(datadir)/xephem
+	@for d in auxil catalogs fifos fits gallery help lo; do \
+	  echo "cp -R $$d $(DESTDIR)$(datadir)/xephem"; \
+	  cp -R $$d $(DESTDIR)$(datadir)/xephem; \
+	done
+
+install-desktopfiles:
+	$(MAKE) -C ../../desktopfiles DESTDIR=$(DESTDIR) install
