@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2023 Miguel Molina <mmolina.unphysics@gmail.com> -->
+<component type="desktop-application">
+  <id>xephem.desktop</id>
+  <name>XEphem</name>
+  <name xml:lang="es">XEphem</name>
+  <summary>Interactive astronomical ephemeris software</summary>
+  <summary xml:lang="es">Software interactivo de efemérides astronómicas</summary>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>
+      <ul>
+	<li><em>XEphem</em> is an interactive astronomy program for all UNIX platforms, written and maintained by _Elwood Downey_ over more than thirty years 1990–2021 and now generously released under the MIT License.</li>
+	<li><em>XEphem</em> can compute information on demand or time can be set to increment automatically. In this way a series of computations and movies can be generated.</li>
+      </ul>
+    </p>
+    <p xml:lang="es">
+      <ul>
+	<li><em>XEphem</em> es un programa de astronomía interactivo para todas las plataformas UNIX, escrito y mantenido por _Elwood Downey_ durante más de treinta años entre 1990 y 2021 y ahora publicado generosamente bajo la licencia MIT.</li>
+	<li><em>XEphem</em> puede calcular información bajo demanda o se puede configurar automáticamente en el tiempo. De esta forma se pueden generar una serie de cálculos y animaciones.</li>
+      </ul>	
+    </p>
+  </description>
+  <launchable type="desktop-id">xephem.desktop</launchable>
+  <url type="homepage">https://xephem.github.io/XEphem/Site/xephem.html</url>
+  <url type="help">https://xephem.github.io/XEphem/Site/help/xephem.html</url>
+  <update_contact>xephem@ClearSkyInstitute.com</update_contact>
+  <developer_name>Elwood Charles Downey</developer_name>
+  <releases>
+    <release date="2021-09-13" version="4.1.0"/>
+  </releases>
+  <provides>
+    <binary>xephem</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/XEphem/XEphem/main/GUI/xephem/help/png/sky-view.png</image>
+      <caption>Highly configurable interactive Sky View.</caption>
+      <caption xml:lang="es">Vista del cielo interactivo altamente configurable.</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/XEphem/XEphem/main/GUI/xephem/help/png/solsys.png</image>
+      <caption>3D projection and true stereo views of the solar system, perfect for visualizing comet paths.</caption>
+      <caption xml:lang="es">Proyecciones 3D y vistas estereográficas reales del sistema solar, perfectas para visualizar trayectorias de cometas.</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/XEphem/XEphem/main/GUI/xephem/help/png/sun-view.png</image>
+      <caption>Near real-time Solar images from the SOHO spacecraft.</caption>
+      <caption xml:lang="es">Imágenes solares en tiempo real desed la nave espacial SOHO.</caption>
+    </screenshot>
+  </screenshots>
+</component>
