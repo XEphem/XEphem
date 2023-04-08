@@ -52,10 +52,9 @@ static char help_instructions[] =
  * if fail so and use the deflt provided, if any.
  */
 void
-hlp_dialog (tag, deflt, ndeflt)
-char *tag;	/* tag to look for in help file */
-char *deflt[];	/* help text to use if tag not found */
-int ndeflt;	/* number of strings in deflt[] */
+hlp_dialog (char *tag,     /* tag to look for in help file */
+            char *deflt[], /* help text to use if tag not found */
+            int   ndeflt)  /* number of strings in deflt[] */
 {
 	static char *hurl;
 	static int triedhurl;

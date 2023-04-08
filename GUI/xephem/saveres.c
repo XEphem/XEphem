@@ -193,7 +193,7 @@ static int pendingexit;		/* set when saving just before exiting */
  * (can't use xm*Class in static initialization!!)
  */
 #define	CLASSCHKF(f,c1, c2)			\
-    static int f(w) Widget w; { 		\
+    static int f(Widget w) { 			\
 	WidgetClass wc = XtClass(w);		\
 	return (wc == c1 || wc == c2);		\
     }
@@ -206,7 +206,7 @@ CLASSCHKF (isList,  xmListWidgetClass, 0)
 CLASSCHKF (isText,  xmTextWidgetClass, 0)
 CLASSCHKF (isTextF, xmTextFieldWidgetClass, 0)
 CLASSCHKF (isScale, xmScaleWidgetClass, 0)
-static int isAny(w) Widget w; { return (1); }
+static int isAny(Widget w) { return (1); }
 
 /* Font window info */
 static Widget srfshell_w;	/* main shell */
@@ -608,11 +608,7 @@ static char prefsavecategory[] = "Main -- Preferences -- Save";
  *   value.
  */
 void
-sr_reg (w, res, cat, autosav)
-Widget w;
-char *res;
-char *cat;
-int autosav;
+sr_reg (Widget w, char *res, char *cat, int autosav)
 {
 	Resource *rp, newr, *newrp = &newr;
 	char *val;
@@ -659,8 +655,7 @@ int autosav;
 
 /* unregister all instances of the given widget */
 void
-sr_unreg (w)
-Widget w;
+sr_unreg (Widget w)
 {
 	Resource *rp, *endrp;
 
@@ -682,8 +677,7 @@ Widget w;
 
 /* called to put up or remove the watch cursor on any of the Save windows  */
 void
-sr_cursor (c)
-Cursor c;
+sr_cursor (Cursor c)
 {
 	Window win;
 
@@ -714,7 +708,7 @@ Cursor c;
 
 /* call to possibly engage night mode when first coming up. */
 void
-sr_chknightv()
+sr_chknightv (void)
 {
 	sr_init();
 
@@ -726,7 +720,7 @@ sr_chknightv()
 
 /* return 1/0 whether either autotag is on */
 int
-sr_autosaveon()
+sr_autosaveon (void)
 {
 	sr_init();
 	return (XmToggleButtonGetState (asav_w));
@@ -737,7 +731,7 @@ sr_autosaveon()
  * last-saved value.
  */
 int
-sr_refresh()
+sr_refresh (void)
 {
 	char *val;
 	Category *lastcp;
@@ -788,7 +782,7 @@ sr_refresh()
 /* compute and display resources that have changed since last saved.
  */
 void
-sr_manage()
+sr_manage (void)
 {
 	/* create if first time */
 	sr_init();
@@ -806,7 +800,7 @@ sr_manage()
 
 /* just like sr_manage() but exits when saving is completed */
 void
-sr_xmanage()
+sr_xmanage (void)
 {
 	pendingexit = 1;
 	sr_manage();
@@ -814,7 +808,7 @@ sr_xmanage()
 
 /* bring up the font management window */
 void
-srf_manage()
+srf_manage (void)
 {
 	sr_init();
 	XtPopup (srfshell_w, XtGrabNone);
@@ -823,7 +817,7 @@ srf_manage()
 
 /* bring up the color management window */
 void
-src_manage()
+src_manage (void)
 {
 	sr_init();
 	XtPopup (srcshell_w, XtGrabNone);
@@ -832,7 +826,7 @@ src_manage()
 
 /* return 1/0 whether Save window is currently up */
 int
-sr_isUp()
+sr_isUp (void)
 {
 	return (isUp (srshell_w));
 }
@@ -841,8 +835,7 @@ sr_isUp()
  * when finished all resources as "up to date".
  */
 int
-sr_save(talk)
-int talk;
+sr_save (int talk)
 {
 	char nam[MRNAM];	/* resource name */
 	char buf[1024];		/* handy buffer */
@@ -929,8 +922,7 @@ int talk;
  * N.B. these pixmaps should be factors out of here someday.
  */
 void
-sr_getDirPM (pmopen, pmclose)
-Pixmap *pmopen, *pmclose;
+sr_getDirPM (Pixmap *pmopen, Pixmap *pmclose)
 {
 	sr_init();
 	*pmopen = more_pm;
@@ -941,7 +933,7 @@ Pixmap *pmopen, *pmclose;
  * allowing for possible override.
  */
 char *
-getPrivateDir()
+getPrivateDir (void)
 {
 	static char *mydir;
 
@@ -981,7 +973,7 @@ getPrivateDir()
 /* return full path of of per-user resource file.
  */
 char *
-userResFile ()
+userResFile (void)
 {
 	static char *myres;
 
@@ -995,7 +987,7 @@ userResFile ()
 }
 
 static void
-create_srshell()
+create_srshell (void)
 {
 	Widget srform_w, close_w;
 	Widget t_w, w;
@@ -1199,9 +1191,7 @@ create_srshell()
 
 /* set majorn_w and minorn_w with message of counts */
 static void
-sr_setnnew (nanew, ntnew)
-int nanew;
-int ntnew;
+sr_setnnew (int nanew, int ntnew)
 {
 	char buf[128];
 
@@ -1215,7 +1205,7 @@ int ntnew;
 
 /* one-time stuff */
 static void
-sr_init()
+sr_init (void)
 {
 	int i;
 
@@ -1263,7 +1253,7 @@ sr_init()
 
 /* (re)create the pixmaps */
 static void
-sr_createpms()
+sr_createpms (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = RootWindow(dsp, DefaultScreen(dsp));
@@ -1311,10 +1301,7 @@ sr_createpms()
 
 /* ARGSUSED */
 static void
-sr_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sr_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor(1);
 
@@ -1335,10 +1322,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-sr_refresh_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sr_refresh_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor(1);
         sr_refresh();
@@ -1348,10 +1332,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-sr_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sr_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	pendingexit = 0;
         XtPopdown (srshell_w);
@@ -1361,10 +1342,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sr_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sr_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *help_msg[] = {
 "Display preferences changed since last Save and allowing saving.",
@@ -1377,10 +1355,7 @@ static char *help_msg[] = {
  */
 /* ARGSUSED */
 static void
-sr_catexp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sr_catexp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Resource *rp = (Resource *)client;
 
@@ -1393,10 +1368,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sr_ressav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sr_ressav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Resource *rp = (Resource *)client;
 	rp->save = XmToggleButtonGetState(w);
@@ -1406,8 +1378,7 @@ XtPointer call;
  * first sort by category, then by fb, pushing all !autosav after all autosav.
  */
 static int
-cmpRes (r1, r2)
-Resource *r1, *r2;
+cmpRes (Resource *r1, Resource *r2)
 {
 	Category *c1 = &catlist[r1->cati];
 	Category *c2 = &catlist[r2->cati];
@@ -1424,9 +1395,7 @@ Resource *r1, *r2;
 
 /* add one entry to rc_w for the Category used by rp */
 static void
-sr_1cat (rc_w, rp)
-Widget rc_w;
-Resource *rp;
+sr_1cat (Widget rc_w, Resource *rp)
 {
 	Widget s_w, x_w, l_w, fo_w;
 	Category *cp = &catlist[rp->cati];
@@ -1493,10 +1462,7 @@ Resource *rp;
 
 /* add one entry to rc_w for the Resource rp */
 static void
-sr_1res (rc_w, rp, center)
-Widget rc_w;
-Resource *rp;
-int center;
+sr_1res (Widget rc_w, Resource *rp, int center)
 {
 	Widget s_w, l_w, v_w, fo_w;
 	Arg args[20];
@@ -1564,8 +1530,7 @@ int center;
 
 /* make a non-autosave header */
 static void
-sr_1nonas (rc_w)
-Widget rc_w;
+sr_1nonas (Widget rc_w)
 {
 	Widget w, fo_w;
 	Arg args[20];
@@ -1593,7 +1558,7 @@ Widget rc_w;
  * N.B. reslist[] assumed to be in cmpRes() sorted order.
  */
 static void
-sr_display()
+sr_display (void)
 {
 	XmScrollBarCallbackStruct sbcs;
 	Widget ww;
@@ -1670,8 +1635,7 @@ sr_display()
  * return 0 if ok, or -1 if doesn't even look like a resource.
  */
 static int
-crackNam (res, nam)
-char *res, *nam;
+crackNam (char *res, char *nam)
 {
 	char *colp = strchr (res, ':');
 	char wsnam[MRNAM];
@@ -1687,8 +1651,7 @@ char *res, *nam;
  * return 0 if ok, or -1 if doesn't even look like a resource.
  */
 static int
-crackVal (res, val)
-char *res, *val;
+crackVal (char *res, char *val)
 {
 	char *colp = strchr (res, ':');
 
@@ -1702,8 +1665,7 @@ char *res, *val;
  * TODO: using XtNameToWidget precludes cases of multiple instances, eg plot.
  */
 static char *
-findWFB (findw)
-Widget findw;
+findWFB (Widget findw)
 {
 	char wnam[MRNAM];
 	Widget w;
@@ -1737,8 +1699,7 @@ Widget findw;
 /* find the fallback that corresponds to res.
  */
 static char *
-findRFB (res)
-char *res;
+findRFB (char *res)
 {
 	char fbnam[MRNAM];
 	char resnam[MRNAM];
@@ -1764,8 +1725,7 @@ char *res;
 
 /* print "nam":"val" into res; try to look nice */
 static void
-fmtRes (res, nam, val)
-char *res, *nam, *val;
+fmtRes (char *res, char *nam, char *val)
 {
 	int rl;
 
@@ -1779,9 +1739,7 @@ char *res, *nam, *val;
 /* copy from[] to to[], sans any white space on either end.
  */
 static void
-cpyNoWS (to, from)
-char *to;
-char *from;
+cpyNoWS (char *to, char *from)
 {
 	char *lastnwsp;		/* last non w/s char in to not counting '\0' */
 
@@ -1799,8 +1757,7 @@ char *from;
  * TODO: speed this up somehow making use of knowing it is in cmpRes() order?
  */
 static Resource *
-findRes (findnam)
-char *findnam;
+findRes (char *findnam)
 {
 	char nam[MRNAM];
 	int i;
@@ -1817,9 +1774,7 @@ char *findnam;
 
 /* put full name of w into buf[] */
 static char *
-fullWName (w, buf)
-Widget w;
-char *buf;
+fullWName (Widget w, char *buf)
 {
 	if (w == toplevel_w)
 	    sprintf (buf, "%s", XtName(w));
@@ -1835,8 +1790,7 @@ char *buf;
  * entry if none currently exist.
  */
 static int
-findCat (cat)
-char *cat;
+findCat (char *cat)
 {
 	Category *cp;
 
@@ -1861,13 +1815,12 @@ static char *_xrmVal;
 /* stolen from appres.c and Xlib Xrm.c */
 /*ARGSUSED*/
 static Bool
-DumpEntry(db, bindings, quarks, type, value, data)
-XrmDatabase *db;
-XrmBindingList bindings;
-XrmQuarkList quarks;
-XrmRepresentation *type;
-XrmValuePtr value;
-XPointer data;
+DumpEntry (XrmDatabase       *db,
+           XrmBindingList     bindings,
+           XrmQuarkList       quarks,
+           XrmRepresentation *type,
+           XrmValuePtr        value,
+           XPointer           data)
 {
 	static XrmQuark qstring;
 	char buf[MRNAM];
@@ -1905,8 +1858,7 @@ XPointer data;
  * if find copy malloced value to *val and return 0, else return -1.
  */
 static int
-getXrmDB (nam, val)
-char *nam, **val;
+getXrmDB (char *nam, char **val)
 {
 	XrmDatabase db = XtDatabase(XtDisplay(toplevel_w));
 	XrmName names[101];
@@ -1937,9 +1889,7 @@ char *nam, **val;
  * if we run into trouble, we just return .x and .y from w.
  */
 static void
-getGeometry (w, xp, yp)
-Widget w;
-int *xp, *yp;
+getGeometry (Widget w, int *xp, int *yp)
 {
 	Display *dsp = XtDisplay(w);
 	Window win = XtWindow (w);
@@ -1982,9 +1932,7 @@ int *xp, *yp;
  * exit if fails.
  */
 static void
-getCurVal (rp, valp)
-Resource *rp;
-char **valp;
+getCurVal (Resource *rp, char **valp)
 {
 	/* if in night vision mode, just return the "current" value of the
 	 * resource, don't actually read its real value since we know that is
@@ -2082,11 +2030,7 @@ char **valp;
  * with args[nargs]
  */
 static void
-loadArgsChildren (w, isf, args, nargs)
-Widget w;
-int (*isf)();
-Arg *args;
-int nargs;
+loadArgsChildren (Widget w, int (*isf)(), Arg *args, int nargs)
 {
 	if (XtIsComposite (w)) {
 	    WidgetList children;
@@ -2112,13 +2056,12 @@ int nargs;
 	    XtSetValues (w, args, nargs);
 	}
 }
-
+
 /* Font control */
 
 /* display the named font in srfsample_w and store name in srfsname_w */
 static void
-srf_showsample (xlfd)
-char *xlfd;
+srf_showsample (char *xlfd)
 {
 	Display *dsp = XtDisplay (toplevel_w);
 	XFontStruct *fsp;
@@ -2145,8 +2088,7 @@ char *xlfd;
 
 /* add the given xlfd to the scrolled history list if not already present */
 static void
-srf_addhistory (xlfd)
-char *xlfd;
+srf_addhistory (char *xlfd)
 {
 	XmString xms = XmStringCreateSimple (xlfd);
 	if (!XmListItemExists (srfhl_w, xms))
@@ -2158,8 +2100,7 @@ char *xlfd;
 
 /* perform the Get-and-show current or default actions for the Choice */
 static void
-srf_getshow (fcp)
-Choice *fcp;
+srf_getshow (Choice *fcp)
 {
 	Resource *rp = findRes (fcp->res);
 	char *val = NULL;
@@ -2189,9 +2130,7 @@ Choice *fcp;
  *   evidently it must remain loaded.
  */
 static XFontStruct *
-srf_install (res, res2, xlfd)
-char *res, *res2;
-char *xlfd;
+srf_install (char *res, char *res2, char *xlfd)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	XrmDatabase db = XrmGetDatabase (dsp);
@@ -2233,10 +2172,7 @@ char *xlfd;
  */
 /* ARGSUSED */
 static void
-srf_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Choice *fcp = (Choice *)client;
 	int setdef;
@@ -2285,10 +2221,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srf_appres_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_appres_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Choice *fcp = (Choice *)client;
 	int setdef;
@@ -2319,10 +2252,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srf_views_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_views_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Choice *fcp = (Choice *)client;
 	int setdef;
@@ -2364,10 +2294,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srf_tracking_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_tracking_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Choice *fcp = (Choice *)client;
 	int setdef;
@@ -2407,10 +2334,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srf_moons_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_moons_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Choice *fcp = (Choice *)client;
 	int setdef;
@@ -2449,10 +2373,7 @@ XtPointer call;
 /* called when an item in the font history list is selected */
 /* ARGSUSED */
 static void
-srf_hist_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_hist_cb (Widget w, XtPointer client, XtPointer call)
 {
         XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 	char *txt;
@@ -2466,10 +2387,7 @@ XtPointer call;
 /* called to clear font pattern field */
 /* ARGSUSED */
 static void
-srf_clear_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_clear_cb (Widget w, XtPointer client, XtPointer call)
 {
         XmTextFieldSetString (srfpat_w, "");
 }
@@ -2480,10 +2398,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srf_search_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_search_cb (Widget w, XtPointer client, XtPointer call)
 {
 	srf_search ();
 }
@@ -2491,10 +2406,7 @@ XtPointer call;
 /* called to clear font history list */
 /* ARGSUSED */
 static void
-srf_clrhistory_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_clrhistory_cb (Widget w, XtPointer client, XtPointer call)
 {
         XmListDeleteAllItems (srfhl_w);
 }
@@ -2502,10 +2414,7 @@ XtPointer call;
 /* called to close font chooser */
 /* ARGSUSED */
 static void
-srf_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_close_cb (Widget w, XtPointer client, XtPointer call)
 {
         XtPopdown (srfshell_w);
 }
@@ -2514,10 +2423,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srf_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *fhelp_msg[] = {
 "Type a font, then install into the specified widgets.",
@@ -2535,7 +2441,7 @@ cmpStr (const void *p1, const void *p2)
 
 /* fill list srfaf_w with names matching pattern in srfpat_w */
 static void
-srf_search ()
+srf_search (void)
 {
 	Display *dsp = XtDisplay (toplevel_w);
 	char *pattern;
@@ -2577,10 +2483,7 @@ srf_search ()
 /* called when an item in the font list is selected */
 /* ARGSUSED */
 static void
-srf_sel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srf_sel_cb (Widget w, XtPointer client, XtPointer call)
 {
         XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 	char *txt;
@@ -2592,10 +2495,7 @@ XtPointer call;
 
 /* build menus across the given menu bar based on given array of Choices */
 static void
-create_menus (mb_w, cp, ncp)
-Widget mb_w;
-Choice *cp;
-int ncp;
+create_menus (Widget mb_w, Choice *cp, int ncp)
 {
 	Widget pd_w = (Widget)0, cb_w, w;
 	Choice *lastcp;
@@ -2628,7 +2528,7 @@ int ncp;
 }
 
 static void
-create_srfshell()
+create_srfshell (void)
 {
 	Widget mf_w, w;
 	Widget tl_w, al_w;
@@ -2916,14 +2816,12 @@ abcdefghijklmnopqrstuvwxyz\n\
 	srf_search ();
 	XtManageChild (srfaf_w);
 }
-
+
 /* Color control */
 
 /* display the named color in the sample area and maybe set scales to match */
 static void
-src_showcolor (name, scalestoo)
-char *name;
-int scalestoo;
+src_showcolor (char *name, int scalestoo)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = XtWindow (srcda_w);
@@ -2967,8 +2865,7 @@ int scalestoo;
 
 /* perform the Get-and-show current or default actions for the cchoice */
 static void
-src_getshow (ccp)
-Choice *ccp;
+src_getshow (Choice *ccp)
 {
 	Resource *rp = findRes (ccp->res);
 	char *val = NULL;
@@ -2998,10 +2895,7 @@ Choice *ccp;
 
 /* load w and its children with the background colors assoc with bg. */
 static void
-src_setbg (w, bg, isf)
-Widget w;
-Pixel bg;
-int (*isf)();
+src_setbg (Widget w, Pixel bg, int (*isf)())
 {
 	Display *dsp = XtDisplay(w);
 	Screen *scr = DefaultScreenOfDisplay(dsp);
@@ -3026,9 +2920,7 @@ int (*isf)();
 
 /* install colorname in res{,2} in database and our history list */
 static void
-src_install (res, res2, cnam)
-char *res, *res2;
-char *cnam;
+src_install (char *res, char *res2, char *cnam)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	XrmDatabase db = XrmGetDatabase (dsp);
@@ -3074,10 +2966,7 @@ char *cnam;
  */
 /* ARGSUSED */
 static void
-src_bg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_bg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Choice *ccp = (Choice *)client;
 	int setdef;
@@ -3129,10 +3018,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-src_fg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_fg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Choice *ccp = (Choice *)client;
 	int setdef;
@@ -3179,7 +3065,7 @@ XtPointer call;
 /* install night vision foreground color from XEphem.NightColor
  */
 static void
-installNVFg()
+installNVFg (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	XrmDatabase db = XrmGetDatabase (dsp);
@@ -3234,7 +3120,7 @@ installNVFg()
 /* distribute night vision foreground color from XEphem.NightColor
  */
 static void
-installNVBg()
+installNVBg (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	XrmDatabase db = XrmGetDatabase (dsp);
@@ -3287,10 +3173,7 @@ installNVBg()
  */
 /* ARGSUSED */
 static void
-src_nightv_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_nightv_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Display *dsp = XtDisplay(w);
 	XrmDatabase db = XrmGetDatabase (dsp);
@@ -3399,10 +3282,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-src_obj_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_obj_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Choice *ccp = (Choice *)client;
 	int setdef;
@@ -3443,10 +3323,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-src_appres_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_appres_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Choice *ccp = (Choice *)client;
 	int setdef;
@@ -3477,10 +3354,7 @@ XtPointer call;
 /* called when an item in the color history list is selected */
 /* ARGSUSED */
 static void
-src_hist_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_hist_cb (Widget w, XtPointer client, XtPointer call)
 {
         XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 	char *txt;
@@ -3494,10 +3368,7 @@ XtPointer call;
 /* called to clear color text list */
 /* ARGSUSED */
 static void
-src_clrl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_clrl_cb (Widget w, XtPointer client, XtPointer call)
 {
         XmListDeleteAllItems (srcsl_w);
 }
@@ -3505,10 +3376,7 @@ XtPointer call;
 /* called to close color chooser */
 /* ARGSUSED */
 static void
-src_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_close_cb (Widget w, XtPointer client, XtPointer call)
 {
         XtPopdown (srcshell_w);
 }
@@ -3516,10 +3384,7 @@ XtPointer call;
 /* called when ENTER  is typed in the color text field */
 /* ARGSUSED */
 static void
-src_enter_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_enter_cb (Widget w, XtPointer client, XtPointer call)
 {
         char *txt = XmTextFieldGetString (w);
 	src_showcolor (txt, 1);
@@ -3529,10 +3394,7 @@ XtPointer call;
 /* called when RGB TB changes */
 /* ARGSUSED */
 static void
-src_rgb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_rgb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *rgbstr;
 
@@ -3545,10 +3407,7 @@ XtPointer call;
 /* called while any RGB/HSV scale is being dragged */
 /* ARGSUSED */
 static void
-src_scale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_scale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int r, g, b;
 	char buf[32];
@@ -3575,10 +3434,7 @@ XtPointer call;
 /* callback from the color Help button */
 /* ARGSUSED */
 static void
-src_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+src_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *chelp_msg[] = {
 "Type a color name, then install into the specified widgets.",
@@ -3590,10 +3446,7 @@ static char *chelp_msg[] = {
 /* called to start color picker */
 /* ARGSUSED */
 static void
-cpk_grab_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cpk_grab_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static Cursor wc;
 	Display *dsp = XtDisplay(w);
@@ -3658,7 +3511,7 @@ XtPointer call;
 }
 
 static void
-create_srcshell()
+create_srcshell (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Widget mf_w, ti_w, fr_w, top_w, ttl_w, rb_w;
@@ -4031,10 +3884,7 @@ create_srcshell()
  * return 0 if ok, -1 if EOF.
  */
 static int
-fgetres (buf, bufl, fp)
-char *buf;
-int bufl;
-FILE *fp;
+fgetres (char *buf, int bufl, FILE *fp)
 {
 	int c;
 
@@ -4073,9 +3923,7 @@ FILE *fp;
  * see comment at setXRes() for more insite.
  */
 static void
-fputres (fp, buf)
-FILE *fp;
-char *buf;
+fputres (FILE *fp, char *buf)
 {
 	int c;
 
@@ -4090,7 +3938,7 @@ char *buf;
 
 /* one update for both skyview and binary star window */
 static void
-skyview_newres()
+skyview_newres (void)
 {
 	sv_newres();
 	svbs_newres();

@@ -427,10 +427,7 @@ char msg[])		/* return diagnostic message here, if returning -1 */
  * if ok update *opp and return 0, else -1.
  */
 static int
-moreObjF (opp, nop, nnew)
-ObjF **opp;
-int nop;
-int nnew;
+moreObjF (ObjF **opp, int nop, int nnew)
 {
 	char *newmem;
 

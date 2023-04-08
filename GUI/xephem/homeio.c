@@ -77,9 +77,7 @@ expand_home (char *path)
 /* like fopen() but substitutes HOME if name starts with '~'
  */
 FILE *
-fopenh (name, how)
-char *name;
-char *how;
+fopenh (char *name, char *how)
 {
 	return (fopen (expand_home(name), how));
 }
@@ -153,8 +151,7 @@ openh (char *name, int flags, ...)
  * substitute HOME if name starts with '~'.
  */
 int
-existsh (name)
-char *name;
+existsh (char *name)
 {
 	struct stat s;
 

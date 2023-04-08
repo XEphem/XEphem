@@ -116,9 +116,7 @@ ng_manage (void)
 /* commanded from main to update with a new set of circumstances */
 /* ARGSUSED */
 void
-ng_update (np, how_much)
-Now *np;
-int how_much;
+ng_update (Now *np, int how_much)
 {
 	/* only if we're up */
 	if (!ng_ison())
@@ -150,8 +148,7 @@ ng_newres (void)
 
 /* called to put up or remove the watch cursor.  */
 void
-ng_cursor (c)
-Cursor c;
+ng_cursor (Cursor c)
 {
 	Window win;
 
@@ -698,8 +695,7 @@ ng_redraw (void)
  * if ep just copy that much, else copy all.
  */
 static void
-ng_refresh(ep)
-XExposeEvent *ep;
+ng_refresh (XExposeEvent *ep)
 {
 	Display *dsp = XtDisplay(ngda_w);
 	Window win = XtWindow (ngda_w);
@@ -754,10 +750,7 @@ ng_init_gcs (void)
  * N.B. this is just the geometry, we ignore rp->rs_flags
  */
 static void
-rs_x (np, rp, xr, xs)
-Now *np;
-RiseSet *rp;
-int *xr, *xs;
+rs_x (Now *np, RiseSet *rp, int *xr, int *xs)
 {
 	double t;
 
@@ -772,10 +765,7 @@ int *xr, *xs;
  * N.B. do not use this for EARTHSAT, use rs_es().
  */
 static int
-rs_xrs (np, op, xr, xs)
-Now *np;
-Obj *op;
-int *xr, *xs;
+rs_xrs (Now *np, Obj *op, int *xr, int *xs)
 {
 	RiseSet rs;
 	int nowright;
@@ -829,11 +819,7 @@ int *xr, *xs;
  * set xrp to left-most rise, xsp to right-most set.
  */
 static int
-rs_es (np, op, y, xrp, xsp)
-Now *np;
-Obj *op;
-int y;
-int *xrp, *xsp;
+rs_es (Now *np, Obj *op, int y, int *xrp, int *xsp)
 {
 	Display *dsp = XtD;
 	RiseSet rs;

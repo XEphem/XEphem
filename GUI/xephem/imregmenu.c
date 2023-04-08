@@ -150,8 +150,7 @@ ir_setstar (double ix, double iy)
 
 /* called to put up or remove the watch cursor.  */
 void
-ir_cursor (c)
-Cursor c;
+ir_cursor (Cursor c)
 {
 	Window win;
 

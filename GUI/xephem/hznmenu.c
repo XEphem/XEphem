@@ -102,8 +102,7 @@ hznEditingOff (void)
 
 /* called to put up or remove the watch cursor.  */
 void
-hzn_cursor (c)
-Cursor c;
+hzn_cursor (Cursor c)
 {
 	Window win;
 
@@ -151,8 +150,7 @@ hznProfile (int i, double *altp, double *azp)
 /* given an az, return the horizon altitude, both in rads.
  */
 double
-hznAlt(az)
-double az;
+hznAlt(double az)
 {
 	Profile *pb, *pt;
 	double daz;
@@ -560,8 +558,7 @@ hzn_radio (int choose_displ)
  * control the Tbs as well as do the work.
  */
 static void
-hzn_choose (choose_displ)
-int choose_displ;
+hzn_choose (int choose_displ)
 {
 	/* do the work */
 	if (choose_displ)

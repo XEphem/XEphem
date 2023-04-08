@@ -390,9 +390,7 @@ showFavorites (void)
 
 /* using info from favs[i] create its row in the favories window */
 static void
-setup1Row (rc_w, i)
-Widget rc_w;
-int i;
+setup1Row (Widget rc_w, int i)
 {
 	Widget f_w, on_w, del_w, lbl_w, up_w, dn_w;
 	Arg args[20];

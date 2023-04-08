@@ -133,9 +133,7 @@ static XrmOptionDescRec options[] = {
 };
 
 int
-main(argc, argv)
-int argc;
-char *argv[];
+main (int argc, char *argv[])
 {
 	Arg args[10];
 	int n;
@@ -403,9 +401,7 @@ addOurDBs (void)
 
 /* ARGSUSED */
 static void
-chk_args (argc, argv)
-int argc;
-char *argv[];
+chk_args (int argc, char *argv[])
 {
 
 	if (getXRes ("log", NULL)) {

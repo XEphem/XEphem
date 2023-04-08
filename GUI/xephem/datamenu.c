@@ -184,9 +184,7 @@ dm_manage (void)
  * don't bother if it doesn't exist or is unmanaged now or no one is logging.
  */
 void
-dm_update (np, how_much)
-Now *np;
-int how_much;
+dm_update (Now *np, int how_much)
 {
 	int i;
 
@@ -227,8 +225,8 @@ dm_newfavs (void)
  * first on or the last off.
  */
 void
-dm_selection_mode (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+dm_selection_mode (int whether)
+/* whether setting up for plotting or for not plotting */
 {
 	if (whether)
 	    dm_selecting++;
@@ -273,10 +271,7 @@ dm_resetuhzndep (void)
  * this takes into account the options currently in effect with the Data menu.
  */
 void
-dm_riset (np, op, rsp)
-Now *np;
-Obj *op;
-RiseSet *rsp;
+dm_riset (Now *np, Obj *op, RiseSet *rsp)
 {
 	double dis;	/* rads apparent horizon is above true */
 
@@ -296,8 +291,7 @@ RiseSet *rsp;
 
 /* called to put up or remove the watch cursor.  */
 void
-dm_cursor (c)
-Cursor c;
+dm_cursor (Cursor c)
 {
 	Window win;
 
@@ -322,9 +316,7 @@ Cursor c;
  * return 0 if column is on, else -1
  */
 int
-dm_colHeader (c, str)
-DMCol c;
-char str[];
+dm_colHeader (DMCol c, char str[])
 {
 	if (!col[c].on)
 	    return (-1);
@@ -336,12 +328,11 @@ char str[];
  * return 0 if column is on, else -1 (but always fill in str).
  */
 int
-dm_colFormat (np, op, rp, c, str)
-Now *np;
-Obj *op;
-RiseSet *rp;
-DMCol c;
-char str[];
+dm_colFormat (Now     *np,
+              Obj     *op,
+              RiseSet *rp,
+              DMCol    c,
+              char     str[])
 {
 	static Widget w;
 	char *lstr;
@@ -606,8 +597,8 @@ dm_sep (Obj *op)
  * should appear to look like buttons or just flat labels.
  */
 static void
-dm_set_buttons (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+dm_set_buttons (int whether)
+/* whether setting up for plotting or for not plotting */
 {
 	int r, c;
 
@@ -747,10 +738,9 @@ dm_help_cb (Widget w, XtPointer client, XtPointer call)
 /* compute and print body info in data menu format */
 /* ARGSUSED */
 static void
-dm_compute (r, force, np)
-int r;		/* which row */
-int force;	/* whether to print for sure or only if things have changed */
-Now *np;
+dm_compute (int  r, 	/* which row */
+            int  force, /* whether to print even if things haven't changed */
+            Now *np)
 {
 	int did_rs = 0;
 	RiseSet rs;
@@ -771,12 +761,11 @@ Now *np;
 }
 
 static void
-dm_format (np, op, rp, c, w)
-Now *np;
-Obj *op;
-RiseSet *rp;
-int c;
-Widget w;
+dm_format (Now     *np,
+           Obj     *op,
+           RiseSet *rp,
+           int      c,
+           Widget   w)
 {
 	static char me[] = "dm_format()";
 	double tmp;
@@ -1171,10 +1160,7 @@ dm_settags (void)
  * convert tm to local time if tzpref && PREF_ZONE == PREF_LOCALTZ.
  */
 static void
-dm_showtim (np, w, t)
-Now *np;
-Widget w;
-double t;
+dm_showtim (Now *np, Widget w, double t)
 {
 	if (pref_get(PREF_ZONE) == PREF_LOCALTZ)
 	    t -= tz/24.0;
@@ -1193,11 +1179,10 @@ double t;
  */
 /* ARGSUSED */
 static void
-dm_rs_hrsup (np, op, w, rp)
-Now *np;
-Obj *op;
-Widget w;
-RiseSet *rp;
+dm_rs_hrsup (Now     *np,
+             Obj     *op,
+             Widget   w,
+             RiseSet *rp)
 {
 	double r, s, up;
 
@@ -1236,10 +1221,9 @@ RiseSet *rp;
 }
 
 static void
-show_constellation (np, op, w)
-Now *np;
-Obj *op;
-Widget w;
+show_constellation (Now    *np,
+                    Obj    *op,
+                    Widget  w)
 {
 	char nm[10], *name;
 	int id;
@@ -1252,9 +1236,7 @@ Widget w;
 
 /* compute the separation between the two sky locations */
 void
-dm_separation (p, q, sp)
-Obj *p, *q;
-double *sp;
+dm_separation (Obj *p, Obj *q, double *sp)
 {
 	double csep;
 
@@ -1265,8 +1247,7 @@ double *sp;
 
 /* create the setup dialog */
 static void
-ds_create_selection(parent)
-Widget parent;
+ds_create_selection(Widget parent)
 {
 	static struct { /* info to streamline creation of control buttons */
 	    DSCtrls id;
@@ -1740,9 +1721,7 @@ flistok_overwrite_cb (void)
 
 /* open the named flist file "a" or "w" and fill it in. */
 static void
-make_flist (name, how)
-char *name;
-char *how;
+make_flist (char *name, char *how)
 {
 	FILE *fp = fopend (name, NULL, how);
 
@@ -1778,8 +1757,7 @@ dm_xsel_cb (Widget w, XtPointer client, XtPointer call)
 
 /* write the current data table to the given file */
 static void
-dm_list_tofile(fp)
-FILE *fp;
+dm_list_tofile(FILE *fp)
 {
 	char *buf = XtMalloc ((nfavs+3)*(NC*20));	/* plenty big :-) */
 	dm_list_get (buf);
@@ -1790,8 +1768,7 @@ FILE *fp;
 /* fetch the current table into the given buffer.
  */
 static void
-dm_list_get (buf)
-char buf[];
+dm_list_get (char buf[])
 {
 	Now *np = mm_get_now();
 	int maxch[NC];
