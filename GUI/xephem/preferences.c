@@ -212,7 +212,7 @@ int new;
 
 /* return 1 if want to confirm, else 0 */
 int
-confirm()
+confirm (void)
 {
 	return (pref_get (PREF_CONFIRM) == PREF_CONFIRMON);
 }

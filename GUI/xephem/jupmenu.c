@@ -162,7 +162,7 @@ static double pole_ra, pole_dec;
  * form. otherwise, just get out there and do it!
  */
 void
-jm_manage ()
+jm_manage (void)
 {
 	if (!jupshell_w) {
 	    jm_create_shell_w();
@@ -245,7 +245,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-jm_newres()
+jm_newres (void)
 {
 	if (!jupshell_w)
 	    return;
@@ -266,7 +266,7 @@ int appended;
 }
 
 int
-jm_ison()
+jm_ison (void)
 {
 	return (isUp(jupshell_w));
 }
@@ -324,14 +324,14 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-jm_viewupres()
+jm_viewupres (void)
 {
 	return ("JupViewUp");
 }
 
 /* create the main shell */
 static void
-jm_create_shell_w()
+jm_create_shell_w (void)
 {
 	typedef struct {
 	    char *name;		/* toggle button instance name, or NULL */
@@ -645,7 +645,7 @@ jm_create_shell_w()
 
 /* make the statistics form dialog */
 static void
-jm_create_jsform_w()
+jm_create_jsform_w (void)
 {
 	typedef struct {
 	    int col;		/* C* column code */
@@ -949,7 +949,7 @@ jm_create_jsform_w()
 
 /* create jtform_w, the top view dialog */
 static void
-jm_create_tvform_w()
+jm_create_tvform_w (void)
 {
 	Arg args[20];
 	int n;
@@ -1159,7 +1159,7 @@ XtPointer call;
  * we also try to center it just above, but it doesn't always work.
  */
 static void
-jt_track_size()
+jt_track_size (void)
 {
 	Dimension w, h;
 	Position mfx, mfy, mdx, mdy;
@@ -1374,7 +1374,7 @@ jm_da_input_cb (Widget w, XtPointer client, XtPointer call)
 
 /* create the (unmanaged for now) popup menu in jmpu_w. */
 static void
-jm_create_popup()
+jm_create_popup (void)
 {
 	static Widget *puw[] = {
 	    &jmpu_name_w,
@@ -1556,7 +1556,7 @@ jm_print_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-jm_print ()
+jm_print (void)
 {
 	Display *dsp = XtDisplay (jda_w);
 	Now *np = mm_get_now();
@@ -2336,7 +2336,7 @@ jt_ano (double *jX, double *jZ, int *xp, int *yp, int w2x, int arg)
  * TODO: reclaim old stuff if called again.
  */
 static void
-make_gcs ()
+make_gcs (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = XtWindow(toplevel_w);

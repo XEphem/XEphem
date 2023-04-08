@@ -366,7 +366,7 @@ static unsigned char *neipix;	/* malloced exploded nighttime pixel array */
 static XColor neixcols[256];	/* nighttime colors */
 
 void
-e_manage()
+e_manage (void)
 {
 	if (!eshell_w) {
 	    /* first call: create and init view to main menu's loc.
@@ -423,7 +423,7 @@ int force;
  * rebuild and redraw.
  */
 void
-e_newres()
+e_newres (void)
 {
 	if (!eshell_w)
 	    return;
@@ -432,14 +432,14 @@ e_newres()
 }
 
 int
-e_ison()
+e_ison (void)
 {
 	return (isUp(eshell_w));
 }
 
 /* called whenever the favorites list changes */
 void
-e_newfavs()
+e_newfavs (void)
 {
 	if (!eshell_w)
 	    return;
@@ -507,7 +507,7 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-e_viewupres()
+e_viewupres (void)
 {
 	return ("EarthViewUp");
 }
@@ -516,7 +516,7 @@ e_viewupres()
  * the earth stats form is created separately.
  */
 static void
-e_create_shell()
+e_create_shell (void)
 {
 	typedef struct {
 	    char *label;	/* what goes on the help label */
@@ -961,7 +961,7 @@ e_create_shell()
 
 /* make the object control dialog -- real work is in e_buildfavs() */
 static void
-e_create_ctrl()
+e_create_ctrl (void)
 {
 	Arg args[20];
 	Widget sep_w;
@@ -1129,7 +1129,7 @@ binsplit (int i)
  * preserve existing entries based on same name.
  */
 static void
-e_buildfavs()
+e_buildfavs (void)
 {
 	Arg args[20];
 	Widget w;
@@ -1719,7 +1719,7 @@ e_print_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-e_print ()
+e_print (void)
 {
 	Now *np = mm_get_now();
 	int w, h, d, wb, hb;
@@ -2412,7 +2412,7 @@ e_proj_cb (Widget w, XtPointer client, XtPointer call)
  * return 1 if the size really does change, else 0.
  */
 static int
-e_set_dasize()
+e_set_dasize (void)
 {
 	Dimension nwid = 0, nhei = 0;
 	Dimension wid, hei;
@@ -2582,7 +2582,7 @@ e_point_cb (Widget w, XtPointer client, XtPointer call)
  * we get the color names and save the pixels in the global ecolors[] arrary.
  */
 static void
-e_init_gcs ()
+e_init_gcs (void)
 {
 	Display *dsp = XtDisplay (e_da_w);
 	Window win = XtWindow (e_da_w);
@@ -2631,7 +2631,7 @@ e_init_gcs ()
 
 /* copy the pixmap e_pm to the window of e_da_w. */
 static void
-e_copy_pm()
+e_copy_pm (void)
 {
 	Display *dsp = XtDisplay(e_da_w);
 	Window win = XtWindow(e_da_w);
@@ -2965,7 +2965,7 @@ int x, y;
  * save all its widgets in the pu_info struct.
  */
 static void
-e_create_popup()
+e_create_popup (void)
 {
 	Widget w;
 	Arg args[20];
@@ -3618,7 +3618,7 @@ double *ltp, *lgp;	/* resulting lat/long, rads */
 
 /* Turn off track_w in all eobjs */
 static void
-noTrack()
+noTrack (void)
 {
 	EObj *eop;
 
@@ -4801,7 +4801,7 @@ EObj *eop;
  * return 0 if ok, else -1
  */
 static int
-e_getwxgif()
+e_getwxgif (void)
 {
 	Display *dsp = XtDisplay(e_da_w);
 	unsigned char rawgif[200000];
@@ -4999,7 +4999,7 @@ int p;
  * return 0 if ok, else -1
  */
 static int
-e_newwxpm()
+e_newwxpm (void)
 {
 	Display *dsp = XtDisplay(e_da_w);
 	Window win = RootWindow(dsp, DefaultScreen(dsp));
@@ -5121,7 +5121,7 @@ double *lp, *Lp;	/* lat, long, rads, +N, +E */
  * return 0 if ok, else write xe_msg and return -1.
  */
 static int
-loaddei()
+loaddei (void)
 {
 	struct stat s;
 	char *rawgif;
@@ -5179,7 +5179,7 @@ loaddei()
  * return 0 if ok, else write xe_msg and return -1.
  */
 static int
-loadnei()
+loadnei (void)
 {
 	struct stat s;
 	char *rawgif;

@@ -78,7 +78,7 @@ static Obj newo;
 
 /* show, create if first time, the favorites window */
 void
-fav_manage()
+fav_manage (void)
 {
 	if (!favshell_w)
 	    fav_create();
@@ -152,7 +152,7 @@ fav_get_loaded (Obj ***oppp)
  * goal is to decide whether the copies we have here are now also in the db
  */
 void
-fav_newdb()
+fav_newdb (void)
 {
 	int i;
 
@@ -210,7 +210,7 @@ fav_cursor (Cursor c)
 
 /* create the favorites window */
 static void
-fav_create()
+fav_create (void)
 {
 	static struct {
 	    char *label;
@@ -366,7 +366,7 @@ fav_create()
 
 /* display each of the favs entries in the dialog. */
 static void
-showFavorites()
+showFavorites (void)
 {
 	Widget ww;
 	Arg args[20];
@@ -575,7 +575,7 @@ fav_add_cb (Widget w, XtPointer client, XtPointer call)
 
 /* used to delete favorite entry deli */
 static void
-del_i()
+del_i (void)
 {
 	/* remove deli from favs list */
 	memmove (&favs[deli], &favs[deli+1], (--nfavs-deli)*sizeof(Favorite));
@@ -590,7 +590,7 @@ del_i()
 
 /* used to change favorite[deli] to newo */
 static void
-chg_i()
+chg_i (void)
 {
 	/* update entry */
 	memcpy (&favs[deli].o, &newo, sizeof(Obj));
@@ -680,7 +680,7 @@ fav_del_cb (Widget w, XtPointer client, XtPointer call)
 
 /* add one more to favs and return ponter to new */
 static Favorite *
-favGrow()
+favGrow (void)
 {
 	Favorite *newfp;
 
@@ -691,7 +691,7 @@ favGrow()
 }
 
 static void
-favRmAll()
+favRmAll (void)
 {
 	XtFree ((char *)favs);
 	favs = NULL;
@@ -700,7 +700,7 @@ favRmAll()
 
 /* build xfavs, list of Obj* to be exported as the current set of favs */
 static void
-bldExport()
+bldExport (void)
 {
 	int i;
 

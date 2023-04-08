@@ -176,7 +176,7 @@ char *errbuf;
  * reasonable program compiled and able to execute.
  */
 int
-prog_isgood()
+prog_isgood (void)
 {
 	return (good_prog);
 }
@@ -204,7 +204,7 @@ double value;
  * also watch for mismatches parens and proper operator/operand alternation.
  */
 static int
-next_token ()
+next_token (void)
 {
 	static char toomv[] = "More than %d variables";
 	static char toomc[] = "More than %d constants";
@@ -305,7 +305,7 @@ next_token ()
  * if find one, update cexpr too.
  */
 static int
-chk_funcs()
+chk_funcs (void)
 {
 	static struct {
 	    char *st_name;
@@ -341,7 +341,7 @@ chk_funcs()
  *   have to go ahead and crack it!
  */
 static void
-skip_double()
+skip_double (void)
 {
 	int sawe = 0;	/* so we can allow '-' or '+' right after an 'e' */
 

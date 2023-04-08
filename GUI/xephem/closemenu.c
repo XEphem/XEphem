@@ -95,7 +95,7 @@ static char closecategory[] = "Close pairs"; 	/* Save category */
 
 /* bring up Close pairs shell, creating if first time */
 void
-c_manage()
+c_manage (void)
 {
 	if (!cshell_w) {
 	    c_create_shell();
@@ -139,7 +139,7 @@ Cursor c;
 
 /* create a form in a shell to allow user to work with the list. */
 static void
-c_create_shell ()
+c_create_shell (void)
 {
 	typedef struct {
 	    char *label;	/* what goes on the help label */
@@ -509,7 +509,7 @@ c_go_cb (Widget w, XtPointer client, XtPointer call)
  * return 0 if ok, else -1.
  */
 static int
-sky_point()
+sky_point (void)
 {
 	String sel;
 	char objname[MAXNM];
@@ -568,7 +568,7 @@ racmp_f (const void *v1, const void *v2)
 }
 
 static void
-do_search()
+do_search (void)
 {
 	int als = XmToggleButtonGetState(autols_w);
 	double sep;	/* desired max separation, rads */
@@ -1068,7 +1068,7 @@ double sep;
 
 /* create the list filename prompt */
 static void
-c_create_flist_w()
+c_create_flist_w (void)
 {
 	Arg args[20];
 	Widget tw;
@@ -1126,7 +1126,7 @@ c_flistok_cb (Widget w, XtPointer client, XtPointer call)
 
 /* called when we want to append to a flist file */
 static void
-flistok_append_cb ()
+flistok_append_cb (void)
 {
 	char *name;
 
@@ -1137,7 +1137,7 @@ flistok_append_cb ()
 
 /* called when we want to ceate a new flist file */
 static void
-flistok_overwrite_cb ()
+flistok_overwrite_cb (void)
 {
 	char *name;
 

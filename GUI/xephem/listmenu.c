@@ -89,7 +89,7 @@ static char xml_listele[] = "XEphemListConfig";
  * form. otherwise, go for it.
  */
 void
-lst_manage ()
+lst_manage (void)
 {
 	if (!lstshell_w)
 	    lst_create_shell();
@@ -133,7 +133,7 @@ char *str;
  * write the active listing to the current listing file, if one is open.
  */
 void
-listing()
+listing (void)
 {
 	if (lst_fp) {
 	    /* list in order of original selection */
@@ -159,7 +159,7 @@ listing()
 }
 
 int
-listing_ison()
+listing_ison (void)
 {
 	return (lst_fp != 0);
 }
@@ -191,7 +191,7 @@ int whether;
 }
 
 static void
-lst_create_shell()
+lst_create_shell (void)
 {
 	typedef struct {
 	    int indent;		/* amount to indent, pixels */
@@ -604,7 +604,7 @@ lst_undo_cb (Widget w, XtPointer client, XtPointer call)
 /* forget the list, and unmanage the table.
  */
 static void
-lst_reset()
+lst_reset (void)
 {
 	int i;
 
@@ -636,7 +636,7 @@ lst_add (char *name)
  * is off.
  */
 static void
-lst_stop_selecting()
+lst_stop_selecting (void)
 {
 	XmToggleButtonSetState (select_w, False, False);
 	lst_select(0);
@@ -645,7 +645,7 @@ lst_stop_selecting()
 }
 
 static void
-lst_turn_off ()
+lst_turn_off (void)
 {
 	if (lst_fp) {
 	    (void) fclose (lst_fp);
@@ -655,7 +655,7 @@ lst_turn_off ()
 
 /* called from the query routine when want to append to an existing list file.*/
 static void
-lst_try_append()
+lst_try_append (void)
 {
 	lst_turn_on("a");
 }
@@ -664,14 +664,14 @@ lst_try_append()
  * file.
  */
 static void
-lst_try_overwrite()
+lst_try_overwrite (void)
 {
 	lst_turn_on("w");
 }
 
 /* called from the query routine when decided not to make a listing file.  */
 static void
-lst_try_cancel()
+lst_try_cancel (void)
 {
 	XmToggleButtonSetState (active_w, False, False);
 }
@@ -681,7 +681,7 @@ lst_try_cancel()
  * but if it does, first ask wheher to append or overwrite.
  */
 static void
-lst_try_turn_on()
+lst_try_turn_on (void)
 {
 	char *txt = XmTextFieldGetString (filename_w);
 	char pn[1024];
@@ -728,7 +728,7 @@ char *how;	/* fopen how argument */
  *   else just use l_str.
  */
 static void
-lst_hdr ()
+lst_hdr (void)
 {
 	LstFld *lp;
 	int col;

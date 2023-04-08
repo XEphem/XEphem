@@ -91,7 +91,7 @@ static char objcategory[] = "Date index";	/* Save category */
  * then we go for it.
  */
 void
-obj_manage()
+obj_manage (void)
 {
 	if (!objshell_w) {
 	    obj_create_shell();
@@ -113,7 +113,7 @@ obj_manage()
 
 /* called when a font has changed */
 void
-obj_newres()
+obj_newres (void)
 {
 	if (cop)
 	    obj_setinfo(cop);
@@ -205,7 +205,7 @@ strnncmp (char *s1, char *s2)
 /* called once to build the basic shell and form.
  */
 static void
-obj_create_shell ()
+obj_create_shell (void)
 {
 	typedef struct {
 	    int id;
@@ -783,7 +783,7 @@ dbFld (Obj *op)
 /* erase info about object
  */
 static void
-obj_unsetinfo()
+obj_unsetinfo (void)
 {
 	if (!objshell_w)
 	    return;
@@ -844,7 +844,7 @@ obj_ctl_cb (Widget w, XtPointer client, XtPointer call)
 }
 
 static void
-obj_help()
+obj_help (void)
 {
 	static char *msg[] = {
 	    "List objects in memory, search for an object by name,",
@@ -972,7 +972,7 @@ srch_match (char *p, char *s)
 /* set up and display first NBTNS of the dupnames list.
  */
 static void
-obj_newlist()
+obj_newlist (void)
 {
 	int (*typef)(Obj *) = ty_test();
 	DupName *dnp;
@@ -1072,7 +1072,7 @@ static int
 
 /* fill the name buttons with the next set starting at topi */
 static void
-obj_setnames()
+obj_setnames (void)
 {
 	char name[MAXNM];
 	int nb;		/* number of good buttons to set, turn off others */

@@ -97,7 +97,7 @@ static char twoam[] = "  2:00:00";
 
 /* let user choose a site from a scrolled list */
 void
-sites_manage()
+sites_manage (void)
 {
 	if (!sites)
 	    read_files();
@@ -193,7 +193,7 @@ int maxn;
 
 /* make the site selection dialog */
 static void
-create_sq_w()
+create_sq_w (void)
 {
 	Widget w, cl_w, fr_w, add_w;
 	Arg args[20];
@@ -590,7 +590,7 @@ int i;
 
 /* reset the current sites list, read shared then merge private and sort */
 static void
-read_files ()
+read_files (void)
 {
 	char fn[1024];
 	FILE *fp;
@@ -684,7 +684,7 @@ read_file (FILE *fp)
  * also tell earth view to redraw.
  */
 static void
-fill_list ()
+fill_list (void)
 {
 	XmString *xms;
 	int i;
@@ -1019,7 +1019,7 @@ getPDmH (Widget pd)
 
 /* extend sites[] by one and return pointer to new entry */
 static Site *
-moreSites()
+moreSites (void)
 {
 	sites = (Site *) XtRealloc ((void *)sites, (nsites+1)*sizeof(Site));
 	return (&sites[nsites++]);

@@ -190,7 +190,7 @@ tempfilename (char *buf, char *name, char *suffix)
  * use TELHOME env first, else ShareDir X resource, else current dir.
  */
 char *
-getShareDir()
+getShareDir (void)
 {
 	static char *basedir;
 
@@ -223,7 +223,7 @@ getShareDir()
  * I never would have imagined it would be so crazy to turn errno into a string!
  */
 char *
-syserrstr ()
+syserrstr (void)
 {
 #if defined(__STDC__)
 /* some older gcc don't have strerror */

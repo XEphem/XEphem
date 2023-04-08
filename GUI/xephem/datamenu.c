@@ -165,7 +165,7 @@ static char dscategory[] = "Data Table";
  * if never called before, create all the widgets.
  */
 void
-dm_manage ()
+dm_manage (void)
 {
 	if (!datashell_w)
 	    dm_create_shell();
@@ -212,7 +212,7 @@ int how_much;
 
 /* called whenever the favorites list changes */
 void
-dm_newfavs()
+dm_newfavs (void)
 {
 	if (!datashell_w)
 	    return;
@@ -243,7 +243,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 
 /* return the name of the resource containing whether this view is up */
 char *
-dm_viewupres()
+dm_viewupres (void)
 {
 	return ("DataViewUp");
 }
@@ -252,7 +252,7 @@ dm_viewupres()
  * + means less sky.
  */
 static double
-dm_uhzndep()
+dm_uhzndep (void)
 {
 	char *str = XmTextFieldGetString (hzn_w);
 	double dis = degrad(atod(str));
@@ -262,7 +262,7 @@ dm_uhzndep()
 
 /* set text field to hznd */
 static void
-dm_resetuhzndep()
+dm_resetuhzndep (void)
 {
 	char buf[32];
 	sprintf (buf, "%g", raddeg(hznd));
@@ -366,7 +366,7 @@ char str[];
  * the remaining children area recreated each time Favorites changes.
  */
 void
-dm_create_shell()
+dm_create_shell (void)
 {
 	Widget ctlrc_w, w;
 	Widget mb_w, cb_w, pd_w;
@@ -622,7 +622,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
  * all cols will have the same number of rows.
  */
 static void
-dm_build_cols()
+dm_build_cols (void)
 {
 	int r, c;
 
@@ -1147,7 +1147,7 @@ Widget w;
 
 /* setup the limb and centric tag labels according to the current options */
 static void
-dm_settags()
+dm_settags (void)
 {
 	char str[1024], estr[64];
 	Now *np = mm_get_now();
@@ -1500,7 +1500,7 @@ Widget parent;
  * select one that matches sepl_w, if any
  */
 static void
-ds_buildfsl()
+ds_buildfsl (void)
 {
 	XmString sepstr;
 	int sepfound;
@@ -1538,7 +1538,7 @@ ds_buildfsl()
 /* set up a Data setup col menu based on what is currently on and defined.
  */
 static void
-ds_setup_col_selections()
+ds_setup_col_selections (void)
 {
 	int i;
 
@@ -1557,7 +1557,7 @@ ds_setup_col_selections()
  * return 0 if all ok, else -1.
  */
 static int
-ds_apply_selections()
+ds_apply_selections (void)
 {
 	int n_riset;
 	int n_sep;
@@ -1659,7 +1659,7 @@ ds_ctl_cb (Widget w, XtPointer client, XtPointer call)
 /* called from the Data selection table Help button
  */
 static void
-ds_help ()
+ds_help (void)
 {
 	static char *msg[] = {
 "This table lets you configure the rows and columns of the data table."
@@ -1670,7 +1670,7 @@ ds_help ()
 
 /* create the list filename prompt */
 static void
-dm_create_flist_w()
+dm_create_flist_w (void)
 {
 	Arg args[20];
 	int n;
@@ -1718,7 +1718,7 @@ dm_flistok_cb (Widget w, XtPointer client, XtPointer call)
 
 /* called when we want to append to a flist file */
 static void
-flistok_append_cb ()
+flistok_append_cb (void)
 {
 	char *name;
 
@@ -1729,7 +1729,7 @@ flistok_append_cb ()
 
 /* called when we want to ceate a new flist file */
 static void
-flistok_overwrite_cb ()
+flistok_overwrite_cb (void)
 {
 	char *name;
 

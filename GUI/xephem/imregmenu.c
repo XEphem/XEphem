@@ -72,7 +72,7 @@ static void wcsXform (FImage *im, StarPair *s0, StarPair *s1, XForm *xf);
 static void doreg(void);
 
 void
-ir_manage()
+ir_manage (void)
 {
 	if (!irshell_w)
 	    ir_create();
@@ -82,7 +82,7 @@ ir_manage()
 
 /* return whether we are currently looking for a star coord to set a ref star */
 int
-ir_setting()
+ir_setting (void)
 {
 	return ((s1_w && XmToggleButtonGetState(s1_w))
 			    || (s1_w && XmToggleButtonGetState(s2_w)));
@@ -165,7 +165,7 @@ Cursor c;
 }
 
 static void
-ir_create()
+ir_create (void)
 {
 	Widget w, sep_w;
 	Arg args[20];
@@ -468,7 +468,7 @@ wcsXform (FImage *im, StarPair *s0, StarPair *s1, XForm *xf)
 
 /* affect the registration process on the currently displayed image */
 static void
-doreg()
+doreg (void)
 {
 	FImage *s = si_getFImage();	/* image to be registered */
 	FImage new, *d = &new;

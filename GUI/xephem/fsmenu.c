@@ -79,7 +79,7 @@ static char fscategory[] = "Field stars";
 /* call to set up without actually bringing up the menus.
  */
 void
-fs_create()
+fs_create (void)
 {
 	if (!fsshell_w) {
 	    fs_create_fsshell();
@@ -88,7 +88,7 @@ fs_create()
 }
 
 void
-fs_manage()
+fs_manage (void)
 {
 	fs_create();
 	fs_setup();
@@ -251,7 +251,7 @@ ObjF **opp) 		/* we set *opp to a malloced list of ObjF */
 
 /* return 1 if any proper motion catalog is on enabled, else 0 */
 int
-fs_pmon()
+fs_pmon (void)
 {
 	return (ppm_on || tyc_on || ucac_on);
 }
@@ -423,7 +423,7 @@ scanchk (Obj *mop, double dupsep, double dupmag, Obj *op, double cdec)
 }
 
 static void
-fs_create_fsshell()
+fs_create_fsshell (void)
 {
 	Widget fsform_w, f, w;
 	Widget l_w, rc_w;
@@ -848,7 +848,7 @@ fs_create_fsshell()
 
 /* set up the dialog according to our static state */
 static void
-fs_setup ()
+fs_setup (void)
 {
 	/* GSC */
 	XmToggleButtonSetState (cdtb_w, cd_on, False);
@@ -892,7 +892,7 @@ fs_setup ()
  * if any major trouble, issue xe_msg and return -1, else return 0.
  */
 static int
-fs_save ()
+fs_save (void)
 {
 	char msg[1024];
 	int allok = 1;

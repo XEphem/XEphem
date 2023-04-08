@@ -247,7 +247,7 @@ Widget parent;
 
 /* called when new resources have been set so we can update fg/bg_pix */
 void
-calm_newres()
+calm_newres (void)
 {
 	Widget middle = d_w[CAL_COLS*CAL_ROWS/2];
 

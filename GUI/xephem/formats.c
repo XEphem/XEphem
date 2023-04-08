@@ -17,19 +17,19 @@
  */
 static int f_scrnoff;
 void
-f_on ()
+f_on (void)
 {
 	f_scrnoff = 0;
 }
 
 void
-f_off ()
+f_off (void)
 {
 	f_scrnoff = 1;
 }
 
 int
-f_ison()
+f_ison (void)
 {
 	return (!f_scrnoff);
 }

@@ -161,7 +161,7 @@ static double pole_ra, pole_dec;
  * form. otherwise, otherwise, just get out there and do it!
  */
 void
-sm_manage ()
+sm_manage (void)
 {
 	if (!satshell_w) {
 	    sm_create_shell_w();
@@ -244,7 +244,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-sm_newres()
+sm_newres (void)
 {
 	if (!satshell_w)
 	    return;
@@ -265,7 +265,7 @@ int appended;
 }
 
 int
-sm_ison()
+sm_ison (void)
 {
 	return (isUp(satshell_w));
 }
@@ -323,14 +323,14 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-sm_viewupres()
+sm_viewupres (void)
 {
 	return ("SatViewUp");
 }
 
 /* create the main shell */
 static void
-sm_create_shell_w()
+sm_create_shell_w (void)
 {
 	typedef struct {
 	    char *name;		/* toggle button instance name, or NULL */
@@ -645,7 +645,7 @@ sm_create_shell_w()
 
 /* make the statistics form dialog */
 static void
-sm_create_ssform_w()
+sm_create_ssform_w (void)
 {
 	typedef struct {
 	    int col;		/* C* column code */
@@ -924,7 +924,7 @@ sm_create_ssform_w()
 
 /* create stform_w, the top view dialog */
 static void
-sm_create_tvform_w()
+sm_create_tvform_w (void)
 {
 	Arg args[20];
 	int n;
@@ -1126,7 +1126,7 @@ XtPointer call;
  * we also try to center it just above, but it doesn't always work.
  */
 static void
-st_track_size()
+st_track_size (void)
 {
 	Dimension w, h;
 	Position mfx, mfy, mdx, mdy;
@@ -1333,7 +1333,7 @@ sm_da_input_cb (Widget w, XtPointer client, XtPointer call)
 
 /* create the (unmanaged for now) popup menu in smpu_w. */
 static void
-sm_create_popup()
+sm_create_popup (void)
 {
 	static Widget *puw[] = {
 	    &smpu_name_w,
@@ -1515,7 +1515,7 @@ sm_print_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-sm_print ()
+sm_print (void)
 {
 	Display *dsp = XtDisplay (sda_w);
 	Now *np = mm_get_now();
@@ -2302,7 +2302,7 @@ st_ano (double *xS, double *jZ, int *xp, int *yp, int w2x, int arg)
 }
 
 static void
-make_gcs ()
+make_gcs (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = XtWindow(toplevel_w);

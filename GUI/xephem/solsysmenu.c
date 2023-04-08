@@ -183,7 +183,7 @@ static char sstrres[] = "SolSysTrailState";	/* trail resource */
  * form. otherwise, just go for it.
  */
 void
-ss_manage ()
+ss_manage (void)
 {
 	if (!ssshell_w) {
 	    XtAppAddActions (xe_app, scuts, XtNumber(scuts));
@@ -230,7 +230,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-ss_newres()
+ss_newres (void)
 {
 	if (!ssshell_w)
 	    return;
@@ -248,7 +248,7 @@ int appended;
 }
 
 int
-ss_ison()
+ss_ison (void)
 {
 	return (isUp(ssshell_w));
 }
@@ -271,14 +271,14 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-ss_viewupres()
+ss_viewupres (void)
 {
 	return ("SolSysViewUp");
 }
 
 /* create the main solarsystem shell */
 static void
-ss_create_shell()
+ss_create_shell (void)
 {
 	typedef struct {
 	    char *label;	/* what goes on the help label */
@@ -633,7 +633,7 @@ ss_create_shell()
 
 /* create the stereo solarsystem form */
 static void
-st_create_form()
+st_create_form (void)
 {
 	Arg args[20];
 	int n;
@@ -822,7 +822,7 @@ ss_print_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-ss_print ()
+ss_print (void)
 {
 	Now *np = mm_get_now();
         unsigned int nx, ny;
@@ -1117,7 +1117,7 @@ XtPointer call;
  * we also try to position it just to the left, but it doesn't always work.
  */
 static void
-st_track_size()
+st_track_size (void)
 {
 	Dimension w, h;
 	Position mfx, mfy;
@@ -1393,7 +1393,7 @@ ss_popup (XEvent *ev, Obj *op, double Mjd, int fav)
 
 /* create the id popup */
 static void
-ss_create_popup()
+ss_create_popup (void)
 {
 	static struct {
 	    Widget *wp;
@@ -1463,7 +1463,7 @@ ss_create_popup()
  * ok to use this everywhere _except_ the individual window expose callbacks.
  */
 static void
-ss_all()
+ss_all (void)
 {
 	watch_cursor (1);
 
@@ -1480,7 +1480,7 @@ ss_all()
 /* redraw the main sol system view.
  */
 static void
-ss_redraw()
+ss_redraw (void)
 {
 	Display *dsp = XtDisplay(ssda_w);
 	int sv;			/* ScaleValue tmp */
@@ -1664,7 +1664,7 @@ ss_ano (double *sxp, double *syp, int *xp, int *yp, int w2x, int arg)
 
 /* copy the existing main pixmap to the visible screen window */
 static void
-ss_refresh ()
+ss_refresh (void)
 {
 	Display *dsp = XtDisplay(ssda_w);
 	Window win = XtWindow(ssda_w);
@@ -1850,7 +1850,7 @@ st_ano (double *sxp, double *syp, int *xp, int *yp, int w2x, int arg)
 
 /* copy the existing stereo pixmap to the visible screen window */
 static void
-st_refresh()
+st_refresh (void)
 {
 	Display *dsp = XtDisplay(stda_w);
 	Window win = XtWindow(stda_w);
@@ -2230,7 +2230,7 @@ int lbl;
 
 /* free allp array, if any */
 static void
-ap_free()
+ap_free (void)
 {
 	if (allp) {
 	    free ((void *)allp);
@@ -2305,7 +2305,7 @@ ss_fav_cb (Widget w, XtPointer client, XtPointer call)
  * TODO: reclaim old stuff if called again.
  */
 static void
-mk_gcs()
+mk_gcs (void)
 {
 	Display *dsp = XtDisplay(ssda_w);
 	Window win = XtWindow(ssda_w);

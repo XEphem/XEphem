@@ -148,7 +148,7 @@ static double pole_ra, pole_dec;
  * form. otherwise, just get out there and do it!
  */
 void
-um_manage ()
+um_manage (void)
 {
 	if (!ushell_w) {
 	    um_create_shell_w();
@@ -227,7 +227,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-um_newres()
+um_newres (void)
 {
 	if (!ushell_w)
 	    return;
@@ -248,7 +248,7 @@ int appended;
 }
 
 int
-um_ison()
+um_ison (void)
 {
 	return (isUp(ushell_w));
 }
@@ -306,14 +306,14 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-um_viewupres()
+um_viewupres (void)
 {
 	return ("UranusViewUp");
 }
 
 /* create the main shell */
 static void
-um_create_shell_w()
+um_create_shell_w (void)
 {
 	typedef struct {
 	    char *name;		/* toggle button instance name, or NULL */
@@ -628,7 +628,7 @@ um_create_shell_w()
 
 /* make the statistics form dialog */
 static void
-um_create_usform_w()
+um_create_usform_w (void)
 {
 	typedef struct {
 	    int col;		/* C* column code */
@@ -848,7 +848,7 @@ um_create_usform_w()
 
 /* create utform_w, the top view dialog */
 static void
-um_create_tvform_w()
+um_create_tvform_w (void)
 {
 	Arg args[20];
 	int n;
@@ -1047,7 +1047,7 @@ XtPointer call;
  * we also try to center it just above, but it doesn't always work.
  */
 static void
-ut_track_size()
+ut_track_size (void)
 {
 	Dimension w, h;
 	Position mfx, mfy, mdx, mdy;
@@ -1249,7 +1249,7 @@ um_da_input_cb (Widget w, XtPointer client, XtPointer call)
 
 /* create the (unmanaged for now) popup menu in umpu_w. */
 static void
-um_create_popup()
+um_create_popup (void)
 {
 	static Widget *puw[] = {
 	    &umpu_name_w,
@@ -1422,7 +1422,7 @@ um_print_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-um_print ()
+um_print (void)
 {
 	Display *dsp = XtDisplay (uda_w);
 	Now *np = mm_get_now();
@@ -1933,7 +1933,7 @@ ut_ano (double *uX, double *jZ, int *xp, int *yp, int w2x, int arg)
 
 
 static void
-make_gcs ()
+make_gcs (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = XtWindow(toplevel_w);

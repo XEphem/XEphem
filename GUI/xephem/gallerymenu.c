@@ -67,7 +67,7 @@ static char galcategory[] = "Image Gallery";
 
 /* bring up the picture menu, creating if first time */
 void
-gal_manage()
+gal_manage (void)
 {
 	if (!galshell_w) {
 	    gal_create_shell();
@@ -143,7 +143,7 @@ gal_cursor (Cursor c)
 
 /* create a shell to allow user to manage pictures . */
 static void
-gal_create_shell ()
+gal_create_shell (void)
 {
 	Widget h_w, pw_w;
 	Widget galform_w;
@@ -285,7 +285,7 @@ gal_create_shell ()
 /* read files and create gallery[]
  */
 static void
-readCatalogs()
+readCatalogs (void)
 {
 	char buf[1024];
 	char *dir[2];
@@ -379,7 +379,7 @@ gt_cmp (const void *e1, const void *e2)
 /* fill the target selection list from gallery[]  which is a list of name elems.
  */
 static void
-fillList()
+fillList (void)
 {
 	XmString *xmstrtbl;
 	int i;
@@ -538,7 +538,7 @@ namefind (char *name)
 
 /* reclaim all storage used for the current gallery */
 static void
-galReset()
+galReset (void)
 {
 	if (galroot[0]) {
 	    delXMLEle (galroot[0]);
@@ -623,7 +623,7 @@ gal_skypt_cb (Widget w, XtPointer client, XtPointer data)
  * if find return ptr, else NULL
  */
 static Obj *
-selInDB ()
+selInDB (void)
 {
 	DupName *dnp;
 	int ndn = db_dups(&dnp);
@@ -643,7 +643,7 @@ selInDB ()
 
 /* return pointer to <name> element of currently selected target, else NULL */
 XMLEle *
-selGIP ()
+selGIP (void)
 {
 	int *pos, npos;
 	XMLEle *nep;

@@ -74,7 +74,7 @@ static XtInputId db_fifoid;
 /* return number of objects in the database.
  */
 int
-db_n()
+db_n (void)
 {
 	int i, t, n;
 
@@ -114,7 +114,7 @@ int id;
  * support leading ~ and / else assume in ShareDir.
  */
 void
-db_loadinitial()
+db_loadinitial (void)
 {
 	char *fns;		/* value of DBinitialFiles */
 	char *dbicpy;		/* local copy of dir */
@@ -158,7 +158,7 @@ db_loadinitial()
  * new default
  */
 static void
-db_setinitial()
+db_setinitial (void)
 {
 	char buf[2048];
 	int i, l;
@@ -308,7 +308,7 @@ char *name;
 /* mark all db objects as out-of-date
  */
 void
-db_invalidate()
+db_invalidate (void)
 {
 	if (!DBINITED)
 	    db_init();
@@ -416,7 +416,7 @@ Obj *op;
 /* reload all loaded catalogs
  */
 void
-db_rel_all()
+db_rel_all (void)
 {
 	char **curn = NULL;
 	int i, n;
@@ -444,7 +444,7 @@ db_rel_all()
 /* delete all catalogs except the basic objects.
  */
 void
-db_del_all()
+db_del_all (void)
 {
 	int i, n;
 
@@ -598,7 +598,7 @@ char *fn;
  * we close and reopen each time we are called.
  */
 void
-db_connect_fifo()
+db_connect_fifo (void)
 {
 	char fn[1024];
 
@@ -668,7 +668,7 @@ db_objadd (DBCat *dbcp, Obj *newop)
 /* set up the basic database.
  */
 static void
-db_init()
+db_init (void)
 {
 	char buf[256];
 	char nm[1][MAXNM];

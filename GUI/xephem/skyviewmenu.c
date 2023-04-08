@@ -451,7 +451,7 @@ static XtIntervalId fs_to;	/* set while checking field stars */
 
 /* bring up Sky view shell, creating if first time */
 void
-sv_manage ()
+sv_manage (void)
 {
 	if (!svshell_w) {
 	    sv_create_svshell();
@@ -475,7 +475,7 @@ sv_manage ()
  * rebuild and redraw.
  */
 void
-sv_newres()
+sv_newres (void)
 {
 	if (!svshell_w)
 	    return;
@@ -486,7 +486,7 @@ sv_newres()
 
 /* return true if sky view is up now and ok to draw to, else 0 */
 int
-sv_ison()
+sv_ison (void)
 {
 	return(isUp(svshell_w) && sv_pm);
 }
@@ -547,7 +547,7 @@ int appended;
 
 /* display a new FITS image */
 void
-sv_newFITS ()
+sv_newFITS (void)
 {
 	double ra, dec;
 	FImage *fip;
@@ -599,7 +599,7 @@ sv_newFITS ()
 
 /* called to display a FITS image whose aim and scale have already been set. */
 void
-sv_dspFITS ()
+sv_dspFITS (void)
 {
 	/* build a pixmap to match our current size and orientation */
 	si_newPixmap (sv_w, sv_h, flip_lr, flip_tb, zm_undo, zm_cundo);
@@ -610,7 +610,7 @@ sv_dspFITS ()
 
 /* called to turn on the horizon. */
 void
-sv_hznOn()
+sv_hznOn (void)
 {
 	if (!want_hznmap)
 	    XmToggleButtonSetState (hznmap_w, True, True);
@@ -628,7 +628,7 @@ sv_showkeeptelvis (int on)
 
 /* return the name of the resource containing whether this view is up */
 char *
-sv_viewupres()
+sv_viewupres (void)
 {
 	return ("SkyViewUp");
 }
@@ -836,7 +836,7 @@ svh_get (SvHistory *hp)
  *   interfere with user_automagoff.
  */
 void
-sv_amagoff ()
+sv_amagoff (void)
 {
 	want_automag = 0;
 	XmToggleButtonSetState (wantamag_w, False, False);
@@ -1037,7 +1037,7 @@ svtb_names_cb (Widget w, XtPointer client, XtPointer call)
 
 /* whether roaming report */
 int
-svtb_reportIsOn()
+svtb_reportIsOn (void)
 {
 	return (want_report);
 }
@@ -1170,7 +1170,7 @@ svtb_unzoom_cb (Widget w, XtPointer client, XtPointer call)
 
 /* sync the toolbar to match the options */
 static void
-svtb_sync()
+svtb_sync (void)
 {
 	char tt[NOBJTYPES];
 	char ct[NCLASSES];
@@ -2553,7 +2553,7 @@ Widget mb_w;
 
 /* create the main skyview shell */
 static void
-sv_create_svshell()
+sv_create_svshell (void)
 {
 	Widget altdecsc_w, fovsc_w;
 	Widget mb_w;
@@ -2967,7 +2967,7 @@ sv_create_svshell()
 }
 
 static void
-gridStepLabel()
+gridStepLabel (void)
 {
 	/* f_showit avoids blinking when updating scope position */
 	f_showit (vgridl_w, want_aagrid ? "Alt: " : "Dec: ");
@@ -2977,7 +2977,7 @@ gridStepLabel()
 /* create the Options dialog.
  */
 static void
-sv_create_options ()
+sv_create_options (void)
 {
 	static ViewOpt vopts[] = {
 	    {"Just dots",  0, "JustDots",      &justdots,        &justd_w,
@@ -3976,7 +3976,7 @@ sv_print_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-sv_print ()
+sv_print (void)
 {
 	Now *np = mm_get_now();
 
@@ -4585,7 +4585,7 @@ Window win;
 /* copy the pixmap to the drawing area and add zoom box if on.
  */
 static void
-sv_copy_sky()
+sv_copy_sky (void)
 {
 	Display *dsp = XtDisplay (svda_w);
 	Window win = XtWindow (svda_w);
@@ -4832,7 +4832,7 @@ Boolean *continue_to_dispatch;
 
 /* erase the tracking coords by copying back from sv_pm */
 static void
-sv_erase_report_coords ()
+sv_erase_report_coords (void)
 {
 	Display *dsp = XtDisplay(svda_w);
 	Window win = XtWindow(svda_w);
@@ -6096,7 +6096,7 @@ sv_riset (Now *np, Obj *op)
 
 /* create the id popup */
 static void
-sv_create_popup()
+sv_create_popup (void)
 {
 	Widget pd_w, cb_w;
 	Arg args[20];
@@ -6721,7 +6721,7 @@ Cardinal *n;
 
 /* remove trails which are no longer turned on. */
 static void
-tobj_rmoff()
+tobj_rmoff (void)
 {
 	TrailObj **topp;	/* address to be changed if we decide to 
 				 * remove *topp
@@ -6805,7 +6805,7 @@ int nsky;
  * this is done after the db has been reduced.
  */
 static void
-tobj_newdb()
+tobj_newdb (void)
 {
 	TrailObj *top;
 	DBScan dbs;
@@ -6864,7 +6864,7 @@ Obj *op;
  * clipped to the current window.
  */
 static void
-tobj_display_all()
+tobj_display_all (void)
 {
 	static int aatrailwarn;
 	Display *dsp = XtDisplay(svda_w);
@@ -6948,7 +6948,7 @@ tobj_display_all()
 }
 
 static void
-aatwarn_msg ()
+aatwarn_msg (void)
 {
 	xe_msg (1, 
 "\n\
@@ -9816,7 +9816,7 @@ objGC(Obj *op, int d, GC *gcp)
  * TODO: clean up previous stuff if called more than once.
  */
 static void
-sv_mk_gcs()
+sv_mk_gcs (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = XtWindow(toplevel_w);
@@ -9979,7 +9979,7 @@ int lr;
  * return -1 with no change if zoom box center is not in map, else 0.
  */
 static int
-zm_addundo()
+zm_addundo (void)
 {
 	ZM_Undo *zp;
 	double ad, ar;
@@ -10043,7 +10043,7 @@ zm_addundo()
 
 /* install the zm_cundo entry of the zoom undo stack */
 static void
-zm_installundo()
+zm_installundo (void)
 {
 	ZM_Undo *zp = &zm_undo[zm_cundo];
 
@@ -10064,14 +10064,14 @@ zm_installundo()
 
 /* discard zoom undo stack deeper than current setting */
 static void
-zm_cutundo()
+zm_cutundo (void)
 {
 	zm_nundo = zm_cundo;
 }
 
 /* disable and forget all unzooms */
 static void
-zm_noundo()
+zm_noundo (void)
 {
 	/* disable for later sv_all's */
 	svtb_zoomok(0);
@@ -10088,7 +10088,7 @@ zm_noundo()
  * this is used both to draw and erase.
  */
 static void
-zm_draw()
+zm_draw (void)
 {
 	Display *dsp = XtDisplay(svda_w);
 	Window win = XtWindow(svda_w);
@@ -10265,7 +10265,7 @@ Obj *op;
  */
 /* ARGSUSED */
 static void
-sv_erasetelpd ()
+sv_erasetelpd (void)
 {
 	WidgetList ch;
 	Cardinal nch;

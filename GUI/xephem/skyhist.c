@@ -243,7 +243,7 @@ Cursor c;
 
 /* close the History control dialog, if any */
 void
-svh_unmanage()
+svh_unmanage (void)
 {
 	if (svhshell_w)
 	    XtPopdown (svhshell_w);
@@ -251,7 +251,7 @@ svh_unmanage()
 
 /* get current settings and assign to next position */
 void
-svh_add_current()
+svh_add_current (void)
 {
 	char buf[32];
 
@@ -266,14 +266,14 @@ svh_add_current()
 
 /* return the current number of history entries */
 int
-svh_nhist()
+svh_nhist (void)
 {
 	return (nhist);
 }
 
 /* display each of the nhist SvHistory entries in the dialog. */
 static void
-show_entries()
+show_entries (void)
 {
 	Widget ww;
 	Arg args[20];
@@ -489,7 +489,7 @@ svh_add_cb (Widget w, XtPointer client, XtPointer call)
 /* used to delete history entry deli, possibly after confirming */
 static int deli;
 static void
-del_i()
+del_i (void)
 {
 	/* free ulbl */
 	XtFree (hist[deli].ulbl);
@@ -526,7 +526,7 @@ svh_del_cb (Widget w, XtPointer client, XtPointer call)
 /* used to replace history entry repi, possibly after confirming */
 static int repi;
 static void
-rep_i()
+rep_i (void)
 {
 	char *ulbl = hist[repi].ulbl;
 

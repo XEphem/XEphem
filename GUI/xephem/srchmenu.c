@@ -95,7 +95,7 @@ static Goal goals[] = {
  * form. otherwise, just go for it.
  */
 void
-srch_manage ()
+srch_manage (void)
 {
 	if (!srchshell_w)
 	    srch_create_shell();
@@ -203,7 +203,7 @@ double *tmincp;
  *   searching (obviously) or the srch control menu is up.
  */
 int
-srch_ison()
+srch_ison (void)
 {
 	return (prog_isgood() && (srching_now() || srch_isup()));
 }
@@ -239,7 +239,7 @@ Cursor c;
 }
 
 static void
-srch_create_shell()
+srch_create_shell (void)
 {
 	XmString str;
 	Widget w, trc_w, brc_w, f_w, rb_w;
@@ -570,7 +570,7 @@ srch_create_shell()
 
 /* set tmlimit from user's widget */
 static void
-get_tmlimit()
+get_tmlimit (void)
 {
 	char *str = XmTextFieldGetString (acc_w);
 	f_scansexa (str, &tmlimit);
@@ -579,7 +579,7 @@ get_tmlimit()
 
 /* return True whenever the srch control menu is up */
 static int
-srch_isup()
+srch_isup (void)
 {
 	return (isUp(srchshell_w));
 }
@@ -587,7 +587,7 @@ srch_isup()
 /* return True whenever we are actually in the midst of controlling a search.
  */
 static int
-srching_now()
+srching_now (void)
 {
 	return (on_w && XmToggleButtonGetState(on_w));
 }
@@ -864,7 +864,7 @@ srch_on_off_cb (Widget w, XtPointer client, XtPointer call)
 }
 
 static void
-compile_func()
+compile_func (void)
 {
 	char *newexp;
 	char errbuf[256];

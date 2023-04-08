@@ -1007,42 +1007,42 @@ char tt[NOBJTYPES];
 
 /* whether monument view */
 int
-svtb_monumentIsOn()
+svtb_monumentIsOn (void)
 {
 	return (monument_on);
 }
 
 /* whether snap-to-max is on */
 int
-svtb_snapIsOn()
+svtb_snapIsOn (void)
 {
 	return (snap_on);
 }
 
 /* whether slice is on */
 int
-svtb_sliceIsOn()
+svtb_sliceIsOn (void)
 {
 	return (slice_on);
 }
 
 /* whether ROI is on */
 int
-svtb_ROIIsOn()
+svtb_ROIIsOn (void)
 {
 	return (roi_on);
 }
 
 /* whether glass is on */
 int
-svtb_glassIsOn()
+svtb_glassIsOn (void)
 {
 	return (glass_on);
 }
 
 /* whether gauss is on */
 int
-svtb_gaussIsOn()
+svtb_gaussIsOn (void)
 {
 	return (gauss_on);
 }

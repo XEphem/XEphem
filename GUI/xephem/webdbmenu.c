@@ -60,7 +60,7 @@ static AstInfo astinfo[] = {
 static char wdbcategory[] = "Web Databases";	/* Save category */
 
 void
-wdb_manage()
+wdb_manage (void)
 {
 	if (!wdbshell_w)
 	    wdb_create();
@@ -86,7 +86,7 @@ Cursor c;
 }
 
 static void
-wdb_create()
+wdb_create (void)
 {
 	Widget mf_w, f_w, rc_w;
 	Widget pb_w, tf_w;

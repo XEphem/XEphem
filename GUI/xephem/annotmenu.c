@@ -80,7 +80,7 @@ static char ano_suffix[] = ".ano";		/* file name suffix */
 
 /* bring up the annotation tool */
 void
-ano_manage()
+ano_manage (void)
 {
 	if (!anoshell_w) {
 	    ano_createshell();
@@ -159,7 +159,7 @@ ano_draw (Widget w, Drawable dr, int convwx(double *ap, double *bp,
  * TODO: remove old first
  */
 void
-ano_newres()
+ano_newres (void)
 {
 	if (!anoshell_w)
 	    return;
@@ -184,7 +184,7 @@ Cursor c;
 
 /* create the main annotation shell */
 static void
-ano_createshell()
+ano_createshell (void)
 {
 	Widget w, f_w, pb_w, afs_w, sw_w;
 	Arg args[20];
@@ -349,7 +349,7 @@ ano_createshell()
 
 /* add one entry to anorc_w, return index */
 static int
-ano_newEntry()
+ano_newEntry (void)
 {
 	Widget d_w, p_w;
 	AnnInfo *ap;
@@ -434,7 +434,7 @@ ano_newEntry()
 }
 
 static void
-ano_mkgcs()
+ano_mkgcs (void)
 {
 	Display *dsp = XtDisplay (anoshell_w);
 	Window root = RootWindow(dsp, DefaultScreen(dsp));

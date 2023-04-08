@@ -192,7 +192,7 @@ XtPointer client)	/* saved and passed back to (*cb)() */
  * TODO: reclaim old stuff when called again.
  */
 void
-tr_newres()
+tr_newres (void)
 {
 	tr_fs = NULL;
 }

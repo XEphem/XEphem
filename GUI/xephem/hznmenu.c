@@ -69,7 +69,7 @@ static char hzncategory[] = "Horizon Map";	/* Save category */
 #if !defined (TEST_MAIN)
 
 void
-hzn_manage()
+hzn_manage (void)
 {
 	if (!hznshell_w)
 	    hzn_create();
@@ -78,14 +78,14 @@ hzn_manage()
 }
 
 void
-hzn_unmanage()
+hzn_unmanage (void)
 {
 	if (hznshell_w)
 	    XtUnmanageChild (hznshell_w);
 }
 
 int
-hznDrawing()
+hznDrawing (void)
 {
 	if (!hznshell_w)
 	    hzn_create();
@@ -94,7 +94,7 @@ hznDrawing()
 
 /* call to turn off editing */
 void
-hznEditingOff()
+hznEditingOff (void)
 {
 	if (XmToggleButtonGetState (edittb_w))
 	    XmToggleButtonSetState (edittb_w, False, True);
@@ -118,7 +118,7 @@ Cursor c;
 
 /* return number of profile entries */
 int
-hznNProfile()
+hznNProfile (void)
 {
 	if (!hznshell_w)
 	    hzn_create();
@@ -252,7 +252,7 @@ hznAdd (int start, double newalt, double newaz)
 #if !defined (TEST_MAIN)
 
 static void
-hzn_create()
+hzn_create (void)
 {
 	Widget w, sep_w, om_w;
 	Arg args[20];
@@ -539,7 +539,7 @@ hzn_chsfn_cb (Widget w, XtPointer client, XtPointer call)
 
 /* get displacement string into displ */
 static double
-hzn_getdispl()
+hzn_getdispl (void)
 {
 	double d;
 	char *str = XmTextFieldGetString (displtf_w);
@@ -587,7 +587,7 @@ int choose_displ;
  * return 0 if ok, else -1
  */
 static int
-hzn_rdmap()
+hzn_rdmap (void)
 {
 	char *fn = XmTextFieldGetString (filetf_w);
 	FILE *fp;
@@ -628,7 +628,7 @@ hzn_rdmap()
 
 /* fill the profile with a constant elevation model */
 static void
-buildCon()
+buildCon (void)
 {
 	double a = hzn_getdispl ();
 
@@ -646,7 +646,7 @@ buildCon()
  * no steps in Alt or Az greater than PSTEP.
  */
 static void
-smoothProfile()
+smoothProfile (void)
 {
 	Profile *newp;
 	double alt0;

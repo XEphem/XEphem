@@ -112,7 +112,7 @@ static char skyfitscategory[] = "Sky View -- FITS";	/* Save category */
 /* called to manage the fits dialog.
  */
 void
-sf_manage()
+sf_manage (void)
 {
 	if (!sf_w) {
 	    sf_create();
@@ -125,7 +125,7 @@ sf_manage()
 /* called to unmanage the fits dialog.
  */
 void
-sf_unmanage()
+sf_unmanage (void)
 {
 	if (!sf_w)
 	    return;
@@ -135,7 +135,7 @@ sf_unmanage()
 /* return 1 if dialog is up, else 0.
  */
 int
-sf_ismanaged()
+sf_ismanaged (void)
 {
 	return (sf_w && XtIsManaged(sf_w));
 }
@@ -322,7 +322,7 @@ char *name;
 
 /* create, but do not manage, the FITS file dialog */
 static void
-sf_create()
+sf_create (void)
 {
 	Widget tf_w, bf_w;
 	Widget rc_w, rb_w;
@@ -814,7 +814,7 @@ sf_save_cb (Widget w, XtPointer client, XtPointer call)
  * we already know everything is ok to just do it now.
  */
 static void
-save_file()
+save_file (void)
 {
 	FImage *fip;
 	char buf[1024];
@@ -947,7 +947,7 @@ char buf[];
 
 /* return 0 if have gunzip else -1 */
 static int
-chk_gunzip()
+chk_gunzip (void)
 {
 #define	NOGZEXIT	88		/* any impossible gzip exit value */
 	static int know = 1;		/* 0 or -1 when know for sure */
@@ -995,7 +995,7 @@ chk_gunzip()
 
 /* return 1 if have/want to use gunzip, else 0 */
 static int
-use_gunzip()
+use_gunzip (void)
 {
 	if (chk_gunzip() < 0) {
 	    xe_msg (1,"Can not find %s.\nProceeding without compression", gcmd);
@@ -1105,7 +1105,7 @@ setup_ssldecryption_pipe(int sockfd)
 }
 
 static Survey
-whichSurvey()
+whichSurvey (void)
 {
 	if (XmToggleButtonGetState(dss2r_w))
 	    return (DSS_2R);
@@ -1116,7 +1116,7 @@ whichSurvey()
 
 /* start an input stream reading a FITS image from ESO */
 static void
-eso_fits()
+eso_fits (void)
 {
 	static char host[] = "archive.eso.org";
 	static FImage fim, *fip = &fim;
@@ -1254,7 +1254,7 @@ eso_fits()
 
 /* start an input stream reading a FITS image from STScI */
 static void
-stsci_fits()
+stsci_fits (void)
 {
 	static char host[] = "archive.stsci.edu";
 	static FImage fim, *fip = &fim;
@@ -1544,7 +1544,7 @@ double *mjdp;
 
 /* get and display the time of observation from the current FITS image */
 static void
-sf_setObsDate()
+sf_setObsDate (void)
 {
 	double objsmjd;
 

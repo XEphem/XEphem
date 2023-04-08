@@ -49,7 +49,7 @@ static Widget dbt_w;		/* T widget for display catalog header */
 
 /* bring up the db menu, creating if first time */
 void
-db_manage()
+db_manage (void)
 {
 	if (!dbshell_w)
 	    db_create_shell();
@@ -139,7 +139,7 @@ Cursor c;
 
 /* return 1 if want to autoload favorite if read a .edb with 1 entry, else 0 */
 int
-db_load1()
+db_load1 (void)
 {
 	/* create if not already */
 	if (!dbshell_w)
@@ -150,7 +150,7 @@ db_load1()
 
 /* create a shell to allow user to manage files . */
 static void
-db_create_shell ()
+db_create_shell (void)
 {
 	typedef struct {
 	    char *label;	/* what goes on the help label */
@@ -408,7 +408,7 @@ db_loadpb_cb (Widget w, XtPointer client, XtPointer call)
  * N.B. we do not include the planets nor the user objects.
  */
 static void
-db_set_report()
+db_set_report (void)
 {
 	DBScan dbs;
 	char report[1024];
@@ -498,7 +498,7 @@ db_set_report()
 }
 
 static void
-dbdelall()
+dbdelall (void)
 {
 	db_del_all();
 	all_newdb(0);
@@ -534,7 +534,7 @@ XtPointer data;
 }
 
 static void
-dbrelall()
+dbrelall (void)
 {
 	watch_cursor(1);
 	db_rel_all();

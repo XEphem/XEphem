@@ -128,7 +128,7 @@ static int maxtail;		/* max tail len (ie, tail@peri), pixels */
 /* called when mainmenu "About.." help is selected.
  */
 void
-version()
+version (void)
 {
 	/* make the version form if this is our first time.
 	 * also take this opportunity to do things once to init the
@@ -165,7 +165,7 @@ Cursor c;
 /* make the v_w widget.
  */
 static void
-v_create_vshell()
+v_create_vshell (void)
 {
 	Widget pw_w;
 	Widget vform_w;
@@ -348,7 +348,7 @@ v_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 }
 
 static void
-v_draw()
+v_draw (void)
 {
 	Display *dsp = XtDisplay(vda_w);
 	Window win = XtWindow(vda_w);
@@ -513,7 +513,7 @@ int sx, sy, w, h;
 }
 
 static void
-v_define_gc()
+v_define_gc (void)
 {
 	Display *dsp = XtDisplay(vda_w);
 	Window win = XtWindow(vda_w);

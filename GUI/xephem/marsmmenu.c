@@ -152,7 +152,7 @@ static double pole_ra, pole_dec;
  * form. otherwise, just insure up.
  */
 void
-marsm_manage ()
+marsm_manage (void)
 {
 	if (!mmshell_w) {
 	    marsm_create_shell_w();
@@ -227,7 +227,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-marsm_newres()
+marsm_newres (void)
 {
 	if (!mmshell_w)
 	    return;
@@ -248,7 +248,7 @@ int appended;
 }
 
 int
-marsm_ison()
+marsm_ison (void)
 {
 	return (isUp(mmshell_w));
 }
@@ -306,7 +306,7 @@ Cursor c;
 
 /* create the main moons shell */
 static void
-marsm_create_shell_w()
+marsm_create_shell_w (void)
 {
 	typedef struct {
 	    char *name;		/* toggle button instance name, or NULL */
@@ -620,7 +620,7 @@ marsm_create_shell_w()
 
 /* make the statistics form dialog */
 static void
-marsm_create_msform_w()
+marsm_create_msform_w (void)
 {
 	typedef struct {
 	    int col;		/* C* column code */
@@ -839,7 +839,7 @@ marsm_create_msform_w()
 
 /* create mtform_w, the top view dialog */
 static void
-marsm_create_tvform_w()
+marsm_create_tvform_w (void)
 {
 	Arg args[20];
 	int n;
@@ -1037,7 +1037,7 @@ XtPointer call;
  * we also try to center it just above, but it doesn't always work.
  */
 static void
-mt_track_size()
+mt_track_size (void)
 {
 	Dimension w, h;
 	Position mfx, mfy, mdx, mdy;
@@ -1241,7 +1241,7 @@ marsm_da_input_cb (Widget w, XtPointer client, XtPointer call)
 
 /* create the (unmanaged for now) popup menu in mmpu_w. */
 static void
-marsm_create_popup()
+marsm_create_popup (void)
 {
 	static Widget *puw[] = {
 	    &mmpu_name_w,
@@ -1422,7 +1422,7 @@ marsm_print_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-marsm_print ()
+marsm_print (void)
 {
 	Display *dsp = XtDisplay (mda_w);
 	Now *np = mm_get_now();

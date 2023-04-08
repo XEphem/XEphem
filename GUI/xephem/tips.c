@@ -86,7 +86,7 @@ char *tip;
 /* go through all the tips and make sure they are all down.
  */
 void
-wtip_alldown()
+wtip_alldown (void)
 {
 	Tip *tp, *ltp;
 
@@ -102,7 +102,7 @@ wtip_alldown()
  * TODO: reclaim old stuff when called again
  */
 void
-wtip_init ()
+wtip_init (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window root = RootWindow (dsp, DefaultScreen(dsp));
@@ -384,7 +384,7 @@ tip_sf (const void *a1, const void *a2)
 
 /* sort the tips array by widget id, then mark it sorted */
 static void
-tip_sort ()
+tip_sort (void)
 {
 	if (ntips > 0)
 	    qsort ((void *)tips, ntips, sizeof(Tip), tip_sf);

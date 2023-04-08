@@ -285,7 +285,7 @@ static MoonDB *closeMoonDB (int x, int y);
  * allow for retrying to read the image file each time until find it.
  */
 void
-m_manage ()
+m_manage (void)
 {
 	if (!mshell_w) {
 	    /* menu one-time-only work */
@@ -322,7 +322,7 @@ m_manage ()
 }
 
 int
-m_ison()
+m_ison (void)
 {
 	return (isUp(mshell_w));
 }
@@ -347,7 +347,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-m_newres()
+m_newres (void)
 {
 	if (!mshell_w)
 	    return;
@@ -423,13 +423,13 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-m_viewupres()
+m_viewupres (void)
 {
 	return ("MoonViewUp");
 }
 
 static void
-m_create_shell()
+m_create_shell (void)
 {
 	typedef struct {
 	    Option o;		/* which option */
@@ -784,7 +784,7 @@ m_create_shell()
 }
 
 static void
-m_create_msform()
+m_create_msform (void)
 {
 	typedef struct {
 	    int islabel;
@@ -1076,7 +1076,7 @@ m_create_msform()
 
 /* create the little earthshine scale factor dialog */
 static void
-m_create_esform()
+m_create_esform (void)
 {
 	Arg args[20];
 	Widget sep_w;
@@ -1260,7 +1260,7 @@ m_print_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-m_print ()
+m_print (void)
 {
 	/* must be up */
 	if (!m_ison()) {
@@ -1291,7 +1291,7 @@ m_print ()
 }
 
 static void
-m_ps_annotate ()
+m_ps_annotate (void)
 {
 	Now *np = mm_get_now();
         char dir[128];
@@ -1761,7 +1761,7 @@ m_exp_cb (Widget w, XtPointer client, XtPointer call)
 
 /* redraw the current scene */
 static void
-m_redraw()
+m_redraw (void)
 {
 	watch_cursor (1);
 
@@ -1820,7 +1820,7 @@ unsigned *wp, *hp, *dp;
  * TODO: reclaim old stuff if called again.
  */
 static void
-m_init_gcs()
+m_init_gcs (void)
 {
 	Display *dsp = XtD;
 	Window win = XtWindow(toplevel_w);
@@ -1903,7 +1903,7 @@ Now *np;
  * then, if m_pm is defined, compute a scene onto it.
  */
 static void
-m_draw ()
+m_draw (void)
 {
 	Now *np = mm_get_now();
 
@@ -1923,7 +1923,7 @@ m_draw ()
  * N.B. this just fills the pixmap; call m_refresh() to copy to the screen.
  */
 static void
-mi_draw ()
+mi_draw (void)
 {
 	XGCValues gcv;
 	unsigned int gcm;
@@ -2016,7 +2016,7 @@ m_ano (double *fracx, double *fracy, int *xp, int *yp, int w2x, int arg)
 
 /* label the database entries marked for name display */
 static void
-m_labels()
+m_labels (void)
 {
 	MoonDB *mp;
 
@@ -2039,7 +2039,7 @@ m_labels()
 
 /* add background sky objects to m_pm and to skyobjs[] list */
 static void
-m_sky()
+m_sky (void)
 {
 	static int before;
 	Now *np = mm_get_now();
@@ -2187,7 +2187,7 @@ MoonDB *mp;
  * we are showing lunar coords.
  */
 static void
-m_orientation()
+m_orientation (void)
 {
 	int fw, fa, fd;
 	int dir, asc, des;
@@ -2211,7 +2211,7 @@ m_orientation()
 
 /* draw a coordinate grid over the image moon on m_pm */
 static void
-m_grid()
+m_grid (void)
 {
 #define	GSP	degrad(15.0)	/* grid spacing */
 #define	FSP	(GSP/4.)	/* fine spacing */
@@ -2261,7 +2261,7 @@ m_grid()
 
 /* draw an X at the subearth and a circle at the subsolar spot using minfo */
 static void
-m_sub ()
+m_sub (void)
 {
 #define	SUBR	4
 	Display *dsp = XtDisplay (mda_w);
@@ -2296,7 +2296,7 @@ m_sub ()
  * return 0 if ok else -1 and xe_msg().
  */
 static int
-mxim_create ()
+mxim_create (void)
 {
 	Display *dsp = XtDisplay (mda_w);
 	int nbytes = (mnrows+7)*(mncols+7)*mbpp/8;
@@ -2336,7 +2336,7 @@ mxim_create ()
  * earthshine.
  */
 static void
-image_setup ()
+image_setup (void)
 {
 	double esrlng = minfo.srlng-CLNG; /* correct for earth viewpoint */
 	int right = cos(esrlng) < 0;	  /*whther shadw reaches to right limb*/
@@ -2430,7 +2430,7 @@ int *lxp, *rxp;	/* left and right x of edges of earthshine */
 
 /* create a clipping mask for applying m_xim to m_pm */
 static void
-m_clip_mask_setup ()
+m_clip_mask_setup (void)
 {
 	if (!m_clip_mask)
 	{
@@ -2468,7 +2468,7 @@ m_clip_mask_setup ()
 
 /* delete clipping mask so new one will get built when needed */
 static void
-m_free_clip_mask ()
+m_free_clip_mask (void)
 {
 	if (m_clip_mask) {
 	    XFreePixmap (XtD, m_clip_mask);
@@ -2478,7 +2478,7 @@ m_free_clip_mask ()
 
 /* go through database and set screen loc given lat/long */
 static void
-m_dbloc()
+m_dbloc (void)
 {
 	MoonDB *mp;
 
@@ -2625,7 +2625,7 @@ int f;
 
 /* set size of mda_w as desired based on mnrows and mncols */
 static void
-m_sizewidgets ()
+m_sizewidgets (void)
 {
 	int neww = mncols + 2*BORD;
 	int newh = mnrows + 2*BORD;
@@ -2662,7 +2662,7 @@ int f;
  * form 2x2 tiles whose pattern depends on intensity peak and spacial layout.
  */
 static void
-mBWdither()
+mBWdither (void)
 {
 	int idx[4];
 	int y;
@@ -2716,7 +2716,7 @@ mBWdither()
 
 /* draw umbra and penumbra boundaries */
 static void
-m_umbra()
+m_umbra (void)
 {
 	Now *np = mm_get_now();
 	Obj *mop = db_basic (MOON);
@@ -2777,7 +2777,7 @@ m_umbra()
 
 /* flip mimage left/right */
 static void
-fliplr()
+fliplr (void)
 {
 	int x, y;
 
@@ -2795,7 +2795,7 @@ fliplr()
  * N.B. will flip back option if can't do it for some reason.
  */
 static void
-fliptb()
+fliptb (void)
 {
 	char buf[2048];		/* plenty :-) */
 	int y;
@@ -2821,7 +2821,7 @@ fliptb()
 
 /* draw a marker on m_pm to show the limb angle favored by libration */
 static void
-m_mark_libr ()
+m_mark_libr (void)
 {
 	int r;		/* radius of marker */
 	int x, y;	/* center of marker */
@@ -2873,7 +2873,7 @@ int x, y;
 
 /* print minfo */
 static void
-m_pinfo()
+m_pinfo (void)
 {
 	f_dm_angle (lat_w, minfo.curlt);
 	f_dm_angle (lng_w, minfo.curlg);
@@ -3093,7 +3093,7 @@ int xc, yc;
  * if fail, leave moondb NULL.
  */
 static void
-m_readdb()
+m_readdb (void)
 {
 #define	NDBCHUNKS	32	/* malloc room for these many more each time */
 	LilXML *xp;
@@ -3213,7 +3213,7 @@ ncmp_qsort (const void *p1, const void *p2)
 
 /* fill the scrolled list with db names */
 static void
-m_fillSL()
+m_fillSL (void)
 {
 	char **names;
 	int i;
@@ -3241,7 +3241,7 @@ m_fillSL()
  * N.B. we allow for moondb being already NULL.
  */
 static void
-m_freedb()
+m_freedb (void)
 {
 	int i, j;
 
@@ -3278,7 +3278,7 @@ m_freedb()
 
 /* free the list of sky objects, if any */
 static void
-resetSkyObj ()
+resetSkyObj (void)
 {
 	if (skyobjs) {
 	    free ((void *) skyobjs);
@@ -3366,7 +3366,7 @@ XEvent *ep;
 
 /* create the popup menu */
 static void
-m_create_popup()
+m_create_popup (void)
 {
 	Widget w;
 	Arg args[20];
@@ -3666,7 +3666,7 @@ m_assign_cb (Widget w, XtPointer client, XtPointer call)
 
 /* create the sky background object popup menu */
 static void
-m_create_skypopup()
+m_create_skypopup (void)
 {
 	Widget w;
 	Arg args[20];
@@ -3722,7 +3722,7 @@ Obj *op;
 
 /* create the shell to display lunar orbiter images */
 static void
-mlo_create_shell()
+mlo_create_shell (void)
 {
 	Widget w, credit_w;
 	Widget mform_w;
@@ -3921,7 +3921,7 @@ mlo_load_image (char *base)
 
 /* return 1 if lunar orbiter images appear to be installed, else 0 */
 static int
-mlo_installed()
+mlo_installed (void)
 {
 	FILE *fp = mlo_open ("IV-130-H1");
 	if (fp) {

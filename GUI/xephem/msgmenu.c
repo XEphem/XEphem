@@ -41,7 +41,7 @@ static int txtl;		/* current length of text in txt_w */
 /* called to force the scrolling message window to be up.
  */
 void
-msg_manage()
+msg_manage (void)
 {
 	if (!msg_w)
 	    msg_create_w();
@@ -54,7 +54,7 @@ msg_manage()
 
 /* ring the bellm but avoid overdoing a lot of them */
 void
-msg_bell()
+msg_bell (void)
 {
 	static long lastbellt;
 	long t;
@@ -124,7 +124,7 @@ Cursor c;
 
 /* create the message dialog */
 static void
-msg_create_w()
+msg_create_w (void)
 {
 	static struct {
 	    char *name;
@@ -249,7 +249,7 @@ char *msg;
 
 /* make sure the text is scrolled to the bottom */
 static void
-msg_scroll_down()
+msg_scroll_down (void)
 {
 	XmTextSetInsertionPosition (txt_w, txtl);
 }

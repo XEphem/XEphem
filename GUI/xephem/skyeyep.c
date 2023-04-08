@@ -120,7 +120,7 @@ static double telrad_sz[] = {.5, 2., 4.};
 static char skyepcategory[] = "Sky View -- Eyepieces";
 
 void 
-se_manage()
+se_manage (void)
 {
 	if (!eyep_w)
 	    se_create_eyep_w();
@@ -128,7 +128,7 @@ se_manage()
 }
 
 void 
-se_unmanage()
+se_unmanage (void)
 {
 	if (eyep_w)
 	    XtUnmanageChild (eyep_w);
@@ -297,7 +297,7 @@ se_eyepsz(double *wp, double *hp, double *ap, int *rp, int *fp)
 
 /* increase size of eyep[] by one and return pointer to new location */
 static EyePiece *
-se_addeyep ()
+se_addeyep (void)
 {
 	eyep = (EyePiece *) XtRealloc ((void*)eyep, (neyep+1)*sizeof(EyePiece));
 	return (&eyep[neyep++]);
@@ -305,7 +305,7 @@ se_addeyep ()
 
 /* create the eyepiece size dialog */
 static void
-se_create_eyep_w()
+se_create_eyep_w (void)
 {
 	Widget w, sep_w;
 	Widget l_w, rb_w;
@@ -1116,7 +1116,7 @@ se_delall_cb (Widget w, XtPointer client, XtPointer call)
 /* delete memory for and display of all currently placed eyepieces.
  */
 static void
-se_delall()
+se_delall (void)
 {
 	XtFree ((void *)eyep);
 	eyep = NULL;
@@ -1200,7 +1200,7 @@ se_calc1_cb (Widget w, XtPointer client, XtPointer call)
 }
 
 static void
-se_calc1()
+se_calc1 (void)
 {
 	char *tmp, *flstr, *fpstr, sastr[32];
 	double fl, fp, sa;
@@ -1245,7 +1245,7 @@ se_calc2_cb (Widget w, XtPointer client, XtPointer call)
 
 /* gather values and compute sky angle using formula 2 */
 static void
-se_calc2()
+se_calc2 (void)
 {
 	char *tmp, *mflstr, sastr[32];
 	double afov, efl, mfl, sa;

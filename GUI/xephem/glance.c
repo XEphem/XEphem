@@ -100,7 +100,7 @@ static char naagcategory[] = "Night at a Glance";	/* Save category */
  * if first time, build everything, else just get going.
  */
 void
-ng_manage ()
+ng_manage (void)
 {
 	if (!ngshell_w) {
 	    ng_create_shell();
@@ -128,7 +128,7 @@ int how_much;
 
 /* list of favorites has changed */
 void
-ng_newfavs()
+ng_newfavs (void)
 {
 	/* only if we're up */
 	if (!ng_ison())
@@ -140,7 +140,7 @@ ng_newfavs()
  * rebuild and redraw.
  */
 void
-ng_newres()
+ng_newres (void)
 {
 	if (!ngshell_w)
 	    return;
@@ -166,20 +166,20 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-ng_viewupres()
+ng_viewupres (void)
 {
         return ("NaaGViewUp");
 }
 
 
 static int
-ng_ison()
+ng_ison (void)
 {
 	return (isUp(ngshell_w));
 }
 
 static void
-ng_create_shell()
+ng_create_shell (void)
 {
 	Widget mb_w, pd_w, cb_w, fr_w;
 	Widget ngform_w;
@@ -349,7 +349,7 @@ ng_create_shell()
 }
 
 static void
-ng_create_popup()
+ng_create_popup (void)
 {
 	Arg args[20];
 	Widget w;
@@ -488,7 +488,7 @@ ng_da_input_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-ng_print ()
+ng_print (void)
 {
 	/* must be up */
 	if (!ng_ison()) {
@@ -523,7 +523,7 @@ ng_print ()
 }
 
 static void
-ng_ps_annotate ()
+ng_ps_annotate (void)
 {
 	Now *np = mm_get_now();
         char dir[128];
@@ -687,7 +687,7 @@ ng_exp_cb (Widget w, XtPointer client, XtPointer call)
 
 /* redraw the current scene from scratch */
 static void
-ng_redraw()
+ng_redraw (void)
 {
 	ng_drawpm ();
 	ng_refresh(NULL);
@@ -730,7 +730,7 @@ XExposeEvent *ep;
  * TODO: reclaim old stuff if called again.
  */
 static void
-ng_init_gcs()
+ng_init_gcs (void)
 {
 	Window win = XtWindow(toplevel_w);
 	Display *dsp = XtD;
@@ -883,7 +883,7 @@ int *xrp, *xsp;
  * N.B. this just fills the pixmap; call ng_refresh() to copy to the screen.
  */
 static void
-ng_drawpm ()
+ng_drawpm (void)
 {
 	static char utclabel[] = "UTC";
 	Now *np = mm_get_now();
@@ -918,7 +918,7 @@ ng_drawpm ()
 	lmarg = fw * (x > y ? x : y);
 
 	/* find graph height sans room for scale and labeling at bottom.
-	 * N.B. this is copied in ng_ano()
+	 * N.B. this is copied in ng_ano (void)
 	 */
 	skyh = ng_h - 4*fh;
 

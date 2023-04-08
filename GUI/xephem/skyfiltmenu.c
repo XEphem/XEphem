@@ -362,7 +362,7 @@ Widget shell_w;
 /* return 1 if we are now up, else 0.
  */
 int
-svf_ismanaged()
+svf_ismanaged (void)
 {
 
 	return (filter_w && XtIsManaged(filter_w));
@@ -373,7 +373,7 @@ svf_ismanaged()
  * to the way the real filter is.
  */
 void
-svf_manage()
+svf_manage (void)
 {
 	svf_reset();
 	XtManageChild(filter_w);
@@ -382,7 +382,7 @@ svf_manage()
 /* called to manage the filter dialog.
  */
 void
-svf_unmanage()
+svf_unmanage (void)
 {
 	XtUnmanageChild(filter_w);
 }
@@ -596,7 +596,7 @@ FilterCat *fcp;
  * also, set the mag scales and dot scales from the real mag limits.
  */
 static void
-svf_reset()
+svf_reset (void)
 {
 	int i, j;
 
@@ -618,7 +618,7 @@ svf_reset()
  * also set the mag limits and dot scale from their controls.
  */
 static void
-svf_apply()
+svf_apply (void)
 {
 	int i, j;
 

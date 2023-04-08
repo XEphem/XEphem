@@ -38,7 +38,7 @@ static int ofifo_fd = -1;
 
 /* return whether either our fifos or INDI is currently accepting commands */
 int
-telIsOn()
+telIsOn (void)
 {
 	return (sc_isGotoOn() || !sfifo_outready());
 }
@@ -65,7 +65,7 @@ telGoto (Obj *op)
  * if successful, leave open. harmless if already open.
  */
 static int
-sfifo_outready()
+sfifo_outready (void)
 {
 	char fn[1024];
 
@@ -108,7 +108,7 @@ sfifo_sendout (Obj *op)
  * a legal string is ever received. harmless to call if already open.
  */
 void
-sfifo_openin()
+sfifo_openin (void)
 {
 	char fn[1024];
 
@@ -133,7 +133,7 @@ sfifo_openin()
 
 /* close the inbound fifo, if open */
 void
-sfifo_closein()
+sfifo_closein (void)
 {
 	if (ififo_fd >= 0) {
 	    close (ififo_id);

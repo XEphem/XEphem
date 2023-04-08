@@ -217,7 +217,7 @@ static char indicategory[] = "INDI Panel";	/* Save category */
 
 /* bring up an INDI control panel */
 void
-indi_manage()
+indi_manage (void)
 {
 	FILE *fp;
 
@@ -259,7 +259,7 @@ indi_manage()
 /* return 0 if currently connected to an INDI server, else -1
  */
 int
-indi_connected()
+indi_connected (void)
 {
 	return (svrsocket < 0 ? -1 : 0);
 }
@@ -356,7 +356,7 @@ indi_getNProperty (char *dev, char *prop)
  * only thing we need to do is change the pixmaps in the dev TBs.
  */
 void
-indi_newres()
+indi_newres (void)
 {
 	/* plagerize from saveres's + and - */ 
 	sr_getDirPM (&opendev_pm, &closedev_pm);
@@ -367,7 +367,7 @@ indi_newres()
 
 /* create the main INDI shell, indi_w and main rc, devrc_w */
 void
-indi_createShell ()
+indi_createShell (void)
 {
 	Widget w, f_w, mf_w, sw_w, sep_w, pw_w;
 	Arg args[20];
@@ -546,7 +546,7 @@ indi_createShell ()
  * home-made light.
  */
 static void
-getLtColors ()
+getLtColors (void)
 {
 	Pixel bg_p, fg_p, sel_p;
 	Arg args[20];
@@ -690,7 +690,7 @@ inputCB (XtPointer client, int *fdp, XtInputId *idp)
 /* try to contact an INDI server
  */
 static int
-indi_connect()
+indi_connect (void)
 {
 	char *host, *port;
 	char msg[1024];
@@ -729,7 +729,7 @@ indi_connect()
 
 /* disconnect from INDI server, fine if not already */
 static void
-indi_disconnect()
+indi_disconnect (void)
 {
 	int i, j;
 
@@ -3362,7 +3362,7 @@ numberFormat (char *buf, const char *format, double value)
  * some, but still is not perfect.
  */
 static void
-pushDisplay()
+pushDisplay (void)
 {
 	Dimension w;
 
@@ -3375,7 +3375,7 @@ pushDisplay()
 
 /* print the boilerplate comment introducing xml */
 static void
-xmlv1()
+xmlv1 (void)
 {
         fprintf (swfp, "<?xml version='1.0'?>\n");
 }

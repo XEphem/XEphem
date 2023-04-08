@@ -218,7 +218,7 @@ static int nmf;			/* entries in mf[] */
  * allow for retrying to read the image file each time until find it.
  */
 void
-mars_manage ()
+mars_manage (void)
 {
 	if (!mshell_w) {
 	    /* one-time-only work */
@@ -273,7 +273,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-mars_newres()
+mars_newres (void)
 {
 	marsm_newres();
 	if (!mshell_w)
@@ -283,7 +283,7 @@ mars_newres()
 }
 
 int
-mars_ison()
+mars_ison (void)
 {
 	return (isUp(mshell_w));
 }
@@ -342,13 +342,13 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-mars_viewupres()
+mars_viewupres (void)
 {
 	return ("MarsViewUp");
 }
 
 static void
-m_create_shell()
+m_create_shell (void)
 {
 	typedef struct {
 	    Option o;		/* which option */
@@ -615,7 +615,7 @@ m_create_shell()
 
 /* create the "more info" stats dialog */
 static void
-m_create_msform()
+m_create_msform (void)
 {
 	typedef struct {
 	    char *label;
@@ -932,7 +932,7 @@ mfsa_qsort (const void *p1, const void *p2)
  * N.B. we assume mfsa[] and mf[] are all set up.
  */
 static void
-m_create_mfform()
+m_create_mfform (void)
 {
 	typedef struct {
 	    MFCtrl mfce;		/* which feature control */
@@ -1212,7 +1212,7 @@ m_print_cb (Widget w, XtPointer client, XtPointer call)
  * call XPSClose() when finished.
  */
 static void
-m_print ()
+m_print (void)
 {
 	/* must be up */
 	if (!mars_ison()) {
@@ -1242,7 +1242,7 @@ m_print ()
 }
 
 static void
-m_ps_annotate ()
+m_ps_annotate (void)
 {
 	Now *np = mm_get_now();
         char dir[128];
@@ -1509,7 +1509,7 @@ m_option_cb (Widget w, XtPointer client, XtPointer call)
  * this is used to keep mountains looking like mountains when flipping t/b
  */
 static void
-swap_colors()
+swap_colors (void)
 {
 	int i;
 
@@ -1545,7 +1545,7 @@ m_helpon_cb (Widget w, XtPointer client, XtPointer call)
 
 /* set winsz from HALFSIZ_OPT then size of the scrolling window, image and pm.*/
 static void
-m_setsize()
+m_setsize (void)
 {
 	Window win = RootWindow(XtD, DefaultScreen(XtD));
 	Dimension wid, hei;
@@ -1844,7 +1844,7 @@ Boolean *continue_to_dispatch;
 
 /* establish mimage and m_xim and return 0 else xe_msg() and return -1 */
 static int
-m_readmap()
+m_readmap (void)
 {
 	unsigned char r[256], g[256], b[256];
 	char why[256];
@@ -1892,7 +1892,7 @@ m_readmap()
  * return 0 if ok else -1 and xe_msg().
  */
 static int
-mxim_create ()
+mxim_create (void)
 {
 	Display *dsp = XtDisplay (mda_w);
 	int nbytes = winsz*winsz*mbpp/8;
@@ -1940,7 +1940,7 @@ mxim_create ()
  * from the current list of chosen types.
  */
 static void
-m_setselected()
+m_setselected (void)
 {
 	int i;
 
@@ -2007,7 +2007,7 @@ XExposeEvent *ep;
  * TODO: reclaim old stuff if called again
  */
 static void
-m_init_gcs()
+m_init_gcs (void)
 {
 	Display *dsp = XtD;
 	Window win = XtWindow(toplevel_w);
@@ -2063,7 +2063,7 @@ m_init_gcs()
 
 /* update mars info and draw the stat labels */
 static void
-m_stats ()
+m_stats (void)
 {
 	Now *np = mm_get_now();
 
@@ -2098,7 +2098,7 @@ m_stats ()
  * N.B. if want to draw, call m_refresh() after this.
  */
 static void
-m_drawpm ()
+m_drawpm (void)
 {
 	/* check assumptions */
 	if (!m_pm) {
@@ -2205,7 +2205,7 @@ mf_qsort (const void *p1, const void *p2)
  * return 0 if ok, else -1.
  */
 static int
-m_readFeatures()
+m_readFeatures (void)
 {
 	char buf[1024];
 	char fn[1024];
@@ -2270,7 +2270,7 @@ m_readFeatures()
 
 /* draw the mf list, based on what is selected in flist_w */
 static void
-m_drFeatures ()
+m_drFeatures (void)
 {
 	Display *dsp = XtDisplay (mda_w);
 	int *selected, nselected;
@@ -2316,7 +2316,7 @@ m_drFeatures ()
 
 /* draw the N/S E/W labels on m_pm */
 static void
-m_orientation()
+m_orientation (void)
 {
 	Now *np = mm_get_now();
 	double mr, mra, mdec;
@@ -2361,7 +2361,7 @@ m_orientation()
 
 /* draw the size calibration */
 static void
-m_sizecal()
+m_sizecal (void)
 {
 	int dir, asc, des;
 	XCharStruct xcs;
@@ -2385,7 +2385,7 @@ m_sizecal()
 
 /* draw a coordinate grid over the image already on m_pm */
 static void
-m_grid()
+m_grid (void)
 {
 	Display *dsp = XtDisplay (mda_w);
 	double fsp = FSP;
@@ -2462,7 +2462,7 @@ m_grid()
  * m_xim is winszxwinsz, mimage is 2*IMH wide x IMH high.
  */
 static void
-mxim_setup ()
+mxim_setup (void)
 {
 #define	SQR(x)	((x)*(x))
 	int pixseeing = (int)(winsz*m_seeing/marsop->s_size/10);
@@ -2806,7 +2806,7 @@ XEvent *ep;
 
 /* create the surface popup menu */
 static void
-m_create_popup()
+m_create_popup (void)
 {
 	Widget w;
 	Arg args[20];

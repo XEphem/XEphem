@@ -94,7 +94,7 @@ static XtIntervalId marker_tid;	/* timer to display sky marker */
 static char scopecategory[] = "INDI Configuration";
 
 void 
-sc_manage()
+sc_manage (void)
 {
 	if (!scopeshell_w)
 	    sc_create_w();
@@ -104,7 +104,7 @@ sc_manage()
 }
 
 void 
-sc_unmanage()
+sc_unmanage (void)
 {
 	if (scopeshell_w)
 	    XtPopdown (scopeshell_w);
@@ -124,7 +124,7 @@ sc_gethost (char **host, char **port)
 
 /* return whether we are sending goto commands */
 int
-sc_isGotoOn()
+sc_isGotoOn (void)
 {
 	if (!scopeshell_w)
 	    sc_create_w();
@@ -230,7 +230,7 @@ Cursor c;
  * init Running TB according to whether process is already running.
  */
 static void
-sc_create_w()
+sc_create_w (void)
 {
 	Widget rc_w, f_w, sep_w;
 	Widget scopef_w;

@@ -53,7 +53,7 @@ static char cccategory[] = "Coordinate converter";     /* Save category */
 
 /* bring up the Manual dialog */
 void
-cc_manage ()
+cc_manage (void)
 {
 	if (!ccshell_w) {
 	    cc_create();
@@ -95,7 +95,7 @@ Cursor c;
 
 /* create the Manual entry dialog */
 static void
-cc_create()
+cc_create (void)
 {
 	typedef struct {
 	    char *label;	/* label */
@@ -410,7 +410,7 @@ int h;
 
 /* tidy up each coordinate display */
 static void
-canonAll()
+canonAll (void)
 {
 	block_vchg++;
 	reFormat (ccalt_w, 0);

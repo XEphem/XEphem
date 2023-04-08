@@ -102,7 +102,7 @@ int ndeflt;	/* number of strings in deflt[] */
 }
 
 void
-hlp_config()
+hlp_config (void)
 {
 	if (!hlp_w)
 	    hlp_create ();
@@ -114,7 +114,7 @@ hlp_config()
 /* create the help configuration window (hlp_w).
  */
 static void
-hlp_create ()
+hlp_create (void)
 {
 	Widget w, f_w, l_w;
 	Arg args[20];
