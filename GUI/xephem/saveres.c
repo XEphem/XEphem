@@ -2249,7 +2249,8 @@ XtPointer call;
 	if (setdef || XmToggleButtonGetState (fappto_w)) {
 	    char *xlfd;
 	    XFontStruct *fsp;
-            XmFontListEntry entry;
+	    XmFontList fl;
+	    XmFontListEntry entry;
 	    Arg args[1];
 
 	    /* get name of font */
@@ -2260,7 +2261,7 @@ XtPointer call;
 	    if (fsp) {
 		entry = XmFontListEntryCreate(XmSTRING_DEFAULT_CHARSET,
                         XmFONT_IS_FONT, (XtPointer)fsp);
-		XmFontList fl = XmFontListAppendEntry(NULL,entry);		
+		fl = XmFontListAppendEntry(NULL, entry);
 
 		/* distribute to existing widgets */
 		XtSetArg (args[0], XmNfontList, fl);

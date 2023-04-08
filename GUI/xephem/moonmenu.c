@@ -2100,6 +2100,8 @@ m_sky()
 	double mlat, mlng;	/* moon's ecliptic coords */
 	double cmlat;		/* cos mlat*/
 	double maxr;		/* max dst from center we want to draw, rads */
+    double hfov, vfov;
+    int w, h;
 	DBScan dbs;
 	Obj *moonop;
 	Obj *op;
@@ -2120,10 +2122,10 @@ m_sky()
 	scale = (degrad(moonop->s_size/3600.0)/2.0) / moonrad;
 	maxr = 2*(sqrt((double)mnrows*mnrows + mncols*mncols) + BORD)*scale;
 
-	int w = mncols + 2 * BORD;
-	int h = mnrows + 2 * BORD;
-	double hfov = w * scale;
-	double vfov = h * scale;
+	w = mncols + 2 * BORD;
+	h = mnrows + 2 * BORD;
+	hfov = w * scale;
+	vfov = h * scale;
 
 	/* load field stars */
 	m_loadfs (np, mra, mdec);

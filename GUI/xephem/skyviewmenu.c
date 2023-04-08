@@ -2017,22 +2017,27 @@ sv_draw_obj_x (Display *dsp, Drawable win, GC gc, Obj *op, int x, int y,
 int diam, int dotsonly, int flip_tb_x, int flip_lr_x, int aa_mode_x, int cyl_proj_x,
 double altdec_x, double azra_x, double vfov_x, double hfov_x, int w_x, int h_x)
 {
+	int flip_tb_i, flip_lr_i;
+	int aa_mode_i, cyl_proj_i;
+	double altdec_i, azra_i;
+	double vfov_i, hfov_i;
+	int w_i, h_i;
+
 	/* might be called to draw on other screens before us */
 	if (!svshell_w)
 	    sv_create_svshell();
 
-	int flip_tb_i   = flip_tb;
-	int flip_lr_i   = flip_lr;
-	int aa_mode_i   = aa_mode;
-	int cyl_proj_i  = cyl_proj;
+	flip_tb_i   = flip_tb;
+	flip_lr_i   = flip_lr;
+	aa_mode_i   = aa_mode;
+	cyl_proj_i  = cyl_proj;
 
-	double altdec_i = sv_altdec;
-	double azra_i   = sv_azra;
-	double vfov_i   = sv_vfov;
-	double hfov_i   = sv_hfov;
-	int w_i         = sv_w;
-	int h_i         = sv_h;
-
+	altdec_i = sv_altdec;
+	azra_i   = sv_azra;
+	vfov_i   = sv_vfov;
+	hfov_i   = sv_hfov;
+	w_i         = sv_w;
+	h_i         = sv_h;
 	flip_tb   = flip_tb_x;
 	flip_lr   = flip_lr_x;
 	aa_mode   = aa_mode_x;
@@ -8162,6 +8167,7 @@ GC gc;
 	short top;
 	int nprofile;
 	int npts;
+	int xshift;
 	int i;
 
 	/* get n entries in profile, skip if none */
@@ -8227,7 +8233,7 @@ GC gc;
 	memcpy(&xpts[3*npts], xpts, nprofile * sizeof(XPoint));
 	memcpy(&xpts[4*npts], xpts, nprofile * sizeof(XPoint));
 
-	int xshift = wx - (sv_w - wx);
+	xshift = wx - (sv_w - wx);
 	if (flip_lr) {
 	    for (i = 0; i < nprofile; i++) {
 		xpts[i].x = xpts[i].x + 2 * xshift;
