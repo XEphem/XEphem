@@ -6,7 +6,6 @@
 #include "astro.h"
 
 
-#define TWOPI   	(2*PI)
 #define	STOPERR		(1e-8)
 
 /* given the mean anomaly, ma, and the eccentricity, s, of elliptical motion,
