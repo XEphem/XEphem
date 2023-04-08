@@ -636,7 +636,7 @@ sr_reg (Widget w, char *res, char *cat, int autosav)
 
 	/* expand list of resources */
 	reslist = (Resource *) XtRealloc ((char *)reslist,
-						(nreslist+1)*sizeof(Resource));
+	                                  (nreslist+1)*sizeof(Resource));
 
 	/* bubble rp to new position */
 	for (rp=&reslist[nreslist-1]; rp>=reslist && cmpRes(newrp,rp)<0; --rp)
@@ -765,7 +765,7 @@ sr_refresh (void)
 		}
 	    }
 	    rp->save = rp->new && ((rp->autosav && wantasel)
-	    					|| (!rp->autosav && wantmsel));
+	                           || (!rp->autosav && wantmsel));
 	    if (strcmp (val, rp->val)) {
 		XtFree (rp->val);
 		rp->val = XtNewString (val);
@@ -912,7 +912,7 @@ sr_save (int talk)
 	/* possibly inform and done */
 	if (talk) {
 	    xe_msg (1, "%s:\n%3d replaced\n%3d added", userResFile(),
-								nrepl, nnew);
+	            nrepl, nnew);
 	}
 	watch_cursor(0);
 	return (0);
@@ -946,7 +946,7 @@ getPrivateDir (void)
 	    if (ofp) {
 		while (fgets (buf, sizeof(buf), ofp)) {
 		    if (!crackNam (buf, nam) && !strcmp (nam, mdres) &&
-						    !crackVal (buf, val)) {
+		        !crackVal (buf, val)) {
 			vp = val;
 			break;
 		    } 
@@ -1003,7 +1003,7 @@ create_srshell (void)
 	XtSetArg (args[n], XmNiconName, "Save"); n++;
 	XtSetArg (args[n], XmNdeleteResponse, XmUNMAP); n++;
 	srshell_w = XtCreatePopupShell ("SaveRes", topLevelShellWidgetClass,
-							toplevel_w, args, n);
+	                                toplevel_w, args, n);
 	setup_icon (srshell_w);
 	set_something (srshell_w, XmNcolormap, (XtArgVal)xe_cm);
 	sr_reg (srshell_w, "XEphem*SaveRes.width", prefsavecategory, 0);
@@ -1165,9 +1165,9 @@ create_srshell (void)
 	    msel_w = XmCreateToggleButton (srform_w, "AutoMinorSel", args, n);
 	    XtAddCallback (msel_w, XmNvalueChangedCallback, sr_refresh_cb,NULL);
 	    set_xmstring (msel_w, XmNlabelString,
-		" Automatically tag modified Minor preferences for saving");
+	        " Automatically tag modified Minor preferences for saving");
 	    wtip (msel_w,
-	      "Whether modified Minor preferences are selected for Saving");
+	        "Whether modified Minor preferences are selected for Saving");
 	    XtManageChild (msel_w);
 
 	/* the big scrolled window for all the preferences */
@@ -1284,11 +1284,11 @@ sr_createpms (void)
 #endif
 
 	more_pm = XCreatePixmapFromBitmapData (dsp, win, (char *)more_bits,
-				    more_width, more_height, fg, bg, d);
+				more_width, more_height, fg, bg, d);
 	nomore_pm = XCreatePixmapFromBitmapData (dsp, win, (char *)nomore_bits,
-				    nomore_width, nomore_height, fg, bg, d);
+				nomore_width, nomore_height, fg, bg, d);
 	majorres_pm = XCreatePixmapFromBitmapData (dsp,win,(char*)majorres_bits,
-				    majorres_width, majorres_height, fg, bg, d);
+				majorres_width, majorres_height, fg, bg, d);
 	minorres_pm = XCreatePixmapFromBitmapData (dsp,win,(char*)minorres_bits,
 				minorres_width, minorres_height, fg, bg, d);
 	blankres_pm = XCreatePixmapFromBitmapData (dsp,win,(char*)blankres_bits,
@@ -1325,8 +1325,8 @@ static void
 sr_refresh_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor(1);
-        sr_refresh();
-        sr_display();
+	sr_refresh();
+	sr_display();
 	watch_cursor(0);
 }
 
@@ -1335,7 +1335,7 @@ static void
 sr_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	pendingexit = 0;
-        XtPopdown (srshell_w);
+	XtPopdown (srshell_w);
 }
 
 /* callback from the Help button.
@@ -1507,7 +1507,7 @@ sr_1res (Widget rc_w, Resource *rp, int center)
 	XtSetArg (args[n], XmNset, !!rp->save); n++;	/* bitfield */
 	s_w = XmCreateToggleButton (fo_w, "ResTB", args, n);
 	XtAddCallback (s_w, XmNvalueChangedCallback, sr_ressav_cb,
-								(XtPointer)rp);
+	               (XtPointer)rp);
 	XtManageChild (s_w);
 	wtip (s_w, "Whether to Save this preference");
 
@@ -1684,7 +1684,7 @@ findWFB (Widget findw)
 	    /* chop off widget's own resource, if any */
 	    dot = strrchr (wnam, '.');
 	    if (dot && (!strcmp (dot, ".value") || !strcmp (dot, ".set")
-					    || !strcmp (dot, ".labelString")))
+	                || !strcmp (dot, ".labelString")))
 		*dot = '\0';
 	    w = XtNameToWidget (toplevel_w, wnam+nmyclass);
 	    if (w == findw)
@@ -1799,7 +1799,7 @@ findCat (char *cat)
 		return (cp - catlist);
 
 	catlist = (Category *) XtRealloc ((char *)catlist,
-						(ncatlist+1)*sizeof(Category));
+	                                  (ncatlist+1)*sizeof(Category));
 	cp = &catlist[ncatlist++];
 	memset (cp, 0, sizeof(*cp));
 	cp->name = cat;
@@ -1873,7 +1873,7 @@ getXrmDB (char *nam, char **val)
 	 */
 	_xrmNam = nam;
 	r = XrmEnumerateDatabase(db, names, classes, XrmEnumAllLevels,
-								DumpEntry, 0);
+	                         DumpEntry, 0);
 	if (r == True) {
 	    *val = XtNewString(_xrmVal);
 	    XtFree(_xrmVal);
@@ -1976,7 +1976,7 @@ getCurVal (Resource *rp, char **valp)
 		} else {
 		    char nam[MRNAM];
 		    printf ("Bug! %s not supported from %s\n", rp->fb,
-							    fullWName(w,nam));
+		            fullWName(w,nam));
 		    abort();
 		}
 	    } else if (XmIsScale(w)) {
@@ -2048,7 +2048,7 @@ loadArgsChildren (Widget w, int (*isf)(), Arg *args, int nargs)
 	if ((*isf)(w)) {
 	    /* gadgets rely on their parents for most things */
 	    if (XmIsLabelGadget(w) /* includes all *Buttons */
-			|| XmIsSeparatorGadget(w) || XmIsArrowButtonGadget(w)) {
+	        || XmIsSeparatorGadget(w) || XmIsArrowButtonGadget(w)) {
 		/* beware changing non-realize*/
 		if (XtWindow(w))
 		    w = XtParent(w);
@@ -2076,7 +2076,7 @@ srf_showsample (char *xlfd)
 	    return;
 	}
 	entry = XmFontListEntryCreate(XmSTRING_DEFAULT_CHARSET, 
-			XmFONT_IS_FONT, (XtPointer)fsp);
+	        XmFONT_IS_FONT, (XtPointer)fsp);
 	fl = XmFontListAppendEntry(NULL,entry);
 	n = 0;
 	XtSetArg (args[n], XmNfontList, fl); n++;
@@ -2196,7 +2196,7 @@ srf_go_cb (Widget w, XtPointer client, XtPointer call)
 	    fsp = srf_install (fcp->res, fcp->res2, xlfd);
 	    if (fsp) {
 		entry = XmFontListEntryCreate(XmSTRING_DEFAULT_CHARSET,
-                        XmFONT_IS_FONT, (XtPointer)fsp);
+		        XmFONT_IS_FONT, (XtPointer)fsp);
 		fl = XmFontListAppendEntry(NULL, entry);
 
 		/* distribute to existing widgets */
@@ -2429,7 +2429,7 @@ static char *fhelp_msg[] = {
 "Type a font, then install into the specified widgets.",
 };
 	hlp_dialog ("Save_fonts", fhelp_msg,
-				    sizeof(fhelp_msg)/sizeof(fhelp_msg[0]));
+	            sizeof(fhelp_msg)/sizeof(fhelp_msg[0]));
 }
 
 /* compare two strings, qsort-style */
@@ -2485,7 +2485,7 @@ srf_search (void)
 static void
 srf_sel_cb (Widget w, XtPointer client, XtPointer call)
 {
-        XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
+	XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 	char *txt;
 
 	XmStringGetLtoR (lp->item, XmSTRING_DEFAULT_CHARSET, &txt);
@@ -2546,7 +2546,7 @@ create_srfshell (void)
 	XtSetArg (args[n], XmNiconName, "Fonts"); n++;
 	XtSetArg (args[n], XmNdeleteResponse, XmUNMAP); n++;
 	srfshell_w = XtCreatePopupShell ("Fonts", topLevelShellWidgetClass,
-							toplevel_w, args, n);
+	                                 toplevel_w, args, n);
 	set_something (srfshell_w, XmNcolormap, (XtArgVal)xe_cm);
 	sr_reg (srfshell_w, "XEphem*Fonts.x", preffontcategory, 0);
 	sr_reg (srfshell_w, "XEphem*Fonts.y", preffontcategory, 0);
@@ -2645,7 +2645,7 @@ create_srfshell (void)
 	    fgetc_w = XmCreateToggleButton (rb_w, "Get", args, n);
 	    set_xmstring (fgetc_w, XmNlabelString, "Get current");
 	    wtip (fgetc_w,
-	    		"Choosing a menu target retrieves its current font");
+	          "Choosing a menu target retrieves its current font");
 	    XtManageChild (fgetc_w);
 
 	    n = 0;
@@ -3356,7 +3356,7 @@ src_appres_cb (Widget w, XtPointer client, XtPointer call)
 static void
 src_hist_cb (Widget w, XtPointer client, XtPointer call)
 {
-        XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
+	XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 	char *txt;
 
 	XmStringGetLtoR (lp->item, XmSTRING_DEFAULT_CHARSET, &txt);
@@ -3370,7 +3370,7 @@ src_hist_cb (Widget w, XtPointer client, XtPointer call)
 static void
 src_clrl_cb (Widget w, XtPointer client, XtPointer call)
 {
-        XmListDeleteAllItems (srcsl_w);
+	XmListDeleteAllItems (srcsl_w);
 }
 
 /* called to close color chooser */
@@ -3378,7 +3378,7 @@ src_clrl_cb (Widget w, XtPointer client, XtPointer call)
 static void
 src_close_cb (Widget w, XtPointer client, XtPointer call)
 {
-        XtPopdown (srcshell_w);
+	XtPopdown (srcshell_w);
 }
 
 /* called when ENTER  is typed in the color text field */
@@ -3386,7 +3386,7 @@ src_close_cb (Widget w, XtPointer client, XtPointer call)
 static void
 src_enter_cb (Widget w, XtPointer client, XtPointer call)
 {
-        char *txt = XmTextFieldGetString (w);
+	char *txt = XmTextFieldGetString (w);
 	src_showcolor (txt, 1);
 	XtFree (txt);
 }
@@ -3419,14 +3419,14 @@ src_scale_cb (Widget w, XtPointer client, XtPointer call)
 	if (!XmToggleButtonGetState (srcrgb_w)) {
 	    double rd, gd, bd;
 	    toRGB ((double)r/MAXSCALE, (double)g/MAXSCALE, (double)b/MAXSCALE,
-								&rd, &gd, &bd);
+	           &rd, &gd, &bd);
 	    r = (int)(MAXSCALE*rd+.5);
 	    g = (int)(MAXSCALE*gd+.5);
 	    b = (int)(MAXSCALE*bd+.5);
 	}
 
 	sprintf(buf, "#%02x%02x%02x", 255*r/MAXSCALE, 255*g/MAXSCALE,
-							    255*b/MAXSCALE);
+	        255*b/MAXSCALE);
 	XmTextFieldSetString (srctf_w, buf);
 	src_showcolor (buf, 0);
 }
@@ -3440,7 +3440,7 @@ static char *chelp_msg[] = {
 "Type a color name, then install into the specified widgets.",
 };
 	hlp_dialog ("Save_colors", chelp_msg,
-				    sizeof(chelp_msg)/sizeof(chelp_msg[0]));
+	            sizeof(chelp_msg)/sizeof(chelp_msg[0]));
 }
 
 /* called to start color picker */
@@ -3502,7 +3502,7 @@ cpk_grab_cb (Widget w, XtPointer client, XtPointer call)
 	    /* convert to rgb */
 	    XQueryColor (dsp, xe_cm, &xcol);
 	    sprintf (cnam, "#%02x%02x%02x", xcol.red>>8, xcol.green>>8,
-								xcol.blue>>8);
+	             xcol.blue>>8);
 	    XmTextFieldSetString (srctf_w, cnam);
 	    src_showcolor (cnam, 1);
 	} while (!(m & Button1Mask));
@@ -3530,7 +3530,7 @@ create_srcshell (void)
 	XtSetArg (args[n], XmNiconName, "Colors"); n++;
 	XtSetArg (args[n], XmNdeleteResponse, XmUNMAP); n++;
 	srcshell_w = XtCreatePopupShell ("Colors", topLevelShellWidgetClass,
-							toplevel_w, args, n);
+	                                 toplevel_w, args, n);
 	set_something (srcshell_w, XmNcolormap, (XtArgVal)xe_cm);
 	sr_reg (srcshell_w, "XEphem*Colors.x", prefcolrcategory, 0);
 	sr_reg (srcshell_w, "XEphem*Colors.y", prefcolrcategory, 0);
@@ -3570,10 +3570,10 @@ create_srcshell (void)
 		nightv_w = XmCreateToggleButton (pd_w, "NightMode", args, n);
 		set_xmstring (nightv_w, XmNlabelString, "Night mode");
 		XtAddCallback (nightv_w, XmNvalueChangedCallback, src_nightv_cb,
-									NULL);
+		               NULL);
 		wtip (nightv_w, "Toggle night-vision black-background mode");
 		sr_reg (nightv_w, "XEphem*Colors*NightMode.set",
-							prefcolrcategory, 1);
+		        prefcolrcategory, 1);
 		XtManageChild (nightv_w);
 
 		n = 0;
@@ -3663,7 +3663,7 @@ create_srcshell (void)
 	    cgetc_w = XmCreateToggleButton (rb_w, "Get", args, n);
 	    set_xmstring (cgetc_w, XmNlabelString, "Get current");
 	    wtip (cgetc_w,
-	    		"Choosing a menu target retrieves its current color");
+	          "Choosing a menu target retrieves its current color");
 	    XtManageChild (cgetc_w);
 
 	    n = 0;
@@ -3671,7 +3671,7 @@ create_srcshell (void)
 	    cgetd_w = XmCreateToggleButton (rb_w, "GDef", args, n);
 	    set_xmstring (cgetd_w, XmNlabelString, "Get default");
 	    wtip (cgetd_w,
-	    		"Choosing a menu target retrieves its default color");
+	          "Choosing a menu target retrieves its default color");
 	    XtManageChild (cgetd_w);
 
 	    n = 0;
@@ -3695,7 +3695,7 @@ create_srcshell (void)
 	XtSetArg (args[n], XmNtopWidget, rb_w); n++;
 	XtSetArg (args[n], XmNleftAttachment, XmATTACH_FORM); n++;
 	tl_w = XmCreateLabel (mf_w, "TL", args, n);
-	set_xmstring (tl_w, XmNlabelString,"Then set target from menus above.");
+	set_xmstring (tl_w, XmNlabelString, "Then set target from menus above.");
 	XtManageChild (tl_w);
 
 	/* sep on top of color controls */
@@ -3811,8 +3811,8 @@ create_srcshell (void)
 
 	    /* create black drawing area to match initial scale settings */
 	    n = 0;
-	    XtSetArg (args[n], XmNbackground, BlackPixel(dsp,
-						    DefaultScreen(dsp))); n++;
+	    XtSetArg (args[n], XmNbackground,
+	              BlackPixel(dsp, DefaultScreen(dsp))); n++;
 	    srcda_w = XmCreateDrawingArea (fr_w, "DA", args, n);
 	    wtip (srcda_w, "Color patch showing above settings");
 	    XtManageChild (srcda_w);
