@@ -308,7 +308,7 @@ Obj *op)	/* working object -- returns as answer */
 		return (-3);
 
 	} while (fabs(dt)>TMACC);
-	// fprintf (stderr, "%s 0alt npasses = %d\n", op->o_name, npasses);
+	/* fprintf (stderr, "%s 0alt npasses = %d\n", op->o_name, npasses); */
 
 	/* return codes */
 	return (fabs(mjdn-mjd) < .5 ? 0 : -2);

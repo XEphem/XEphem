@@ -23,8 +23,8 @@
 #include <openssl/ssl.h>
 
 typedef struct {
-	int fd;		//file desciptor for the underlying connection socket
-	SSL *ssl;	//ssl connection for use with SSL_read( )and SSL_write()
+	int fd;		/* file desciptor for the underlying connection socket */
+	SSL *ssl;	/* ssl connection for use with SSL_read( )and SSL_write() */
 } XE_SSL_FD;
 
 /* support functions */

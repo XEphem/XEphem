@@ -3376,7 +3376,7 @@ short *xp, *yp;		/* projected location onto drawing surface */
 	    unsigned h = d + 2*hb;
 	    double dL;
 
-	    // *yp = (int)floor(h/2.0 * (1.0 - sin(pl)) + 0.5);
+	    /* *yp = (int)floor(h/2.0 * (1.0 - sin(pl)) + 0.5); */
 	    *yp = (int)floor(h/2.0 * (1.0 - 2*pl/PI) + 0.5);
 
 	    dL = pL - elng;
@@ -3640,7 +3640,7 @@ double *ltp, *lgp;	/* resulting lat/long, rads */
 	    if (x < 0 || x >= maxx || y < 0 || y >= maxy)
 		return (0);
 
-	    //*ltp = asin (1.0 - 2.0*y/maxy);
+	    /* *ltp = asin (1.0 - 2.0*y/maxy); */
 	    *ltp = PI * (1.0 - 2.0*y/maxy) / 2;
 
 	    *lgp = 2*PI*(x - maxx/2)/maxx + elng;
