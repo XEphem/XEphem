@@ -434,10 +434,7 @@ c_create_shell ()
 /* called when the general help key is pressed */
 /* ARGSUSED */
 static void
-c_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Select desired max separation and viewpoint, then Control->Start to find all",
@@ -452,10 +449,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-c_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -463,10 +457,7 @@ XtPointer call;
 /* callback from file List control button. */
 /* ARGSUSED */
 static void
-c_flist_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_flist_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (flist_w);
 }
@@ -474,10 +465,7 @@ XtPointer call;
 /* called when our toplevel shell is popped down */
 /* ARGSUSED */
 static void
-c_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XtIsManaged(flist_w))
 	    XtUnmanageChild (flist_w);
@@ -486,10 +474,7 @@ XtPointer call;
 /* called when the Close pushbutton is activated */
 /* ARGSUSED */
 static void
-c_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let the popdown do the rest of the work */
 	XtPopdown (cshell_w);
@@ -498,10 +483,7 @@ XtPointer call;
 /* called when a list item is double-clicked */
 /* ARGSUSED */
 static void
-c_actlist_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_actlist_cb (Widget w, XtPointer client, XtPointer call)
 {
 	(void) sky_point();
 }
@@ -509,10 +491,7 @@ XtPointer call;
 /* called when the Sky Point pushbutton is activated */
 /* ARGSUSED */
 static void
-c_skypoint_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_skypoint_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (sky_point() < 0)
 	    xe_msg (1, "First select a line from the list.");
@@ -521,10 +500,7 @@ XtPointer call;
 /* called when the Perform Search pushbutton is activated */
 /* ARGSUSED */
 static void
-c_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	do_search();
 }
@@ -1117,10 +1093,7 @@ c_create_flist_w()
 /* called when the Ok button is hit in the file flist prompt */
 /* ARGSUSED */
 static void
-c_flistok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_flistok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	int icount;

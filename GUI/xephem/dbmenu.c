@@ -392,10 +392,7 @@ db_create_shell ()
 /* a PB in a file PD has been chosen.
  */
 static void
-db_loadpb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+db_loadpb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -593,10 +590,7 @@ XtPointer data;
  */
 /* ARGSUSED */
 static void
-db_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+db_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -627,10 +621,7 @@ XtPointer data;
  */
 /* ARGSUSED */
 static void
-catdel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+catdel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor(1);
 	db_catdel ((DBCat *)client);
@@ -643,10 +634,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-cathdr_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cathdr_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor(1);
 	db_showhdr (((DBCat *)client)->name);

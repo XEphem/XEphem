@@ -2407,10 +2407,7 @@ si_ne()
 /* mark refstar on the image */
 /* ARGSUSED */
 static void
-si_markrefstar_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_markrefstar_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    xe_msg (1, "First open an image");
@@ -2425,10 +2422,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_newrefstar_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_newrefstar_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    xe_msg (1, "First open an image");
@@ -2447,10 +2441,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_newref_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_newref_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    xe_msg (1, "First open an image");
@@ -2466,10 +2457,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_managetb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_managetb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int state = XmToggleButtonGetState(w);
 	Widget sw = (Widget)client;
@@ -2493,10 +2481,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-si_lohi_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_lohi_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *lostr = XmTextFieldGetString (lo_w);
 	char *histr = XmTextFieldGetString (hi_w);
@@ -2524,10 +2509,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-si_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (si_w);
 }
@@ -2537,10 +2519,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *tag = (char *)client;
 
@@ -2663,10 +2642,7 @@ Boolean *continue_to_dispatch;
 /* expose callback for the gray map */
 /* ARGSUSED */
 static void
-si_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay(fda_w);
@@ -2704,10 +2680,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_contrast_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_contrast_cb (Widget w, XtPointer client, XtPointer call)
 {
 	void (*pfv)() = (void (*)())client;
 
@@ -2730,10 +2703,7 @@ XtPointer call;
 /* callback from Drag or ValueChanged on the gamma scale */
 /* ARGSUSED */
 static void
-si_gamma_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_gamma_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    return;
@@ -2751,10 +2721,7 @@ XtPointer call;
 /* callback for the gray map Inverse Vid TB */
 /* ARGSUSED */
 static void
-si_inv_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_inv_cb (Widget w, XtPointer client, XtPointer call)
 {
 	want_inv = XmToggleButtonGetState(w);
 
@@ -3499,10 +3466,7 @@ int rw;
 
 /* ARGSUSED */
 static void
-si_wcsclose_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcsclose_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (wcs_w);
 }
@@ -3510,10 +3474,7 @@ XtPointer call;
 /* called to start a WCS solution */
 /* ARGSUSED */
 static void
-si_wcsgo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcsgo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor (1);
 	wcsMatch ();
@@ -3523,10 +3484,7 @@ XtPointer call;
 /* called to mark seed stars */
 /* ARGSUSED */
 static void
-si_markstars_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_markstars_cb (Widget w, XtPointer client, XtPointer call)
 {
 	double *sx, *sy;
 	int burnt;
@@ -3583,10 +3541,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_wcsuse_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcsuse_cb (Widget w, XtPointer client, XtPointer call)
 {
 	WCSSeed *wsp = (WCSSeed *)client;
 	char msg[1024];
@@ -3603,10 +3558,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-si_wcshelp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcshelp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "Pattern match with field stars to find a WCS solution."

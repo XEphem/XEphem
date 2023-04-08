@@ -796,10 +796,7 @@ obj_unsetinfo()
  */
 /* ARGSUSED */
 static void
-obj_ctl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+obj_ctl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int id = (long int) client;
 
@@ -861,10 +858,7 @@ obj_help()
  */
 /* ARGSUSED */
 static void
-obj_type_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+obj_type_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w))
 	    obj_newlist();
@@ -875,10 +869,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-obj_select_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+obj_select_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int bi = (long int)client;
 	int idx = topi + bi;
@@ -896,10 +887,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-obj_scroll_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+obj_scroll_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScrollBarCallbackStruct *sp = (XmScrollBarCallbackStruct *)call;
 	int idx = sp->value;
@@ -918,10 +906,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-obj_srch_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+obj_srch_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char last_str[MAXNM];	/* last string we searched for */
 	static int last_idx;		/* index of last match for last_str */

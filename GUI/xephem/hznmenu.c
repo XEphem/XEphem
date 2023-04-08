@@ -420,10 +420,7 @@ hzn_create()
 /* called from Close */
 /* ARGSUSED */
 static void
-hzn_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (hznshell_w);
 }
@@ -431,10 +428,7 @@ XtPointer call;
 /* called when unmapped for any reason */
 /* ARGSUSED */
 static void
-hzn_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hznEditingOff();
 }
@@ -442,10 +436,7 @@ XtPointer call;
 /* called when edit TB changes */
 /* ARGSUSED */
 static void
-hzn_edit_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_edit_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    sv_hznOn();				/* public service feature */
@@ -456,10 +447,7 @@ XtPointer call;
 /* called from Help */
 /* ARGSUSED */
 static void
-hzn_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {"Specify local horizon."};
 
@@ -472,10 +460,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-hzn_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	char *fn;
@@ -503,10 +488,7 @@ XtPointer call;
 /* Displacement TB callback */
 /* ARGSUSED */
 static void
-hzn_displtb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_displtb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hzn_choose (XmToggleButtonGetState (w));
 }
@@ -514,10 +496,7 @@ XtPointer call;
 /* Displacement TF callback */
 /* ARGSUSED */
 static void
-hzn_displtf_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_displtf_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hzn_choose (1);
 }
@@ -525,10 +504,7 @@ XtPointer call;
 /* File TB callback */
 /* ARGSUSED */
 static void
-hzn_filetb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_filetb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hzn_choose (!XmToggleButtonGetState (w));
 }
@@ -536,10 +512,7 @@ XtPointer call;
 /* File TF callback */
 /* ARGSUSED */
 static void
-hzn_filetf_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_filetf_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hzn_choose (0);
 }
@@ -549,10 +522,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-hzn_chsfn_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_chsfn_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 

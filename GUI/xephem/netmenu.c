@@ -1059,10 +1059,7 @@ net_save ()
 /* called from Ok */
 /* ARGSUSED */
 static void
-ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (net_save() == 0)
 	    XtPopdown (netshell_w);
@@ -1071,10 +1068,7 @@ XtPointer call;
 /* called from Ok */
 /* ARGSUSED */
 static void
-cancel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cancel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* outta here */
 	XtPopdown (netshell_w);
@@ -1085,10 +1079,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pw_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pw_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmTextVerifyCallbackStruct *vp = (XmTextVerifyCallbackStruct *)call;
 	int l = XmTextFieldGetLastPosition(w);
@@ -1117,10 +1108,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-tb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+tb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    switch ((long int)client) {
@@ -1150,10 +1138,7 @@ XtPointer call;
 /* called from Ok */
 /* ARGSUSED */
 static void
-help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {"Set up network connectivity options."};
 

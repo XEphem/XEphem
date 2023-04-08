@@ -226,10 +226,7 @@ hlp_create ()
 /* called on Close */
 /* ARGSUSED */
 static void
-hlp_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hlp_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (hlp_w);
 }
@@ -237,10 +234,7 @@ XtPointer call;
 /* called when any TB changes */
 /* ARGSUSED */
 static void
-hlp_radio_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hlp_radio_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState(w);
 	int i;

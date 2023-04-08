@@ -331,10 +331,7 @@ Tip *tp;
 /* w is being destroyed so reclaim its tip info */
 /* ARGSUSED */
 static void
-tip_destroy_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+tip_destroy_cb (Widget w, XtPointer client, XtPointer call)
 {
 	tip_reclaim (w);
 }

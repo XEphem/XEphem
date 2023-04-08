@@ -580,10 +580,7 @@ dm_create_shell()
 /* callback to bring up the Data setup dialog */
 /* ARGSUSED */
 void
-dm_setup_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+dm_setup_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!selshell_w)
 	    dm_create_shell();
@@ -699,10 +696,7 @@ dm_selname (Widget pb_w, int r, int c)
  */
 static void
 /* ARGSUSED */
-dm_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+dm_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (dm_selecting) {
 	    char *name;
@@ -714,10 +708,7 @@ XtPointer call;
 /* callback when main dialog is popped down */
 static void
 /* ARGSUSED */
-dm_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+dm_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (selshell_w && XtIsManaged (selshell_w))
 	    XtUnmanageChild (selshell_w);
@@ -732,10 +723,7 @@ XtPointer call;
  */
 static void
 /* ARGSUSED */
-dm_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+dm_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do the real work */
 	XtPopdown (datashell_w);
@@ -745,10 +733,7 @@ XtPointer call;
  */
 static void
 /* ARGSUSED */
-dm_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+dm_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This table displays various information about the planets and objects.",
@@ -1637,10 +1622,7 @@ ds_apply_selections()
  */
 static void
 /* ARGSUSED */
-ds_ctl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ds_ctl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	DSCtrls id = (DSCtrls) client;
 	int i;
@@ -1711,10 +1693,7 @@ dm_create_flist_w()
 /* called when the Ok button is hit in the file list prompt */
 /* ARGSUSED */
 static void
-dm_flistok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+dm_flistok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	char *name;
@@ -1776,10 +1755,7 @@ char *how;
 /* callback from file List control button. */
 /* ARGSUSED */
 static void
-dm_flist_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+dm_flist_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!flist_w)
 	    dm_create_flist_w();
@@ -1791,10 +1767,7 @@ XtPointer call;
 /* callback from x selection control button. */
 /* ARGSUSED */
 static void
-dm_xsel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+dm_xsel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *buf = XtMalloc ((nfavs+3)*(NC*20));	/* plenty big :-) */
 	dm_list_get (buf);

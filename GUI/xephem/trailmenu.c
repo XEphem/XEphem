@@ -701,10 +701,7 @@ Widget savew[];
  */
 /* ARGSUSED */
 static void
-customint_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+customint_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtSetSensitive ((Widget)client, XmToggleButtonGetState(w));
 }
@@ -716,10 +713,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	TrContext *tcp;
 
@@ -737,10 +731,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-apply_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+apply_cb (Widget w, XtPointer client, XtPointer call)
 {
 	TrContext *tcp;
 
@@ -1076,10 +1067,7 @@ TrState *statep;
 /* called when unmapped */
 /* ARGSUSED */
 static void
-popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* N.B. don't free the userData here -- wait for destroy.
 	 * turns out unmap callbacks run before ok_cb!
@@ -1090,10 +1078,7 @@ XtPointer call;
 /* called when destroyed, client is TrContext to be free'd */
 /* ARGSUSED */
 static void
-destroy_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+destroy_cb (Widget w, XtPointer client, XtPointer call)
 {
 	free ((char *)client);
 }
@@ -1103,10 +1088,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	TrContext *tcp;
 
@@ -1119,10 +1101,7 @@ XtPointer call;
 /* called when the Help button is hit */
 /* ARGSUSED */
 static void
-help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+help_cb (Widget w, XtPointer client, XtPointer call)
 {
         hlp_dialog ("Trails", NULL, 0);
 }

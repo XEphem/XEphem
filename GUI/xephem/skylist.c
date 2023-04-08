@@ -565,10 +565,7 @@ Widget f_w;
  */
 /* ARGSUSED */
 static void
-sl_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState(w);
 	Widget otherw = (Widget)client;
@@ -579,10 +576,7 @@ XtPointer call;
 /* called when the Close button is hit in the file list prompt */
 /* ARGSUSED */
 static void
-sl_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (list_w);
 }
@@ -590,10 +584,7 @@ XtPointer call;
 /* called when the help button is hit in the file list prompt */
 /* ARGSUSED */
 static void
-sl_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "List and Save Sky View objects in two formats."
@@ -627,10 +618,7 @@ sl_clearlast()
 /* called when the Clear button is hit */
 /* ARGSUSED */
 static void
-sl_clear_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_clear_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* clear all */
 	while (nsortorder)
@@ -640,10 +628,7 @@ XtPointer call;
 /* called when the Undo button is hit */
 /* ARGSUSED */
 static void
-sl_undo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_undo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sl_clearlast();
 }
@@ -653,10 +638,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sl_so_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_so_cb (Widget w, XtPointer client, XtPointer call)
 {
 	SortInfo *sip = (SortInfo *)client;
 	char buf[10];
@@ -679,10 +661,7 @@ XtPointer call;
 /* called when the Sort button is hit */
 /* ARGSUSED */
 static void
-sl_sort_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_sort_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sl_sort();
 }
@@ -690,10 +669,7 @@ XtPointer call;
 /* called when the Save button is hit */
 /* ARGSUSED */
 static void
-sl_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -730,10 +706,7 @@ XtPointer call;
 /* called when the Mark button is hit on the popup */
 /* ARGSUSED */
 static void
-slpu_mark_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+slpu_mark_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* sanity check */
 	if (!pu.op)
@@ -745,10 +718,7 @@ XtPointer call;
 /* called when the Delete button is hit on the popup */
 /* ARGSUSED */
 static void
-slpu_del_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+slpu_del_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *txt;
 	int end;

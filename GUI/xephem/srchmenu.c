@@ -609,10 +609,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
  */
 /* ARGSUSED */
 static void
-srch_use_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_use_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (srch_selecting) {
 	    if (prog_isgood()) {
@@ -627,10 +624,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_newfunc_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_newfunc_cb (Widget w, XtPointer client, XtPointer call)
 {
 	f_showit (err_w, "New function not compiled");
 }
@@ -640,10 +634,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_loadfn_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_loadfn_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char msg[1024];
 	char *g, *f, *a;
@@ -695,10 +686,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_savefn_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_savefn_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024], *txt;
 	char *goal;
@@ -751,10 +739,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_compile_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_compile_cb (Widget w, XtPointer client, XtPointer call)
 {
 	compile_func();
 }
@@ -763,10 +748,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *help_msg[] = {
 "This menu controls the automatic searching facility. You define an arithmetic",
@@ -790,10 +772,7 @@ static char *help_msg[] = {
  */
 /* ARGSUSED */
 static void
-srch_clear_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_clear_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *txt = XmTextGetString (func_w);
 	XmTextReplace (func_w, 0, strlen(txt), "");
@@ -806,10 +785,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_fields_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_fields_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int whether = XmToggleButtonGetState(w);
 
@@ -823,10 +799,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (srchshell_w);
 }
@@ -834,10 +807,7 @@ XtPointer call;
 /* user typed Return in accuracy field. get his new value and use it */
 /* ARGSUSED */
 static void
-srch_acc_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_acc_cb (Widget w, XtPointer client, XtPointer call)
 {
 	get_tmlimit();
 }
@@ -848,10 +818,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_goal_cb(w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_goal_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int (*sfp)()= (int (*)())client;
 
@@ -867,10 +834,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_on_off_cb(w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_on_off_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg =
 	    "You must first successfully compile a search Function and\n select a Goal algorithm before searching may be enabled.";

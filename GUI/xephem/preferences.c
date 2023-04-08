@@ -312,10 +312,7 @@ PrefSet *pp;
  */
 /* ARGSUSED */
 static void
-pref_date_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_date_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -330,10 +327,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_units_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_units_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -348,10 +342,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_tz_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_tz_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -366,10 +357,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_dpy_prec_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_dpy_prec_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -384,10 +372,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_topogeo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_topogeo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -402,10 +387,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_msg_bell_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_msg_bell_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -419,10 +401,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_prefill_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_prefill_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -436,10 +415,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_tips_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_tips_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -453,10 +429,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_confirm_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_confirm_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -470,10 +443,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_weekstart_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_weekstart_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 

@@ -2000,10 +2000,7 @@ create_print_w()
  */
 static void
 /* ARGSUSED */
-toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    Widget otherw = (Widget)client;

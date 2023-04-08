@@ -890,10 +890,7 @@ initialUps()
  */
 /* ARGSUSED */
 static void
-m_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int code = (long int)client;
 
@@ -952,7 +949,7 @@ XtPointer call;
 
 /* outta here */
 static void
-goodbye()
+goodbye (void)
 {
 	XtCloseDisplay (XtDisplay (toplevel_w));
 	exit(0);
@@ -960,7 +957,7 @@ goodbye()
 
 /* user wants to quit */
 static void
-x_quit()
+x_quit (void)
 {
 	int nchg = sr_refresh();
 

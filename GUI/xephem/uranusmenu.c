@@ -906,10 +906,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback when the Close button is activated on the stats menu */
 /* ARGSUSED */
 static void
-um_sstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_sstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (usform_w);
 }
@@ -917,10 +914,7 @@ XtPointer call;
 /* callback when the More Info button is activated */
 /* ARGSUSED */
 static void
-um_sstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_sstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (usform_w);
 	um_set_buttons(um_selecting);
@@ -930,10 +924,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_cpdmapping_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_cpdmapping_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtSetSensitive (tel_w, telIsOn());
 }
@@ -944,10 +935,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (client) {
 	    int *flagp = (int *)client;
@@ -970,10 +958,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_scale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_scale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	um_update (mm_get_now(), 1);
 }
@@ -982,10 +967,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (um_selecting) {
 	    char *name;
@@ -998,10 +980,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ut_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ut_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1111,10 +1090,7 @@ ut_track_size()
 /* callback when topview dialog is unmapped */
 /* ARGSUSED */
 static void
-ut_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ut_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (topview_w, False, True);
 }
@@ -1122,10 +1098,7 @@ XtPointer call;
 /* callback when main shell is popped down */
 /* ARGSUSED */
 static void
-um_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (usform_w);
 	XtUnmanageChild (utform_w);
@@ -1152,10 +1125,7 @@ XtPointer call;
 /* callback from the main Close button */
 /* ARGSUSED */
 static void
-um_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do all the work */
 	XtPopdown (ushell_w);
@@ -1164,10 +1134,7 @@ XtPointer call;
 /* callback to add this scene to the movie loop */
 /* ARGSUSED */
 static void
-um_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (um_pm, dt_w);
 }
@@ -1176,10 +1143,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* best effect if turn off worrying about the sky background */
 	skybkg = 0;
@@ -1192,10 +1156,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1253,10 +1214,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	ScreenObj *sop;
@@ -1351,10 +1309,7 @@ ScreenObj *sop;
  */
 /* ARGSUSED */
 static void
-um_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This is a simple schematic depiction of Uranus and its moons.",
@@ -1368,10 +1323,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1380,10 +1332,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_goto_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_goto_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = db_basic (URANUS);
 	telGoto (op);
@@ -1464,10 +1413,7 @@ int x, y;
  */
 /* ARGSUSED */
 static void
-um_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Uranus", um_print);
 }

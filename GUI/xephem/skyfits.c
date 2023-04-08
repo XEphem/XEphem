@@ -700,10 +700,7 @@ Widget fsb_w;
 /* callback from the Public dir PB */
 /* ARGSUSED */
 static void
-sharedDirCB (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sharedDirCB (Widget w, XtPointer client, XtPointer call)
 {
 	Widget fsb_w = (Widget)client;
 	char buf[1024];
@@ -715,10 +712,7 @@ XtPointer call;
 /* callback from the Private dir PB */
 /* ARGSUSED */
 static void
-privateDirCB (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+privateDirCB (Widget w, XtPointer client, XtPointer call)
 {
 	Widget fsb_w = (Widget)client;
 
@@ -760,10 +754,7 @@ Widget rc_w, fsb_w;
 /* called when Watch TB changes */
 /* ARGSUSED */
 static void
-fw_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fw_cb (Widget w, XtPointer client, XtPointer call)
 {
 	fw_on (XmToggleButtonGetState(w));
 }
@@ -771,10 +762,7 @@ XtPointer call;
 /* called when Get PB or toolbar PB is hit */
 /* ARGSUSED */
 void
-sf_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!sf_w) {
 	    sf_create();
@@ -795,10 +783,7 @@ XtPointer call;
 /* called when CR is hit in the Save text field or the Save PB is hit */
 /* ARGSUSED */
 static void
-sf_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -864,10 +849,7 @@ save_file()
 /* called when a file selected by the FSB is to be opened */
 static void
 /* ARGSUSED */
-sf_open_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_open_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmFileSelectionBoxCallbackStruct *s =
 				    (XmFileSelectionBoxCallbackStruct *)call;
@@ -889,20 +871,14 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-sf_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (sf_w);
 }
 
 /* ARGSUSED */
 static void
-sf_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Read in local FITS files or read from Network.",
@@ -915,10 +891,7 @@ XtPointer call;
 /* callback to set main time to match FITS */
 /* ARGSUSED */
 static void
-sf_setdate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_setdate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	double newmjd;
 

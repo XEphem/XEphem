@@ -292,10 +292,7 @@ ir_create()
 /* called from Close */
 /* ARGSUSED */
 static void
-ir_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ir_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (irshell_w);
 }
@@ -303,10 +300,7 @@ XtPointer call;
 /* called from Help */
 /* ARGSUSED */
 static void
-ir_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ir_help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {"Define reference stars then each additional."};
 

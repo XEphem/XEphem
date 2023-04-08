@@ -458,10 +458,7 @@ mm_external ()
  */
 /* ARGSUSED */
 void
-mm_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mm_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_gostop ((long int)client);
 }
@@ -1211,10 +1208,7 @@ int whether;
  */
 /* ARGSUSED */
 static void
-mm_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mm_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Field *fp = (Field *)client;
 
@@ -1232,10 +1226,7 @@ XtPointer call;
 /* called when user wants XEphem time to stay in sync with computer */
 /* ARGSUSED */
 static void
-keepnow_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+keepnow_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_startrt();
 }
@@ -1377,10 +1368,7 @@ mm_stop()
  */
 /* ARGSUSED */
 static void
-mm_step_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mm_step_cb (Widget w, XtPointer client, XtPointer call)
 {
 	StepOption *sop = (StepOption *)client;
 
@@ -2664,10 +2652,7 @@ ext_readnext()
 /* called when the Ok button is hit in the external file input prompt */
 /* ARGSUSED */
 static void
-ext_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ext_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *name;
 
@@ -2716,10 +2701,7 @@ ext_stop()
 /* called when the Help button is hit in the external file input prompt */
 /* ARGSUSED */
 static void
-ext_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ext_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *hlp[] = {
 "XEphem runs from entries in this file.",

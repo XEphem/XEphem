@@ -405,10 +405,7 @@ Now *np;
  */
 /* ARGSUSED */
 static void
-today_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+today_cb (Widget w, XtPointer client, XtPointer call)
 {
 	TodayCuts c = (TodayCuts)client;
 	Now *np = mm_get_now();
@@ -453,10 +450,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-date_changed_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+date_changed_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	int code = (long int)client;

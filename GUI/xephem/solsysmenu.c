@@ -700,10 +700,7 @@ st_create_form()
  */
 /* ARGSUSED */
 static void
-ss_trail_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_trail_cb (Widget w, XtPointer client, XtPointer call)
 {
 	tr_setup ("xephem Solar System trails setup", "Solar System", &trstate,
 							    ss_newtrail, NULL);
@@ -713,10 +710,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int what = (long int) client;
 
@@ -762,10 +756,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_changed_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_changed_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *sp = (XmScaleCallbackStruct *) call;
 
@@ -782,10 +773,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do rest of the work */
 	XtPopdown (ssshell_w);
@@ -795,10 +783,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (ss_pm, dt_w);
 }
@@ -806,10 +791,7 @@ XtPointer call;
 /* callback from popping down the main view */
 /* ARGSUSED */
 static void
-ss_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (stform_w);
 
@@ -831,10 +813,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_print_cb (Widget w, XtPointer client, XtPointer call)
 {
         XPSAsk ("Solar System", ss_print);
 }
@@ -1025,10 +1004,7 @@ Cardinal *n;
  */
 /* ARGSUSED */
 static void
-ss_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_movie (MOVIE_STEPSZ);
 }
@@ -1037,10 +1013,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This displays the solar system. The sun is always at the center. The left",
@@ -1057,10 +1030,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1069,10 +1039,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay (w);
@@ -1129,10 +1096,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-st_parallax_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_parallax_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleGetValue (w, &parallax);
 	ss_all ();
@@ -1186,10 +1150,7 @@ st_track_size()
 /* callback from unmapping the stereo view */
 /* ARGSUSED */
 static void
-st_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	stereo = 0;
 	XmToggleButtonSetState(stereo_w, False, False);
@@ -1204,10 +1165,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-st_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay (w);
@@ -1266,10 +1224,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -2322,10 +2277,7 @@ HLoc *hp;
  */
 /* ARGSUSED */
 static void
-ap_label_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ap_label_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = pu.op;
 
@@ -2341,10 +2293,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_fav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_fav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = pu.op;
 	if (op == db_basic(MOON))

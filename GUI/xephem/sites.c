@@ -720,10 +720,7 @@ sites_cmpf (const void * v1, const void * v2)
  */
 /* ARGSUSED */
 static void
-sq_set_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sq_set_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *str = XmTextFieldGetString (settf_w);
 	int i;
@@ -747,10 +744,7 @@ XtPointer call;
 /* called when CR is hit in the search text field /or/ from Search PB */
 /* ARGSUSED */
 static void
-sq_search_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sq_search_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *str;
 	int i;
@@ -770,10 +764,7 @@ XtPointer call;
 /* called when an item in the scrolled list is double-clicked */
 /* ARGSUSED */
 static void
-sq_dblclick_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sq_dblclick_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int *pos, npos;
 	int free;
@@ -795,10 +786,7 @@ XtPointer call;
 /* called when an item in the scrolled list is single-clicked */
 /* ARGSUSED */
 static void
-sq_click_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sq_click_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int *pos, npos;
 	int free;
@@ -820,10 +808,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sq_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sq_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Load and select from a list of sites."
@@ -835,10 +820,7 @@ XtPointer call;
 /* called when the Cancel button is hit */
 /* ARGSUSED */
 static void
-sq_cancel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sq_cancel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (sq_w);
 }
@@ -846,10 +828,7 @@ XtPointer call;
 /* called when the Add TB is hit */
 /* ARGSUSED */
 static void
-sq_create_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sq_create_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState (w))
 	    XtManageChild (newf_w);
@@ -860,10 +839,7 @@ XtPointer call;
 /* called when the Set main PB is hit */
 /* ARGSUSED */
 static void
-sq_setmain_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sq_setmain_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Site ns;
 
@@ -875,10 +851,7 @@ XtPointer call;
 /* called when the Save PB is hit */
 /* ARGSUSED */
 static void
-sq_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sq_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char fn[1024];
 	Site ns;

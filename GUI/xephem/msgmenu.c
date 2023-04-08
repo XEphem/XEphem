@@ -198,10 +198,7 @@ msg_create_w()
 /* callback from the erase pushbutton */
 /* ARGSUSED */
 static void
-msg_erase_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+msg_erase_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmTextReplace (txt_w, 0, txtl, "");
 	txtl = 0;
@@ -211,10 +208,7 @@ XtPointer call;
 /* callback from the close pushbutton */
 /* ARGSUSED */
 static void
-msg_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+msg_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (msg_w);
 }
@@ -222,10 +216,7 @@ XtPointer call;
 /* callback from the help pushbutton */
 /* ARGSUSED */
 static void
-msg_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+msg_help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {
 	    "System messages"
@@ -318,10 +309,7 @@ char *p;
 /* callback from the alert message box ok pushbutton */
 /* ARGSUSED */
 static void
-alert_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+alert_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (alert_w);
 }

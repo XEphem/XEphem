@@ -467,10 +467,7 @@ ano_mkgcs()
  */
 /* ARGSUSED */
 static void
-ano_del_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_del_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int ai = (long int)client;
 	AnnInfo *ap = &anninfo[ai];
@@ -485,10 +482,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_hide_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_hide_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState (w);
 	int ai = (long int)client;
@@ -502,10 +496,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_new_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_new_cb (Widget w, XtPointer client, XtPointer call)
 {
 	(void) ano_newEntry();
 }
@@ -514,10 +505,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_togglehides_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_togglehides_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i;
 
@@ -533,10 +521,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_hideall_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_hideall_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i;
 
@@ -553,10 +538,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_place_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_place_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int ai = (long int)client;
 	AnnInfo *ap = &anninfo[ai];
@@ -569,10 +551,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_text_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_text_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int ai = (long int)client;
 	AnnInfo *ap = &anninfo[ai];
@@ -587,10 +566,7 @@ XtPointer call;
 /* callback from the main Close button */
 /* ARGSUSED */
 static void
-ano_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do all he work */
 	XtPopdown (anoshell_w);
@@ -601,10 +577,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_load_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_load_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 	get_xmstring (w, XmNlabelString, &fn);
@@ -617,10 +590,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024], *fn;
 	char *txt;
@@ -647,10 +617,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* TODO erase all ? */
 }
@@ -659,10 +626,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ano_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ano_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Enter text, click Place, move cursor to position text, click and hold,",

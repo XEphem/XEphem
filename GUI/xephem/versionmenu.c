@@ -294,10 +294,7 @@ Widget w;
  */
 /* ARGSUSED */
 static void
-v_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+v_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (v_timer_id) {
 	    XtRemoveTimeOut (v_timer_id);
@@ -308,10 +305,7 @@ XtPointer call;
 /* ok */
 /* ARGSUSED */
 static void
-v_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+v_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (vshell_w);
 }
@@ -322,10 +316,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-v_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+v_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 

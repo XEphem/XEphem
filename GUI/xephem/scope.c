@@ -517,10 +517,7 @@ Widget *b_wp)		/* intercept TF widget, or NULL */
 /* called when the help button is hit */
 /* ARGSUSED */
 static void
-sc_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sc_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "Configure how INDI services connect with XEphem."

@@ -401,10 +401,7 @@ ng_create_popup()
 /* callback from the Print PB */
 /* ARGSUSED */
 static void
-ng_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_print_cb (Widget w, XtPointer client, XtPointer call)
 {
         XPSAsk ("Night-at-a-Glance", ng_print);
 }
@@ -412,10 +409,7 @@ XtPointer call;
 /* callback from the One Color TB */
 /* ARGSUSED */
 static void
-ng_1col_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_1col_cb (Widget w, XtPointer client, XtPointer call)
 {
         ng_redraw();
 }
@@ -423,10 +417,7 @@ XtPointer call;
 /* callback from the inputCallback*/
 /* ARGSUSED */
 static void
-ng_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Now *np = mm_get_now();
@@ -588,10 +579,7 @@ ng_ps_annotate ()
 /* callback from PB in popup to set XEphem time to punow. */
 /* ARGSUSED */
 static void
-ng_settime_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_settime_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_newcaldate (punow.n_mjd);
 }
@@ -599,10 +587,7 @@ XtPointer call;
 /* callback from ngshell_w being popped down. */
 /* ARGSUSED */
 static void
-ng_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (ng_pm) {
 	    XFreePixmap (XtD, ng_pm);
@@ -615,10 +600,7 @@ XtPointer call;
 
 /* called from Close button */
 static void
-ng_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (ngshell_w);
 	/* popping down ngshell_w will do all the real work */
@@ -626,10 +608,7 @@ XtPointer call;
 
 /* called to add graph to movie loop */
 static void
-ng_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (ng_pm, dt_w);
 }
@@ -638,10 +617,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ng_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "This is the night at a glance.",
@@ -654,10 +630,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ng_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay(ngda_w);

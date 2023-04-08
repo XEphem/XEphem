@@ -182,10 +182,7 @@ pm_createshell()
 /* called from the Close PB */
 /* ARGSUSED */
 static void
-pm_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pm_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (pmshell_w);
 }
@@ -194,10 +191,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pm_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pm_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 

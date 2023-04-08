@@ -702,10 +702,7 @@ Obj *op;
  */
 /* ARGSUSED */
 static void
-svf_da_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_da_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	FilterTB *ftbp = (FilterTB *) client;
@@ -789,10 +786,7 @@ Widget daw;
 /* called when either mag scale is dragged */
 /* ARGSUSED */
 static void
-svf_magdrag_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_magdrag_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sv_amagoff();
 }
@@ -800,10 +794,7 @@ XtPointer call;
 /* called when Apply is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_apply_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_apply_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_apply();
 	sv_all(mm_get_now());
@@ -812,10 +803,7 @@ XtPointer call;
 /* called when Ok is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_apply();
 	sv_all(mm_get_now());
@@ -825,10 +813,7 @@ XtPointer call;
 /* called when Close is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (filter_w);
 }
@@ -837,10 +822,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svf_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This allows settings the types of objects to display."
@@ -852,10 +834,7 @@ XtPointer call;
 /* called when Toggle is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i, j;
 
@@ -872,10 +851,7 @@ XtPointer call;
 /* called when All is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_all_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_all_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i, j;
 
@@ -891,10 +867,7 @@ XtPointer call;
 /* called when Reset is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_reset_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_reset_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_reset();
 }
@@ -904,10 +877,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svf_cat_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_cat_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FilterCat *fcp = (FilterCat *) client;
 	int i;

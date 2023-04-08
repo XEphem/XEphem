@@ -1451,10 +1451,7 @@ e_buildfavs()
 /* callback when any of the stat buttons are activated. */
 /* ARGSUSED */
 static void
-e_stat_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_stat_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (e_selecting) {
 	    char *userD;
@@ -1467,10 +1464,7 @@ XtPointer call;
 /* callback when the main form in popped down */
 /* ARGSUSED */
 static void
-e_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown(ectrl_w);
 
@@ -1491,10 +1485,7 @@ XtPointer call;
 /* callback for when the main Close button is activated */
 /* ARGSUSED */
 static void
-e_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown to the real work */
 	XtPopdown (eshell_w);
@@ -1503,10 +1494,7 @@ XtPointer call;
 /* callback for when the control dialog is closed */
 /* ARGSUSED */
 static void
-e_cclose_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_cclose_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (ectrl_w);
 }
@@ -1514,10 +1502,7 @@ XtPointer call;
 /* callback to bring up web update window */
 /* ARGSUSED */
 static void
-e_webupdate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_webupdate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	wdb_manage();
 }
@@ -1527,10 +1512,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_ontrack_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_ontrack_cb (Widget w, XtPointer client, XtPointer call)
 {
 	EObj *eop = &eobjs[(long int)client];
 
@@ -1562,10 +1544,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_onpick_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_onpick_cb (Widget w, XtPointer client, XtPointer call)
 {
 	EObj *eop;
 
@@ -1582,10 +1561,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_show_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_show_cb (Widget w, XtPointer client, XtPointer call)
 {
 	EObj *eop = &eobjs[(long int)client];
 
@@ -1611,10 +1587,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_wantlbl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_wantlbl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* if coming on, show as a courtesy */
 	if (TBISON(w)) {
@@ -1631,10 +1604,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_wantfoot_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_wantfoot_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* if coming on, show as a courtesy */
 	if (TBISON(w)) {
@@ -1651,10 +1621,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_wantorb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_wantorb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* if coming on, show as a courtesy */
 	if (TBISON(w)) {
@@ -1668,10 +1635,7 @@ XtPointer call;
 /* callback for when the Movie button is activated. */
 /* ARGSUSED */
 static void
-e_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_movie (MOVIE_SS);
 }
@@ -1679,10 +1643,7 @@ XtPointer call;
 /* callback to add scene to movie loop */
 /* ARGSUSED */
 static void
-e_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (e_pm, e_dt_w);
 }
@@ -1712,10 +1673,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
  */
 /* ARGSUSED */
 static void
-e_mhelp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_mhelp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This is a simple schematic depiction of the Earth surface at the given time.",
@@ -1729,10 +1687,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_chelp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_chelp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Controls which objects are displayed and their current stats"
@@ -1746,10 +1701,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1758,10 +1710,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Earth", e_print);
 }
@@ -1971,10 +1920,7 @@ int x, y;
  */
 /* ARGSUSED */
 static void
-e_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static unsigned last_wid, last_hei;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -2214,10 +2160,7 @@ XtPointer call;
 /* called to open the object control window */
 /* ARGSUSED */
 static void
-e_copen_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_copen_cb (Widget w, XtPointer client, XtPointer call)
 {
 	e_set_buttons(e_selecting);
 	XtPopup (ectrl_w, XtGrabNone);
@@ -2230,10 +2173,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_trail_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_trail_cb (Widget w, XtPointer client, XtPointer call)
 {
 	EObj *eop = &eobjs[(long int)client];
 
@@ -2373,10 +2313,7 @@ e_wantorbtgl_cb (Widget w, XtPointer client, XtPointer call)
  */
 /* ARGSUSED */
 static void
-e_wxreload_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_wxreload_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (e_setupwxpm(1, 1) == 0)
 	    e_all (0);
@@ -2387,10 +2324,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_proj_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_proj_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Proj newproj = (Proj)client;
 
@@ -2559,10 +2493,7 @@ e_set_dasize()
  */
 /* ARGSUSED */
 static void
-e_setmain_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_setmain_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	int which = (long int)client;
@@ -2592,10 +2523,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_latlong_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_latlong_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *s = (XmScaleCallbackStruct *)call;
 
@@ -2619,10 +2547,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_lat0_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_lat0_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int lg;
 
@@ -2644,10 +2569,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_point_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_point_cb (Widget w, XtPointer client, XtPointer call)
 {
 	e_setelatlng (pu_info.pu_lt, pu_info.pu_lg);
 	noTrack();

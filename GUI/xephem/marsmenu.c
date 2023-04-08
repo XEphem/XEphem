@@ -1101,10 +1101,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback when an item is de/selected in the feature list */
 /* ARGSUSED */
 static void
-m_list_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_list_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 
@@ -1118,10 +1115,7 @@ XtPointer call;
 /* callback from the Moons button */
 /* ARGSUSED */
 static void
-m_moons_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_moons_cb (Widget w, XtPointer client, XtPointer call)
 {
 	marsm_manage();
 }
@@ -1129,10 +1123,7 @@ XtPointer call;
 /* callback from the Close button on the stats menu */
 /* ARGSUSED */
 static void
-m_mstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_mstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (msform_w);
 }
@@ -1140,10 +1131,7 @@ XtPointer call;
 /* callback when want stats menu up */
 /* ARGSUSED */
 static void
-m_mstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_mstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (msform_w);
 	m_set_buttons(m_selecting);
@@ -1154,10 +1142,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_features_ctrl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_features_ctrl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	MFSel *mfsp;
 
@@ -1199,10 +1184,7 @@ XtPointer call;
 /* callback when want features dialog up */
 /* ARGSUSED */
 static void
-m_features_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_features_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (mfform_w);
 }
@@ -1212,10 +1194,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_feasel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_feasel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	MFSel *mfsp = (MFSel *) client;
 	mfsp->set = XmToggleButtonGetState(w);
@@ -1224,10 +1203,7 @@ XtPointer call;
 /* callback from the Print PB */
 /* ARGSUSED */
 static void
-m_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_print_cb (Widget w, XtPointer client, XtPointer call)
 {
         XPSAsk ("Mars View", m_print);
 }
@@ -1343,10 +1319,7 @@ m_ps_annotate ()
  */
 /* ARGSUSED */
 static void
-m_selection_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_selection_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (m_selecting) {
 	    char *name;
@@ -1358,10 +1331,7 @@ XtPointer call;
 /* callback from the CML scale */
 /* ARGSUSED */
 static void
-m_cml_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_cml_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *sp = (XmScaleCallbackStruct *)call;
 	int v = sp->value;
@@ -1375,10 +1345,7 @@ XtPointer call;
 /* callback from the SLT scale */
 /* ARGSUSED */
 static void
-m_slt_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_slt_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *sp = (XmScaleCallbackStruct *)call;
 	int v = sp->value;
@@ -1392,10 +1359,7 @@ XtPointer call;
 /* callback from the Seeing scale */
 /* ARGSUSED */
 static void
-m_see_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_see_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *sp = (XmScaleCallbackStruct *)call;
 	char str[32];
@@ -1412,10 +1376,7 @@ XtPointer call;
 /* callback from the Apply PB */
 /* ARGSUSED */
 static void
-m_apply_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_apply_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int v;
 
@@ -1441,10 +1402,7 @@ XtPointer call;
 /* callback from the Point PB */
 /* ARGSUSED */
 static void
-m_aim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_aim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	m_setnewpos (pu_l, pu_L);
 }
@@ -1475,10 +1433,7 @@ m_setnewpos (double l, double L)
  */
 /* ARGSUSED */
 static void
-m_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (msform_w);
 	XtUnmanageChild (mfform_w);
@@ -1489,10 +1444,7 @@ XtPointer call;
 
 /* called from Close button */
 static void
-m_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (mshell_w);
 	/* popdown will do all the real work */
@@ -1500,10 +1452,7 @@ XtPointer call;
 
 /* called to add scene to the movie loop */
 static void
-m_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (m_pm, dt_w);
 }
@@ -1513,10 +1462,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Option opt = (Option)client;
 	int set;
@@ -1578,10 +1524,7 @@ swap_colors()
  */
 /* ARGSUSED */
 static void
-m_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "This is a map of Mars.",
@@ -1595,10 +1538,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1631,10 +1571,7 @@ m_setsize()
  */
 /* ARGSUSED */
 static void
-m_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	XExposeEvent *e = &c->event->xexpose;

@@ -441,10 +441,7 @@ Widget rc_w;
 /* callback from the Close PB */
 /* ARGSUSED */
 static void
-av_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (av_w);
 }
@@ -452,10 +449,7 @@ XtPointer call;
 /* callback from the Print PB */
 /* ARGSUSED */
 static void
-av_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (curve_pm)
 	    XPSAsk ("AAVSO", av_print);
@@ -492,10 +486,7 @@ av_print()
  */
 /* ARGSUSED */
 static void
-av_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Fetch and display light curves from AAVSO."
@@ -508,10 +499,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-av_list_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_list_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 	char *str;
@@ -532,10 +520,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-av_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	fetchAndShow();
 }
@@ -546,10 +531,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-av_name_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_name_cb (Widget w, XtPointer client, XtPointer call)
 {
 	String name;
 	char buf[1024];
