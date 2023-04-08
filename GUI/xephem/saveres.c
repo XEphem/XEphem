@@ -172,6 +172,9 @@ static char mydirdef[] = "~/.xephem";
 static char mdovride[] = "~/.xephemrc";
 static char mdres[] = "XEphem.PrivateDir";
 #endif
+static char xdgprivdir[] = "xephem";
+static char xdgovride[] = "xephemrc";
+static char dotconfig[] = "~/.config";
 
 #define	RESWID	45		/* columns for resource name, if possible */
 #define	PGWID	75		/* overall number of default columns */
@@ -930,19 +933,62 @@ sr_getDirPM (Pixmap *pmopen, Pixmap *pmclose)
 	*pmclose = nomore_pm;
 }
 
+/* Returns a full path in the directory specified by $XDG_CONFIG_HOME, or
+ * $HOME/.config if not set. Passing NULL returns the root of the directory.
+ */
+static char *
+getXdgConfigPath (const char *subpath)
+{
+	static char *xdgconfig;
+	unsigned pathlen;
+	char *path;
+
+	if (!xdgconfig)
+	    xdgconfig = getenv("XDG_CONFIG_HOME");
+	if (!xdgconfig)
+	    xdgconfig = XtNewString(expand_home(dotconfig));
+
+	if (!subpath) {
+	    path = XtNewString(xdgconfig);
+	} else {
+	    pathlen = (unsigned)(strlen(xdgconfig) + strlen(subpath) + 2);
+	    path = XtMalloc(pathlen);
+	    snprintf(path, pathlen, "%s/%s", xdgconfig, subpath);
+	}
+
+	return path;
+}
+
 /* return full path of per-user working directory,
  * allowing for possible override.
+ * Directories are searched in this order:
+ * 1. Directory specified by $HOME/.xephemrc
+ * 2. Directory specified by $XDG_CONFIG_HOME/xephemrc or $home/.config/xephemrc
+ * 3. $HOME/.xephem
+ * 4. $XDG_CONFIG_HOME/xephem or $HOME/.config/xephem
+ * If none of these directories exists, a new one is created:
+ * 1. If $XDG_CONFIG_HOME or $HOME/.config exists, create xephem directory there
+ * 2. if not, create .xephem directory in $HOME
  */
 char *
 getPrivateDir (void)
 {
 	static char *mydir;
+	char *xdgdir;
+	char *ovride = mdovride;
 
 	if (!mydir) {
 	    /* try mdovride else use default */
 	    FILE *ofp = fopenh (mdovride, "r");
 	    char *vhome, *vp = NULL;
 	    char nam[MRNAM], val[MLL], buf[MLL];
+
+#if !defined(__APPLE__) || !defined(__VMS)
+	    if (!ofp) {
+		ovride = getXdgConfigPath(xdgovride);
+		ofp = fopenh (ovride, "r");
+	    }
+#endif
 
 	    if (ofp) {
 		while (fgets (buf, sizeof(buf), ofp)) {
@@ -954,13 +1000,24 @@ getPrivateDir (void)
 		}
 		fclose(ofp);
 		if (!vp)
-		    fprintf (stderr, "%s: %s not found. Using %s\n",
-						    mdovride, mdres, mydirdef);
+		    fprintf (stderr, "%s: %s not found. Trying default dirs\n",
+		             ovride, mdres);
 	    }
+
 	    if (!vp)
 		vp = mydirdef;
 	    vhome = expand_home(vp);
 	    mydir = XtNewString (vhome);	/* macro! */
+
+#if !defined(__APPLE__) || !defined(__VMS)
+	    xdgdir = getXdgConfigPath(NULL);
+	    if (access (mydir, X_OK) < 0 && access (xdgdir, X_OK) == 0) {
+		XtFree (mydir);
+		mydir = getXdgConfigPath(xdgprivdir);
+	    }
+	    XtFree (xdgdir);
+#endif
+
 	    if (access (mydir, X_OK) < 0 && mkdir (mydir, 0744) < 0) {
 		/* don't try and fake it */
 		printf ("%s: %s\n", mydir, syserrstr());

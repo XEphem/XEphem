@@ -31,6 +31,9 @@ expand_home (char *path)
 	char *p;
 	int l;
 
+	if (!path)
+	    return NULL;
+
 	/* get home, if we don't already know it */
 	if (!home) {
 	    home = getenv ("HOME");
