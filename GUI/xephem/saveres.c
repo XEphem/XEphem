@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #include <X11/IntrinsicP.h>	/* to define struct _WidgetRec */
 #include <X11/Shell.h>

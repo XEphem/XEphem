@@ -2133,25 +2133,25 @@ si_createdialog (void)
 		    XtManageChild (rp->w);
 		}
 
-	    /* info Text */
+		/* info Text */
 
-	    n = 0;
-	    XtSetArg (args[n], XmNeditable, False); n++;
-	    XtSetArg (args[n], XmNeditMode, XmMULTI_LINE_EDIT); n++;
-	    XtSetArg (args[n], XmNcursorPositionVisible, False); n++;
-	    XtSetArg (args[n], XmNblinkRate, 0); n++;
-	    XtSetArg (args[n], XmNrows, 5); n++;
-	    XtSetArg (args[n], XmNcolumns, 29); n++;
-	    glstxt_w = XmCreateText (rc_w, "GM", args, n);
-	    wtip (glstxt_w, "Glass' statistics");
-	    XtManageChild (glstxt_w);
+		n = 0;
+		XtSetArg (args[n], XmNeditable, False); n++;
+		XtSetArg (args[n], XmNeditMode, XmMULTI_LINE_EDIT); n++;
+		XtSetArg (args[n], XmNcursorPositionVisible, False); n++;
+		XtSetArg (args[n], XmNblinkRate, 0); n++;
+		XtSetArg (args[n], XmNrows, 5); n++;
+		XtSetArg (args[n], XmNcolumns, 29); n++;
+		glstxt_w = XmCreateText (rc_w, "GM", args, n);
+		wtip (glstxt_w, "Glass' statistics");
+		XtManageChild (glstxt_w);
 
-	    /* row/col plot controls */
+		/* row/col plot controls */
 
-	    n = 0;
-	    XtSetArg (args[n], XmNorientation, XmHORIZONTAL); n++;
-	    rc2_w = XmCreateRowColumn (rc_w, "Plot", args, n);
-	    XtManageChild (rc2_w);
+		n = 0;
+		XtSetArg (args[n], XmNorientation, XmHORIZONTAL); n++;
+		rc2_w = XmCreateRowColumn (rc_w, "Plot", args, n);
+		XtManageChild (rc2_w);
 
 		n = 0;
 		w = XmCreateLabel (rc2_w, "PCSL", args, n);
@@ -2174,14 +2174,14 @@ si_createdialog (void)
 		    "Whether to draw a vertical cross section");
 		XtManageChild (glcol_w);
 
-	    /* drawing areas for each direction in frames */
+		/* drawing areas for each direction in frames */
 
-	    n = 0;
-	    fr_w = XmCreateFrame (rc_w, "GRF", args, n);
-	    XtAddCallback (glrow_w, XmNvalueChangedCallback, si_managetb_cb,
+		n = 0;
+		fr_w = XmCreateFrame (rc_w, "GRF", args, n);
+		XtAddCallback (glrow_w, XmNvalueChangedCallback, si_managetb_cb,
 							    (XtPointer)fr_w);
-	    if (XmToggleButtonGetState(glrow_w))
-		XtManageChild (fr_w);
+		if (XmToggleButtonGetState(glrow_w))
+		    XtManageChild (fr_w);
 
 		/* N.B. since this DA may not be mapped (if the frame is not
 		 * managed) take care it is not used before it is really up.
@@ -2193,12 +2193,12 @@ si_createdialog (void)
 		XtManageChild (glrda_w);
 		wtip (glrda_w, "Plot of central row under glass");
 
-	    n = 0;
-	    fr_w = XmCreateFrame (rc_w, "GCF", args, n);
-	    XtAddCallback (glcol_w, XmNvalueChangedCallback, si_managetb_cb,
-							    (XtPointer)fr_w);
-	    if (XmToggleButtonGetState(glcol_w))
-		XtManageChild (fr_w);
+		n = 0;
+		fr_w = XmCreateFrame (rc_w, "GCF", args, n);
+		XtAddCallback (glcol_w, XmNvalueChangedCallback, si_managetb_cb,
+		               (XtPointer)fr_w);
+		if (XmToggleButtonGetState(glcol_w))
+		    XtManageChild (fr_w);
 
 		n = 0;
 		XtSetArg (args[n], XmNresizePolicy, XmRESIZE_NONE); n++;

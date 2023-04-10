@@ -407,7 +407,7 @@ double *alp, double *azp)	/* max altitude and transit az at said time */
 	    else
 	        r = m2;
 	}
-	// fprintf (stderr, "tern nloops = %d\n", nloops);
+	/* fprintf (stderr, "tern nloops = %d\n", nloops); */
 	if (nloops >= MAXLOOPS)
 	    return (-1);
 
