@@ -140,7 +140,7 @@ obj_description (Obj *op)
 		return ("Planet");
 	    if (!biop)
 		getBuiltInObjs (&biop);
-	    sprintf (nsstr, "Moon of %s", biop[op->pl_code].o_name);
+	    sprintf (nsstr, "Moon of %7s", biop[op->pl_code].o_name);
 	    return (nsstr);
 	    }
 	case EARTHSAT:

@@ -148,7 +148,7 @@ GEOMAG:
       c[0][0] = 0.0;
       cd[0][0] = 0.0;
       fgets(c_str, 80, wmmdat);
-      sscanf(c_str,"%f%s",&epoc,model);
+      sscanf(c_str,"%f%19s",&epoc,model);
 S3:
       fgets(c_str, 80, wmmdat);
 /* CHECK FOR LAST LINE IN FILE */
