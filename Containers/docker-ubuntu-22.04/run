@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -ex
-NAME=xephem-ubuntu-21.04
+NAME=xephem-ubuntu-22.04
 
 if [ ! -f /usr/bin/docker ]
 then
