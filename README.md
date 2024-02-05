@@ -54,6 +54,7 @@ when sitting at the repository root are:
     $ ./Containers/docker-ubuntu-14.04/run
     $ ./Containers/docker-ubuntu-20.04/run
     $ ./Containers/docker-ubuntu-21.04/run
+    $ ./Containers/docker-ubuntu-22.04/run
 
 Once one of the containers has launched, use the shell command history:
 press up-arrow to ask for the previous command — it will be the correct
