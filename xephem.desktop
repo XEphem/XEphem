@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Exec=xephem
+TryExec=xephem
+Icon=XEphem
+Terminal=false
+Name=XEphem
+GenericName=Astronomy program
+Categories=Education;Science;Astronomy;
+Type=Application
+StartupNotify=false

@@ -1,0 +1,2 @@
+XEphem.ShareDir: @DATADIR@
+XEphem.PrivateDir: ~/.xephem

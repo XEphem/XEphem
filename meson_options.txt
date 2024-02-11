@@ -1,0 +1,4 @@
+option('with-sys-zlib', type: 'boolean', value: true)
+option('with-sys-png', type: 'boolean', value: true)
+option('with-sys-jpeg', type: 'boolean', value: true)
+

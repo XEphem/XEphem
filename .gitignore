@@ -3,8 +3,6 @@
 *.a
 *.o
 /GUI/xephem/xephem
-/GUI/xephem/xephem.1
-
+.cache
 # macOS HFS+ files
-
 ._*

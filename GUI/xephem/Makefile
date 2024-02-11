@@ -197,13 +197,10 @@ OBJS =			\
 	xephem.o	\
 	xmisc.o
 
-all: libs xephem xephem.1
+all: libs xephem
 
 xephem: $(INCS) $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
-
-xephem.1: xephem.man
-	nroff -man $? > $@
 
 libs:
 	cd ../../libastro; make
@@ -217,4 +214,4 @@ clean:
 	rm -fr *.o ../../lib*/*.[ao]
 
 clobber: clean
-	rm -fr xephem xephem.1
+	rm -fr xephem 
