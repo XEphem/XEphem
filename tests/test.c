@@ -10,8 +10,8 @@ int main() {
           ra = pra = i;
           dec = pdec = -i;
           precess(J2000, J2015, &pra, &pdec);
-          printf("RA  %+.16f -> %+.16f\n", ra, pra);
-          printf("Dec %+.16f -> %+.16f\n", dec, pdec);
+          printf("RA  %+.16f -> %+.14f\n", ra, pra);
+          printf("Dec %+.16f -> %+.14f\n", dec, pdec);
      }
 
      printf("\nPluto discontinuity when Chapront (1995) ends on 2247/10/1\n");
