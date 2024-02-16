@@ -33,7 +33,8 @@ There are more screenshots at bottom of this README.
 Thanks to our community of contributors, there are XEphem packages
 available for several operating systems (though these are not official):
 
-* [Ubuntu, Fedora, CentOS](https://build.opensuse.org/package/show/home:rjmathar/xephem)
+* [Ubuntu, CentOS](https://build.opensuse.org/package/show/home:rjmathar/xephem)
+* [Fedora](https://packages.fedoraproject.org/pkgs/xephem/xephem/)
 * [Gentoo](https://packages.gentoo.org/packages/sci-astronomy/xephem)
 * [openSUSE](https://build.opensuse.org/package/show/Application:Geo/xephem)
 * [Slack](https://slackbuilds.org/repository/13.37/academic/xephem/)
