@@ -1,6 +1,9 @@
 /* code to manage the sun display 
  */
 
+/* For the declaration of strptime in <time.h>. */
+#define _XOPEN_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

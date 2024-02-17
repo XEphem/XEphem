@@ -33,7 +33,8 @@ There are more screenshots at bottom of this README.
 Thanks to our community of contributors, there are XEphem packages
 available for several operating systems (though these are not official):
 
-* [Ubuntu, Fedora, CentOS](https://build.opensuse.org/package/show/home:rjmathar/xephem)
+* [Ubuntu, CentOS](https://build.opensuse.org/package/show/home:rjmathar/xephem)
+* [Fedora](https://packages.fedoraproject.org/pkgs/xephem/xephem/)
 * [Gentoo](https://packages.gentoo.org/packages/sci-astronomy/xephem)
 * [openSUSE](https://build.opensuse.org/package/show/Application:Geo/xephem)
 * [Slack](https://slackbuilds.org/repository/13.37/academic/xephem/)
@@ -54,6 +55,7 @@ when sitting at the repository root are:
     $ ./Containers/docker-ubuntu-14.04/run
     $ ./Containers/docker-ubuntu-20.04/run
     $ ./Containers/docker-ubuntu-21.04/run
+    $ ./Containers/docker-ubuntu-22.04/run
 
 Once one of the containers has launched, use the shell command history:
 press up-arrow to ask for the previous command — it will be the correct

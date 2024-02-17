@@ -123,7 +123,7 @@ obj_description (Obj *op)
 	case BINARYSTAR:
 	    if (op->f_class) {
 		int i;
-		for (i = 0; i < NFCM; i++)
+		for (i = 0; i < NBCM; i++)
 		    if (binary_class_map[i].classcode == op->f_class)
 			return (binary_class_map[i].desc);
 	    }
@@ -140,7 +140,7 @@ obj_description (Obj *op)
 		return ("Planet");
 	    if (!biop)
 		getBuiltInObjs (&biop);
-	    sprintf (nsstr, "Moon of %s", biop[op->pl_code].o_name);
+	    sprintf (nsstr, "Moon of %7s", biop[op->pl_code].o_name);
 	    return (nsstr);
 	    }
 	case EARTHSAT:

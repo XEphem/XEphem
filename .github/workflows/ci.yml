@@ -3,11 +3,11 @@ name: ci
 on:
   push:
     branches:
-      - master
+      - main
 
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   compile-linux-and-test:
@@ -33,3 +33,5 @@ jobs:
       run: brew install xquartz --cask && brew info xquartz
     - name: Compile
       run: make -C GUI/xephem
+    - name: Test
+      run: make -C tests

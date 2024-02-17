@@ -10,8 +10,8 @@ int main() {
           ra = pra = i;
           dec = pdec = -i;
           precess(J2000, J2015, &pra, &pdec);
-          printf("RA  %+.16f -> %+.16f\n", ra, pra);
-          printf("Dec %+.16f -> %+.16f\n", dec, pdec);
+          printf("RA  %+.16f -> %+.14f\n", ra, pra);
+          printf("Dec %+.16f -> %+.14f\n", dec, pdec);
      }
 
      printf("\nPluto discontinuity when Chapront (1995) ends on 2247/10/1\n");
@@ -37,7 +37,8 @@ int main() {
      fs_sexa(out, radhr(o.s_gaera), 2, 360000);
      printf("RA = %s\n", out);
 
-/* From Elwood's email:
+/* From Elwood's email, this is how bad the discontinuity was before the
+   commit 139b2ea2 'Revert "Astronomical Almanac 2020 Pluto elements...':
 5/16/2247 00:00 UTC    4.1.0 RA 16:52:53.90  Dec -10:36:26.5
                        3.6.7 RA 16:52:53.90  Dec -10:36:26.5
 9/27/2248 00:00 UTC    4.1.0 RA 11:52:36.30  Dec 16:13:59.6
