@@ -47,8 +47,6 @@ jobs:
       run: brew install openssl && brew info openssl
     - name: Install XQuartz
       run: brew install xquartz --cask && brew info xquartz
-    - name: Dump homebrew for debugging paths
-      run: find -L /opt/homebrew
     - name: Compile
       run: make -C GUI/xephem
     - name: Test
