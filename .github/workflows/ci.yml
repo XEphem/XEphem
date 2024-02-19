@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - try-m1
 
   pull_request:
     branches:
@@ -31,6 +32,23 @@ jobs:
       run: brew install openssl && brew info openssl
     - name: Install XQuartz
       run: brew install xquartz --cask && brew info xquartz
+    - name: Compile
+      run: make -C GUI/xephem
+    - name: Test
+      run: make -C tests
+
+  compile-apple-silicon:
+    runs-on: macos-14
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install OpenMotif
+      run: brew install openmotif && brew info openmotif
+    - name: Install OpenSSL
+      run: brew install openssl && brew info openssl
+    - name: Install XQuartz
+      run: brew install xquartz --cask && brew info xquartz
+    - name: Find XQuartz
+      run: find / -name Xm.h
     - name: Compile
       run: make -C GUI/xephem
     - name: Test
