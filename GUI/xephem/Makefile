@@ -35,7 +35,7 @@ ifeq ($(UNAME_S),Darwin)
   PLATI = -I/opt/homebrew/include \
           -I/usr/local/opt/openssl@3/include \
           -I/opt/X11/include
-  PLATL = -L/opt/homebrew/include \
+  PLATL = -L/opt/homebrew/lib \
           -L/usr/local/opt/openssl@3/lib \
           -L/opt/X11/lib
 endif
