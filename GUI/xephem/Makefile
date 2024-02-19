@@ -28,10 +28,14 @@ ifndef MOTIFL
 MOTIFL = /usr/lib
 endif
 
+ROFF = nroff
+
 # For Linux and Apple OS X
+# /opt/homebrew is for modern Apple Silicon; the other paths, for older macOS.
 
 UNAME_S = $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
+  ROFF = groff
   PLATI = -I/opt/homebrew/include \
           -I/usr/local/opt/openssl@3/include \
           -I/opt/X11/include
@@ -202,7 +206,7 @@ xephem: $(INCS) $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
 xephem.1: xephem.man
-	nroff -man $? > $@
+	$(ROFF) -man $? > $@
 
 libs:
 	cd ../../libastro; make
