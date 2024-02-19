@@ -35,3 +35,20 @@ jobs:
       run: make -C GUI/xephem
     - name: Test
       run: make -C tests
+
+  compile-apple-silicon:
+    runs-on: macos-14
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install OpenMotif
+      run: brew install openmotif && brew info openmotif
+    - name: Install groff
+      run: brew install groff && brew info groff
+    - name: Install OpenSSL
+      run: brew install openssl && brew info openssl
+    - name: Install XQuartz
+      run: brew install xquartz --cask && brew info xquartz
+    - name: Compile
+      run: make -C GUI/xephem
+    - name: Test
+      run: make -C tests
