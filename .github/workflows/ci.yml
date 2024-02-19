@@ -45,10 +45,10 @@ jobs:
       run: brew install openmotif && brew info openmotif
     - name: Install OpenSSL
       run: brew install openssl && brew info openssl
+    - name: Dump homebrew for debugging paths
+      run: find /opt/homebrew
     - name: Install XQuartz
       run: brew install xquartz --cask && brew info xquartz
-    - name: Find XQuartz
-      run: find / -name Xm.h
     - name: Compile
       run: make -C GUI/xephem
     - name: Test
