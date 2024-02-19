@@ -44,6 +44,8 @@ jobs:
     - name: Install OpenMotif
       run: brew install openmotif && brew info openmotif
     - name: Install OpenSSL
+      run: brew install groff && brew info groff
+    - name: Install OpenSSL
       run: brew install openssl && brew info openssl
     - name: Install XQuartz
       run: brew install xquartz --cask && brew info xquartz
