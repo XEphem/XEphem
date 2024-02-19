@@ -35,7 +35,7 @@ ROFF = nroff
 
 UNAME_S = $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
-  ROFF = groff
+  ROFF = nroff
   PLATI = -I/opt/homebrew/include \
           -I/usr/local/opt/openssl@3/include \
           -I/opt/X11/include
