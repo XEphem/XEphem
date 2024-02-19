@@ -48,7 +48,7 @@ jobs:
     - name: Install XQuartz
       run: brew install xquartz --cask && brew info xquartz
     - name: Dump homebrew for debugging paths
-      run: find /opt/homebrew | xargs ls -dl
+      run: find -L /opt/homebrew
     - name: Compile
       run: make -C GUI/xephem
     - name: Test
