@@ -98,7 +98,7 @@ typedef struct {
     char *desc;			/* description */
     char ura[ATLASLEN];		/* Uranometria page number */
     char u2k[ATLASLEN];		/* Uranometria 200 page number */
-    char msa[ATLASLEN];		/* Millenium Star Atlas page number */
+    char msa[ATLASLEN];		/* Millennium Star Atlas page number */
 } ObjInfo;
 
 /* handy "no rise/set" test */
@@ -139,7 +139,7 @@ static SortInfo sinfo[] = {
 
     {"Urano",  "Uranometria",      sort_ura},
     {"Uran2k", "Uranom 2000",      sort_u2k},
-    {"MillSA", "Millenium",        sort_msa},
+    {"MillSA", "Millennium",       sort_msa},
     {"RisTm",  "Rise time",        sort_risetm},
     {"RisAz",  "Rise azimuth",     sort_riseaz},
     {"TrnTm",  "Transit time",     sort_trantm},
