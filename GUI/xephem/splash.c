@@ -110,7 +110,7 @@ splashMsg (char *fmt, ...)
 
 /* called by the real xephem to close the splash window */
 void
-splashClose ()
+splashClose (void)
 {
 	if (!splashpipe)
 	    return;
@@ -366,7 +366,7 @@ noteSplash (int on)
 
 /* return 1 if flag file indicates we want splash else 0 */
 static int
-wantSplash()
+wantSplash (void)
 {
 	char nos[1024];
 	FILE *fp;

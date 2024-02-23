@@ -82,7 +82,7 @@ static char aavsocategory[] = "AAVSO";	/* Save category */
 
 /* create and bring up the AAVSO dialog */
 void
-av_manage ()
+av_manage (void)
 {
 	if (!av_w)
 	    av_create();
@@ -191,7 +191,7 @@ Obj *op;
  * return a FILE * else NULL.
  */
 static FILE *
-openDB()
+openDB (void)
 {
 	char fn[1024];
 	FILE *fp;
@@ -222,7 +222,7 @@ Cursor c;
 
 /* create the AAVSO shell */
 static void
-av_create()
+av_create (void)
 {
 	Widget rc_w;
 	Widget fr_w, f_w, w;
@@ -441,10 +441,7 @@ Widget rc_w;
 /* callback from the Close PB */
 /* ARGSUSED */
 static void
-av_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (av_w);
 }
@@ -452,10 +449,7 @@ XtPointer call;
 /* callback from the Print PB */
 /* ARGSUSED */
 static void
-av_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (curve_pm)
 	    XPSAsk ("AAVSO", av_print);
@@ -467,7 +461,7 @@ XtPointer call;
  * call XPSClose() when finished.
  */
 static void
-av_print()
+av_print (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	unsigned int wid, hei, b, d;
@@ -492,10 +486,7 @@ av_print()
  */
 /* ARGSUSED */
 static void
-av_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Fetch and display light curves from AAVSO."
@@ -508,10 +499,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-av_list_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_list_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 	char *str;
@@ -532,10 +520,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-av_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	fetchAndShow();
 }
@@ -546,10 +531,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-av_name_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_name_cb (Widget w, XtPointer client, XtPointer call)
 {
 	String name;
 	char buf[1024];
@@ -678,7 +660,7 @@ char *def;
  * return 0 if ok else -1 if trouble.
  */
 static int
-fetchpm()
+fetchpm (void)
 {
 	static char fmt[] = "GET http://%s%s?%s?%s?%s?%g?%s?%s?%s?%s?%s?%s?%s?XEphem HTTP/1.0\r\nUser-Agent: xephem/%s\r\n\r\n";
 	Display *dsp = XtDisplay(toplevel_w);
@@ -826,7 +808,7 @@ char *line;
 
 /* get the current selection and show its graph */
 static void
-fetchAndShow()
+fetchAndShow (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Pixmap oldpm;

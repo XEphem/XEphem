@@ -53,7 +53,7 @@ static char cccategory[] = "Coordinate converter";     /* Save category */
 
 /* bring up the Manual dialog */
 void
-cc_manage ()
+cc_manage (void)
 {
 	if (!ccshell_w) {
 	    cc_create();
@@ -95,7 +95,7 @@ Cursor c;
 
 /* create the Manual entry dialog */
 static void
-cc_create()
+cc_create (void)
 {
 	typedef struct {
 	    char *label;	/* label */
@@ -318,10 +318,7 @@ cc_create()
 
 /* callback to Point sky at current coords */
 static void
-cc_point_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_point_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	double e = epoch == EOD ? mjd : epoch;
@@ -370,10 +367,7 @@ int h;
 
 /* callback to load from current Sky View center */
 static void
-cc_getsky_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_getsky_cb (Widget w, XtPointer client, XtPointer call)
 {
 	double fov, alt, az, ra, dec;
 	char buf[32];
@@ -416,7 +410,7 @@ int h;
 
 /* tidy up each coordinate display */
 static void
-canonAll()
+canonAll (void)
 {
 	block_vchg++;
 	reFormat (ccalt_w, 0);
@@ -434,10 +428,7 @@ canonAll()
 
 /* called to place an eyepiece at these coords on the sky view */
 static void
-cc_eyep_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_eyep_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	double fov, ra, dec, alt, az;
@@ -493,29 +484,20 @@ XtPointer call;
 
 /* called from either the Reformat PB or Enter from any TF */
 static void
-cc_canonFormat_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_canonFormat_cb (Widget w, XtPointer client, XtPointer call)
 {
 	canonAll();
 }
 
 static void
-cc_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do all the work */
 	XtPopdown (ccshell_w);
 }
 
 static void
-cc_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 }
 
@@ -523,10 +505,7 @@ XtPointer call;
  * N.B. do not use call, used by different callbacks.
  */
 static void
-cc_vchg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_vchg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	cc_newval (w);
 }
@@ -535,10 +514,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-cc_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = { "Type in any field and the others are updated",};
 

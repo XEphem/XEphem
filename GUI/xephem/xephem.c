@@ -133,9 +133,7 @@ static XrmOptionDescRec options[] = {
 };
 
 int
-main(argc, argv)
-int argc;
-char *argv[];
+main (int argc, char *argv[])
 {
 	Arg args[10];
 	int n;
@@ -371,7 +369,7 @@ setup_icon (Widget w)
  * finally add any fallbacks[] not already in db.
  */
 static void
-addOurDBs()
+addOurDBs (void)
 {
 	XrmDatabase dspdb = XtDatabase (XtD);
 	XrmDatabase fbdb = NULL;
@@ -403,9 +401,7 @@ addOurDBs()
 
 /* ARGSUSED */
 static void
-chk_args (argc, argv)
-int argc;
-char *argv[];
+chk_args (int argc, char *argv[])
 {
 
 	if (getXRes ("log", NULL)) {
@@ -443,7 +439,7 @@ char *argv[];
 
 /* support position of main window in our preferences system */
 static void
-chk_pos()
+chk_pos (void)
 {
 	Position x = (Position)atoi(getXRes ("x", "100"));	/* XEphem.x */
 	Position y = (Position)atoi(getXRes ("y", "100"));	/* XEphem.y */
@@ -458,7 +454,7 @@ chk_pos()
 
 /* insure that resource version and (sometimes) X server matches. */
 static void
-chk_version()
+chk_version (void)
 {
 	char *v = getXRes ("Version", "??");
 
@@ -469,7 +465,7 @@ chk_version()
 }
 
 static void
-set_title()
+set_title (void)
 {
 	char title[100];
 
@@ -481,7 +477,7 @@ set_title()
  * initial xephem buttons.
  */
 static void
-make_main_window ()
+make_main_window (void)
 {
 	static ButtonInfo file_buttons[] = {
 	    {"Display a dialog containing supporting informational messages",
@@ -787,7 +783,7 @@ reapchildren (int signo)
 }
 
 static void
-setup_sigs()
+setup_sigs (void)
 {
 	/* ignore FPE, though we do have a matherr() handler in misc.c. */
 	(void) signal (SIGFPE, SIG_IGN);
@@ -805,7 +801,7 @@ setup_sigs()
 }
 
 static void
-hlp_onContext()
+hlp_onContext (void)
 {
 	static Cursor qc;
 	Display *dsp = XtDisplay (toplevel_w);
@@ -857,7 +853,7 @@ hlp_onContext()
 
 /* bring up the initial set of desired windows */
 static void
-initialUps()
+initialUps (void)
 {
 	if (atoi(getXRes (dm_viewupres(), "0")))
 	    dm_manage();
@@ -890,10 +886,7 @@ initialUps()
  */
 /* ARGSUSED */
 static void
-m_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int code = (long int)client;
 
@@ -952,7 +945,7 @@ XtPointer call;
 
 /* outta here */
 static void
-goodbye()
+goodbye (void)
 {
 	XtCloseDisplay (XtDisplay (toplevel_w));
 	exit(0);
@@ -960,7 +953,7 @@ goodbye()
 
 /* user wants to quit */
 static void
-x_quit()
+x_quit (void)
 {
 	int nchg = sr_refresh();
 

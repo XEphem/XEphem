@@ -161,7 +161,7 @@ static double pole_ra, pole_dec;
  * form. otherwise, otherwise, just get out there and do it!
  */
 void
-sm_manage ()
+sm_manage (void)
 {
 	if (!satshell_w) {
 	    sm_create_shell_w();
@@ -244,7 +244,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-sm_newres()
+sm_newres (void)
 {
 	if (!satshell_w)
 	    return;
@@ -265,7 +265,7 @@ int appended;
 }
 
 int
-sm_ison()
+sm_ison (void)
 {
 	return (isUp(satshell_w));
 }
@@ -323,14 +323,14 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-sm_viewupres()
+sm_viewupres (void)
 {
 	return ("SatViewUp");
 }
 
 /* create the main shell */
 static void
-sm_create_shell_w()
+sm_create_shell_w (void)
 {
 	typedef struct {
 	    char *name;		/* toggle button instance name, or NULL */
@@ -645,7 +645,7 @@ sm_create_shell_w()
 
 /* make the statistics form dialog */
 static void
-sm_create_ssform_w()
+sm_create_ssform_w (void)
 {
 	typedef struct {
 	    int col;		/* C* column code */
@@ -924,7 +924,7 @@ sm_create_ssform_w()
 
 /* create stform_w, the top view dialog */
 static void
-sm_create_tvform_w()
+sm_create_tvform_w (void)
 {
 	Arg args[20];
 	int n;
@@ -985,10 +985,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback when the Close button is activated on the stats menu */
 /* ARGSUSED */
 static void
-sm_sstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_sstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (ssform_w);
 }
@@ -996,10 +993,7 @@ XtPointer call;
 /* callback when the More Info button is activated */
 /* ARGSUSED */
 static void
-sm_sstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_sstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (ssform_w);
 	sm_set_buttons(sm_selecting);
@@ -1009,10 +1003,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_cpdmapping_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_cpdmapping_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtSetSensitive (tel_w, telIsOn());
 }
@@ -1023,10 +1014,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (client) {
 	    int *flagp = (int *)client;
@@ -1049,10 +1037,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_scale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_scale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sm_update (mm_get_now(), 1);
 }
@@ -1061,10 +1046,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (sm_selecting) {
 	    char *name;
@@ -1077,10 +1059,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-st_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1147,7 +1126,7 @@ XtPointer call;
  * we also try to center it just above, but it doesn't always work.
  */
 static void
-st_track_size()
+st_track_size (void)
 {
 	Dimension w, h;
 	Position mfx, mfy, mdx, mdy;
@@ -1190,10 +1169,7 @@ st_track_size()
 /* callback when topview dialog is unmapped */
 /* ARGSUSED */
 static void
-st_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (topview_w, False, True);
 }
@@ -1201,10 +1177,7 @@ XtPointer call;
 /* callback when main shell is popped down */
 /* ARGSUSED */
 static void
-sm_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (ssform_w);
 	XtUnmanageChild (stform_w);
@@ -1231,10 +1204,7 @@ XtPointer call;
 /* callback from the main Close button */
 /* ARGSUSED */
 static void
-sm_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let pop down do all the work */
 	XtPopdown (satshell_w);
@@ -1243,10 +1213,7 @@ XtPointer call;
 /* callback to add scene to movie loop */
 /* ARGSUSED */
 static void
-sm_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (sm_pm, dt_w);
 }
@@ -1255,10 +1222,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* smoother if turn off the sky background */
 	skybkg = 0;
@@ -1271,10 +1235,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1332,10 +1293,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	ScreenObj *sop;
@@ -1375,7 +1333,7 @@ XtPointer call;
 
 /* create the (unmanaged for now) popup menu in smpu_w. */
 static void
-sm_create_popup()
+sm_create_popup (void)
 {
 	static Widget *puw[] = {
 	    &smpu_name_w,
@@ -1444,10 +1402,7 @@ int justname;
  */
 /* ARGSUSED */
 static void
-sm_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This is a simple schematic depiction of Saturn and its moons.",
@@ -1461,10 +1416,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1473,10 +1425,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_goto_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_goto_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = db_basic (SATURN);
 	telGoto (op);
@@ -1557,10 +1506,7 @@ int x, y;
  */
 /* ARGSUSED */
 static void
-sm_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Saturn", sm_print);
 }
@@ -1569,7 +1515,7 @@ XtPointer call;
  * call XPSClose() when finished.
  */
 static void
-sm_print ()
+sm_print (void)
 {
 	Display *dsp = XtDisplay (sda_w);
 	Now *np = mm_get_now();
@@ -2356,7 +2302,7 @@ st_ano (double *xS, double *jZ, int *xp, int *yp, int w2x, int arg)
 }
 
 static void
-make_gcs ()
+make_gcs (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = XtWindow(toplevel_w);

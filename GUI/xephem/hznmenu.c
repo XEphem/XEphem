@@ -69,7 +69,7 @@ static char hzncategory[] = "Horizon Map";	/* Save category */
 #if !defined (TEST_MAIN)
 
 void
-hzn_manage()
+hzn_manage (void)
 {
 	if (!hznshell_w)
 	    hzn_create();
@@ -78,14 +78,14 @@ hzn_manage()
 }
 
 void
-hzn_unmanage()
+hzn_unmanage (void)
 {
 	if (hznshell_w)
 	    XtUnmanageChild (hznshell_w);
 }
 
 int
-hznDrawing()
+hznDrawing (void)
 {
 	if (!hznshell_w)
 	    hzn_create();
@@ -94,7 +94,7 @@ hznDrawing()
 
 /* call to turn off editing */
 void
-hznEditingOff()
+hznEditingOff (void)
 {
 	if (XmToggleButtonGetState (edittb_w))
 	    XmToggleButtonSetState (edittb_w, False, True);
@@ -102,8 +102,7 @@ hznEditingOff()
 
 /* called to put up or remove the watch cursor.  */
 void
-hzn_cursor (c)
-Cursor c;
+hzn_cursor (Cursor c)
 {
 	Window win;
 
@@ -118,7 +117,7 @@ Cursor c;
 
 /* return number of profile entries */
 int
-hznNProfile()
+hznNProfile (void)
 {
 	if (!hznshell_w)
 	    hzn_create();
@@ -151,8 +150,7 @@ hznProfile (int i, double *altp, double *azp)
 /* given an az, return the horizon altitude, both in rads.
  */
 double
-hznAlt(az)
-double az;
+hznAlt(double az)
 {
 	Profile *pb, *pt;
 	double daz;
@@ -252,7 +250,7 @@ hznAdd (int start, double newalt, double newaz)
 #if !defined (TEST_MAIN)
 
 static void
-hzn_create()
+hzn_create (void)
 {
 	Widget w, sep_w, om_w;
 	Arg args[20];
@@ -420,10 +418,7 @@ hzn_create()
 /* called from Close */
 /* ARGSUSED */
 static void
-hzn_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (hznshell_w);
 }
@@ -431,10 +426,7 @@ XtPointer call;
 /* called when unmapped for any reason */
 /* ARGSUSED */
 static void
-hzn_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hznEditingOff();
 }
@@ -442,10 +434,7 @@ XtPointer call;
 /* called when edit TB changes */
 /* ARGSUSED */
 static void
-hzn_edit_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_edit_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    sv_hznOn();				/* public service feature */
@@ -456,10 +445,7 @@ XtPointer call;
 /* called from Help */
 /* ARGSUSED */
 static void
-hzn_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {"Specify local horizon."};
 
@@ -472,10 +458,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-hzn_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	char *fn;
@@ -503,10 +486,7 @@ XtPointer call;
 /* Displacement TB callback */
 /* ARGSUSED */
 static void
-hzn_displtb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_displtb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hzn_choose (XmToggleButtonGetState (w));
 }
@@ -514,10 +494,7 @@ XtPointer call;
 /* Displacement TF callback */
 /* ARGSUSED */
 static void
-hzn_displtf_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_displtf_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hzn_choose (1);
 }
@@ -525,10 +502,7 @@ XtPointer call;
 /* File TB callback */
 /* ARGSUSED */
 static void
-hzn_filetb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_filetb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hzn_choose (!XmToggleButtonGetState (w));
 }
@@ -536,10 +510,7 @@ XtPointer call;
 /* File TF callback */
 /* ARGSUSED */
 static void
-hzn_filetf_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_filetf_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hzn_choose (0);
 }
@@ -549,10 +520,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-hzn_chsfn_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hzn_chsfn_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -569,7 +537,7 @@ XtPointer call;
 
 /* get displacement string into displ */
 static double
-hzn_getdispl()
+hzn_getdispl (void)
 {
 	double d;
 	char *str = XmTextFieldGetString (displtf_w);
@@ -590,8 +558,7 @@ hzn_radio (int choose_displ)
  * control the Tbs as well as do the work.
  */
 static void
-hzn_choose (choose_displ)
-int choose_displ;
+hzn_choose (int choose_displ)
 {
 	/* do the work */
 	if (choose_displ)
@@ -617,7 +584,7 @@ int choose_displ;
  * return 0 if ok, else -1
  */
 static int
-hzn_rdmap()
+hzn_rdmap (void)
 {
 	char *fn = XmTextFieldGetString (filetf_w);
 	FILE *fp;
@@ -658,7 +625,7 @@ hzn_rdmap()
 
 /* fill the profile with a constant elevation model */
 static void
-buildCon()
+buildCon (void)
 {
 	double a = hzn_getdispl ();
 
@@ -676,7 +643,7 @@ buildCon()
  * no steps in Alt or Az greater than PSTEP.
  */
 static void
-smoothProfile()
+smoothProfile (void)
 {
 	Profile *newp;
 	double alt0;

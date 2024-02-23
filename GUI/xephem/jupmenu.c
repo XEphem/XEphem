@@ -162,7 +162,7 @@ static double pole_ra, pole_dec;
  * form. otherwise, just get out there and do it!
  */
 void
-jm_manage ()
+jm_manage (void)
 {
 	if (!jupshell_w) {
 	    jm_create_shell_w();
@@ -245,7 +245,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-jm_newres()
+jm_newres (void)
 {
 	if (!jupshell_w)
 	    return;
@@ -266,7 +266,7 @@ int appended;
 }
 
 int
-jm_ison()
+jm_ison (void)
 {
 	return (isUp(jupshell_w));
 }
@@ -324,14 +324,14 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-jm_viewupres()
+jm_viewupres (void)
 {
 	return ("JupViewUp");
 }
 
 /* create the main shell */
 static void
-jm_create_shell_w()
+jm_create_shell_w (void)
 {
 	typedef struct {
 	    char *name;		/* toggle button instance name, or NULL */
@@ -645,7 +645,7 @@ jm_create_shell_w()
 
 /* make the statistics form dialog */
 static void
-jm_create_jsform_w()
+jm_create_jsform_w (void)
 {
 	typedef struct {
 	    int col;		/* C* column code */
@@ -949,7 +949,7 @@ jm_create_jsform_w()
 
 /* create jtform_w, the top view dialog */
 static void
-jm_create_tvform_w()
+jm_create_tvform_w (void)
 {
 	Arg args[20];
 	int n;
@@ -1010,10 +1010,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback when the ENTER key is typed on the GRS Long TF */
 /* ARGSUSED */
 static void
-jm_grsl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_grsl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	jm_update (mm_get_now(), 1);
 }
@@ -1021,10 +1018,7 @@ XtPointer call;
 /* callback when the Close button is activated on the stats menu */
 /* ARGSUSED */
 static void
-jm_sstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_sstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (jsform_w);
 }
@@ -1032,10 +1026,7 @@ XtPointer call;
 /* callback when the More Info button is activated */
 /* ARGSUSED */
 static void
-jm_sstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_sstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (jsform_w);
 	jm_set_buttons(jm_selecting);
@@ -1045,10 +1036,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_cpdmapping_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_cpdmapping_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtSetSensitive (tel_w, telIsOn());
 }
@@ -1059,10 +1047,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (client) {
 	    int *flagp = (int *)client;
@@ -1085,10 +1070,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_scale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_scale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	jm_update (mm_get_now(), 1);
 }
@@ -1097,10 +1079,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (jm_selecting) {
 	    char *name;
@@ -1113,10 +1092,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jt_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jt_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1183,7 +1159,7 @@ XtPointer call;
  * we also try to center it just above, but it doesn't always work.
  */
 static void
-jt_track_size()
+jt_track_size (void)
 {
 	Dimension w, h;
 	Position mfx, mfy, mdx, mdy;
@@ -1226,10 +1202,7 @@ jt_track_size()
 /* callback when topview dialog is unmapped */
 /* ARGSUSED */
 static void
-jt_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jt_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (topview_w, False, True);
 }
@@ -1237,10 +1210,7 @@ XtPointer call;
 /* callback when main shell is popped down */
 /* ARGSUSED */
 static void
-jm_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (jsform_w);
 	XtUnmanageChild (jtform_w);
@@ -1275,10 +1245,7 @@ XtPointer call;
 /* callback from the main Close button */
 /* ARGSUSED */
 static void
-jm_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do all the work */
 	XtPopdown (jupshell_w);
@@ -1287,10 +1254,7 @@ XtPointer call;
 /* callback to add scene to the movie loop */
 /* ARGSUSED */
 static void
-jm_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (jm_pm, dt_w);
 }
@@ -1299,10 +1263,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* best effect if turn off worrying about the sky background */
 	skybkg = 0;
@@ -1315,10 +1276,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1376,10 +1334,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	ScreenObj *sop;
@@ -1419,7 +1374,7 @@ XtPointer call;
 
 /* create the (unmanaged for now) popup menu in jmpu_w. */
 static void
-jm_create_popup()
+jm_create_popup (void)
 {
 	static Widget *puw[] = {
 	    &jmpu_name_w,
@@ -1488,10 +1443,7 @@ int justname;
  */
 /* ARGSUSED */
 static void
-jm_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This is a simple schematic depiction of Jupiter and its moons.",
@@ -1505,10 +1457,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1517,10 +1466,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_goto_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_goto_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = db_basic (JUPITER);
 	telGoto (op);
@@ -1601,10 +1547,7 @@ int x, y;
  */
 /* ARGSUSED */
 static void
-jm_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Jupiter", jm_print);
 }
@@ -1613,7 +1556,7 @@ XtPointer call;
  * call XPSClose() when finished.
  */
 static void
-jm_print ()
+jm_print (void)
 {
 	Display *dsp = XtDisplay (jda_w);
 	Now *np = mm_get_now();
@@ -2393,7 +2336,7 @@ jt_ano (double *jX, double *jZ, int *xp, int *yp, int w2x, int arg)
  * TODO: reclaim old stuff if called again.
  */
 static void
-make_gcs ()
+make_gcs (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = XtWindow(toplevel_w);

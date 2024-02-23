@@ -88,10 +88,7 @@ static int look_like_inited;
  * shouldn't use this if you have several things to set for the same widget.
  */
 void
-set_something (w, resource, value)
-Widget w;
-char *resource;
-XtArgVal value;
+set_something (Widget w, char *resource, XtArgVal value)
 {
 	Arg a[1];
 
@@ -108,10 +105,7 @@ XtArgVal value;
  * shouldn't use this if you have several things to get for the same widget.
  */
 void
-get_something (w, resource, value)
-Widget w;
-char *resource;
-XtArgVal value;
+get_something (Widget w, char *resource, XtArgVal value)
 {
 	Arg a[1];
 
@@ -130,10 +124,7 @@ XtArgVal value;
  *   XtFree (*txtp).
  */
 void
-get_xmstring (w, resource, txtp)
-Widget w;
-char *resource;
-char **txtp;
+get_xmstring (Widget w, char *resource, char **txtp)
 {
 	static char me[] = "get_xmstring()";
 	static char hah[] = "??";
@@ -157,10 +148,7 @@ char **txtp;
 }
 
 void
-set_xmstring (w, resource, txt)
-Widget w;
-char *resource;
-char *txt;
+set_xmstring (Widget w, char *resource, char *txt)
 {
 	XmString str;
 
@@ -176,8 +164,7 @@ char *txt;
 
 /* return 1 if w is on screen else 0 */
 int
-isUp (w)
-Widget w;
+isUp (Widget w)
 {
 	XWindowAttributes wa;
 	Display *dsp;
@@ -196,10 +183,7 @@ Widget w;
  */
 /* ARGSUSED */
 void
-prompt_map_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+prompt_map_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Window root, child;
 	int rx, ry, wx, wy;	/* rx/y: cursor loc on root window */
@@ -240,10 +224,7 @@ XtPointer call;
  * return 0 if the color was found, -1 if White had to be used.
  */
 int
-get_color_resource (w, cname, p)
-Widget w;
-char *cname;
-Pixel *p;
+get_color_resource (Widget w, char *cname, Pixel *p)
 {
 	Display *dsp = XtDisplay(w);
 	Colormap cm;
@@ -274,9 +255,7 @@ Pixel *p;
 /* get the XFontStruct we want to use when drawing text for the display views.
  */
 void
-get_views_font (dsp, fspp)
-Display *dsp;
-XFontStruct **fspp;
+get_views_font (Display *dsp, XFontStruct **fspp)
 {
 	if (!viewsfsp)
 	    viewsfsp = getXResFont ("viewsFont");
@@ -288,9 +267,7 @@ XFontStruct **fspp;
  * this also means setting all the GCs for objects.
  */
 void
-set_views_font (dsp, fsp)
-Display *dsp;
-XFontStruct *fsp;
+set_views_font (Display *dsp, XFontStruct *fsp)
 {
 	Font fid;
 	int i;
@@ -317,9 +294,7 @@ XFontStruct *fsp;
 /* get the XFontStruct we want to use when drawing text while tracking cursor.
  */
 void
-get_tracking_font (dsp, fspp)
-Display *dsp;
-XFontStruct **fspp;
+get_tracking_font (Display *dsp, XFontStruct **fspp)
 {
 	if (!trackingfsp)
 	    trackingfsp = getXResFont ("cursorTrackingFont");
@@ -330,9 +305,7 @@ XFontStruct **fspp;
 /* set the XFontStruct we want to use when drawing text while tracking cursor.
  */
 void
-set_tracking_font (dsp, fsp)
-Display *dsp;
-XFontStruct *fsp;
+set_tracking_font (Display *dsp, XFontStruct *fsp)
 {
 	/* TODO: free old? */
 	trackingfsp = fsp;
@@ -342,7 +315,7 @@ XFontStruct *fsp;
  * TODO: reclaim old stuff if called again, but beware of hoarding users.
  */
 void
-make_objgcs()
+make_objgcs (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = RootWindow (dsp, DefaultScreen (dsp));
@@ -414,10 +387,7 @@ make_objgcs()
  * Use the colors defined for objects in the X resources, else White.
  */
 void
-obj_pickgc(op, w, gcp)
-Obj *op;
-Widget w;
-GC *gcp;
+obj_pickgc(Obj *op, Widget w, GC *gcp)
 {
 	/* insure GCs are ready */
 	if (!other_gc)
@@ -482,9 +452,7 @@ GC *gcp;
  * XFontStruct in its XmFontList.
  */
 void
-get_xmlabel_font (w, f)
-Widget w;
-XFontStruct **f;
+get_xmlabel_font (Widget w, XFontStruct **f)
 {
 	static char me[] = "get_xmlable_font";
 	XmFontList fl;
@@ -505,8 +473,7 @@ XFontStruct **f;
 
 /* get the font named by the given X resource, else fixed, else bust */
 XFontStruct *
-getXResFont (rn)
-char *rn;
+getXResFont (char *rn)
 {
 	static char fixed[] = "fixed";
 	char *fn = getXRes (rn, NULL);
@@ -580,10 +547,7 @@ loadGreek (Display *dsp, Drawable win, GC *greekgcp, XFontStruct **greekfspp)
  * N.B. don't change the pixels -- they are shared with other users.
  */
 int
-gray_ramp (dsp, cm, pixp)
-Display *dsp;
-Colormap cm;
-Pixel **pixp;
+gray_ramp (Display *dsp, Colormap cm, Pixel **pixp)
 {
 	static Pixel gramp[MAXGRAY];
 	static int ngray;
@@ -855,9 +819,7 @@ char why[])
  * N.B. see setXRes for how newlines are handled in the Xrm.
  */
 char *
-getXRes (name, def)
-char *name;
-char *def;
+getXRes (char *name, char *def)
 {
 	static char notfound[] = "_Not_Found_";
 	char *res = NULL;
@@ -885,8 +847,7 @@ char *def;
  *   behavior as writing to and reading back one res to an app-defaults file.
  */
 void
-setXRes (name, val)
-char *name, *val;
+setXRes (char *name, char *val)
 {
 	XrmDatabase db = XrmGetDatabase (XtDisplay(toplevel_w));
 	char buf[1024];
@@ -899,8 +860,7 @@ char *name, *val;
  * nnew is how many colors we expect to add.
  */
 Colormap
-createCM(nnew)
-int nnew;
+createCM (int nnew)
 {
 #define	NPRECM	50  /* try to preload new cm with NPRECM colors from def cm */
 	Display *dsp = XtDisplay (toplevel_w);
@@ -932,9 +892,7 @@ int nnew;
  * colors, return a new colormap or cm again.
  */
 Colormap
-checkCM(cm, nwant)
-Colormap cm;
-int nwant;
+checkCM (Colormap cm, int nwant)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	char *inst;
@@ -997,8 +955,7 @@ int nwant;
 
 /* explicitly handle pending X events when otherwise too busy */
 void
-XCheck (app)
-XtAppContext app;
+XCheck (XtAppContext app)
 {
         while ((XtAppPending (app) & XtIMXEvent) == XtIMXEvent)
 	    XtAppProcessEvent (app, XtIMXEvent);
@@ -1006,8 +963,7 @@ XtAppContext app;
 
 /* center the scrollbars in the given scrolled window */
 void
-centerScrollBars(sw_w)
-Widget sw_w;
+centerScrollBars (Widget sw_w)
 {
 	int min, max, slidersize, value;
 	XmScrollBarCallbackStruct sbcs;
@@ -1041,8 +997,7 @@ Widget sw_w;
  * full length of the current string.
  */
 void
-textColumns (w)
-Widget w;
+textColumns (Widget w)
 {
 	Arg args[10];
 	char *bp;
@@ -1069,10 +1024,7 @@ Widget w;
  * while we're at it, fix the text cursor.
  */
 void
-defaultTextFN (w, setcols,  x, y)
-Widget w;
-int setcols;
-char *x, *y;
+defaultTextFN (Widget w, int setcols, char *x, char *y)
 {
 	char *tp = XmTextGetString (w);
 
@@ -1094,10 +1046,7 @@ char *x, *y;
 
 /* turn cursor on/off to follow focus */
 static void
-textFixCursorCB(w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+textFixCursorCB (Widget w, XtPointer client, XtPointer call)
 {
 	XmAnyCallbackStruct *ap = (XmAnyCallbackStruct *)call;
 	Arg a;
@@ -1110,8 +1059,7 @@ XtPointer call;
  * TextField
  */
 void
-fixTextCursor (w)
-Widget w;
+fixTextCursor (Widget w)
 {
 	Arg a;
 
@@ -1154,7 +1102,7 @@ dateOK (Now *np, Obj *op)
 
 /* set up look_like_button[] and look_like_label[] */
 void
-setButtonInfo()
+setButtonInfo (void)
 {
 	Pixel topshadcol, botshadcol, bgcol;
 	Pixmap topshadpm, botshadpm;
@@ -1189,9 +1137,7 @@ setButtonInfo()
  * or like a label.
  */
 void
-buttonAsButton (w, whether)
-Widget w;
-int whether;
+buttonAsButton (Widget w, int whether)
 {
 	if (!look_like_inited) {
 	    setButtonInfo();
@@ -1208,7 +1154,7 @@ int whether;
  * then check occasionally using stopd_check()
  */
 void
-stopd_up()
+stopd_up (void)
 {
 	/* create if first time */
 	if (!stopd_w) {
@@ -1267,7 +1213,7 @@ stopd_up()
 
 /* bring down the user-stop dialog */
 void
-stopd_down()
+stopd_down (void)
 {
 	if (stopd_w)
 	    XtPopdown (stopd_w);
@@ -1278,7 +1224,7 @@ stopd_down()
  * return -1 to stop, else 0.
  */
 int
-stopd_check()
+stopd_check (void)
 {
 	/* check for user button presses */
 	XCheck (xe_app);
@@ -1293,10 +1239,7 @@ stopd_check()
 /* called when the user presses the Stop button */
 /* ARGSUSED */
 static void
-stopd_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+stopd_cb (Widget w, XtPointer client, XtPointer call)
 {
 	xe_msg (0, "User stop");
 	stopd_stopped = 1;

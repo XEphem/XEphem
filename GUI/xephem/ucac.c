@@ -594,6 +594,7 @@ readu4hpm (int rnm, int *pmra, int *pmdec)
 	    char fn[1024];
 	    char line[128];
 	    FILE*fp;
+        U4HPM *up;
 
 	    sprintf (fn, "%s/u4i/u4hpm.dat", basedir);
 	    fp = fopen (fn, "r");
@@ -603,7 +604,7 @@ readu4hpm (int rnm, int *pmra, int *pmdec)
 	    }
 	    while (fgets (line, sizeof(line), fp)) {
 		u4hpm = (U4HPM *) realloc (u4hpm, (nu4hpm+1)*sizeof(U4HPM));
-		U4HPM *up = &u4hpm[nu4hpm++];
+		up = &u4hpm[nu4hpm++];
 		sscanf (line, "%d %d %d %d %d %d %d %d", &up->rnm, &up->zn, &up->rnz,
 				&up->pmrc, &up->pmd, &up->ra, &up->spd, &up->maga);
 	    }

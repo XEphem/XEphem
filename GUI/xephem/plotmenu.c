@@ -112,7 +112,7 @@ static int npltlines;		/* number of completely defined plots */
  * form. otherwise, just get going.
  */
 void
-plot_manage ()
+plot_manage (void)
 {
 	if (!plotshell_w)
 	    plot_create_shell();
@@ -158,7 +158,7 @@ double value;
  * write the active plotfields to the current plot file, if one is open.
  */
 void
-plot()
+plot (void)
 {
 	if (plt_fp) {
 	    /* plot in order of original selection */
@@ -173,7 +173,7 @@ plot()
 }
 
 int
-plot_ison()
+plot_ison (void)
 {
 	return (plt_fp != 0);
 }
@@ -205,7 +205,7 @@ int whether;
 }
 
 static void
-plot_create_shell()
+plot_create_shell (void)
 {
 	XmString str;
 	Widget f_w, rc_w;
@@ -488,10 +488,7 @@ plot_create_shell()
  */
 /* ARGSUSED */
 static void
-plt_show_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_show_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -509,10 +506,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_loadcfg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_loadcfg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	FILE *fp;
@@ -564,10 +558,7 @@ XtPointer call;
 /* callback to save current configuration to file named by cfn_w. */
 /* ARGSUSED */
 static void
-plt_savecfg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_savecfg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FILE *fp;
 	char *txt, *fn;
@@ -619,10 +610,7 @@ XtPointer call;
 /* callback to allow selecting plot fields */
 /* ARGSUSED */
 static void
-plt_select_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_select_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    /* first turn off plotting, if on, while we change things */
@@ -639,10 +627,7 @@ XtPointer call;
 /* callback when user wants to start building a plot file */
 /* ARGSUSED */
 static void
-plt_active_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_active_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    /* first turn off selecting, if on */
@@ -661,10 +646,7 @@ XtPointer call;
 /* callback when the main plot window is closed */
 /* ARGSUSED */
 static void
-plt_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 }
 
@@ -672,10 +654,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (plotshell_w);
 }
@@ -684,10 +663,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *help_msg[] = {
 "This menu controls the plot generation and display functionality of xephem.",
@@ -701,10 +677,7 @@ static char *help_msg[] = {
  */
 /* ARGSUSED */
 static void
-plt_undo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_undo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (selecting_xy == X) {
 	    if (npltlines > 0) {
@@ -723,7 +696,7 @@ XtPointer call;
 /* forget our list, and unmanage the table.
  */
 static void
-plt_reset()
+plt_reset (void)
 {
 	int i;
 
@@ -737,7 +710,7 @@ plt_reset()
  * everybody else to drop their buttons, make sure toggle is off.
  */
 static void
-plt_stop_selecting()
+plt_stop_selecting (void)
 {
 	if (npltlines < MAXPLTLINES)
 	    XtUnmanageChild (pltlines[npltlines].c_w[FORM]);
@@ -749,7 +722,7 @@ plt_stop_selecting()
 }
 
 static void
-plt_turn_off ()
+plt_turn_off (void)
 {
 	if (plt_fp) {
 	    (void) fclose (plt_fp);
@@ -779,7 +752,7 @@ char *name;
 
 /* init npltlines'th row and change prompt to ask for X */
 static void
-init_row ()
+init_row (void)
 {
 	char buf[100];
 
@@ -818,7 +791,7 @@ add_field (char *name)
 
 /* called from the query routine when want to append to an existing plot file.*/
 static void
-plt_try_append()
+plt_try_append (void)
 {
 	plt_turn_on("a");
 }
@@ -827,14 +800,14 @@ plt_try_append()
  * file.
  */
 static void
-plt_try_overwrite()
+plt_try_overwrite (void)
 {
 	plt_turn_on("w");
 }
 
 /* called from the query routine when want decided not to make a plot file.  */
 static void
-plt_try_cancel()
+plt_try_cancel (void)
 {
 	XmToggleButtonSetState (active_w, False, False);
 }
@@ -844,7 +817,7 @@ plt_try_cancel()
  * but if it does, first ask wheher to append or overwrite.
  */
 static void
-plt_try_turn_on()
+plt_try_turn_on (void)
 {
 	char *txt;
 	char buf[1024], *fn;
@@ -1172,7 +1145,7 @@ Widget da_w;
  * reset da_w_save and call XPSClose() when finished.
  */
 static void
-plt_print()
+plt_print (void)
 {
 	if (da_w_save) {
 	    Dimension w, h;
@@ -1208,10 +1181,7 @@ plt_print()
  */
 /* ARGSUSED */
 static void
-plt_da_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget da_w = (Widget)client;
 
@@ -1224,10 +1194,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget da_w = (Widget)client;
 	XmUpdateDisplay (da_w);		/* handle expose after pulldown menu */
@@ -1239,10 +1206,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild ((Widget)client);
 }
@@ -1252,10 +1216,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	plt_da_destroy ((Widget)client);
 }
@@ -1266,10 +1227,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_flipx_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_flipx_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;
@@ -1305,10 +1263,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_flipy_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_flipy_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;
@@ -1344,10 +1299,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_grid_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_grid_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;
@@ -1383,10 +1335,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_xyr_asdate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_xyr_asdate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;
@@ -1429,10 +1378,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_xjd_asdate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_xjd_asdate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;

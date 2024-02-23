@@ -135,7 +135,7 @@ static char olcategory[] = "Logbook";	/* save category */
 
 /* bring up observer's log, create if first time */
 void
-ol_manage()
+ol_manage (void)
 {
 	if (!olshell_w) {
 	    ol_create();
@@ -148,7 +148,7 @@ ol_manage()
 
 /* return whether logbook is currently showing */
 int
-ol_isUp()
+ol_isUp (void)
 {
 	return(isUp(olshell_w));
 }
@@ -178,7 +178,7 @@ ol_cursor (Cursor c)
 
 /* create the observer log window */
 static void
-ol_create()
+ol_create (void)
 {
 	Widget w, sep_w;
 	Widget rc_w, fo_w;
@@ -533,7 +533,7 @@ ol_add_cb (Widget w, XtPointer client, XtPointer call)
 
 /* set tags from Now */
 static void
-fillNowFields()
+fillNowFields (void)
 {
 	Now *np = mm_get_now();
 	double lmjd = mjd - tz/24.0;
@@ -623,7 +623,7 @@ fillObjFields (Obj *op)
 /* read the existing log book and list all entries matching the selected fields.
  */
 static void
-ol_listLB()
+ol_listLB (void)
 {
 	static LilXML *lp;
 	XMLEle *root, *ep;
@@ -862,7 +862,7 @@ notesMatch (XMLEle *ep)
 
 /* add the current logbook settings to logbook in the private dir */
 static void
-ol_writeLB()
+ol_writeLB (void)
 {
 	FILE *fp;
 	char buf[1024];
@@ -1047,7 +1047,7 @@ sortMatches (XMLEle **mpp, int nmpp)
 
 /* create the observer log list window */
 static void
-oll_create()
+oll_create (void)
 {
 	Widget w, fo_w;
 	Arg args[20];
@@ -1160,7 +1160,7 @@ oll_save_cb (Widget w, XtPointer client, XtPointer call)
 
 /* write ollst_w to file named in ollstf_w */
 static void
-oll_save()
+oll_save (void)
 {
 	char *fn = XmTextFieldGetString (ollstf_w);
 	FILE *fp = fopend (fn, NULL, "w");

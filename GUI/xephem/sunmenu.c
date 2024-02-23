@@ -120,7 +120,7 @@ static char suncategory[] = "Sun";
 
 /* bring up the sun menu, creating if first time */
 void
-sun_manage()
+sun_manage (void)
 {
 	if (!sunshell_w) {
 	    sun_create_shell();
@@ -165,7 +165,7 @@ sun_cursor (Cursor c)
 
 /* called when basic resources change */
 void
-sun_newres()
+sun_newres (void)
 {
 	if (!sunshell_w)
 	    return;
@@ -174,14 +174,14 @@ sun_newres()
 
 /* return the name of the resource containing whether this view is up */
 char *
-sun_viewupres()
+sun_viewupres (void)
 {
 	return ("SunViewUp");
 }
 
 /* create main shell */
 static void
-sun_create_shell ()
+sun_create_shell (void)
 {
 	Widget pd_w, cb_w, mb_w;
 	Widget w, f_w;
@@ -556,7 +556,7 @@ sun_mloop_cb (Widget w, XtPointer client, XtPointer data)
  * call XPSClose() when finished.
  */
 static void
-sun_print ()
+sun_print (void)
 {
 	Display *dsp = XtDisplay(sunda_w);
 	Window win = XtWindow(sunda_w);
@@ -611,7 +611,7 @@ sun_print ()
 }
 
 static void
-sun_ps_annotate()
+sun_ps_annotate (void)
 {
 	Now *np = mm_get_now();
         char dir[128];
@@ -647,7 +647,7 @@ sun_ps_annotate()
 
 /* load one file initially for fun */
 static void
-sun_load1()
+sun_load1 (void)
 {
 	char **files;
 	int nfiles;
@@ -876,7 +876,7 @@ sun_motion_eh (Widget w, XtPointer client, XEvent *ev, Boolean *dispatch)
  * return 0 if ok else xe_msg and -1
  */
 static int
-readSOHOImage()
+readSOHOImage (void)
 {
 	char fn[1024];
 	int t, s;
@@ -1141,7 +1141,7 @@ scanDir (char *dir, char ***files, int nfiles)
 }
 
 static void
-sun_refresh()
+sun_refresh (void)
 {
 	Dimension w, h;
 

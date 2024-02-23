@@ -228,7 +228,7 @@ static char skyipcategory[] = "Sky View -- Image tools";/* Save category */
 
 /* called to create but not manage the imaging dialog */
 void
-si_create()
+si_create (void)
 {
 	if (!si_w) {
 	    si_createdialog();
@@ -244,7 +244,7 @@ si_create()
 
 /* called to bring up the imaging dialog */
 void
-si_manage()
+si_manage (void)
 {
 	si_create();
 	XtManageChild(si_w);
@@ -252,7 +252,7 @@ si_manage()
 
 /* called to find whether Imaging window is up */
 int
-si_isup()
+si_isup (void)
 {
 	return (isUp (si_w));
 }
@@ -261,7 +261,7 @@ si_isup()
  * N.B. do not try to reclaim memory so we can leave FITS watch on while down.
  */
 void
-si_unmanage()
+si_unmanage (void)
 {
 	if (!si_w)
 	    return;
@@ -271,21 +271,21 @@ si_unmanage()
 /* return 1 if dialog is up, else 0.
  */
 int
-si_ismanaged()
+si_ismanaged (void)
 {
 	return (si_w && XtIsManaged(si_w));
 }
 
 /* return 1 if there is currently a valid FITS image available, else 0 */
 int
-si_ison()
+si_ison (void)
 {
 	return (fimok);
 }
 
 /* discard any current FITS image */
 void
-si_off()
+si_off (void)
 {
 	if (fimok) {
 	    resetFImage (&fim);
@@ -415,7 +415,7 @@ Cursor c;
  * if no current FImage, return NULL.
  */
 FImage *
-si_getFImage ()
+si_getFImage (void)
 {
 	return (fimok ? &fim : NULL);
 }
@@ -446,14 +446,14 @@ FImage *fip;
 
 /* return the current Pixmap */
 Pixmap
-si_getPixmap ()
+si_getPixmap (void)
 {
 	return (fpm);
 }
 
 /* send the current image to the postscript machine */
 void
-si_ps ()
+si_ps (void)
 {
 	XPSPixmap (fpm, fpmw, fpmh, xe_cm, 0, 0);
 }
@@ -753,7 +753,7 @@ int nz;		/* n zoom entries */
 /* compute the histogram for fim and put it in histo[].
  */
 static void
-build_histo()
+build_histo (void)
 {
 	FImage *fip = &fim;
 	CamPix *ip = (CamPix *)fip->image;
@@ -798,7 +798,7 @@ build_histo()
  * N.B. if we need the histogram, we assume it's already built.
  */
 static void
-build_colormap()
+build_colormap (void)
 {
 	int range = hipix - lopix;
 	int g, i;
@@ -1171,7 +1171,7 @@ char *name;
 
 /* compute wims based on fim */
 static void
-findWholeImageStats()
+findWholeImageStats (void)
 {
 	ImRegion imr;
 
@@ -1551,7 +1551,7 @@ double ymin, ymax;	/* y range */
 
 /* make some GCs and get some pixels we use in several places */
 static void
-mkGCs()
+mkGCs (void)
 {
 	Display *dsp = XtD;
 	Widget tlw = toplevel_w;
@@ -1580,7 +1580,7 @@ mkGCs()
  * use our keywords if present and reasonable.
  */
 static void
-defContrast()
+defContrast (void)
 {
 	int lpix, hpix;
 	double gamma;
@@ -1610,7 +1610,7 @@ defContrast()
 
 /* set up lopix and hipix and a resonable gamma for medium contrast setting */
 static void
-si_mcontrast()
+si_mcontrast (void)
 {
 	lopix = h_peaki - (h_peaki - h_mini)/2;
 	hipix = h_peaki + (h_maxi - h_peaki)/2;
@@ -1619,7 +1619,7 @@ si_mcontrast()
 
 /* increase contrast */
 static void
-si_sharper()
+si_sharper (void)
 {
 	lopix += (h_peaki-lopix)/3;
 	hipix -= (hipix-h_peaki)/3;
@@ -1627,7 +1627,7 @@ si_sharper()
 
 /* decrease contrast */
 static void
-si_duller()
+si_duller (void)
 {
 	lopix = (3*lopix - h_peaki)/(3-1);
 	if (lopix < h_mini)
@@ -1648,7 +1648,7 @@ si_duller()
 
 /* set to narrow statistical contrast */
 static void
-si_narrow()
+si_narrow (void)
 {
 	lopix = (int)(wims.mean - wims.std/3);
 	if (lopix < h_mini)
@@ -1661,7 +1661,7 @@ si_narrow()
 
 /* set to wide statistical contrast */
 static void
-si_wide()
+si_wide (void)
 {
 	lopix = (int)(wims.mean - wims.std);
 	if (lopix < h_mini)
@@ -1674,7 +1674,7 @@ si_wide()
 
 /* set to full pixel contrast */
 static void
-si_full()
+si_full (void)
 {
 	lopix = h_mini;
 	hipix = h_maxi;
@@ -1683,7 +1683,7 @@ si_full()
 
 /* increase brightness */
 static void
-si_brighter()
+si_brighter (void)
 {
 	lopix = (3*lopix - h_peaki)/(3-1);
 	if (lopix < h_mini)
@@ -1693,7 +1693,7 @@ si_brighter()
 
 /* decrease brightness */
 static void
-si_darker()
+si_darker (void)
 {
 	lopix += (h_peaki-lopix)/3;
 	hipix = (3*hipix - h_peaki)/(3-1);
@@ -1747,7 +1747,7 @@ sectionCtrl (Widget par_w, char *hlptag, Widget *tb, char *tbname,
 
 /* create the imaging dialog */
 static void
-si_createdialog()
+si_createdialog (void)
 {
 	Widget mrc_w, rc_w, rc2_w;
 	Widget f_w;
@@ -2133,25 +2133,25 @@ si_createdialog()
 		    XtManageChild (rp->w);
 		}
 
-	    /* info Text */
+		/* info Text */
 
-	    n = 0;
-	    XtSetArg (args[n], XmNeditable, False); n++;
-	    XtSetArg (args[n], XmNeditMode, XmMULTI_LINE_EDIT); n++;
-	    XtSetArg (args[n], XmNcursorPositionVisible, False); n++;
-	    XtSetArg (args[n], XmNblinkRate, 0); n++;
-	    XtSetArg (args[n], XmNrows, 5); n++;
-	    XtSetArg (args[n], XmNcolumns, 29); n++;
-	    glstxt_w = XmCreateText (rc_w, "GM", args, n);
-	    wtip (glstxt_w, "Glass' statistics");
-	    XtManageChild (glstxt_w);
+		n = 0;
+		XtSetArg (args[n], XmNeditable, False); n++;
+		XtSetArg (args[n], XmNeditMode, XmMULTI_LINE_EDIT); n++;
+		XtSetArg (args[n], XmNcursorPositionVisible, False); n++;
+		XtSetArg (args[n], XmNblinkRate, 0); n++;
+		XtSetArg (args[n], XmNrows, 5); n++;
+		XtSetArg (args[n], XmNcolumns, 29); n++;
+		glstxt_w = XmCreateText (rc_w, "GM", args, n);
+		wtip (glstxt_w, "Glass' statistics");
+		XtManageChild (glstxt_w);
 
-	    /* row/col plot controls */
+		/* row/col plot controls */
 
-	    n = 0;
-	    XtSetArg (args[n], XmNorientation, XmHORIZONTAL); n++;
-	    rc2_w = XmCreateRowColumn (rc_w, "Plot", args, n);
-	    XtManageChild (rc2_w);
+		n = 0;
+		XtSetArg (args[n], XmNorientation, XmHORIZONTAL); n++;
+		rc2_w = XmCreateRowColumn (rc_w, "Plot", args, n);
+		XtManageChild (rc2_w);
 
 		n = 0;
 		w = XmCreateLabel (rc2_w, "PCSL", args, n);
@@ -2174,14 +2174,14 @@ si_createdialog()
 		    "Whether to draw a vertical cross section");
 		XtManageChild (glcol_w);
 
-	    /* drawing areas for each direction in frames */
+		/* drawing areas for each direction in frames */
 
-	    n = 0;
-	    fr_w = XmCreateFrame (rc_w, "GRF", args, n);
-	    XtAddCallback (glrow_w, XmNvalueChangedCallback, si_managetb_cb,
+		n = 0;
+		fr_w = XmCreateFrame (rc_w, "GRF", args, n);
+		XtAddCallback (glrow_w, XmNvalueChangedCallback, si_managetb_cb,
 							    (XtPointer)fr_w);
-	    if (XmToggleButtonGetState(glrow_w))
-		XtManageChild (fr_w);
+		if (XmToggleButtonGetState(glrow_w))
+		    XtManageChild (fr_w);
 
 		/* N.B. since this DA may not be mapped (if the frame is not
 		 * managed) take care it is not used before it is really up.
@@ -2193,12 +2193,12 @@ si_createdialog()
 		XtManageChild (glrda_w);
 		wtip (glrda_w, "Plot of central row under glass");
 
-	    n = 0;
-	    fr_w = XmCreateFrame (rc_w, "GCF", args, n);
-	    XtAddCallback (glcol_w, XmNvalueChangedCallback, si_managetb_cb,
-							    (XtPointer)fr_w);
-	    if (XmToggleButtonGetState(glcol_w))
-		XtManageChild (fr_w);
+		n = 0;
+		fr_w = XmCreateFrame (rc_w, "GCF", args, n);
+		XtAddCallback (glcol_w, XmNvalueChangedCallback, si_managetb_cb,
+		               (XtPointer)fr_w);
+		if (XmToggleButtonGetState(glcol_w))
+		    XtManageChild (fr_w);
 
 		n = 0;
 		XtSetArg (args[n], XmNresizePolicy, XmRESIZE_NONE); n++;
@@ -2388,7 +2388,7 @@ int autocon;
 
 /* set nup and elf from fim */
 static void
-si_ne()
+si_ne (void)
 {
 	FImage *fip = &fim;
 	double ra1, dec1, ra2, dec2;
@@ -2407,10 +2407,7 @@ si_ne()
 /* mark refstar on the image */
 /* ARGSUSED */
 static void
-si_markrefstar_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_markrefstar_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    xe_msg (1, "First open an image");
@@ -2425,10 +2422,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_newrefstar_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_newrefstar_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    xe_msg (1, "First open an image");
@@ -2447,10 +2441,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_newref_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_newref_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    xe_msg (1, "First open an image");
@@ -2466,10 +2457,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_managetb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_managetb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int state = XmToggleButtonGetState(w);
 	Widget sw = (Widget)client;
@@ -2493,10 +2481,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-si_lohi_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_lohi_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *lostr = XmTextFieldGetString (lo_w);
 	char *histr = XmTextFieldGetString (hi_w);
@@ -2524,10 +2509,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-si_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (si_w);
 }
@@ -2537,10 +2519,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *tag = (char *)client;
 
@@ -2663,10 +2642,7 @@ Boolean *continue_to_dispatch;
 /* expose callback for the gray map */
 /* ARGSUSED */
 static void
-si_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay(fda_w);
@@ -2704,10 +2680,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_contrast_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_contrast_cb (Widget w, XtPointer client, XtPointer call)
 {
 	void (*pfv)() = (void (*)())client;
 
@@ -2730,10 +2703,7 @@ XtPointer call;
 /* callback from Drag or ValueChanged on the gamma scale */
 /* ARGSUSED */
 static void
-si_gamma_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_gamma_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    return;
@@ -2751,10 +2721,7 @@ XtPointer call;
 /* callback for the gray map Inverse Vid TB */
 /* ARGSUSED */
 static void
-si_inv_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_inv_cb (Widget w, XtPointer client, XtPointer call)
 {
 	want_inv = XmToggleButtonGetState(w);
 
@@ -2769,7 +2736,7 @@ XtPointer call;
  * N.B. we might be called before the first expose
  */
 static void
-si_drawHistogram()
+si_drawHistogram (void)
 {
 #define	MAXPTS	50
 	Display *dsp = XtDisplay(fda_w);
@@ -2899,7 +2866,7 @@ si_drawHistogram()
 /* set up glass' resources according to current size and mag selections.
  */
 static void
-glassSetup ()
+glassSetup (void)
 {
 
 	glassSize();
@@ -2908,7 +2875,7 @@ glassSetup ()
 
 /* set glassmag/sz from widgets */
 static void
-glassSize()
+glassSize (void)
 {
 	int i;
 
@@ -2940,7 +2907,7 @@ glassSize()
 /* (re)make glass_xim of size glasssz and same genre as fim.
  */
 static void
-makeGlassImage ()
+makeGlassImage (void)
 {
 	Display *dsp = XtD;
 	char *glassdata;
@@ -3042,7 +3009,7 @@ objf_qsortf (const void *f1p, const void *f2p)
 /* find WCS solution for current image.
  */
 static void
-wcsMatch ()
+wcsMatch (void)
 {
 	Now *np = mm_get_now();
 	double mag;
@@ -3222,7 +3189,7 @@ int nfs;
 
 /* return size of glass in whole image pixels, rounded up */
 static int
-glimsz()
+glimsz (void)
 {
 	int proper = (int)ceil(glasssz/glassmag/fmag);
 	return (proper >= MINGLSZ ? proper : MINGLSZ);
@@ -3234,7 +3201,7 @@ glimsz()
 
 /* called to bring up the wcs solver dialog */
 void
-siwcs_manage()
+siwcs_manage (void)
 {
 	si_create();
 	XtManageChild(wcs_w);
@@ -3242,7 +3209,7 @@ siwcs_manage()
 
 /* called to bring down the wcs solver dialog */
 void
-siwcs_unmanage()
+siwcs_unmanage (void)
 {
 	if (wcs_w)
 	    XtUnmanageChild (wcs_w);
@@ -3252,7 +3219,7 @@ siwcs_unmanage()
  * return whether all fields are found.
  */
 static int
-initSolverFields ()
+initSolverFields (void)
 {
 	char msg[1024];
 	int ok = 1;
@@ -3268,7 +3235,7 @@ initSolverFields ()
 
 /* create the WCS dialog */
 static void
-si_createwcsdialog()
+si_createwcsdialog (void)
 {
 	Widget sep_w, rc_w;
 	Widget w;
@@ -3499,10 +3466,7 @@ int rw;
 
 /* ARGSUSED */
 static void
-si_wcsclose_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcsclose_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (wcs_w);
 }
@@ -3510,10 +3474,7 @@ XtPointer call;
 /* called to start a WCS solution */
 /* ARGSUSED */
 static void
-si_wcsgo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcsgo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor (1);
 	wcsMatch ();
@@ -3523,10 +3484,7 @@ XtPointer call;
 /* called to mark seed stars */
 /* ARGSUSED */
 static void
-si_markstars_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_markstars_cb (Widget w, XtPointer client, XtPointer call)
 {
 	double *sx, *sy;
 	int burnt;
@@ -3583,10 +3541,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_wcsuse_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcsuse_cb (Widget w, XtPointer client, XtPointer call)
 {
 	WCSSeed *wsp = (WCSSeed *)client;
 	char msg[1024];
@@ -3603,10 +3558,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-si_wcshelp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcshelp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "Pattern match with field stars to find a WCS solution."

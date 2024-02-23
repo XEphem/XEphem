@@ -112,7 +112,7 @@ static char skyfitscategory[] = "Sky View -- FITS";	/* Save category */
 /* called to manage the fits dialog.
  */
 void
-sf_manage()
+sf_manage (void)
 {
 	if (!sf_w) {
 	    sf_create();
@@ -125,7 +125,7 @@ sf_manage()
 /* called to unmanage the fits dialog.
  */
 void
-sf_unmanage()
+sf_unmanage (void)
 {
 	if (!sf_w)
 	    return;
@@ -135,7 +135,7 @@ sf_unmanage()
 /* return 1 if dialog is up, else 0.
  */
 int
-sf_ismanaged()
+sf_ismanaged (void)
 {
 	return (sf_w && XtIsManaged(sf_w));
 }
@@ -322,7 +322,7 @@ char *name;
 
 /* create, but do not manage, the FITS file dialog */
 static void
-sf_create()
+sf_create (void)
 {
 	Widget tf_w, bf_w;
 	Widget rc_w, rb_w;
@@ -700,10 +700,7 @@ Widget fsb_w;
 /* callback from the Public dir PB */
 /* ARGSUSED */
 static void
-sharedDirCB (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sharedDirCB (Widget w, XtPointer client, XtPointer call)
 {
 	Widget fsb_w = (Widget)client;
 	char buf[1024];
@@ -715,10 +712,7 @@ XtPointer call;
 /* callback from the Private dir PB */
 /* ARGSUSED */
 static void
-privateDirCB (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+privateDirCB (Widget w, XtPointer client, XtPointer call)
 {
 	Widget fsb_w = (Widget)client;
 
@@ -760,10 +754,7 @@ Widget rc_w, fsb_w;
 /* called when Watch TB changes */
 /* ARGSUSED */
 static void
-fw_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fw_cb (Widget w, XtPointer client, XtPointer call)
 {
 	fw_on (XmToggleButtonGetState(w));
 }
@@ -771,10 +762,7 @@ XtPointer call;
 /* called when Get PB or toolbar PB is hit */
 /* ARGSUSED */
 void
-sf_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!sf_w) {
 	    sf_create();
@@ -795,10 +783,7 @@ XtPointer call;
 /* called when CR is hit in the Save text field or the Save PB is hit */
 /* ARGSUSED */
 static void
-sf_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -829,7 +814,7 @@ XtPointer call;
  * we already know everything is ok to just do it now.
  */
 static void
-save_file()
+save_file (void)
 {
 	FImage *fip;
 	char buf[1024];
@@ -864,10 +849,7 @@ save_file()
 /* called when a file selected by the FSB is to be opened */
 static void
 /* ARGSUSED */
-sf_open_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_open_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmFileSelectionBoxCallbackStruct *s =
 				    (XmFileSelectionBoxCallbackStruct *)call;
@@ -889,20 +871,14 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-sf_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (sf_w);
 }
 
 /* ARGSUSED */
 static void
-sf_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Read in local FITS files or read from Network.",
@@ -915,10 +891,7 @@ XtPointer call;
 /* callback to set main time to match FITS */
 /* ARGSUSED */
 static void
-sf_setdate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_setdate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	double newmjd;
 
@@ -974,7 +947,7 @@ char buf[];
 
 /* return 0 if have gunzip else -1 */
 static int
-chk_gunzip()
+chk_gunzip (void)
 {
 #define	NOGZEXIT	88		/* any impossible gzip exit value */
 	static int know = 1;		/* 0 or -1 when know for sure */
@@ -1022,7 +995,7 @@ chk_gunzip()
 
 /* return 1 if have/want to use gunzip, else 0 */
 static int
-use_gunzip()
+use_gunzip (void)
 {
 	if (chk_gunzip() < 0) {
 	    xe_msg (1,"Can not find %s.\nProceeding without compression", gcmd);
@@ -1132,7 +1105,7 @@ setup_ssldecryption_pipe(int sockfd)
 }
 
 static Survey
-whichSurvey()
+whichSurvey (void)
 {
 	if (XmToggleButtonGetState(dss2r_w))
 	    return (DSS_2R);
@@ -1143,7 +1116,7 @@ whichSurvey()
 
 /* start an input stream reading a FITS image from ESO */
 static void
-eso_fits()
+eso_fits (void)
 {
 	static char host[] = "archive.eso.org";
 	static FImage fim, *fip = &fim;
@@ -1281,7 +1254,7 @@ eso_fits()
 
 /* start an input stream reading a FITS image from STScI */
 static void
-stsci_fits()
+stsci_fits (void)
 {
 	static char host[] = "archive.stsci.edu";
 	static FImage fim, *fip = &fim;
@@ -1571,7 +1544,7 @@ double *mjdp;
 
 /* get and display the time of observation from the current FITS image */
 static void
-sf_setObsDate()
+sf_setObsDate (void)
 {
 	double objsmjd;
 

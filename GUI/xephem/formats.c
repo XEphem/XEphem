@@ -17,19 +17,19 @@
  */
 static int f_scrnoff;
 void
-f_on ()
+f_on (void)
 {
 	f_scrnoff = 0;
 }
 
 void
-f_off ()
+f_off (void)
 {
 	f_scrnoff = 1;
 }
 
 int
-f_ison()
+f_ison (void)
 {
 	return (!f_scrnoff);
 }
@@ -39,9 +39,7 @@ f_ison()
  * if we don't update the value then mark it as insensitive for feedback.
  */
 void
-f_showit (w, s)
-Widget w;
-char *s;
+f_showit (Widget w, char *s)
 {
 	/* testing is faster than setting */
 	if (XtIsSensitive(w) != !f_scrnoff)
@@ -61,11 +59,10 @@ char *s;
  * see fs_sexa for full formatting details.
  */
 void
-f_sexa (wid, a, w, fracbase)
-Widget wid;
-double a;
-int w;
-int fracbase;
+f_sexa (Widget wid,
+       double  a,
+       int     w,
+       int     fracbase)
 {
 	char out[64];
 
@@ -77,9 +74,7 @@ int fracbase;
 /* print ra, in radians, to widget w in hours according to the precision pref.
  */
 void
-f_ra (w, ra)
-Widget w;
-double ra;
+f_ra (Widget w, double ra)
 {
 	if (pref_get(PREF_DPYPREC) == PREF_LOPREC)
 	    f_sexa (w, radhr(ra), 2, 600);
@@ -90,9 +85,7 @@ double ra;
 /* print ra, in radians, into string out[] in hours according to precision pref.
  */
 void
-fs_ra (out, ra)
-char out[];
-double ra;
+fs_ra (char out[], double ra)
 {
 	if (pref_get(PREF_DPYPREC) == PREF_LOPREC)
 	    fs_sexa (out, radhr(ra), 2, 600);
@@ -104,9 +97,7 @@ double ra;
  * precision preference.
  */
 void
-f_prdec(w, a)
-Widget w;
-double a;
+f_prdec (Widget w, double a)
 {
 	if (pref_get(PREF_DPYPREC) == PREF_LOPREC)
 	    f_sexa (w, raddeg(a), 3, 60);
@@ -118,9 +109,7 @@ double a;
  * precision preference.
  */
 void
-fs_prdec(out, a)
-char out[];
-double a;
+fs_prdec (char out[], double a)
 {
 	if (pref_get(PREF_DPYPREC) == PREF_LOPREC)
 	    fs_sexa (out, raddeg(a), 3, 60);
@@ -130,9 +119,7 @@ double a;
 
 /* print time, t, as hh:mm:ss */
 void
-f_time (w, t)
-Widget w;
-double t;
+f_time (Widget w, double t)
 {
 	range (&t, 24.0);
 #ifdef AVOID_24H
@@ -144,9 +131,7 @@ double t;
 
 /* print time, t, as hh:mm:ss */
 void
-fs_time (out, t)
-char out[];
-double t;
+fs_time (char out[], double t)
 {
 	range (&t, 24.0);
 #ifdef AVOID_24H
@@ -158,9 +143,7 @@ double t;
 
 /* print time, t, as hh:mm to widget w */
 void
-f_mtime (w, t)
-Widget w;
-double t;
+f_mtime (Widget w, double t)
 {
 	range (&t, 24.0);
 #ifdef AVOID_24H
@@ -172,9 +155,7 @@ double t;
 
 /* print time, t, as hh:mm into out[] */
 void
-fs_mtime (out, t)
-char out[];
-double t;
+fs_mtime (char out[], double t)
 {
 	range (&t, 24.0);
 #ifdef AVOID_24H
@@ -186,18 +167,14 @@ double t;
 
 /* print angle, a, in rads, as degrees to widget w in form ddd:mm */
 void
-f_dm_angle(w, a)
-Widget w;
-double a;
+f_dm_angle (Widget w, double a)
 {
 	f_sexa (w, raddeg(a), 3, 60);
 }
 
 /* print angle, a, in rads, as degrees into string out[] in form ddd:mm */
 void
-fs_dm_angle(out, a)
-char out[];
-double a;
+fs_dm_angle (char out[], double a)
 {
 	fs_sexa (out, raddeg(a), 3, 60);
 }
@@ -207,9 +184,7 @@ double a;
  * precision preference.
  */
 void
-f_pangle(w, a)
-Widget w;
-double a;
+f_pangle (Widget w, double a)
 {
 	if (pref_get(PREF_DPYPREC) == PREF_LOPREC)
 	    f_sexa (w, raddeg(a), 3, 60);
@@ -221,9 +196,7 @@ double a;
  * precision preference.
  */
 void
-fs_pangle(out, a)
-char out[];
-double a;
+fs_pangle (char out[], double a)
 {
 	if (pref_get(PREF_DPYPREC) == PREF_LOPREC)
 	    fs_sexa (out, raddeg(a), 3, 60);
@@ -233,18 +206,14 @@ double a;
 
 /* print angle, a, in rads, as degrees to widget w in form dddd:mm:ss */
 void
-f_dms_angle(w, a)
-Widget w;
-double a;
+f_dms_angle (Widget w, double a)
 {
 	f_sexa (w, raddeg(a), 4, 3600);
 }
 
 /* print angle, a, in rads, as degrees into string out[] in form dddd:mm:ss */
 void
-fs_dms_angle(out, a)
-char out[];
-double a;
+fs_dms_angle (char out[], double a)
 {
 	fs_sexa (out, raddeg(a), 4, 3600);
 }
@@ -252,9 +221,7 @@ double a;
 /* print the given modified Julian date, jd, in the preferred format.
  */
 void
-f_date (w, jd)
-Widget w;
-double jd;
+f_date (Widget w, double jd)
 {
 	char out[32];
 	double tmp;
@@ -276,19 +243,14 @@ double jd;
  *   use f_showit() directly.
  */
 void
-f_string (w, s)
-Widget w;
-char *s;
+f_string (Widget w, char *s)
 {
 	field_log (w, 0.0, 0, s);
 	f_showit (w, s);
 }
 
 void
-f_double (w, fmt, f)
-Widget w;
-char *fmt;
-double f;
+f_double (Widget w, char *fmt, double f)
 {
 	char str[80];
 	(void) sprintf (str, fmt, f);
@@ -298,10 +260,9 @@ double f;
 
 /* fill buf() with given timezone name */
 void
-fs_tz (buf, tzpref, np)
-char buf[];
-int tzpref;	/* PREF_UTCTZ or PREF_LOCALTZ */
-Now *np;
+fs_tz (char buf[],
+       int  tzpref,	   /* PREF_UTCTZ or PREF_LOCALTZ */
+       Now *np)
 {
 	if (tzpref == PREF_UTCTZ)
 	    (void) strcpy(buf, "UTC");
@@ -316,9 +277,7 @@ Now *np;
 
 /* fill buf[] with time stamp from np */
 void
-fs_timestamp (np, stamp)
-Now *np;
-char stamp[];
+fs_timestamp (Now *np, char stamp[])
 {
 	double lmjd;
 	char d[32], t[32];
@@ -342,9 +301,7 @@ char stamp[];
  *   because we want the time to always be updated even during movie loops.
  */
 void
-timestamp (np, w)
-Now *np;
-Widget w;
+timestamp (Now *np, Widget w)
 {
 	char stamp[64];
 	char *txtp;

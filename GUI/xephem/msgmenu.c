@@ -41,7 +41,7 @@ static int txtl;		/* current length of text in txt_w */
 /* called to force the scrolling message window to be up.
  */
 void
-msg_manage()
+msg_manage (void)
 {
 	if (!msg_w)
 	    msg_create_w();
@@ -54,7 +54,7 @@ msg_manage()
 
 /* ring the bellm but avoid overdoing a lot of them */
 void
-msg_bell()
+msg_bell (void)
 {
 	static long lastbellt;
 	long t;
@@ -124,7 +124,7 @@ Cursor c;
 
 /* create the message dialog */
 static void
-msg_create_w()
+msg_create_w (void)
 {
 	static struct {
 	    char *name;
@@ -198,10 +198,7 @@ msg_create_w()
 /* callback from the erase pushbutton */
 /* ARGSUSED */
 static void
-msg_erase_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+msg_erase_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmTextReplace (txt_w, 0, txtl, "");
 	txtl = 0;
@@ -211,10 +208,7 @@ XtPointer call;
 /* callback from the close pushbutton */
 /* ARGSUSED */
 static void
-msg_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+msg_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (msg_w);
 }
@@ -222,10 +216,7 @@ XtPointer call;
 /* callback from the help pushbutton */
 /* ARGSUSED */
 static void
-msg_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+msg_help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {
 	    "System messages"
@@ -258,7 +249,7 @@ char *msg;
 
 /* make sure the text is scrolled to the bottom */
 static void
-msg_scroll_down()
+msg_scroll_down (void)
 {
 	XmTextSetInsertionPosition (txt_w, txtl);
 }
@@ -318,10 +309,7 @@ char *p;
 /* callback from the alert message box ok pushbutton */
 /* ARGSUSED */
 static void
-alert_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+alert_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (alert_w);
 }

@@ -78,7 +78,7 @@ static Obj newo;
 
 /* show, create if first time, the favorites window */
 void
-fav_manage()
+fav_manage (void)
 {
 	if (!favshell_w)
 	    fav_create();
@@ -152,7 +152,7 @@ fav_get_loaded (Obj ***oppp)
  * goal is to decide whether the copies we have here are now also in the db
  */
 void
-fav_newdb()
+fav_newdb (void)
 {
 	int i;
 
@@ -210,7 +210,7 @@ fav_cursor (Cursor c)
 
 /* create the favorites window */
 static void
-fav_create()
+fav_create (void)
 {
 	static struct {
 	    char *label;
@@ -366,7 +366,7 @@ fav_create()
 
 /* display each of the favs entries in the dialog. */
 static void
-showFavorites()
+showFavorites (void)
 {
 	Widget ww;
 	Arg args[20];
@@ -390,9 +390,7 @@ showFavorites()
 
 /* using info from favs[i] create its row in the favories window */
 static void
-setup1Row (rc_w, i)
-Widget rc_w;
-int i;
+setup1Row (Widget rc_w, int i)
 {
 	Widget f_w, on_w, del_w, lbl_w, up_w, dn_w;
 	Arg args[20];
@@ -470,10 +468,7 @@ int i;
  */
 /* ARGSUSED */
 static void
-fav_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "Collection of favorite objects",
@@ -485,10 +480,7 @@ XtPointer call;
 /* callback from the Close PB */
 /* ARGSUSED */
 static void
-fav_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (favshell_w);
 }
@@ -498,10 +490,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_load_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_load_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -519,10 +508,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024], *fn;
 	char *txt;
@@ -548,10 +534,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_add_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_add_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	char *txt;
@@ -590,7 +573,7 @@ XtPointer call;
 
 /* used to delete favorite entry deli */
 static void
-del_i()
+del_i (void)
 {
 	/* remove deli from favs list */
 	memmove (&favs[deli], &favs[deli+1], (--nfavs-deli)*sizeof(Favorite));
@@ -605,7 +588,7 @@ del_i()
 
 /* used to change favorite[deli] to newo */
 static void
-chg_i()
+chg_i (void)
 {
 	/* update entry */
 	memcpy (&favs[deli].o, &newo, sizeof(Obj));
@@ -624,10 +607,7 @@ chg_i()
  */
 /* ARGSUSED */
 static void
-fav_on_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_on_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int wanton = XmToggleButtonGetState (w);
 	int i = (long int)client;
@@ -644,10 +624,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_up_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_up_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i = (long int)client;
 
@@ -665,10 +642,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_dn_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_dn_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i = (long int)client;
 
@@ -686,10 +660,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_del_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_del_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* save index */
 	deli = (long int)client;
@@ -707,7 +678,7 @@ XtPointer call;
 
 /* add one more to favs and return ponter to new */
 static Favorite *
-favGrow()
+favGrow (void)
 {
 	Favorite *newfp;
 
@@ -718,7 +689,7 @@ favGrow()
 }
 
 static void
-favRmAll()
+favRmAll (void)
 {
 	XtFree ((char *)favs);
 	favs = NULL;
@@ -727,7 +698,7 @@ favRmAll()
 
 /* build xfavs, list of Obj* to be exported as the current set of favs */
 static void
-bldExport()
+bldExport (void)
 {
 	int i;
 

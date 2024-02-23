@@ -152,7 +152,7 @@ static double pole_ra, pole_dec;
  * form. otherwise, just insure up.
  */
 void
-marsm_manage ()
+marsm_manage (void)
 {
 	if (!mmshell_w) {
 	    marsm_create_shell_w();
@@ -227,7 +227,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-marsm_newres()
+marsm_newres (void)
 {
 	if (!mmshell_w)
 	    return;
@@ -248,7 +248,7 @@ int appended;
 }
 
 int
-marsm_ison()
+marsm_ison (void)
 {
 	return (isUp(mmshell_w));
 }
@@ -306,7 +306,7 @@ Cursor c;
 
 /* create the main moons shell */
 static void
-marsm_create_shell_w()
+marsm_create_shell_w (void)
 {
 	typedef struct {
 	    char *name;		/* toggle button instance name, or NULL */
@@ -620,7 +620,7 @@ marsm_create_shell_w()
 
 /* make the statistics form dialog */
 static void
-marsm_create_msform_w()
+marsm_create_msform_w (void)
 {
 	typedef struct {
 	    int col;		/* C* column code */
@@ -839,7 +839,7 @@ marsm_create_msform_w()
 
 /* create mtform_w, the top view dialog */
 static void
-marsm_create_tvform_w()
+marsm_create_tvform_w (void)
 {
 	Arg args[20];
 	int n;
@@ -896,10 +896,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback when the Close button is activated on the stats menu */
 /* ARGSUSED */
 static void
-marsm_sstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_sstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (msform_w);
 }
@@ -907,10 +904,7 @@ XtPointer call;
 /* callback when the the More Info button is activated */
 /* ARGSUSED */
 static void
-marsm_sstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_sstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (msform_w);
 	marsm_set_buttons(marsm_selecting);
@@ -920,10 +914,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-marsm_cpdmapping_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_cpdmapping_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtSetSensitive (tel_w, telIsOn());
 }
@@ -934,10 +925,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-marsm_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (client) {
 	    int *flagp = (int *)client;
@@ -960,10 +948,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-marsm_scale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_scale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	marsm_update (mm_get_now(), 1);
 }
@@ -972,10 +957,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-marsm_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (marsm_selecting) {
 	    char *name;
@@ -988,10 +970,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-mt_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mt_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1058,7 +1037,7 @@ XtPointer call;
  * we also try to center it just above, but it doesn't always work.
  */
 static void
-mt_track_size()
+mt_track_size (void)
 {
 	Dimension w, h;
 	Position mfx, mfy, mdx, mdy;
@@ -1101,10 +1080,7 @@ mt_track_size()
 /* callback when topview dialog is unmapped */
 /* ARGSUSED */
 static void
-mt_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mt_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (topview_w, False, True);
 }
@@ -1112,10 +1088,7 @@ XtPointer call;
 /* callback when main shell is popped down */
 /* ARGSUSED */
 static void
-marsm_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (msform_w);
 	XtUnmanageChild (mtform_w);
@@ -1139,10 +1112,7 @@ XtPointer call;
 /* callback from the main Close button */
 /* ARGSUSED */
 static void
-marsm_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do all the work */
 	XtPopdown (mmshell_w);
@@ -1151,10 +1121,7 @@ XtPointer call;
 /* callback to add scene to movie loop */
 /* ARGSUSED */
 static void
-marsm_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (marsm_pm, dt_w);
 }
@@ -1163,10 +1130,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-marsm_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* best effect if turn off worrying about the sky background */
 	skybkg = 0;
@@ -1179,10 +1143,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-marsm_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1240,10 +1201,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-marsm_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	ScreenObj *sop;
@@ -1283,7 +1241,7 @@ XtPointer call;
 
 /* create the (unmanaged for now) popup menu in mmpu_w. */
 static void
-marsm_create_popup()
+marsm_create_popup (void)
 {
 	static Widget *puw[] = {
 	    &mmpu_name_w,
@@ -1351,10 +1309,7 @@ marsm_fill_popup (ScreenObj *sop, int justname)
  */
 /* ARGSUSED */
 static void
-marsm_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This is a simple schematic depiction of Mars and its moons.",
@@ -1368,10 +1323,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-marsm_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1380,10 +1332,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-marsm_goto_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_goto_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = db_basic (MARS);
 	telGoto (op);
@@ -1464,10 +1413,7 @@ int x, y;
  */
 /* ARGSUSED */
 static void
-marsm_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+marsm_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Martian moons", marsm_print);
 }
@@ -1476,7 +1422,7 @@ XtPointer call;
  * call XPSClose() when finished.
  */
 static void
-marsm_print ()
+marsm_print (void)
 {
 	Display *dsp = XtDisplay (mda_w);
 	Now *np = mm_get_now();

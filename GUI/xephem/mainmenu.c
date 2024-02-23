@@ -417,14 +417,14 @@ Widget mainrc;
 
 /* connect up an action routine to handle XeUpdate */
 void
-mm_connActions()
+mm_connActions (void)
 {
 	XtAppAddActions (xe_app, mm_actions, XtNumber(mm_actions));
 }
 
 /* called to update after new resources are installed */
 void
-mm_newres()
+mm_newres (void)
 {
 	Pixel p;
 
@@ -445,7 +445,7 @@ mm_newres()
  * or stops if currently doing that.
  */
 void
-mm_external ()
+mm_external (void)
 {
 	if (ext_fp)
 	    mm_stop();
@@ -458,10 +458,7 @@ mm_external ()
  */
 /* ARGSUSED */
 void
-mm_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mm_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_gostop ((long int)client);
 }
@@ -586,7 +583,7 @@ int update;
  * N.B. caller should not change anything.
  */
 char *
-mm_getsite ()
+mm_getsite (void)
 {
 	return (msitename);
 }
@@ -620,7 +617,7 @@ Now *np;
 
 /* a way for anyone to know what now is */
 Now *
-mm_get_now()
+mm_get_now (void)
 {
 	return (&now);
 }
@@ -721,14 +718,14 @@ int how_much;
 
 /* name of resource containg whether to start running in real time */
 char *
-mm_autortres()
+mm_autortres (void)
 {
 	return ("AutoRT");
 }
 
 /* keep XEphem time in sync with computer */
 void
-mm_startrt()
+mm_startrt (void)
 {
 	/* RT Clock stepping */
 	set_t0 (&now);
@@ -756,7 +753,7 @@ mm_startrt()
  * N.B. we use the colors from status_w.
  */
 static void
-create_pixmaps()
+create_pixmaps (void)
 {
 	Display *dsp = XtDisplay (toplevel_w);
 	Window win = RootWindow (dsp, DefaultScreen(dsp));
@@ -1211,10 +1208,7 @@ int whether;
  */
 /* ARGSUSED */
 static void
-mm_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mm_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Field *fp = (Field *)client;
 
@@ -1232,17 +1226,14 @@ XtPointer call;
 /* called when user wants XEphem time to stay in sync with computer */
 /* ARGSUSED */
 static void
-keepnow_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+keepnow_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_startrt();
 }
 
 /* set things to their initial resource settings */
 static void
-mm_initres()
+mm_initres (void)
 {
 	/* list of FIDs we get from resources, in order */
 	typedef struct {
@@ -1343,7 +1334,7 @@ XtIntervalId *id;
 
 /* stop running */
 static void
-mm_stop()
+mm_stop (void)
 {
 	/* close external file if in use */
 	ext_stop();
@@ -1377,10 +1368,7 @@ mm_stop()
  */
 /* ARGSUSED */
 static void
-mm_step_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mm_step_cb (Widget w, XtPointer client, XtPointer call)
 {
 	StepOption *sop = (StepOption *)client;
 
@@ -1761,7 +1749,7 @@ int reverse;
 }
 
 static void
-print_magdecl()
+print_magdecl (void)
 {
 	static int lasts = -100;
         double yr, md;
@@ -1782,7 +1770,7 @@ print_magdecl()
 }
 
 static void
-print_tminc()
+print_tminc (void)
 {
 	Widget stpsz_w = fw(STPSZ_FID);
 	StepCode stepcode= mm_step_option ? mm_step_option->stepcode : FIXED_SS;
@@ -1819,13 +1807,13 @@ print_tminc()
 }
 
 static void
-print_updating()
+print_updating (void)
 {
 	print_status ("Updating...");
 }
 
 static void
-print_idle()
+print_idle (void)
 {
 	print_status ("Make changes then press Update to run.");
 	f_string (go_w, "Update");
@@ -1843,7 +1831,7 @@ int reverse;
 }
 
 static void
-print_extrunning()
+print_extrunning (void)
 {
 	print_status ("External control ... press Stop to stop.");
 	f_string (go_w, "Stop");
@@ -1863,7 +1851,7 @@ char *s;
 }
 
 static void
-print_nstep()
+print_nstep (void)
 {
 	static int last = 876476;
 
@@ -1876,7 +1864,7 @@ print_nstep()
 }
 
 static void
-print_mspause()
+print_mspause (void)
 {
 	static int last = 98764;
 
@@ -2385,7 +2373,7 @@ char *bp;
 
 /* draw the various marker pixmaps */
 static void
-mm_pms()
+mm_pms (void)
 {
 	Obj *op;
 	Pixmap moonpm;
@@ -2483,7 +2471,7 @@ int all;
  */
 /* ARGSUSED */
 static void
-mm_twilight ()
+mm_twilight (void)
 {
 	static char nope[] = "-----";
 	double dusk, dawn;
@@ -2600,7 +2588,7 @@ XtIntervalId *id;
 
 /* ask for name of file to read for external input */
 static void
-ext_fileask()
+ext_fileask (void)
 {
 	if (!ext_w)
 	    ext_create_w();
@@ -2609,7 +2597,7 @@ ext_fileask()
 
 /* create the external file input name prompt */
 static void
-ext_create_w()
+ext_create_w (void)
 {
 	Arg args[20];
 	Widget t_w;
@@ -2636,7 +2624,7 @@ ext_create_w()
  * if can't find any entries, return -1 with ext_fp definitely closed.
  */
 static int
-ext_readnext()
+ext_readnext (void)
 {
 	double rjd, rlat, rlng;
 	char buf[1024];
@@ -2664,10 +2652,7 @@ ext_readnext()
 /* called when the Ok button is hit in the external file input prompt */
 /* ARGSUSED */
 static void
-ext_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ext_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *name;
 
@@ -2705,7 +2690,7 @@ XtPointer call;
 
 /* stop using an external file, if any */
 static void
-ext_stop()
+ext_stop (void)
 {
 	if (ext_fp) {
 	    fclose (ext_fp);
@@ -2716,10 +2701,7 @@ ext_stop()
 /* called when the Help button is hit in the external file input prompt */
 /* ARGSUSED */
 static void
-ext_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ext_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *hlp[] = {
 "XEphem runs from entries in this file.",

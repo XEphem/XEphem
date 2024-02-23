@@ -52,10 +52,9 @@ static char help_instructions[] =
  * if fail so and use the deflt provided, if any.
  */
 void
-hlp_dialog (tag, deflt, ndeflt)
-char *tag;	/* tag to look for in help file */
-char *deflt[];	/* help text to use if tag not found */
-int ndeflt;	/* number of strings in deflt[] */
+hlp_dialog (char *tag,     /* tag to look for in help file */
+            char *deflt[], /* help text to use if tag not found */
+            int   ndeflt)  /* number of strings in deflt[] */
 {
 	static char *hurl;
 	static int triedhurl;
@@ -102,7 +101,7 @@ int ndeflt;	/* number of strings in deflt[] */
 }
 
 void
-hlp_config()
+hlp_config (void)
 {
 	if (!hlp_w)
 	    hlp_create ();
@@ -114,7 +113,7 @@ hlp_config()
 /* create the help configuration window (hlp_w).
  */
 static void
-hlp_create ()
+hlp_create (void)
 {
 	Widget w, f_w, l_w;
 	Arg args[20];
@@ -226,10 +225,7 @@ hlp_create ()
 /* called on Close */
 /* ARGSUSED */
 static void
-hlp_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hlp_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (hlp_w);
 }
@@ -237,10 +233,7 @@ XtPointer call;
 /* called when any TB changes */
 /* ARGSUSED */
 static void
-hlp_radio_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hlp_radio_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState(w);
 	int i;

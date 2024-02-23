@@ -31,6 +31,9 @@ expand_home (char *path)
 	char *p;
 	int l;
 
+	if (!path)
+	    return NULL;
+
 	/* get home, if we don't already know it */
 	if (!home) {
 	    home = getenv ("HOME");
@@ -77,9 +80,7 @@ expand_home (char *path)
 /* like fopen() but substitutes HOME if name starts with '~'
  */
 FILE *
-fopenh (name, how)
-char *name;
-char *how;
+fopenh (char *name, char *how)
 {
 	return (fopen (expand_home(name), how));
 }
@@ -153,8 +154,7 @@ openh (char *name, int flags, ...)
  * substitute HOME if name starts with '~'.
  */
 int
-existsh (name)
-char *name;
+existsh (char *name)
 {
 	struct stat s;
 
@@ -190,7 +190,7 @@ tempfilename (char *buf, char *name, char *suffix)
  * use TELHOME env first, else ShareDir X resource, else current dir.
  */
 char *
-getShareDir()
+getShareDir (void)
 {
 	static char *basedir;
 
@@ -223,7 +223,7 @@ getShareDir()
  * I never would have imagined it would be so crazy to turn errno into a string!
  */
 char *
-syserrstr ()
+syserrstr (void)
 {
 #if defined(__STDC__)
 /* some older gcc don't have strerror */

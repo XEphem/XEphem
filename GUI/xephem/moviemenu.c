@@ -77,7 +77,7 @@ static char mlcategory[] = "Movie";
 
 /* bring up the movie loop tool */
 void
-ml_manage()
+ml_manage (void)
 {
 	/* create shell if first time */
 	if (!mlshell_w)
@@ -141,7 +141,7 @@ ml_cursor (Cursor c)
 
 /* create main shell */
 static void
-ml_create_shell ()
+ml_create_shell (void)
 {
 	Widget pd_w, cb_w, mb_w;
 	Widget w, f_w, ff_w, rf_w;
@@ -483,7 +483,7 @@ ml_delall_cb (Widget w, XtPointer client, XtPointer data)
 
 /* delete entire movie */
 static void
-delall()
+delall (void)
 {
 	int i;
 
@@ -712,7 +712,7 @@ addPixmap (Drawable pm, Widget timestamp)
 
 /* stop looping (ok if not) */
 static void
-stopLooping()
+stopLooping (void)
 {
 	if (ml_id != 0) {
 	    XtRemoveTimeOut (ml_id);
@@ -723,7 +723,7 @@ stopLooping()
 
 /* create the movie file prefix prompt */
 static void
-ml_create_prepd_w()
+ml_create_prepd_w (void)
 {
 	Widget t_w;
 	Arg args[20];

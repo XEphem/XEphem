@@ -308,7 +308,7 @@ Obj *op)	/* working object -- returns as answer */
 		return (-3);
 
 	} while (fabs(dt)>TMACC);
-	// fprintf (stderr, "%s 0alt npasses = %d\n", op->o_name, npasses);
+	/* fprintf (stderr, "%s 0alt npasses = %d\n", op->o_name, npasses); */
 
 	/* return codes */
 	return (fabs(mjdn-mjd) < .5 ? 0 : -2);
@@ -407,7 +407,7 @@ double *alp, double *azp)	/* max altitude and transit az at said time */
 	    else
 	        r = m2;
 	}
-	// fprintf (stderr, "tern nloops = %d\n", nloops);
+	/* fprintf (stderr, "tern nloops = %d\n", nloops); */
 	if (nloops >= MAXLOOPS)
 	    return (-1);
 

@@ -451,7 +451,7 @@ static XtIntervalId fs_to;	/* set while checking field stars */
 
 /* bring up Sky view shell, creating if first time */
 void
-sv_manage ()
+sv_manage (void)
 {
 	if (!svshell_w) {
 	    sv_create_svshell();
@@ -475,7 +475,7 @@ sv_manage ()
  * rebuild and redraw.
  */
 void
-sv_newres()
+sv_newres (void)
 {
 	if (!svshell_w)
 	    return;
@@ -486,7 +486,7 @@ sv_newres()
 
 /* return true if sky view is up now and ok to draw to, else 0 */
 int
-sv_ison()
+sv_ison (void)
 {
 	return(isUp(svshell_w) && sv_pm);
 }
@@ -547,7 +547,7 @@ int appended;
 
 /* display a new FITS image */
 void
-sv_newFITS ()
+sv_newFITS (void)
 {
 	double ra, dec;
 	FImage *fip;
@@ -599,7 +599,7 @@ sv_newFITS ()
 
 /* called to display a FITS image whose aim and scale have already been set. */
 void
-sv_dspFITS ()
+sv_dspFITS (void)
 {
 	/* build a pixmap to match our current size and orientation */
 	si_newPixmap (sv_w, sv_h, flip_lr, flip_tb, zm_undo, zm_cundo);
@@ -610,7 +610,7 @@ sv_dspFITS ()
 
 /* called to turn on the horizon. */
 void
-sv_hznOn()
+sv_hznOn (void)
 {
 	if (!want_hznmap)
 	    XmToggleButtonSetState (hznmap_w, True, True);
@@ -628,7 +628,7 @@ sv_showkeeptelvis (int on)
 
 /* return the name of the resource containing whether this view is up */
 char *
-sv_viewupres()
+sv_viewupres (void)
 {
 	return ("SkyViewUp");
 }
@@ -836,7 +836,7 @@ svh_get (SvHistory *hp)
  *   interfere with user_automagoff.
  */
 void
-sv_amagoff ()
+sv_amagoff (void)
 {
 	want_automag = 0;
 	XmToggleButtonSetState (wantamag_w, False, False);
@@ -845,10 +845,7 @@ sv_amagoff ()
 
 /* called when the toolbar "brighter" PB is hit */
 void
-svtb_brighter_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_brighter_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int stmag, ssmag, dsmag, magstp;
 
@@ -865,10 +862,7 @@ XtPointer call;
  * client is 0 for l/r, else 1 for t/b
  */
 void
-svtb_flip_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_flip_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int tb = (long int)client;
 
@@ -880,10 +874,7 @@ XtPointer call;
 
 /* called when the toolbar "constel" TB changes */
 void
-svtb_constel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_constel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int want_conb_atoff = -1;	/* flag as uninitialized */
 	static int want_conf_atoff;
@@ -926,10 +917,7 @@ XtPointer call;
 
 /* called when the toolbar "dimmer" PB is hit */
 void
-svtb_dimmer_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_dimmer_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int stmag, ssmag, dsmag, magstp;
 
@@ -944,10 +932,7 @@ XtPointer call;
 
 /* called when the toolbar "grid" TB changes */
 void
-svtb_grid_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_grid_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int onnow = XmToggleButtonGetState(grid_w);
 
@@ -965,10 +950,7 @@ XtPointer call;
 
 /* called when the toolbar "automag" TB changes */
 void
-svtb_automag_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_automag_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (wantamag_w,
 				    !XmToggleButtonGetState(wantamag_w), True);
@@ -976,20 +958,14 @@ XtPointer call;
 
 /* called when the toolbar "horizon" TB changes */
 void
-svtb_hzn_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_hzn_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (hznmap_w, !XmToggleButtonGetState(hznmap_w), 1);
 }
 
 /* called when the toolbar "live report" TB changes */
 void
-svtb_report_cb(w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_report_cb (Widget w, XtPointer client, XtPointer call)
 {
 	want_report = XmToggleButtonGetState(w);
 	XmToggleButtonSetState (wantreport_w, want_report, 1);
@@ -998,20 +974,14 @@ XtPointer call;
 
 /* called when the toolbar "field stars" TB is hit */
 void
-svtb_fstars_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_fstars_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (wantfs_w, !XmToggleButtonGetState(wantfs_w), 1);
 }
 
 /* called when the toolbar "names" TB changes */
 void
-svtb_names_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_names_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int lbl_lst_atoff = -1;		/* flag as uninitialized */
 	static int lbl_lfs_atoff;
@@ -1067,7 +1037,7 @@ XtPointer call;
 
 /* whether roaming report */
 int
-svtb_reportIsOn()
+svtb_reportIsOn (void)
 {
 	return (want_report);
 }
@@ -1075,10 +1045,7 @@ svtb_reportIsOn()
 
 /* called when the toolbar "planes" TB changes */
 void
-svtb_planes_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_planes_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int want_eq_atoff = -1;		/* flag as uninitialized */
 	static int want_ga_atoff;
@@ -1116,20 +1083,14 @@ XtPointer call;
 
 /* called when the toolbar "magscale" TB changes */
 void
-svtb_magscale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_magscale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (wantmag_w, XmToggleButtonGetState(w), True);
 }
 
 /* called when the toolbar "orient" TB changes */
 void
-svtb_orient_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_orient_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (aa_mode)
 	    XmToggleButtonSetState (rad_w, True, True);
@@ -1139,30 +1100,21 @@ XtPointer call;
 
 /* called when the toolbar "cylindrical projection" TB is hit */
 void
-svtb_proj_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_proj_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (sph_w, !XmToggleButtonGetState(w), True);
 }
 
 /* called when the toolbar "print" PB is hit */
 void
-svtb_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Sky View", sv_print);
 }
 
 /* called when the toolbar "zoom in" PB is hit */
 void
-svtb_zoomin_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_zoomin_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* asserts */
 	if (zm_cundo < 0) {
@@ -1197,10 +1149,7 @@ XtPointer call;
 
 /* called when the toolbar "unzoom" PB is hit */
 void
-svtb_unzoom_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_unzoom_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* asserts */
 	if (!zm_undo || zm_cundo <= 0) {
@@ -1221,7 +1170,7 @@ XtPointer call;
 
 /* sync the toolbar to match the options */
 static void
-svtb_sync()
+svtb_sync (void)
 {
 	char tt[NOBJTYPES];
 	char ct[NCLASSES];
@@ -2017,22 +1966,27 @@ sv_draw_obj_x (Display *dsp, Drawable win, GC gc, Obj *op, int x, int y,
 int diam, int dotsonly, int flip_tb_x, int flip_lr_x, int aa_mode_x, int cyl_proj_x,
 double altdec_x, double azra_x, double vfov_x, double hfov_x, int w_x, int h_x)
 {
+	int flip_tb_i, flip_lr_i;
+	int aa_mode_i, cyl_proj_i;
+	double altdec_i, azra_i;
+	double vfov_i, hfov_i;
+	int w_i, h_i;
+
 	/* might be called to draw on other screens before us */
 	if (!svshell_w)
 	    sv_create_svshell();
 
-	int flip_tb_i   = flip_tb;
-	int flip_lr_i   = flip_lr;
-	int aa_mode_i   = aa_mode;
-	int cyl_proj_i  = cyl_proj;
+	flip_tb_i   = flip_tb;
+	flip_lr_i   = flip_lr;
+	aa_mode_i   = aa_mode;
+	cyl_proj_i  = cyl_proj;
 
-	double altdec_i = sv_altdec;
-	double azra_i   = sv_azra;
-	double vfov_i   = sv_vfov;
-	double hfov_i   = sv_hfov;
-	int w_i         = sv_w;
-	int h_i         = sv_h;
-
+	altdec_i = sv_altdec;
+	azra_i   = sv_azra;
+	vfov_i   = sv_vfov;
+	hfov_i   = sv_hfov;
+	w_i         = sv_w;
+	h_i         = sv_h;
 	flip_tb   = flip_tb_x;
 	flip_lr   = flip_lr_x;
 	aa_mode   = aa_mode_x;
@@ -2599,7 +2553,7 @@ Widget mb_w;
 
 /* create the main skyview shell */
 static void
-sv_create_svshell()
+sv_create_svshell (void)
 {
 	Widget altdecsc_w, fovsc_w;
 	Widget mb_w;
@@ -3013,7 +2967,7 @@ sv_create_svshell()
 }
 
 static void
-gridStepLabel()
+gridStepLabel (void)
 {
 	/* f_showit avoids blinking when updating scope position */
 	f_showit (vgridl_w, want_aagrid ? "Alt: " : "Dec: ");
@@ -3023,7 +2977,7 @@ gridStepLabel()
 /* create the Options dialog.
  */
 static void
-sv_create_options ()
+sv_create_options (void)
 {
 	static ViewOpt vopts[] = {
 	    {"Just dots",  0, "JustDots",      &justdots,        &justd_w,
@@ -3669,10 +3623,7 @@ Widget rc_w;
 /* callback from selecting the Close PB in the Options control. */
 /* ARGSUSED */
 static void
-sv_closeopdialog_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_closeopdialog_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (svops_w);
 }
@@ -3680,10 +3631,7 @@ XtPointer call;
 /* callback from selecting the Options control. */
 /* ARGSUSED */
 static void
-sv_opdialog_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_opdialog_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!XtIsManaged(svops_w))
 	    XtManageChild (svops_w);
@@ -3718,10 +3666,7 @@ Widget parent;
 /* callback from the main Close button */
 /* ARGSUSED */
 static void
-sv_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do all the work */
 	XtPopdown (svshell_w);
@@ -3732,10 +3677,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (svops_w);
 	sl_unmanage ();
@@ -3761,10 +3703,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This displays all database objects currently in memory onto the sky. The view",
@@ -3781,10 +3720,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -3794,10 +3730,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_cyl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_cyl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *sp = (XmToggleButtonCallbackStruct *)call;
 	int cyl = (w == cyl_w);
@@ -3828,10 +3761,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_aa_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_aa_cb (Widget w, XtPointer client, XtPointer call)
 {
 #define	POLEERR		degrad(90 - 1.0/3600.0)	/* polar ambiguous area */
 	XmToggleButtonCallbackStruct *sp = (XmToggleButtonCallbackStruct *)call;
@@ -3900,10 +3830,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_filter_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_filter_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_manage();
 }
@@ -3913,10 +3840,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_fits_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_fits_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sf_manage();
 }
@@ -3926,10 +3850,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_image_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_image_cb (Widget w, XtPointer client, XtPointer call)
 {
 	si_manage();
 }
@@ -3938,10 +3859,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_registration_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_registration_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ir_manage();
 }
@@ -3951,10 +3869,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_wcs_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_wcs_cb (Widget w, XtPointer client, XtPointer call)
 {
 	siwcs_manage();
 }
@@ -3963,10 +3878,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_addframe_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_addframe_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (sv_pm, dt_w);
 }
@@ -3976,10 +3888,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_list_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_list_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sl_manage();
 }
@@ -3989,10 +3898,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_gt_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_gt_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget pw = (Widget)client;
 
@@ -4005,10 +3911,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_grid_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_grid_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int state = XmToggleButtonGetState(w);
 	int *wantp = (int *)client;
@@ -4034,10 +3937,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_brs_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_brs_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sv_all(mm_get_now());
 }
@@ -4045,10 +3945,7 @@ XtPointer call;
 /* callback from RETURN in either grid size TF */
 /* ARGSUSED */
 static void
-sv_gridtf_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_gridtf_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* turns off Auto as a side effect */
 	XmToggleButtonSetState (autogrid_w, want_autogrid = False, True);
@@ -4061,10 +3958,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_mancoord_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_mancoord_cb (Widget w, XtPointer client, XtPointer call)
 {
 	cc_manage();
 }
@@ -4073,10 +3967,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Sky View", sv_print);
 }
@@ -4085,7 +3976,7 @@ XtPointer call;
  * call XPSClose() when finished.
  */
 static void
-sv_print ()
+sv_print (void)
 {
 	Now *np = mm_get_now();
 
@@ -4351,10 +4242,7 @@ Now *np;
  */
 /* ARGSUSED */
 static void
-sv_track_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_track_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!XmToggleButtonGetState (w)) {
 	    track_op = (Obj *)0;
@@ -4697,7 +4585,7 @@ Window win;
 /* copy the pixmap to the drawing area and add zoom box if on.
  */
 static void
-sv_copy_sky()
+sv_copy_sky (void)
 {
 	Display *dsp = XtDisplay (svda_w);
 	Window win = XtWindow (svda_w);
@@ -4944,7 +4832,7 @@ Boolean *continue_to_dispatch;
 
 /* erase the tracking coords by copying back from sv_pm */
 static void
-sv_erase_report_coords ()
+sv_erase_report_coords (void)
 {
 	Display *dsp = XtDisplay(svda_w);
 	Window win = XtWindow(svda_w);
@@ -5046,10 +4934,7 @@ sv_pick (XEvent *ev, int wx, int wy)
  */
 /* ARGSUSED */
 static void
-sv_scale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_scale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *s = (XmScaleCallbackStruct *)call;
 	int which = (long int) client;
@@ -5105,10 +4990,7 @@ sv_loadcnsfigs_cb (Widget w, XtPointer client, XtPointer call)
  */
 /* ARGSUSED */
 static void
-sv_lbln_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_lbln_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int *lp = (int *)client;
 
@@ -5130,10 +5012,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_lblm_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_lblm_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int *lp = (int *)client;
 
@@ -5155,10 +5034,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int *p = (int *)client;
 
@@ -5225,10 +5101,7 @@ XtPointer call;
 /* called to bring up the eyepiece control dialog */
 /* ARGSUSED */
 static void
-sv_eyep_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_eyep_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_manage();
 }
@@ -5236,10 +5109,7 @@ XtPointer call;
 /* called to bring up the binary star orbit map */
 /* ARGSUSED */
 static void
-sv_bsmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_bsmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svbs_manage(pu.op);
 }
@@ -5250,10 +5120,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_faving_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_faving_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj **favs;
 	int nfavs = fav_get_loaded (&favs);
@@ -5288,10 +5155,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_fav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_fav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XEvent *ev = ((XmAnyCallbackStruct*)call)->event;
 	Obj **favs, *op;
@@ -6232,7 +6096,7 @@ sv_riset (Now *np, Obj *op)
 
 /* create the id popup */
 static void
-sv_create_popup()
+sv_create_popup (void)
 {
 	Widget pd_w, cb_w;
 	Arg args[20];
@@ -6627,10 +6491,7 @@ Widget pd_w;
  */
 /* ARGSUSED */
 static void
-sv_pu_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_pu_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int code = (long int)client;
 	Obj *op = pu.tsp ? &pu.tsp->o : pu.op;
@@ -6716,10 +6577,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_pu_zoom_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_pu_zoom_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int factor = (long int)client;
 	double newfov = sv_vfov*10.0/factor;
@@ -6798,10 +6656,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_pu_track_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_pu_track_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState (w)) {
 	    track_op = pu.op;
@@ -6866,7 +6721,7 @@ Cardinal *n;
 
 /* remove trails which are no longer turned on. */
 static void
-tobj_rmoff()
+tobj_rmoff (void)
 {
 	TrailObj **topp;	/* address to be changed if we decide to 
 				 * remove *topp
@@ -6950,7 +6805,7 @@ int nsky;
  * this is done after the db has been reduced.
  */
 static void
-tobj_newdb()
+tobj_newdb (void)
 {
 	TrailObj *top;
 	DBScan dbs;
@@ -7009,7 +6864,7 @@ Obj *op;
  * clipped to the current window.
  */
 static void
-tobj_display_all()
+tobj_display_all (void)
 {
 	static int aatrailwarn;
 	Display *dsp = XtDisplay(svda_w);
@@ -7093,7 +6948,7 @@ tobj_display_all()
 }
 
 static void
-aatwarn_msg ()
+aatwarn_msg (void)
 {
 	xe_msg (1, 
 "\n\
@@ -8162,6 +8017,7 @@ GC gc;
 	short top;
 	int nprofile;
 	int npts;
+	int xshift;
 	int i;
 
 	/* get n entries in profile, skip if none */
@@ -8227,7 +8083,7 @@ GC gc;
 	memcpy(&xpts[3*npts], xpts, nprofile * sizeof(XPoint));
 	memcpy(&xpts[4*npts], xpts, nprofile * sizeof(XPoint));
 
-	int xshift = wx - (sv_w - wx);
+	xshift = wx - (sv_w - wx);
 	if (flip_lr) {
 	    for (i = 0; i < nprofile; i++) {
 		xpts[i].x = xpts[i].x + 2 * xshift;
@@ -9960,7 +9816,7 @@ objGC(Obj *op, int d, GC *gcp)
  * TODO: clean up previous stuff if called more than once.
  */
 static void
-sv_mk_gcs()
+sv_mk_gcs (void)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Window win = XtWindow(toplevel_w);
@@ -10123,7 +9979,7 @@ int lr;
  * return -1 with no change if zoom box center is not in map, else 0.
  */
 static int
-zm_addundo()
+zm_addundo (void)
 {
 	ZM_Undo *zp;
 	double ad, ar;
@@ -10187,7 +10043,7 @@ zm_addundo()
 
 /* install the zm_cundo entry of the zoom undo stack */
 static void
-zm_installundo()
+zm_installundo (void)
 {
 	ZM_Undo *zp = &zm_undo[zm_cundo];
 
@@ -10208,14 +10064,14 @@ zm_installundo()
 
 /* discard zoom undo stack deeper than current setting */
 static void
-zm_cutundo()
+zm_cutundo (void)
 {
 	zm_nundo = zm_cundo;
 }
 
 /* disable and forget all unzooms */
 static void
-zm_noundo()
+zm_noundo (void)
 {
 	/* disable for later sv_all's */
 	svtb_zoomok(0);
@@ -10232,7 +10088,7 @@ zm_noundo()
  * this is used both to draw and erase.
  */
 static void
-zm_draw()
+zm_draw (void)
 {
 	Display *dsp = XtDisplay(svda_w);
 	Window win = XtWindow(svda_w);
@@ -10251,10 +10107,7 @@ zm_draw()
  * client is secret code.. see various XtAdds
  */
 static void
-sv_fovsc_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_fovsc_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int code = (long int)client;
 
@@ -10296,10 +10149,7 @@ XtPointer call;
  * client is desired position, in degrees.
  */
 static void
-sv_altdecsc_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_altdecsc_cb (Widget w, XtPointer client, XtPointer call)
 {
 	si_off();
 	sv_altdec = degrad((long int)client);
@@ -10310,10 +10160,7 @@ XtPointer call;
 /* bring up telescope configure window */
 /* ARGSUSED */
 static void
-sv_tcp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_tcp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sc_manage();
 }
@@ -10321,10 +10168,7 @@ XtPointer call;
 /* bring up INDI operations panel window */
 /* ARGSUSED */
 static void
-sv_indi_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_indi_cb (Widget w, XtPointer client, XtPointer call)
 {
 	indi_manage();
 }
@@ -10332,10 +10176,7 @@ XtPointer call;
 /* callback when a Telescope history item is destroyed */
 /* ARGSUSED */
 static void
-sv_dtelpd_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_dtelpd_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPointer ud;
 
@@ -10347,10 +10188,7 @@ XtPointer call;
 /* callback to erase all telescope history */
 /* ARGSUSED */
 static void
-sv_etelpd_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_etelpd_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sv_erasetelpd();
 }
@@ -10360,10 +10198,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sv_telpd_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sv_telpd_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op;
 
@@ -10430,7 +10265,7 @@ Obj *op;
  */
 /* ARGSUSED */
 static void
-sv_erasetelpd ()
+sv_erasetelpd (void)
 {
 	WidgetList ch;
 	Cardinal nch;

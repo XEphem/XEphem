@@ -362,7 +362,7 @@ Widget shell_w;
 /* return 1 if we are now up, else 0.
  */
 int
-svf_ismanaged()
+svf_ismanaged (void)
 {
 
 	return (filter_w && XtIsManaged(filter_w));
@@ -373,7 +373,7 @@ svf_ismanaged()
  * to the way the real filter is.
  */
 void
-svf_manage()
+svf_manage (void)
 {
 	svf_reset();
 	XtManageChild(filter_w);
@@ -382,7 +382,7 @@ svf_manage()
 /* called to manage the filter dialog.
  */
 void
-svf_unmanage()
+svf_unmanage (void)
 {
 	XtUnmanageChild(filter_w);
 }
@@ -596,7 +596,7 @@ FilterCat *fcp;
  * also, set the mag scales and dot scales from the real mag limits.
  */
 static void
-svf_reset()
+svf_reset (void)
 {
 	int i, j;
 
@@ -618,7 +618,7 @@ svf_reset()
  * also set the mag limits and dot scale from their controls.
  */
 static void
-svf_apply()
+svf_apply (void)
 {
 	int i, j;
 
@@ -702,10 +702,7 @@ Obj *op;
  */
 /* ARGSUSED */
 static void
-svf_da_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_da_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	FilterTB *ftbp = (FilterTB *) client;
@@ -789,10 +786,7 @@ Widget daw;
 /* called when either mag scale is dragged */
 /* ARGSUSED */
 static void
-svf_magdrag_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_magdrag_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sv_amagoff();
 }
@@ -800,10 +794,7 @@ XtPointer call;
 /* called when Apply is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_apply_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_apply_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_apply();
 	sv_all(mm_get_now());
@@ -812,10 +803,7 @@ XtPointer call;
 /* called when Ok is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_apply();
 	sv_all(mm_get_now());
@@ -825,10 +813,7 @@ XtPointer call;
 /* called when Close is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (filter_w);
 }
@@ -837,10 +822,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svf_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This allows settings the types of objects to display."
@@ -852,10 +834,7 @@ XtPointer call;
 /* called when Toggle is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i, j;
 
@@ -872,10 +851,7 @@ XtPointer call;
 /* called when All is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_all_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_all_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i, j;
 
@@ -891,10 +867,7 @@ XtPointer call;
 /* called when Reset is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_reset_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_reset_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_reset();
 }
@@ -904,10 +877,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svf_cat_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_cat_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FilterCat *fcp = (FilterCat *) client;
 	int i;

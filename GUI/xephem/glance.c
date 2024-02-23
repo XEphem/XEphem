@@ -100,7 +100,7 @@ static char naagcategory[] = "Night at a Glance";	/* Save category */
  * if first time, build everything, else just get going.
  */
 void
-ng_manage ()
+ng_manage (void)
 {
 	if (!ngshell_w) {
 	    ng_create_shell();
@@ -116,9 +116,7 @@ ng_manage ()
 /* commanded from main to update with a new set of circumstances */
 /* ARGSUSED */
 void
-ng_update (np, how_much)
-Now *np;
-int how_much;
+ng_update (Now *np, int how_much)
 {
 	/* only if we're up */
 	if (!ng_ison())
@@ -128,7 +126,7 @@ int how_much;
 
 /* list of favorites has changed */
 void
-ng_newfavs()
+ng_newfavs (void)
 {
 	/* only if we're up */
 	if (!ng_ison())
@@ -140,7 +138,7 @@ ng_newfavs()
  * rebuild and redraw.
  */
 void
-ng_newres()
+ng_newres (void)
 {
 	if (!ngshell_w)
 	    return;
@@ -150,8 +148,7 @@ ng_newres()
 
 /* called to put up or remove the watch cursor.  */
 void
-ng_cursor (c)
-Cursor c;
+ng_cursor (Cursor c)
 {
 	Window win;
 
@@ -166,20 +163,20 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-ng_viewupres()
+ng_viewupres (void)
 {
         return ("NaaGViewUp");
 }
 
 
 static int
-ng_ison()
+ng_ison (void)
 {
 	return (isUp(ngshell_w));
 }
 
 static void
-ng_create_shell()
+ng_create_shell (void)
 {
 	Widget mb_w, pd_w, cb_w, fr_w;
 	Widget ngform_w;
@@ -349,7 +346,7 @@ ng_create_shell()
 }
 
 static void
-ng_create_popup()
+ng_create_popup (void)
 {
 	Arg args[20];
 	Widget w;
@@ -401,10 +398,7 @@ ng_create_popup()
 /* callback from the Print PB */
 /* ARGSUSED */
 static void
-ng_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_print_cb (Widget w, XtPointer client, XtPointer call)
 {
         XPSAsk ("Night-at-a-Glance", ng_print);
 }
@@ -412,10 +406,7 @@ XtPointer call;
 /* callback from the One Color TB */
 /* ARGSUSED */
 static void
-ng_1col_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_1col_cb (Widget w, XtPointer client, XtPointer call)
 {
         ng_redraw();
 }
@@ -423,10 +414,7 @@ XtPointer call;
 /* callback from the inputCallback*/
 /* ARGSUSED */
 static void
-ng_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Now *np = mm_get_now();
@@ -497,7 +485,7 @@ XtPointer call;
  * call XPSClose() when finished.
  */
 static void
-ng_print ()
+ng_print (void)
 {
 	/* must be up */
 	if (!ng_ison()) {
@@ -532,7 +520,7 @@ ng_print ()
 }
 
 static void
-ng_ps_annotate ()
+ng_ps_annotate (void)
 {
 	Now *np = mm_get_now();
         char dir[128];
@@ -588,10 +576,7 @@ ng_ps_annotate ()
 /* callback from PB in popup to set XEphem time to punow. */
 /* ARGSUSED */
 static void
-ng_settime_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_settime_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_newcaldate (punow.n_mjd);
 }
@@ -599,10 +584,7 @@ XtPointer call;
 /* callback from ngshell_w being popped down. */
 /* ARGSUSED */
 static void
-ng_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (ng_pm) {
 	    XFreePixmap (XtD, ng_pm);
@@ -615,10 +597,7 @@ XtPointer call;
 
 /* called from Close button */
 static void
-ng_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (ngshell_w);
 	/* popping down ngshell_w will do all the real work */
@@ -626,10 +605,7 @@ XtPointer call;
 
 /* called to add graph to movie loop */
 static void
-ng_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (ng_pm, dt_w);
 }
@@ -638,10 +614,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ng_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "This is the night at a glance.",
@@ -654,10 +627,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ng_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay(ngda_w);
@@ -714,7 +684,7 @@ XtPointer call;
 
 /* redraw the current scene from scratch */
 static void
-ng_redraw()
+ng_redraw (void)
 {
 	ng_drawpm ();
 	ng_refresh(NULL);
@@ -725,8 +695,7 @@ ng_redraw()
  * if ep just copy that much, else copy all.
  */
 static void
-ng_refresh(ep)
-XExposeEvent *ep;
+ng_refresh (XExposeEvent *ep)
 {
 	Display *dsp = XtDisplay(ngda_w);
 	Window win = XtWindow (ngda_w);
@@ -757,7 +726,7 @@ XExposeEvent *ep;
  * TODO: reclaim old stuff if called again.
  */
 static void
-ng_init_gcs()
+ng_init_gcs (void)
 {
 	Window win = XtWindow(toplevel_w);
 	Display *dsp = XtD;
@@ -781,10 +750,7 @@ ng_init_gcs()
  * N.B. this is just the geometry, we ignore rp->rs_flags
  */
 static void
-rs_x (np, rp, xr, xs)
-Now *np;
-RiseSet *rp;
-int *xr, *xs;
+rs_x (Now *np, RiseSet *rp, int *xr, int *xs)
 {
 	double t;
 
@@ -799,10 +765,7 @@ int *xr, *xs;
  * N.B. do not use this for EARTHSAT, use rs_es().
  */
 static int
-rs_xrs (np, op, xr, xs)
-Now *np;
-Obj *op;
-int *xr, *xs;
+rs_xrs (Now *np, Obj *op, int *xr, int *xs)
 {
 	RiseSet rs;
 	int nowright;
@@ -856,11 +819,7 @@ int *xr, *xs;
  * set xrp to left-most rise, xsp to right-most set.
  */
 static int
-rs_es (np, op, y, xrp, xsp)
-Now *np;
-Obj *op;
-int y;
-int *xrp, *xsp;
+rs_es (Now *np, Obj *op, int y, int *xrp, int *xsp)
 {
 	Display *dsp = XtD;
 	RiseSet rs;
@@ -910,7 +869,7 @@ int *xrp, *xsp;
  * N.B. this just fills the pixmap; call ng_refresh() to copy to the screen.
  */
 static void
-ng_drawpm ()
+ng_drawpm (void)
 {
 	static char utclabel[] = "UTC";
 	Now *np = mm_get_now();
@@ -945,7 +904,7 @@ ng_drawpm ()
 	lmarg = fw * (x > y ? x : y);
 
 	/* find graph height sans room for scale and labeling at bottom.
-	 * N.B. this is copied in ng_ano()
+	 * N.B. this is copied in ng_ano (void)
 	 */
 	skyh = ng_h - 4*fh;
 

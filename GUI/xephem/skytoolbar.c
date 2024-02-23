@@ -1007,42 +1007,42 @@ char tt[NOBJTYPES];
 
 /* whether monument view */
 int
-svtb_monumentIsOn()
+svtb_monumentIsOn (void)
 {
 	return (monument_on);
 }
 
 /* whether snap-to-max is on */
 int
-svtb_snapIsOn()
+svtb_snapIsOn (void)
 {
 	return (snap_on);
 }
 
 /* whether slice is on */
 int
-svtb_sliceIsOn()
+svtb_sliceIsOn (void)
 {
 	return (slice_on);
 }
 
 /* whether ROI is on */
 int
-svtb_ROIIsOn()
+svtb_ROIIsOn (void)
 {
 	return (roi_on);
 }
 
 /* whether glass is on */
 int
-svtb_glassIsOn()
+svtb_glassIsOn (void)
 {
 	return (glass_on);
 }
 
 /* whether gauss is on */
 int
-svtb_gaussIsOn()
+svtb_gaussIsOn (void)
 {
 	return (gauss_on);
 }
@@ -1051,10 +1051,7 @@ svtb_gaussIsOn()
  * client is ct list.
  */
 static void
-svtb_ct_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_ct_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState(w);
 	char *types = (char *)client;
@@ -1081,10 +1078,7 @@ XtPointer call;
  * client is tt list.
  */
 static void
-svtb_tt_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_tt_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState(w);
 	ObjType_t *types = (ObjType_t *)client;
@@ -1107,10 +1101,7 @@ XtPointer call;
  * activate the Cyl TB to the opposite state.
  */
 static void
-svtb_sph_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_sph_cb (Widget w, XtPointer client, XtPointer call)
 {
 	SVTBarItem *ip = findSVTB (cyl_bits);
 
@@ -1121,10 +1112,7 @@ XtPointer call;
  * slace the Sph TB to the opposite state.
  */
 static void
-svtb_cyl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_cyl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	SVTBarItem *ip = findSVTB (sph_bits);
 
@@ -1135,20 +1123,14 @@ XtPointer call;
  * client is addr of int to set.
  */
 static void
-svtb_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	*(int *)client = XmToggleButtonGetState(w);
 }
 
 /* monument toggle */
 static void
-svtb_monument_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_monument_cb (Widget w, XtPointer client, XtPointer call)
 {
 	monument_on = XmToggleButtonGetState(w);
 	if (si_ison())
@@ -1157,10 +1139,7 @@ XtPointer call;
 
 /* contrast toggle */
 static void
-svtb_contrast_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_contrast_cb (Widget w, XtPointer client, XtPointer call)
 {
 	contrast_on = XmToggleButtonGetState(w);
 	si_updateContrast(contrast_on);
@@ -1168,10 +1147,7 @@ XtPointer call;
 
 /* glass toggle */
 static void
-svtb_glass_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_glass_cb (Widget w, XtPointer client, XtPointer call)
 {
 	glass_on = XmToggleButtonGetState(w);
 	si_updateGlass(glass_on);
@@ -1179,10 +1155,7 @@ XtPointer call;
 
 /* roi toggle */
 static void
-svtb_roi_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_roi_cb (Widget w, XtPointer client, XtPointer call)
 {
 	roi_on = XmToggleButtonGetState(w);
 	si_updateROI(roi_on);
@@ -1190,10 +1163,7 @@ XtPointer call;
 
 /* gauss toggle */
 static void
-svtb_gauss_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_gauss_cb (Widget w, XtPointer client, XtPointer call)
 {
 	gauss_on = XmToggleButtonGetState(w);
 	si_updateGauss(gauss_on);
@@ -1201,10 +1171,7 @@ XtPointer call;
 
 /* slice toggle */
 static void
-svtb_slice_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_slice_cb (Widget w, XtPointer client, XtPointer call)
 {
 	slice_on = XmToggleButtonGetState(w);
 	si_updateSlice(slice_on);

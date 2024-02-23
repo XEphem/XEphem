@@ -39,7 +39,7 @@ static int nup;			/* up/down stack */
 
 /* called to manage the progress meter */
 void
-pm_manage()
+pm_manage (void)
 {
 	if (!pmshell_w)
 	    pm_createshell();
@@ -53,7 +53,7 @@ pm_manage()
 
 /* insure the progress meter is visible */
 void
-pm_up()
+pm_up (void)
 {
 	if (!pmshell_w)
 	    pm_createshell();
@@ -67,7 +67,7 @@ pm_up()
 
 /* pop an instance of the progress meter, and unmanage if goes to 0 */
 void
-pm_down()
+pm_down (void)
 {
 	if (!pmshell_w)
 	    pm_createshell();
@@ -106,7 +106,7 @@ Cursor c;
 
 /* create the progress meter dialog */
 static void
-pm_createshell()
+pm_createshell (void)
 {
 	Arg args[20];
 	Widget pm_formw, fr_w, c_w;
@@ -182,10 +182,7 @@ pm_createshell()
 /* called from the Close PB */
 /* ARGSUSED */
 static void
-pm_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pm_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (pmshell_w);
 }
@@ -194,10 +191,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pm_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pm_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 
@@ -303,7 +297,7 @@ int force;
 
 /* make the pm_gc GC and extablish the pm_{f,b}gpix pixels. */
 static void
-make_gc()
+make_gc (void)
 {
 	pm_gc = XCreateGC (XtD, XtWindow(pm_da), 0L, NULL);
 

@@ -123,10 +123,7 @@ static void cacheWriteEntry (GSCRegion *rp, GSCEntry *ep);
  * N.B. cdp and chp must remain valid for GSCFetch().
  */
 int
-GSCSetup (cdp, chp, msg)
-char *cdp;
-char *chp;
-char msg[];
+GSCSetup (char *cdp, char *chp, char msg[])
 {
 	/* set up the new paths and flags */
 	cdpath = cdp;
@@ -184,14 +181,13 @@ char msg[];
  * msg might contain a message regardless of the return value.
  */
 int
-GSCFetch (ra0, dec0, fov, fmag, spp, nspp, msg)
-double ra0;	/* center RA, rads */
-double dec0;	/* center Dec, rads */
-double fov;	/* field of view, rads */
-double fmag;	/* faintest mag */
-ObjF **spp;	/* *spp will be a malloced array of ObjF stars in region */
-int nspp;	/* if spp: initial number of ObjF already in *spp */
-char msg[];	/* possible return error or status message */
+GSCFetch (double ra0,	/* center RA, rads */
+          double dec0,  /* center Dec, rads */
+          double fov,   /* field of view, rads */
+          double fmag,  /* faintest mag */
+          ObjF **spp,   /* *spp will be malloced array of ObjF stars in rgn */
+          int    nspp,  /* if spp: initial number of ObjF already in *spp */
+          char   msg[]) /* possible return error or status message */
 {
 	Request q;
 	GSCArray sa;
@@ -258,9 +254,7 @@ char msg[];	/* possible return error or status message */
  * return 0 if ok else fill lmsg[] and return -1 if trouble.
  */
 static int
-handleRequest (qp, ap)
-Request *qp;
-GSCArray *ap;
+handleRequest (Request *qp, GSCArray *ap)
 {
 	char ids[9537];		/* set when region has already been visited */
 	GSCRegion region;
@@ -328,10 +322,7 @@ GSCArray *ap;
  * if ok return count, else put reason in lmsg and return -1.
  */
 static int
-fetchRegion (rp, qp, ap)
-GSCRegion *rp;
-Request *qp;
-GSCArray *ap;
+fetchRegion (GSCRegion *rp, Request *qp, GSCArray *ap)
 {
 	GSCRegion cr;	/* used for the cache entry */
 
@@ -403,9 +394,7 @@ GSCArray *ap;
 /* return 0 if the given entry is within the given request, else return -1.
  */
 static int
-inFOV (qp, ep)
-Request *qp;
-GSCEntry *ep;
+inFOV (Request *qp, GSCEntry *ep)
 {
 	double cr = qp->sdec*sin(ep->dec) +
 				    qp->cdec*cos(ep->dec)*cos(qp->ra - ep->ra);
@@ -414,9 +403,7 @@ GSCEntry *ep;
 
 /* return 0 if the given entry is at least as bright as the faint limit, else -1 */
 static int
-magOK (qp, ep)
-Request *qp;
-GSCEntry *ep;
+magOK (Request *qp, GSCEntry *ep)
 {
 	return (ep->mag <= qp->mag ? 0 : -1);
 }
@@ -426,10 +413,7 @@ GSCEntry *ep;
  * return 0 if ok, else put reason in lmsg and return -1
  */
 static int
-addOneStar (ap, rp, ep)
-GSCArray *ap;
-GSCRegion *rp;
-GSCEntry *ep;
+addOneStar (GSCArray *ap, GSCRegion *rp, GSCEntry *ep)
 {
 	int sz = sizeof(ObjF);
 	Obj *op;
@@ -472,13 +456,11 @@ GSCEntry *ep;
 }
 
 static int
-mymkdir (path)
-char *path;
+mymkdir (char *path)
 {
 	return (mkdir (expand_home (path), 0755));
 }
 
-
 /* code to handle the details of reading the CDROM */
 
 /* index by dec band and get the number of large regions in it and its first
@@ -626,10 +608,7 @@ static SmallRegionTable sm_reg[733] = {
  *   sm_reg_x.tbl, lg_reg_x.tbl and regions.tbl.
  */
 static void
-gscPickRegion (ra, dec, rp)
-double ra;
-double dec;
-GSCRegion *rp;
+gscPickRegion (double ra, double dec, GSCRegion *rp)
 {
 	int decband;	/* which 7.5-degree dec band: 0..11 */
 	int raband;	/* which group of small ra bands */
@@ -714,8 +693,7 @@ GSCRegion *rp;
  * N.B. this code heavily assumes these the GSC FITS files.
  */
 static int
-gscOpenRegion (rp)
-GSCRegion *rp;
+gscOpenRegion (GSCRegion *rp)
 {
 	typedef enum {FINDNAXIS2, FINDEND, SKIPTOBLOCK, FOUNDTABLE} State;
 	char buf[FLL+1];	/* we add EOS */
@@ -782,8 +760,7 @@ GSCRegion *rp;
  * else return -1.
  */
 static int
-gscSimpleFits (fp)
-FILE *fp;
+gscSimpleFits (FILE *fp)
 {
 	static char smpl[31] = "SIMPLE  =                    T";
 	char buf[FLL];
@@ -800,9 +777,7 @@ FILE *fp;
  * else set rp->fp to NULL and full msg with an error message.
  */
 static void
-gscOpenFile (rp, msg)
-GSCRegion *rp;
-char *msg;
+gscOpenFile (GSCRegion *rp, char *msg)
 {
 	char path[1024];
 
@@ -823,9 +798,7 @@ char *msg;
  * decrement rp->nrows as we go and return -1 when it reaches 0, else 0.
  */
 static int
-gscGetNextEntry (rp, ep)
-GSCRegion *rp;
-GSCEntry *ep;
+gscGetNextEntry (GSCRegion *rp, GSCEntry *ep)
 {
 	char buf[16];
 
@@ -890,14 +863,12 @@ GSCEntry *ep;
 /* do whatever cleanup might be required when finished with rp
  */
 static void
-gscCloseRegion (rp)
-GSCRegion *rp;
+gscCloseRegion (GSCRegion *rp)
 {
 	fclose (rp->fp);
 	rp->fp = NULL;
 }
 
-
 /* code to handle the details of the GSC cache files.
  * the files have a short header at the front in ASCII.
  * the stars then follow in a packed binary format.
@@ -923,9 +894,7 @@ GSCRegion *rp;
  * return 0 if ok else return -1.
  */
 static int
-cacheOpenRegion (rp, cp)
-GSCRegion *rp;
-GSCRegion *cp;
+cacheOpenRegion (GSCRegion *rp, GSCRegion *cp)
 {
 	char fullpath[1024];
 
@@ -972,9 +941,7 @@ GSCRegion *cp;
  * decrement rp->nrows as we go and return -1 when it reaches 0, else 0.
  */
 static int
-cacheGetNextEntry (rp, ep)
-GSCRegion *rp;
-GSCEntry *ep;
+cacheGetNextEntry (GSCRegion *rp, GSCEntry *ep)
 {
 	if (rp->nrows <= 0)
 	    return (-1);
@@ -987,8 +954,7 @@ GSCEntry *ep;
 /* do whatever cleanup might be required when finished with rp.
  */
 static void
-cacheCloseRegion (rp)
-GSCRegion *rp;
+cacheCloseRegion (GSCRegion *rp)
 {
 	fclose (rp->fp);
 	rp->fp = NULL;
@@ -999,9 +965,7 @@ GSCRegion *rp;
  * return 0 if ok, else complain to lmsg and return -1.
  */
 static int
-cacheCreateRegion (rp, cp)
-GSCRegion *rp;
-GSCRegion *cp;
+cacheCreateRegion (GSCRegion *rp, GSCRegion *cp)
 {
 	char fullpath[1024];
 
@@ -1042,9 +1006,7 @@ GSCRegion *cp;
 /* write ep to rp->fp.
  */
 static void
-cacheAddEntry (rp, ep)
-GSCRegion *rp;
-GSCEntry *ep;
+cacheAddEntry (GSCRegion *rp, GSCEntry *ep)
 {
 	cacheWriteEntry (rp, ep);
 }
@@ -1052,9 +1014,7 @@ GSCEntry *ep;
 /* build a full cache filename for rp off chpath dir.
  */
 static void
-cacheBuildFilename (fullpath, rp)
-char fullpath[];
-GSCRegion *rp;
+cacheBuildFilename (char fullpath[], GSCRegion *rp)
 {
 	(void) sprintf (fullpath, "%s/%s/%04d.ech", chpath, rp->dir, rp->id);
 }
@@ -1062,9 +1022,7 @@ GSCRegion *rp;
 /* build a full cache dir for rp off chpath dir.
  */
 static void
-cacheBuildDir (fullpath, rp)
-char fullpath[];
-GSCRegion *rp;
+cacheBuildDir (char fullpath[], GSCRegion *rp)
 {
 	(void) sprintf (fullpath, "%s/%s", chpath, rp->dir);
 }
@@ -1073,8 +1031,7 @@ GSCRegion *rp;
  * leave rp->fp positioned at first star.
  */
 static int
-cacheReadHeader (rp)
-GSCRegion *rp;
+cacheReadHeader (GSCRegion *rp)
 {
 	char hdr[128];
 	double v;
@@ -1116,8 +1073,7 @@ GSCRegion *rp;
  * N.B. must be same length every time because we are called to overright.
  */
 static void
-cacheWriteHeader (rp)
-GSCRegion *rp;
+cacheWriteHeader (GSCRegion *rp)
 {
 	char hdr[128];
 	int n;
@@ -1140,9 +1096,7 @@ GSCRegion *rp;
  *  all values stored in big-endian byte order.
  */
 static void
-cacheReadEntry (rp, ep)
-GSCRegion *rp;
-GSCEntry *ep;
+cacheReadEntry (GSCRegion *rp, GSCEntry *ep)
 {
 	FILE *fp = rp->fp;
 	unsigned char buf[2];
@@ -1176,9 +1130,7 @@ GSCEntry *ep;
  *  all values stored in big-endian byte order.
  */
 static void
-cacheWriteEntry (rp, ep)
-GSCRegion *rp;
-GSCEntry *ep;
+cacheWriteEntry (GSCRegion *rp, GSCEntry *ep)
 {
 	FILE *fp = rp->fp;
 	unsigned char buf[2];

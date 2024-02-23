@@ -49,7 +49,7 @@ static Widget dbt_w;		/* T widget for display catalog header */
 
 /* bring up the db menu, creating if first time */
 void
-db_manage()
+db_manage (void)
 {
 	if (!dbshell_w)
 	    db_create_shell();
@@ -68,8 +68,7 @@ db_manage()
  */
 /* ARGSUSED */
 void
-db_newdb (appended)
-int appended;
+db_newdb (int appended)
 {
 	if (isUp(dbshell_w))
 	    db_set_report();
@@ -87,9 +86,7 @@ db_chkAltNames(void)
 /* update the list of catalogs.
  */
 void
-db_newcatmenu (dbcp, ndbcp)
-DBCat dbcp[];
-int ndbcp;
+db_newcatmenu (DBCat dbcp[], int ndbcp)
 {
 	char buf[128];
 	Arg args[20];
@@ -123,8 +120,7 @@ int ndbcp;
 
 /* called to put up or remove the watch cursor.  */
 void
-db_cursor (c)
-Cursor c;
+db_cursor (Cursor c)
 {
 	Window win;
 
@@ -139,7 +135,7 @@ Cursor c;
 
 /* return 1 if want to autoload favorite if read a .edb with 1 entry, else 0 */
 int
-db_load1()
+db_load1 (void)
 {
 	/* create if not already */
 	if (!dbshell_w)
@@ -150,7 +146,7 @@ db_load1()
 
 /* create a shell to allow user to manage files . */
 static void
-db_create_shell ()
+db_create_shell (void)
 {
 	typedef struct {
 	    char *label;	/* what goes on the help label */
@@ -392,10 +388,7 @@ db_create_shell ()
 /* a PB in a file PD has been chosen.
  */
 static void
-db_loadpb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+db_loadpb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -411,7 +404,7 @@ XtPointer call;
  * N.B. we do not include the planets nor the user objects.
  */
 static void
-db_set_report()
+db_set_report (void)
 {
 	DBScan dbs;
 	char report[1024];
@@ -501,7 +494,7 @@ db_set_report()
 }
 
 static void
-dbdelall()
+dbdelall (void)
 {
 	db_del_all();
 	all_newdb(0);
@@ -511,10 +504,7 @@ dbdelall()
  */
 /* ARGSUSED */
 static void
-db_index_cb (w, client, data)
-Widget w;
-XtPointer client;
-XtPointer data;
+db_index_cb (Widget w, XtPointer client, XtPointer data)
 {
 	obj_manage();
 }
@@ -523,10 +513,7 @@ XtPointer data;
  */
 /* ARGSUSED */
 static void
-db_delall_cb (w, client, data)
-Widget w;
-XtPointer client;
-XtPointer data;
+db_delall_cb (Widget w, XtPointer client, XtPointer data)
 {
 	if (confirm())
 	    query (dbshell_w, "Delete all files from memory?",
@@ -537,7 +524,7 @@ XtPointer data;
 }
 
 static void
-dbrelall()
+dbrelall (void)
 {
 	watch_cursor(1);
 	db_rel_all();
@@ -549,10 +536,7 @@ dbrelall()
  */
 /* ARGSUSED */
 static void
-db_relall_cb (w, client, data)
-Widget w;
-XtPointer client;
-XtPointer data;
+db_relall_cb (Widget w, XtPointer client, XtPointer data)
 {
 	if (confirm())
 	    query (dbshell_w, "Reload all files in memory?",
@@ -565,20 +549,14 @@ XtPointer data;
 /* callback from the open fifo button */
 /* ARGSUSED */
 static void
-db_openfifo_cb (w, client, data)
-Widget w;
-XtPointer client;
-XtPointer data;
+db_openfifo_cb (Widget w, XtPointer client, XtPointer data)
 {
 	db_connect_fifo();
 }
 
 /* ARGSUSED */
 static void
-db_help_cb (w, client, data)
-Widget w;
-XtPointer client;
-XtPointer data;
+db_help_cb (Widget w, XtPointer client, XtPointer data)
 {
 	static char *msg[] = {
 "This displays a count of the various types of objects currently in memory.",
@@ -593,20 +571,14 @@ XtPointer data;
  */
 /* ARGSUSED */
 static void
-db_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+db_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
 
 /* ARGSUSED */
 static void
-db_popdown_cb (w, client, data)
-Widget w;
-XtPointer client;
-XtPointer data;
+db_popdown_cb (Widget w, XtPointer client, XtPointer data)
 {
 	if (dbf_w)
 	    XtUnmanageChild (dbf_w);
@@ -614,10 +586,7 @@ XtPointer data;
 
 /* ARGSUSED */
 static void
-db_close_cb (w, client, data)
-Widget w;
-XtPointer client;
-XtPointer data;
+db_close_cb (Widget w, XtPointer client, XtPointer data)
 {
 	XtPopdown (dbshell_w);
 }
@@ -627,10 +596,7 @@ XtPointer data;
  */
 /* ARGSUSED */
 static void
-catdel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+catdel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor(1);
 	db_catdel ((DBCat *)client);
@@ -643,10 +609,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-cathdr_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cathdr_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor(1);
 	db_showhdr (((DBCat *)client)->name);
@@ -655,9 +618,7 @@ XtPointer call;
 
 /* build one new catalog entry */
 static void
-db_1catrow (rc_w, dbcp)
-Widget rc_w;
-DBCat *dbcp;
+db_1catrow (Widget rc_w, DBCat *dbcp)
 {
 	Widget f_w, pb_w;
 	Widget nl_w, cl_w;

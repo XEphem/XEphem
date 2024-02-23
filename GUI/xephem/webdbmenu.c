@@ -60,7 +60,7 @@ static AstInfo astinfo[] = {
 static char wdbcategory[] = "Web Databases";	/* Save category */
 
 void
-wdb_manage()
+wdb_manage (void)
 {
 	if (!wdbshell_w)
 	    wdb_create();
@@ -86,7 +86,7 @@ Cursor c;
 }
 
 static void
-wdb_create()
+wdb_create (void)
 {
 	Widget mf_w, f_w, rc_w;
 	Widget pb_w, tf_w;
@@ -242,10 +242,7 @@ wdb_create()
 /* called from Close */
 /* ARGSUSED */
 static void
-close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* outta here */
 	XtPopdown (wdbshell_w);
@@ -256,10 +253,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-geturl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+geturl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget tf_w = (Widget)client;
 	char *url = XmTextFieldGetString(tf_w);
@@ -275,10 +269,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-getast_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+getast_cb (Widget w, XtPointer client, XtPointer call)
 {
 	AstInfo *ap = (AstInfo *)client;
 	char cmd[1024];
@@ -385,10 +376,7 @@ XtInputId *idp;
 /* called from Ok */
 /* ARGSUSED */
 static void
-help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {"Download database files from the Web."};
 

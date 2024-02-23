@@ -183,7 +183,7 @@ static char sstrres[] = "SolSysTrailState";	/* trail resource */
  * form. otherwise, just go for it.
  */
 void
-ss_manage ()
+ss_manage (void)
 {
 	if (!ssshell_w) {
 	    XtAppAddActions (xe_app, scuts, XtNumber(scuts));
@@ -230,7 +230,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-ss_newres()
+ss_newres (void)
 {
 	if (!ssshell_w)
 	    return;
@@ -248,7 +248,7 @@ int appended;
 }
 
 int
-ss_ison()
+ss_ison (void)
 {
 	return (isUp(ssshell_w));
 }
@@ -271,14 +271,14 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-ss_viewupres()
+ss_viewupres (void)
 {
 	return ("SolSysViewUp");
 }
 
 /* create the main solarsystem shell */
 static void
-ss_create_shell()
+ss_create_shell (void)
 {
 	typedef struct {
 	    char *label;	/* what goes on the help label */
@@ -633,7 +633,7 @@ ss_create_shell()
 
 /* create the stereo solarsystem form */
 static void
-st_create_form()
+st_create_form (void)
 {
 	Arg args[20];
 	int n;
@@ -700,10 +700,7 @@ st_create_form()
  */
 /* ARGSUSED */
 static void
-ss_trail_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_trail_cb (Widget w, XtPointer client, XtPointer call)
 {
 	tr_setup ("xephem Solar System trails setup", "Solar System", &trstate,
 							    ss_newtrail, NULL);
@@ -713,10 +710,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int what = (long int) client;
 
@@ -762,10 +756,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_changed_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_changed_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *sp = (XmScaleCallbackStruct *) call;
 
@@ -782,10 +773,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do rest of the work */
 	XtPopdown (ssshell_w);
@@ -795,10 +783,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (ss_pm, dt_w);
 }
@@ -806,10 +791,7 @@ XtPointer call;
 /* callback from popping down the main view */
 /* ARGSUSED */
 static void
-ss_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (stform_w);
 
@@ -831,10 +813,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_print_cb (Widget w, XtPointer client, XtPointer call)
 {
         XPSAsk ("Solar System", ss_print);
 }
@@ -843,7 +822,7 @@ XtPointer call;
  * call XPSClose() when finished.
  */
 static void
-ss_print ()
+ss_print (void)
 {
 	Now *np = mm_get_now();
         unsigned int nx, ny;
@@ -1025,10 +1004,7 @@ Cardinal *n;
  */
 /* ARGSUSED */
 static void
-ss_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_movie (MOVIE_STEPSZ);
 }
@@ -1037,10 +1013,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This displays the solar system. The sun is always at the center. The left",
@@ -1057,10 +1030,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1069,10 +1039,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay (w);
@@ -1129,10 +1096,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-st_parallax_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_parallax_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleGetValue (w, &parallax);
 	ss_all ();
@@ -1153,7 +1117,7 @@ XtPointer call;
  * we also try to position it just to the left, but it doesn't always work.
  */
 static void
-st_track_size()
+st_track_size (void)
 {
 	Dimension w, h;
 	Position mfx, mfy;
@@ -1186,10 +1150,7 @@ st_track_size()
 /* callback from unmapping the stereo view */
 /* ARGSUSED */
 static void
-st_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	stereo = 0;
 	XmToggleButtonSetState(stereo_w, False, False);
@@ -1204,10 +1165,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-st_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay (w);
@@ -1266,10 +1224,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1438,7 +1393,7 @@ ss_popup (XEvent *ev, Obj *op, double Mjd, int fav)
 
 /* create the id popup */
 static void
-ss_create_popup()
+ss_create_popup (void)
 {
 	static struct {
 	    Widget *wp;
@@ -1508,7 +1463,7 @@ ss_create_popup()
  * ok to use this everywhere _except_ the individual window expose callbacks.
  */
 static void
-ss_all()
+ss_all (void)
 {
 	watch_cursor (1);
 
@@ -1525,7 +1480,7 @@ ss_all()
 /* redraw the main sol system view.
  */
 static void
-ss_redraw()
+ss_redraw (void)
 {
 	Display *dsp = XtDisplay(ssda_w);
 	int sv;			/* ScaleValue tmp */
@@ -1709,7 +1664,7 @@ ss_ano (double *sxp, double *syp, int *xp, int *yp, int w2x, int arg)
 
 /* copy the existing main pixmap to the visible screen window */
 static void
-ss_refresh ()
+ss_refresh (void)
 {
 	Display *dsp = XtDisplay(ssda_w);
 	Window win = XtWindow(ssda_w);
@@ -1895,7 +1850,7 @@ st_ano (double *sxp, double *syp, int *xp, int *yp, int w2x, int arg)
 
 /* copy the existing stereo pixmap to the visible screen window */
 static void
-st_refresh()
+st_refresh (void)
 {
 	Display *dsp = XtDisplay(stda_w);
 	Window win = XtWindow(stda_w);
@@ -2275,7 +2230,7 @@ int lbl;
 
 /* free allp array, if any */
 static void
-ap_free()
+ap_free (void)
 {
 	if (allp) {
 	    free ((void *)allp);
@@ -2322,10 +2277,7 @@ HLoc *hp;
  */
 /* ARGSUSED */
 static void
-ap_label_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ap_label_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = pu.op;
 
@@ -2341,10 +2293,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_fav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_fav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = pu.op;
 	if (op == db_basic(MOON))
@@ -2356,7 +2305,7 @@ XtPointer call;
  * TODO: reclaim old stuff if called again.
  */
 static void
-mk_gcs()
+mk_gcs (void)
 {
 	Display *dsp = XtDisplay(ssda_w);
 	Window win = XtWindow(ssda_w);

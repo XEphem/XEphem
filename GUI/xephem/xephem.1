@@ -1,4 +1,4 @@
-.TH XEphem 1X
+.TH XEphem 1X "" "2023-04-08" "XEphem User Manual"
 .SH Name
 XEphem \- an interactive astronomical ephemeris for X11
 .SH Syntax
@@ -126,15 +126,22 @@ references; version number and the Copyright statement.
 .SH X Resources
 When first started, XEphem looks for a file named
 .B .xephemrc
-in your $HOME directory. It should contain one line of the form:
+in your $HOME directory, or if that doesn't exist,
+.B xephemrc
+in your $HOME/.config directory. It should contain one line of the form:
 
 XEphem.PrivateDir: ~/.xephem
 
 This defines the Private directory, where XEphem will store your personal
-settings. The example line shown here, which is also the assumption if the
-file is not present, means XEphem will create and use a directory named
+settings. The example line shown here means XEphem will create and use a
+directory named
 .B .xephem
-for this purpose in your home directory.
+for this purpose in your home directory. If the file is not present, the
+XEphem will look for the directory in
+.B $HOME/.xephem
+first, followed by
+.B $HOME/.config/xephem
+if that does not exist. If neither exists, a new directory will be created.
 
 Within this directory a text file named
 .B XEphem
@@ -149,6 +156,10 @@ directory.
 Elwood C. Downey, email ecdowney@ClearSkyInstitute.com.
 
 .SH References
+.PP
+This is the open-source version of XEphem, released under the MIT
+license. The source code can be found at
+.I https://github.com/XEphem/XEphem
 .PP
 The Web homepage, including the FAQ, is maintained at
 .I http://www.clearskyinstitute.com/xephem

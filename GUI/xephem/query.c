@@ -90,10 +90,7 @@ Widget tw;
  */
 /* ARGSUSED */
 static void
-query_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+query_cb (Widget w, XtPointer client, XtPointer call)
 {
 	void (*f)() = funcs[(long int)client];
 

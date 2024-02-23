@@ -120,7 +120,7 @@ static double telrad_sz[] = {.5, 2., 4.};
 static char skyepcategory[] = "Sky View -- Eyepieces";
 
 void 
-se_manage()
+se_manage (void)
 {
 	if (!eyep_w)
 	    se_create_eyep_w();
@@ -128,7 +128,7 @@ se_manage()
 }
 
 void 
-se_unmanage()
+se_unmanage (void)
 {
 	if (eyep_w)
 	    XtUnmanageChild (eyep_w);
@@ -297,7 +297,7 @@ se_eyepsz(double *wp, double *hp, double *ap, int *rp, int *fp)
 
 /* increase size of eyep[] by one and return pointer to new location */
 static EyePiece *
-se_addeyep ()
+se_addeyep (void)
 {
 	eyep = (EyePiece *) XtRealloc ((void*)eyep, (neyep+1)*sizeof(EyePiece));
 	return (&eyep[neyep++]);
@@ -305,7 +305,7 @@ se_addeyep ()
 
 /* create the eyepiece size dialog */
 static void
-se_create_eyep_w()
+se_create_eyep_w (void)
 {
 	Widget w, sep_w;
 	Widget l_w, rb_w;
@@ -1023,10 +1023,7 @@ Widget s_w, l_w;
 
 /* called when the telrad TB is activated */
 static void
-se_telrad_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_telrad_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState (w);
 
@@ -1053,10 +1050,7 @@ XtPointer call;
 
 /* drag callback from the height scale */
 static void
-se_hscale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_hscale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_scale_fmt (eyephs_w, eyephl_w);
 
@@ -1070,10 +1064,7 @@ XtPointer call;
 
 /* drag callback from the width scale */
 static void
-se_wscale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_wscale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_scale_fmt (eyepws_w, eyepwl_w);
 
@@ -1087,10 +1078,7 @@ XtPointer call;
 
 /* drag callback from the pa scale */
 static void
-se_pscale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_pscale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_pascale_fmt (eyepa_w, eyepal_w);
 }
@@ -1099,10 +1087,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_delall_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_delall_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (eyep) {
 	    if (confirm()) {
@@ -1131,7 +1116,7 @@ XtPointer call;
 /* delete memory for and display of all currently placed eyepieces.
  */
 static void
-se_delall()
+se_delall (void)
 {
 	XtFree ((void *)eyep);
 	eyep = NULL;
@@ -1144,10 +1129,7 @@ se_delall()
  */
 /* ARGSUSED */
 static void
-se_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (eyep_w);
 }
@@ -1155,10 +1137,7 @@ XtPointer call;
 /* called when the help button is hit in the eyepiece dialog */
 /* ARGSUSED */
 static void
-se_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "Define eyepiece shapes and sizes."
@@ -1173,10 +1152,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_skyW_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_skyW_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget angle_w = (Widget)client;
 	char *str;
@@ -1198,10 +1174,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_skyH_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_skyH_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget angle_w = (Widget)client;
 	char *str;
@@ -1221,16 +1194,13 @@ XtPointer call;
 /* called when any of the factors in formula 1 change */
 /* ARGSUSED */
 static void
-se_calc1_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_calc1_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_calc1();
 }
 
 static void
-se_calc1()
+se_calc1 (void)
 {
 	char *tmp, *flstr, *fpstr, sastr[32];
 	double fl, fp, sa;
@@ -1268,17 +1238,14 @@ se_calc1()
 /* called when any of the factors in formula 2 change */
 /* ARGSUSED */
 static void
-se_calc2_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_calc2_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_calc2();
 }
 
 /* gather values and compute sky angle using formula 2 */
 static void
-se_calc2()
+se_calc2 (void)
 {
 	char *tmp, *mflstr, sastr[32];
 	double afov, efl, mfl, sa;
@@ -1363,10 +1330,7 @@ Widget w;
  */
 /* ARGSUSED */
 static void
-se_usefav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_usefav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FavEyeP *fp = &favs[(long int)client];
 
@@ -1385,10 +1349,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_delfav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_delfav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FavEyeP *fp = &favs[(long int)client];
 	XtDestroyWidget (fp->row_w);
@@ -1398,10 +1359,7 @@ XtPointer call;
 /* called to add a new FavEyeP */
 /* ARGSUSED */
 static void
-se_addfav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_addfav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FavEyeP newfav;
 	double aunused;
@@ -1417,10 +1375,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_loadd_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_loadd_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 	get_xmstring (w, XmNlabelString, &fn);
@@ -1433,10 +1388,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_saved_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_saved_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024], *fn;
 	char *txt;
@@ -1460,10 +1412,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_loadp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_loadp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 	get_xmstring (w, XmNlabelString, &fn);
@@ -1476,10 +1425,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_savep_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_savep_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024], *fn;
 	char *txt;

@@ -151,14 +151,14 @@ void (*go)();
 
 /* return 1 if currently drawing in color, else 0 */
 int
-XPSInColor()
+XPSInColor (void)
 {
 	return (xpsc.state == XDRAWING && xpsc.wantcolor);
 }
 
 /* return 1 if currently drawing, else 0 */
 int
-XPSDrawing()
+XPSDrawing (void)
 {
 	return (xpsc.state == XDRAWING);
 }
@@ -547,7 +547,7 @@ int Pw;		/* width of Page rectangle */
  * this prepares for additional direct entries or closing down.
  */
 void
-XPSXEnd()
+XPSXEnd (void)
 {
 	checkState ("End", XDRAWING);
 
@@ -577,7 +577,7 @@ char *s;
 
 /* finish up with any boiler plate, close the file and reset xpsc */
 void
-XPSClose()
+XPSClose (void)
 {
 	char *title;
 
@@ -1747,7 +1747,7 @@ char *fn;
 
 /* create the print dialog */
 static void
-create_print_w()
+create_print_w (void)
 {
 	Widget w;
 	Widget f_w, rc_w;
@@ -2000,10 +2000,7 @@ create_print_w()
  */
 static void
 /* ARGSUSED */
-toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    Widget otherw = (Widget)client;
@@ -2014,7 +2011,7 @@ XtPointer call;
 
 /* called to reset the pending print query sequence */
 static void
-no_go()
+no_go (void)
 {
 	checkState ("no_go", ASKING);
 	xpsc_close();
@@ -2097,7 +2094,7 @@ XtPointer call;
 
 /* called when we have confirmed it's ok to clobber an existing save file */
 static void
-saveas_confirm()
+saveas_confirm (void)
 {
 	char *name = XmTextFieldGetString (filename_w);
 	if (XPSOpen (name) == 0)
@@ -2108,7 +2105,7 @@ saveas_confirm()
 
 /* finished with xpsc */
 static void
-xpsc_close()
+xpsc_close (void)
 {
 	if (xpsc.fp)
 	    fclose (xpsc.fp);
@@ -2126,7 +2123,7 @@ xpsc_close()
 /* called when it's confirmed to try and print or save */
 /* ARGSUSED */
 static void
-call_go ()
+call_go (void)
 {
 	/* call the user's function */
 	if (xpsc.go)

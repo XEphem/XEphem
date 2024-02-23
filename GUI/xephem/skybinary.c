@@ -78,7 +78,7 @@ svbs_manage (Obj *op)
  * rebuild and redraw.
  */
 void
-svbs_newres()
+svbs_newres (void)
 {
 	if (!bsshell_w)
 	    return;
@@ -88,7 +88,7 @@ svbs_newres()
 
 /* create bsshell_w, the top view dialog */
 static void
-bs_create_shell_w()
+bs_create_shell_w (void)
 {
 	typedef struct {
 	    char *label;
@@ -185,10 +185,7 @@ bs_create_shell_w()
  */
 /* ARGSUSED */
 static void
-bs_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+bs_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
         Window win = XtWindow(w);
@@ -241,7 +238,7 @@ XtPointer call;
 
 /* update bs_pm and ephemerides from bsobj then refresh */
 static void
-bs_update()
+bs_update (void)
 {
 	Obj *op = &bsobj;
 
@@ -491,7 +488,7 @@ bs_orbit (Obj *op)
 
 /* display bs_pm */
 static void
-bs_refresh ()
+bs_refresh (void)
 {
 	XCopyArea (XtD, bs_pm, XtWindow(bsda_w), bs_gc, 0, 0,bsmapw,bsmaph,0,0);
 }
@@ -521,7 +518,7 @@ bs_help_cb (Widget w, XtPointer client, XtPointer call)
 }
 
 static void
-bs_mkgcs()
+bs_mkgcs (void)
 {
 	XFontStruct *vfp;
 

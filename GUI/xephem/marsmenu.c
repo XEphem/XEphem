@@ -218,7 +218,7 @@ static int nmf;			/* entries in mf[] */
  * allow for retrying to read the image file each time until find it.
  */
 void
-mars_manage ()
+mars_manage (void)
 {
 	if (!mshell_w) {
 	    /* one-time-only work */
@@ -273,7 +273,7 @@ int how_much;
  * rebuild and redraw.
  */
 void
-mars_newres()
+mars_newres (void)
 {
 	marsm_newres();
 	if (!mshell_w)
@@ -283,7 +283,7 @@ mars_newres()
 }
 
 int
-mars_ison()
+mars_ison (void)
 {
 	return (isUp(mshell_w));
 }
@@ -342,13 +342,13 @@ Cursor c;
 
 /* return the name of the resource containing whether this view is up */
 char *
-mars_viewupres()
+mars_viewupres (void)
 {
 	return ("MarsViewUp");
 }
 
 static void
-m_create_shell()
+m_create_shell (void)
 {
 	typedef struct {
 	    Option o;		/* which option */
@@ -615,7 +615,7 @@ m_create_shell()
 
 /* create the "more info" stats dialog */
 static void
-m_create_msform()
+m_create_msform (void)
 {
 	typedef struct {
 	    char *label;
@@ -932,7 +932,7 @@ mfsa_qsort (const void *p1, const void *p2)
  * N.B. we assume mfsa[] and mf[] are all set up.
  */
 static void
-m_create_mfform()
+m_create_mfform (void)
 {
 	typedef struct {
 	    MFCtrl mfce;		/* which feature control */
@@ -1101,10 +1101,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback when an item is de/selected in the feature list */
 /* ARGSUSED */
 static void
-m_list_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_list_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 
@@ -1118,10 +1115,7 @@ XtPointer call;
 /* callback from the Moons button */
 /* ARGSUSED */
 static void
-m_moons_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_moons_cb (Widget w, XtPointer client, XtPointer call)
 {
 	marsm_manage();
 }
@@ -1129,10 +1123,7 @@ XtPointer call;
 /* callback from the Close button on the stats menu */
 /* ARGSUSED */
 static void
-m_mstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_mstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (msform_w);
 }
@@ -1140,10 +1131,7 @@ XtPointer call;
 /* callback when want stats menu up */
 /* ARGSUSED */
 static void
-m_mstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_mstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (msform_w);
 	m_set_buttons(m_selecting);
@@ -1154,10 +1142,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_features_ctrl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_features_ctrl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	MFSel *mfsp;
 
@@ -1199,10 +1184,7 @@ XtPointer call;
 /* callback when want features dialog up */
 /* ARGSUSED */
 static void
-m_features_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_features_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (mfform_w);
 }
@@ -1212,10 +1194,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_feasel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_feasel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	MFSel *mfsp = (MFSel *) client;
 	mfsp->set = XmToggleButtonGetState(w);
@@ -1224,10 +1203,7 @@ XtPointer call;
 /* callback from the Print PB */
 /* ARGSUSED */
 static void
-m_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_print_cb (Widget w, XtPointer client, XtPointer call)
 {
         XPSAsk ("Mars View", m_print);
 }
@@ -1236,7 +1212,7 @@ XtPointer call;
  * call XPSClose() when finished.
  */
 static void
-m_print ()
+m_print (void)
 {
 	/* must be up */
 	if (!mars_ison()) {
@@ -1266,7 +1242,7 @@ m_print ()
 }
 
 static void
-m_ps_annotate ()
+m_ps_annotate (void)
 {
 	Now *np = mm_get_now();
         char dir[128];
@@ -1343,10 +1319,7 @@ m_ps_annotate ()
  */
 /* ARGSUSED */
 static void
-m_selection_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_selection_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (m_selecting) {
 	    char *name;
@@ -1358,10 +1331,7 @@ XtPointer call;
 /* callback from the CML scale */
 /* ARGSUSED */
 static void
-m_cml_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_cml_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *sp = (XmScaleCallbackStruct *)call;
 	int v = sp->value;
@@ -1375,10 +1345,7 @@ XtPointer call;
 /* callback from the SLT scale */
 /* ARGSUSED */
 static void
-m_slt_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_slt_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *sp = (XmScaleCallbackStruct *)call;
 	int v = sp->value;
@@ -1392,10 +1359,7 @@ XtPointer call;
 /* callback from the Seeing scale */
 /* ARGSUSED */
 static void
-m_see_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_see_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *sp = (XmScaleCallbackStruct *)call;
 	char str[32];
@@ -1412,10 +1376,7 @@ XtPointer call;
 /* callback from the Apply PB */
 /* ARGSUSED */
 static void
-m_apply_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_apply_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int v;
 
@@ -1441,10 +1402,7 @@ XtPointer call;
 /* callback from the Point PB */
 /* ARGSUSED */
 static void
-m_aim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_aim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	m_setnewpos (pu_l, pu_L);
 }
@@ -1475,10 +1433,7 @@ m_setnewpos (double l, double L)
  */
 /* ARGSUSED */
 static void
-m_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (msform_w);
 	XtUnmanageChild (mfform_w);
@@ -1489,10 +1444,7 @@ XtPointer call;
 
 /* called from Close button */
 static void
-m_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (mshell_w);
 	/* popdown will do all the real work */
@@ -1500,10 +1452,7 @@ XtPointer call;
 
 /* called to add scene to the movie loop */
 static void
-m_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (m_pm, dt_w);
 }
@@ -1513,10 +1462,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Option opt = (Option)client;
 	int set;
@@ -1563,7 +1509,7 @@ XtPointer call;
  * this is used to keep mountains looking like mountains when flipping t/b
  */
 static void
-swap_colors()
+swap_colors (void)
 {
 	int i;
 
@@ -1578,10 +1524,7 @@ swap_colors()
  */
 /* ARGSUSED */
 static void
-m_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "This is a map of Mars.",
@@ -1595,17 +1538,14 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
 
 /* set winsz from HALFSIZ_OPT then size of the scrolling window, image and pm.*/
 static void
-m_setsize()
+m_setsize (void)
 {
 	Window win = RootWindow(XtD, DefaultScreen(XtD));
 	Dimension wid, hei;
@@ -1631,10 +1571,7 @@ m_setsize()
  */
 /* ARGSUSED */
 static void
-m_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	XExposeEvent *e = &c->event->xexpose;
@@ -1907,7 +1844,7 @@ Boolean *continue_to_dispatch;
 
 /* establish mimage and m_xim and return 0 else xe_msg() and return -1 */
 static int
-m_readmap()
+m_readmap (void)
 {
 	unsigned char r[256], g[256], b[256];
 	char why[256];
@@ -1955,7 +1892,7 @@ m_readmap()
  * return 0 if ok else -1 and xe_msg().
  */
 static int
-mxim_create ()
+mxim_create (void)
 {
 	Display *dsp = XtDisplay (mda_w);
 	int nbytes = winsz*winsz*mbpp/8;
@@ -2003,7 +1940,7 @@ mxim_create ()
  * from the current list of chosen types.
  */
 static void
-m_setselected()
+m_setselected (void)
 {
 	int i;
 
@@ -2070,7 +2007,7 @@ XExposeEvent *ep;
  * TODO: reclaim old stuff if called again
  */
 static void
-m_init_gcs()
+m_init_gcs (void)
 {
 	Display *dsp = XtD;
 	Window win = XtWindow(toplevel_w);
@@ -2126,7 +2063,7 @@ m_init_gcs()
 
 /* update mars info and draw the stat labels */
 static void
-m_stats ()
+m_stats (void)
 {
 	Now *np = mm_get_now();
 
@@ -2161,7 +2098,7 @@ m_stats ()
  * N.B. if want to draw, call m_refresh() after this.
  */
 static void
-m_drawpm ()
+m_drawpm (void)
 {
 	/* check assumptions */
 	if (!m_pm) {
@@ -2268,7 +2205,7 @@ mf_qsort (const void *p1, const void *p2)
  * return 0 if ok, else -1.
  */
 static int
-m_readFeatures()
+m_readFeatures (void)
 {
 	char buf[1024];
 	char fn[1024];
@@ -2333,7 +2270,7 @@ m_readFeatures()
 
 /* draw the mf list, based on what is selected in flist_w */
 static void
-m_drFeatures ()
+m_drFeatures (void)
 {
 	Display *dsp = XtDisplay (mda_w);
 	int *selected, nselected;
@@ -2379,7 +2316,7 @@ m_drFeatures ()
 
 /* draw the N/S E/W labels on m_pm */
 static void
-m_orientation()
+m_orientation (void)
 {
 	Now *np = mm_get_now();
 	double mr, mra, mdec;
@@ -2424,7 +2361,7 @@ m_orientation()
 
 /* draw the size calibration */
 static void
-m_sizecal()
+m_sizecal (void)
 {
 	int dir, asc, des;
 	XCharStruct xcs;
@@ -2448,7 +2385,7 @@ m_sizecal()
 
 /* draw a coordinate grid over the image already on m_pm */
 static void
-m_grid()
+m_grid (void)
 {
 	Display *dsp = XtDisplay (mda_w);
 	double fsp = FSP;
@@ -2525,7 +2462,7 @@ m_grid()
  * m_xim is winszxwinsz, mimage is 2*IMH wide x IMH high.
  */
 static void
-mxim_setup ()
+mxim_setup (void)
 {
 #define	SQR(x)	((x)*(x))
 	int pixseeing = (int)(winsz*m_seeing/marsop->s_size/10);
@@ -2869,7 +2806,7 @@ XEvent *ep;
 
 /* create the surface popup menu */
 static void
-m_create_popup()
+m_create_popup (void)
 {
 	Widget w;
 	Arg args[20];

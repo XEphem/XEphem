@@ -95,7 +95,7 @@ static char closecategory[] = "Close pairs"; 	/* Save category */
 
 /* bring up Close pairs shell, creating if first time */
 void
-c_manage()
+c_manage (void)
 {
 	if (!cshell_w) {
 	    c_create_shell();
@@ -139,7 +139,7 @@ Cursor c;
 
 /* create a form in a shell to allow user to work with the list. */
 static void
-c_create_shell ()
+c_create_shell (void)
 {
 	typedef struct {
 	    char *label;	/* what goes on the help label */
@@ -434,10 +434,7 @@ c_create_shell ()
 /* called when the general help key is pressed */
 /* ARGSUSED */
 static void
-c_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Select desired max separation and viewpoint, then Control->Start to find all",
@@ -452,10 +449,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-c_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -463,10 +457,7 @@ XtPointer call;
 /* callback from file List control button. */
 /* ARGSUSED */
 static void
-c_flist_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_flist_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (flist_w);
 }
@@ -474,10 +465,7 @@ XtPointer call;
 /* called when our toplevel shell is popped down */
 /* ARGSUSED */
 static void
-c_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XtIsManaged(flist_w))
 	    XtUnmanageChild (flist_w);
@@ -486,10 +474,7 @@ XtPointer call;
 /* called when the Close pushbutton is activated */
 /* ARGSUSED */
 static void
-c_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let the popdown do the rest of the work */
 	XtPopdown (cshell_w);
@@ -498,10 +483,7 @@ XtPointer call;
 /* called when a list item is double-clicked */
 /* ARGSUSED */
 static void
-c_actlist_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_actlist_cb (Widget w, XtPointer client, XtPointer call)
 {
 	(void) sky_point();
 }
@@ -509,10 +491,7 @@ XtPointer call;
 /* called when the Sky Point pushbutton is activated */
 /* ARGSUSED */
 static void
-c_skypoint_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_skypoint_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (sky_point() < 0)
 	    xe_msg (1, "First select a line from the list.");
@@ -521,10 +500,7 @@ XtPointer call;
 /* called when the Perform Search pushbutton is activated */
 /* ARGSUSED */
 static void
-c_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	do_search();
 }
@@ -533,7 +509,7 @@ XtPointer call;
  * return 0 if ok, else -1.
  */
 static int
-sky_point()
+sky_point (void)
 {
 	String sel;
 	char objname[MAXNM];
@@ -592,7 +568,7 @@ racmp_f (const void *v1, const void *v2)
 }
 
 static void
-do_search()
+do_search (void)
 {
 	int als = XmToggleButtonGetState(autols_w);
 	double sep;	/* desired max separation, rads */
@@ -1092,7 +1068,7 @@ double sep;
 
 /* create the list filename prompt */
 static void
-c_create_flist_w()
+c_create_flist_w (void)
 {
 	Arg args[20];
 	Widget tw;
@@ -1117,10 +1093,7 @@ c_create_flist_w()
 /* called when the Ok button is hit in the file flist prompt */
 /* ARGSUSED */
 static void
-c_flistok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_flistok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	int icount;
@@ -1153,7 +1126,7 @@ XtPointer call;
 
 /* called when we want to append to a flist file */
 static void
-flistok_append_cb ()
+flistok_append_cb (void)
 {
 	char *name;
 
@@ -1164,7 +1137,7 @@ flistok_append_cb ()
 
 /* called when we want to ceate a new flist file */
 static void
-flistok_overwrite_cb ()
+flistok_overwrite_cb (void)
 {
 	char *name;
 

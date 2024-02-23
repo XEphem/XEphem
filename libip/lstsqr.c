@@ -105,7 +105,7 @@ static void free_vector(double *v, int nl, int nh);
 #define GAMMA 2.0
 
 #define GET_PSUM for (j=1;j<=ndim;j++) { for (i=1,sum=0.0;i<=mpts;i++)\
-						sum += p[i][j]; psum[j]=sum;}
+						{ sum += p[i][j]; } psum[j]=sum; }
 
 static int
 amoeba(p,y,ndim,ftol,funk,nfunk)

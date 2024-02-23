@@ -105,7 +105,7 @@ init_ssl(char msg[])
 /* call to set up without actually bringing up the menus.
  */
 void
-net_create()
+net_create (void)
 {
 	if (!netshell_w) {
 	    net_create_form();
@@ -114,7 +114,7 @@ net_create()
 }
 
 void
-net_manage()
+net_manage (void)
 {
 	net_create();
 
@@ -714,7 +714,7 @@ ssl_recvlineb (XE_SSL_FD *ssl_fd, char *buf, int size)
 }
 
 static void
-net_create_form()
+net_create_form (void)
 {
 	Widget netform_w;
 	Widget f, w;
@@ -955,7 +955,7 @@ net_create_form()
  * respectively (same ones used by netscape) then X resources.
  */
 static void
-defaultSOCKS()
+defaultSOCKS (void)
 {
 	char *str;
 
@@ -970,7 +970,7 @@ defaultSOCKS()
 
 /* set up the dialog according to our static state */
 static void
-net_setup ()
+net_setup (void)
 {
 	/* Net */
 	XmToggleButtonSetState (ndir_w, !socks_on && !proxy_on, False);
@@ -999,7 +999,7 @@ net_setup ()
  * if any major trouble, issue xe_msg and return -1, else return 0.
  */
 static int
-net_save ()
+net_save (void)
 {
 	char *str, msg[1024];
 	int allok = 1;
@@ -1059,10 +1059,7 @@ net_save ()
 /* called from Ok */
 /* ARGSUSED */
 static void
-ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (net_save() == 0)
 	    XtPopdown (netshell_w);
@@ -1071,10 +1068,7 @@ XtPointer call;
 /* called from Ok */
 /* ARGSUSED */
 static void
-cancel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cancel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* outta here */
 	XtPopdown (netshell_w);
@@ -1085,10 +1079,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pw_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pw_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmTextVerifyCallbackStruct *vp = (XmTextVerifyCallbackStruct *)call;
 	int l = XmTextFieldGetLastPosition(w);
@@ -1117,10 +1108,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-tb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+tb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    switch ((long int)client) {
@@ -1150,10 +1138,7 @@ XtPointer call;
 /* called from Ok */
 /* ARGSUSED */
 static void
-help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {"Set up network connectivity options."};
 

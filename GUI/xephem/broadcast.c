@@ -111,7 +111,7 @@ int how_much;
 /* tell everyone who might care that the favorites list has changed.
  */
 void
-all_newfavs()
+all_newfavs (void)
 {
 	/* special prep */
 	dm_newfavs();
@@ -211,7 +211,7 @@ char *str;
 /* return !0 if any of the button/data capture tools are active, else 0.
  */
 int
-any_ison()
+any_ison (void)
 {
 	return (srch_ison() || plot_ison() || listing_ison());
 }
