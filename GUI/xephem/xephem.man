@@ -1,9 +1,9 @@
-.TH XEphem 1X
-.SH Name
+.TH XEPHEM 1 "Feb 2024"
+.SH NAME
 XEphem \- an interactive astronomical ephemeris for X11
-.SH Syntax
-\fBxephem [-prfb] [-install {yes|no|guess}] [-resfile <resourcefile>] [-[no]splash]\fP
-.SH Description
+.SH SYNOPSIS
+\fBxephem [\-prfb] [\-install {yes|no|guess}] [\-resfile <resourcefile>] [\-[no]splash]\fP
+.SH DESCRIPTION
 .na
 .nh
 .PP
@@ -72,10 +72,10 @@ for the default situation.
 .B -splash
 or
 .B -nosplash
-controls whether XEphem will display a progress window front and center while it is
-coming up. The choice is yours because this can be a useful sign of life on a
-slow system, or be the source of an annoying flash on a fast system. The setting
-is persistent so it will remain until changed.
+controls whether XEphem will display a progress window front and center while
+it is coming up. The choice is yours because this can be a useful sign of life
+on a slow system, or be the source of an annoying flash on a fast system. The
+setting is persistent so it will remain until changed.
 
 .SH Menu Tour
 .B File
@@ -115,7 +115,8 @@ easy access in several other places throughout XEphem.
 
 This menu offers several configuration choices and tools for changing fonts
 and colors used throughout XEphem.
-These choices can be changed at runtime and saved to disk to become the new defaults.
+These choices can be changed at runtime and saved to disk to become the new
+defaults.
 
 .B Help
 
@@ -144,14 +145,14 @@ multi-user installations. XEphem looks here for support files. Unless
 defined otherwise, the Shared directory is ".", that is, the current 
 directory.
 
-.SH Author
+.SH AUTHOR
 .PP
 Elwood C. Downey, email ecdowney@ClearSkyInstitute.com.
 
-.SH References
+.SH SEE ALSO
 .PP
 The Web homepage, including the FAQ, is maintained at
-.I http://www.clearskyinstitute.com/xephem
+.I https://xephem.github.io/XEphem/Site/xephem.html
 .PP
 The online Help entry
 .I on Credits
