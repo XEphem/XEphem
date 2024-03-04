@@ -1,9 +1,9 @@
-.TH XEphem 1X
-.SH Name
+.TH XEPHEM 1 "Feb 2024"
+.SH NAME
 XEphem \- an interactive astronomical ephemeris for X11
-.SH Syntax
-\fBxephem [-prfb] [-install {yes|no|guess}] [-resfile <resourcefile>] [-[no]splash]\fP
-.SH Description
+.SH SYNOPSIS
+\fBxephem [\-prfb] [\-install {yes|no|guess}] [\-resfile <resourcefile>] [\-[no]splash]\fP
+.SH DESCRIPTION
 .na
 .nh
 .PP
@@ -144,14 +144,14 @@ multi-user installations. XEphem looks here for support files. Unless
 defined otherwise, the Shared directory is ".", that is, the current 
 directory.
 
-.SH Author
+.SH AUTHOR
 .PP
 Elwood C. Downey, email ecdowney@ClearSkyInstitute.com.
 
-.SH References
+.SH SEE ALSO
 .PP
 The Web homepage, including the FAQ, is maintained at
-.I http://www.clearskyinstitute.com/xephem
+.I https://xephem.github.io/XEphem/Site/xephem.html
 .PP
 The online Help entry
 .I on Credits
