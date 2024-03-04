@@ -72,10 +72,10 @@ for the default situation.
 .B -splash
 or
 .B -nosplash
-controls whether XEphem will display a progress window front and center while
-it is coming up. The choice is yours because this can be a useful sign of life
-on a slow system, or be the source of an annoying flash on a fast system. The
-setting is persistent so it will remain until changed.
+controls whether XEphem will display a progress window front and center while it is
+coming up. The choice is yours because this can be a useful sign of life on a
+slow system, or be the source of an annoying flash on a fast system. The setting
+is persistent so it will remain until changed.
 
 .SH Menu Tour
 .B File
@@ -115,8 +115,7 @@ easy access in several other places throughout XEphem.
 
 This menu offers several configuration choices and tools for changing fonts
 and colors used throughout XEphem.
-These choices can be changed at runtime and saved to disk to become the new
-defaults.
+These choices can be changed at runtime and saved to disk to become the new defaults.
 
 .B Help
 
