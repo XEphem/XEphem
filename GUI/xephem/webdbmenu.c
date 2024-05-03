@@ -158,7 +158,7 @@ wdb_create()
 	    XtSetArg (args[n], XmNrightAttachment, XmATTACH_FORM); n++;
 	    tf_w = XmCreateTextField (f_w, buf, args, n);
 	    defaultTextFN (tf_w, 1, "", NULL);
-	    wtip (tf_w, "URL of file to download (must use HTTP)");
+	    wtip (tf_w, "URL of file to download (must use HTTP or HTTPS)");
 	    XtManageChild (tf_w);
 	    sprintf (buf, "XEphem*WebDB*URL%d.value", i);
 	    sr_reg (tf_w, buf, wdbcategory, 1);
