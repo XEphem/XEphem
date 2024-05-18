@@ -33,7 +33,7 @@ jobs:
     - name: Install XQuartz
       run: brew install xquartz --cask && brew info xquartz
     - name: Install groff
-      run: brew install groff --cask && brew info groff
+      run: brew install groff && brew info groff
     - name: Compile
       run: make -C GUI/xephem
     - name: Test
