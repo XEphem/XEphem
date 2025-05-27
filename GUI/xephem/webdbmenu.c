@@ -470,13 +470,29 @@ char *url;
 	}
 
 	/* create local file */
-    if (strstr (url+ltransport, "celestrak.org/NORAD/elements")){
-        group=strstr (url+ltransport,"GROUP=")+6;
-        ampersand=strstr (group,"&");
-        snprintf(filename, 255, "%s/%.*s.edb", getPrivateDir(), (int)(ampersand-group), group);
+	if (strstr (url+ltransport, "celestrak.org/NORAD/elements")){
+	    /* managing celestrak new URL format
+	     * https://celestrak.org/NORAD/documentation/gp-data-formats.php
+	     *
+	     * the code below looks for the GROUP= argument in the URL to infer
+	     * the destination filename */
+
+        /* fallback filename if no GROUP name found : */
+        snprintf(filename, 255, "%s/default-celestrak-download.edb", getPrivateDir());
+        /* look for GROUP= arg in url : */
+	    group=strstr (url+ltransport,"GROUP=")+6;
+        if (group != NULL){ /* if we find a GROUP= name */
+            ampersand=strstr (group,"&");   /* look for a potential ampersand separating args in the url */
+            if (ampersand==NULL){           /* if no ampersand, lets assume group is the only argument in the url */
+                snprintf(filename, 255, "%s/%s.edb", getPrivateDir(), group);
+            }
+            else{
+                snprintf(filename, 255, "%s/%.*s.edb", getPrivateDir(), (int)(ampersand-group), group);
+            }
+        }
     }
     else{
-	    slash = strrchr (url+ltransport, '/');
+        slash = strrchr (url+ltransport, '/');
         sprintf (filename, "%s/%.*sedb", getPrivateDir(), (int)(dot-slash), slash+1);
     }
 
