@@ -414,6 +414,7 @@ char *url;
 	char *l0p = l0, *l1p = l1, *l2p = l2;
 	char host[128];
 	char *slash, *dot;
+	char *group, *ampersand;
 	char filename[256];
 	FILE *fp;
 	XE_SSL_FD ssl_fd;
@@ -469,8 +470,16 @@ char *url;
 	}
 
 	/* create local file */
-	slash = strrchr (url+ltransport, '/');
-	sprintf (filename, "%s/%.*sedb", getPrivateDir(), (int)(dot-slash), slash+1);
+    if (strstr (url+ltransport, "celestrak.org/NORAD/elements")){
+        group=strstr (url+ltransport,"GROUP=")+6;
+        ampersand=strstr (group,"&");
+        snprintf(filename, 255, "%s/%.*s.edb", getPrivateDir(), (int)(ampersand-group), group);
+    }
+    else{
+	    slash = strrchr (url+ltransport, '/');
+        sprintf (filename, "%s/%.*sedb", getPrivateDir(), (int)(dot-slash), slash+1);
+    }
+
 	fp = fopen (filename, "w");
 	if (!fp) {
 	    xe_msg (1, "%s:\n%s", filename, syserrstr());
