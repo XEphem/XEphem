@@ -746,7 +746,7 @@ String fallbacks[] = {
     "XEphem*WebDB*Search.set: False",
     "XEphem*WebDB*URL0.value: https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=tle",
     "XEphem*WebDB*URL1.value: https://celestrak.org/NORAD/elements/gp.php?GROUP=science&FORMAT=tle",
-    "XEphem*WebDB*URL2.value: https://celestrak.org/NORAD/elements/gp.php?GROUP=tle-new&FORMAT=tle",
+    "XEphem*WebDB*URL2.value: https://celestrak.org/NORAD/elements/gp.php?GROUP=last-30-days&FORMAT=tle",
     "XEphem*WebDB*URL3.value: https://celestrak.org/NORAD/elements/gp.php?GROUP=amateur&FORMAT=tle",
     "XEphem*WebDB*URL4.value: https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle",
     "XEphem*WebDB*URL5.value: https://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft03Cmt.txt",
