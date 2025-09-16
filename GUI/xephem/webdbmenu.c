@@ -480,8 +480,9 @@ char *url;
         /* fallback filename if no GROUP name found : */
         snprintf(filename, 255, "%s/default-celestrak-download.edb", getPrivateDir());
         /* look for GROUP= arg in url : */
-	    group=strstr (url+ltransport,"GROUP=")+6;
+	    group=strstr (url+ltransport,"GROUP=");
         if (group != NULL){ /* if we find a GROUP= name */
+            group=group+6;
             ampersand=strstr (group,"&");   /* look for a potential ampersand separating args in the url */
             if (ampersand==NULL){           /* if no ampersand, lets assume group is the only argument in the url */
                 snprintf(filename, 255, "%s/%s.edb", getPrivateDir(), group);
