@@ -248,7 +248,7 @@ sub fetch
 {
     # transfer
     print "Getting $MPCFTPDIR/$MPCZIPFILE from $MPCSITE...\n";
-    $cmd = "curl -connect-timeout 10 -s -u 'anonymous:xephem\@github.com' $MPCSITE/$MPCFTPDIR/$MPCZIPFILE > $MPCZIPFILE";
+    $cmd = "curl --connect-timeout 10 -s -u 'anonymous:xephem\@github.com' $MPCSITE/$MPCFTPDIR/$MPCZIPFILE > $MPCZIPFILE";
     print "$cmd\n";
     !system "$cmd" or exit(1);
 
