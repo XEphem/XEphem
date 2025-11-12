@@ -29,8 +29,8 @@ char msg[])		/* return diagnostic message here, if returning -1 */
 {
 #define	GSC23MAXFOV	degrad(30./60.0)		/* max fov */
 	/* http://gsss.stsci.edu/webservices/vo/ConeSearch.aspx?RA=10.0&DEC=5.0&SR=0.2&FORMAT=CSV */
-	static char ifmt[] = "%[^,],%lf,%lf,%*[^,],%*[^,],%*[^,],%*[^,],%lf,%lf,%*[^,],%*[^,],%lf,%lf,%lf,%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%d";
-	static char gfmt[] = " GET http://%s%s?RA=%g&DEC=%g&SR=%g&FORMAT=CSV HTTP/1.0\r\nUser-Agent: xephem/%s\r\n\r\n";
+	static char ifmt[] = "%[^,],%*[^,],%*[^,],%*[^,],%lf,%lf,%*[^,],%*[^,],%*[^,], %*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%lf,%*[^,],%*[^,],%lf,%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%lf,%*[^,],%*[^,],%lf,%*[^,],%*[^,],%lf,%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%d";
+	static char gfmt[] = "GET http://%s%s?RA=%g&DEC=%g&SR=%g&FORMAT=CSV&CAT=GSC23 HTTP/1.0\r\nUser-Agent: xephem/%s\r\n\r\n";
 	char host[1024];
 	char buf[2048];
 	char *hp1;
