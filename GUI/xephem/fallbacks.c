@@ -825,7 +825,7 @@ String fallbacks[] = {
     "XEphem.DimStarColor: #666",
     "XEphem.EarthBackground: #151515",
     "XEphem.EarthBorderColor: #21a500",
-    "XEphem.EarthEclipseColor: #f0f",
+    "XEphem.EarthEclipseColor: #a0a",
     "XEphem.EarthGridColor: #6b6635",
     "XEphem.EarthHereColor: #ffff60",
     "XEphem.EarthSiteColor: #ff9b00",
