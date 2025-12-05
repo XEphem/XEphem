@@ -23,7 +23,7 @@ CFLAGS= -O2 -Wall
 # CFLAGS= -Aa -fast
 
 HS = astro.h bdl.h chap95.h deepconst.h preferences.h satlib.h satspec.h \
-	sattypes.h vector.h vsop87.h
+	sattypes.h vector.h vsop87.h eclipse.h
 
 OBJS =			\
 	aa_hadec.o	\
@@ -44,6 +44,7 @@ OBJS =			\
 	deep.o		\
 	deltat.o	\
 	earthsat.o	\
+	eclipse.o	\
 	eq_ecl.o	\
 	eq_gal.o	\
 	formats.o	\
