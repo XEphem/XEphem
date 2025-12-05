@@ -26,6 +26,7 @@
 #include <Xm/CascadeB.h>
 
 #include "xephem.h"
+#include "eclipse.h"
 
 /* these are from earthmap.c */
 extern MRegion ereg[];
@@ -150,6 +151,8 @@ static int e_drawcross (unsigned d, unsigned wb, unsigned hb, double lt,
 static int e_drawobject (Now *np, EObj *eop, int d, int wb, int hb);
 static int e_drawfootprint (Now *np, EObj *eop, int d, int wb, int hb,
     double slat, double slng, double el);
+static int e_draweclipsepathlocation (int d, int wb, int hb, double slat, double slng, double rad);
+static int e_draweclipsepath (Now *np, int d, int wb, int hb, double slat, double slng);
 static int e_drawcircle (Pixel pix, unsigned d, unsigned wb, unsigned hb,
     double slat, double slng, double rad);
 static int e_set_dasize (void);
@@ -3441,6 +3444,84 @@ double el;		/* satellite's elevation above surface, m */
 	return (isvis);
 }
 
+/* draw a circle onto e_pm within circle of diameter d and width and height
+ * borders wb and hb of the eclipse path location.
+ * return 1 if any part was visible, else 0.
+ */
+static int
+e_draweclipsepathlocation (d, wb, hb, slat, slng, rad)
+int d, wb, hb;		/* dia and width/height borders of circle to use */
+double slat, slng;	/* satellite's lat and lng */
+double rad;		/* diameter of circle, in radians */
+{
+	return e_drawcircle (ecolors[ECLIPSEC].p, d, wb, hb, slat, slng, rad);
+}
+
+/* draw an eclipse path */
+static int
+e_draweclipsepath (np, d, wb, hb, slat, slng)
+Now *np;		/* circumstances */
+int d, wb, hb;		/* dia and width/height borders of circle to use */
+double slat, slng;	/* satellite's lat and lng */
+{
+	Now enow;
+	Obj esun;
+	Obj emoon;
+	init_modifiable_instances (np, db_basic(SUN), db_basic(MOON), &enow, &esun, &emoon);
+	obj_cir (&enow, &esun);
+	obj_cir (&enow, &emoon);
+	if (is_eclipsing (&esun, &emoon)) {
+		double tickstart = 0.0;
+		double tickmid = 0.0;
+		double tickstop = 0.0;
+		if (find_eclipse_start_mid_stop (&enow, &esun, &emoon, &tickstart, &tickmid, &tickstop)) {
+			double elat = 0.0;
+			double elng = 0.0;
+			const double tickjump = AMINUTE * 8.0;
+			for (double tick = tickmid; tick > tickstart; tick -= tickjump) {
+				enow.n_mjd = tick;
+				obj_cir (&enow, &esun);
+				obj_cir (&enow, &emoon);
+				if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
+					e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
+				}
+			}
+			for (double tick = tickmid; tick < tickstop; tick += tickjump) {
+				enow.n_mjd = tick;
+				obj_cir (&enow, &esun);
+				obj_cir (&enow, &emoon);
+				if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
+					e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
+				}
+			}
+			enow.n_mjd = tickstart;
+			obj_cir (&enow, &esun);
+			obj_cir (&enow, &emoon);
+			if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
+				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
+				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(2));
+			}
+			enow.n_mjd = tickmid;
+			obj_cir (&enow, &esun);
+			obj_cir (&enow, &emoon);
+			if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
+				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
+				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(2));
+			}
+			enow.n_mjd = tickstop;
+			obj_cir (&enow, &esun);
+			obj_cir (&enow, &emoon);
+			if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
+				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
+				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(2));
+			}
+		}
+	}
+	e_draweclipsepathlocation (d, wb, hb, slat, slng, degrad(1));
+	e_draweclipsepathlocation (d, wb, hb, slat, slng, degrad(3));
+	return e_draweclipsepathlocation (d, wb, hb, slat, slng, degrad(5));
+}
+
 /* assuming the current vantage point of elat/elng, draw a circle around the
  *   given lat/long point of given angular radius.
  * all angles in rads.
@@ -4751,8 +4832,7 @@ unsigned d, wb, hb;
 	while (lg < -PI) lg += 2*PI;
 	while (lg >  PI) lg -= 2*PI;
 
-	XSetForeground (XtD, e_olgc, ecolors[ECLIPSEC].p);
-	e_drawcross (d, wb, hb, lt, lg, CROSSH);
+	e_draweclipsepath (np, d, wb, hb, lt, lg);
 }
 
 /* given a height above the earth, in meters, and an altitude above the
