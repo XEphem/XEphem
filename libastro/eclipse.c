@@ -1,4 +1,5 @@
 
+#include <stdlib.h>
 #include <math.h>
 #include <string.h>
 
@@ -200,6 +201,326 @@ bool get_eclipse_path_location( Now * pn, Obj * psun, Obj * pmoon, double * plt,
 					}
 				}
 			}
+		}
+	}
+	return retval;
+}
+
+Eclipse * malloc_eclipse_data( double tickstart, double tickmid, double tickstop, double latstart, double lonstart, double latmid, double lonmid, double latstop, double lonstop ) {
+	Eclipse * retval = malloc( sizeof( Eclipse ) );
+	if( retval ) {
+		retval->tickstart = tickstart;
+		retval->tickmid = tickmid;
+		retval->tickstop = tickstop;
+		retval->latstart = latstart;
+		retval->lonstart = lonstart;
+		retval->latmid = latmid;
+		retval->lonmid = lonmid;
+		retval->latstop = latstop;
+		retval->lonstop = lonstop;
+	}
+	return retval;
+}
+
+void free_eclipse_data( Eclipse * pe ) {
+	if( pe ) {
+		free( pe );
+		pe = NULL;
+	}
+}
+
+Saros * malloc_saros_data( int sarosnumber ) {
+	Saros * retval = malloc( sizeof( Saros ) );
+	if( retval ) {
+		retval->sarosnumber = sarosnumber;
+		for( size_t loop = 0; loop < MAXSAROSECLIPSES; ++loop ) {
+			retval->pe[loop] = NULL;
+		}
+		retval->eclipsecount = 0;
+	}
+	return retval;
+}
+
+void free_saros_data( Saros * ps ) {
+	if( ps ) {
+		for( size_t loop = 0; loop < ps->eclipsecount; ++loop ) {
+			free_eclipse_data( ps->pe[loop] );
+			ps->pe[loop] = NULL;
+		}
+		free( ps );
+		ps = NULL;
+	}
+}
+
+Inex * malloc_inex_data( int sarosnumbermin, int sarosnumbermax ) {
+	Inex * retval = NULL;
+	Inex * pi = malloc( sizeof( Inex ) );
+	if( pi ) {
+		pi->sarosnumbermin = sarosnumbermin;
+		pi->sarosnumbermax = sarosnumbermax;
+		/* The + 1 is to allow for negative saros numbers. */
+		pi->maxinexsaros = sarosnumbermax - sarosnumbermin + 1;
+		pi->ps = malloc( sizeof( Saros * ) * pi->maxinexsaros );
+		if( pi->ps ) {
+			for( size_t loop = 0; loop < pi->maxinexsaros; ++loop ) {
+				pi->ps[loop] = NULL;
+			}
+			pi->saroscount = 0;
+			retval = pi;
+		} else {
+			free( pi );
+			pi = NULL;
+		}
+	}
+	return retval;
+}
+
+void free_inex_data( Inex * pi ) {
+	if( pi ) {
+		if( pi->ps ) {
+			for( size_t loop = 0; loop < pi->saroscount; ++loop ) {
+				free_saros_data( pi->ps[loop] );
+				pi->ps[loop] = NULL;
+			}
+			free( pi->ps );
+			pi->ps = NULL;
+		}
+		free( pi );
+		pi = NULL;
+	}
+}
+
+int compare_saros_eclipses( const void * pa, const void * pb ) {
+	const Eclipse * pea = *(const Eclipse **)pa;
+	const Eclipse * peb = *(const Eclipse **)pb;
+	return pea->tickmid < peb->tickmid;
+}
+
+int compare_saros_eclipses_reverse( const void * pa, const void * pb ) {
+	return compare_saros_eclipses( pb, pa );
+}
+
+void sort_saros_data( Saros * ps ) {
+	if( ps ) {
+		qsort( ps->pe, ps->eclipsecount, sizeof( Eclipse * ), compare_saros_eclipses );
+	}
+}
+
+void sort_saros_data_reverse( Saros * ps ) {
+	if( ps ) {
+		qsort( ps->pe, ps->eclipsecount, sizeof( Eclipse * ), compare_saros_eclipses_reverse );
+	}
+}
+
+int compare_inex_saros( const void * pa, const void * pb ) {
+	const Saros * psa = *(const Saros **)pa;
+	const Saros * psb = *(const Saros **)pb;
+	return psa->sarosnumber < psb->sarosnumber;
+}
+
+int compare_inex_saros_reverse( const void * pa, const void * pb ) {
+	return compare_inex_saros( pb, pa );
+}
+
+void sort_inex_data( Inex * pi ) {
+	if( pi ) {
+		qsort( pi->ps, pi->saroscount, sizeof( Saros * ), compare_inex_saros );
+	}
+}
+
+void sort_inex_data_reverse( Inex * pi ) {
+	if( pi ) {
+		qsort( pi->ps, pi->saroscount, sizeof( Saros * ), compare_inex_saros_reverse );
+	}
+}
+
+bool scan_for_eclipse( double * ptick ) {
+	bool retval = false;
+	if( ptick ) {
+		Now enow;
+		Obj esun;
+		Obj emoon;
+		init_eclipse_now_sun_moon( &enow, &esun, &emoon, *ptick );
+		if( is_eclipsing( &esun, &emoon ) ) {
+			retval = true;
+		} else {
+			double tickminusmin = *ptick - ECLIPSESCANTIMERANGE;
+			double tickplusmax = *ptick + ECLIPSESCANTIMERANGE;
+			double tickminus = *ptick;
+			double tickplus = *ptick;
+			double increment = ECLIPSESCANTIMEINCREMENT;
+			while( ! retval ) {
+				if( tickminus >= tickminusmin ) {
+					update_eclipse_now_sun_moon( &enow, &esun, &emoon, tickminus );
+					if( is_eclipsing( &esun, &emoon ) ) {
+						*ptick = tickminus;
+						retval = true;
+						break;
+					}
+					tickminus -= increment;
+				}
+				if( tickplus <= tickplusmax ) {
+					update_eclipse_now_sun_moon( &enow, &esun, &emoon, tickplus );
+					if( is_eclipsing( &esun, &emoon ) ) {
+						*ptick = tickplus;
+						retval = true;
+						break;
+					}
+					tickplus += increment;
+				}
+				if( tickminus < tickminusmin && tickplus > tickplusmax ) {
+					break;
+				}
+			}
+		}
+	}
+	return retval;
+}
+
+bool scan_for_inex_eclipse( double * ptick, Saros * ps, double offset ) {
+	bool retval = false;
+	if( ptick && ps && ps->eclipsecount > 0 ) {
+		/*
+		 * Middle out search.
+		 * Because Saros middle eclipses are good Inex eclipse candidates.
+		*/
+		size_t indexminusmin = 0;
+		size_t indexplusmax = ps->eclipsecount;
+		size_t indexminus = indexplusmax / 2;
+		size_t indexplus = indexplusmax / 2;
+		double tick = 0.0;
+		while( ! retval ) {
+			if( indexminus >= indexminusmin ) {
+				tick = ps->pe[indexminus]->tickmid + offset;
+				if( scan_for_eclipse( &tick ) ) {
+					*ptick = tick;
+					retval = true;
+					break;
+				}
+				indexminus -= 1;
+			}
+			if( indexplus < indexplusmax ) {
+				tick = ps->pe[indexplus]->tickmid + offset;
+				if( scan_for_eclipse( &tick ) ) {
+					*ptick = tick;
+					retval = true;
+					break;
+				}
+				indexplus += 1;
+			}
+			if( indexminus < indexminusmin && indexplus >= indexplusmax ) {
+				break;
+			}
+		}
+	}
+	return retval;
+}
+
+bool add_eclipse_to_saros_data( Saros * ps, double tick ) {
+	bool retval = false;
+	if( ps ) {
+		if( ps->eclipsecount < MAXSAROSECLIPSES ) {
+			Now enow;
+			Obj esun;
+			Obj emoon;
+			double tickstart = 0.0;
+			double tickmid = 0.0;
+			double tickstop = 0.0;
+			double latstart = 0.0;
+			double lonstart = 0.0;
+			double latmid = 0.0;
+			double lonmid = 0.0;
+			double latstop = 0.0;
+			double lonstop = 0.0;
+			init_eclipse_now_sun_moon( &enow, &esun, &emoon, tick );
+			if( find_eclipse_start_mid_stop( &enow, &esun, &emoon, &tickstart, &tickmid, &tickstop ) ) {
+				update_eclipse_now_sun_moon( &enow, &esun, &emoon, tickstart );
+				get_eclipse_path_location( &enow, &esun, &emoon, &latstart, &lonstart );
+				update_eclipse_now_sun_moon( &enow, &esun, &emoon, tickmid );
+				get_eclipse_path_location( &enow, &esun, &emoon, &latmid, &lonmid );
+				update_eclipse_now_sun_moon( &enow, &esun, &emoon, tickstop );
+				get_eclipse_path_location( &enow, &esun, &emoon, &latstop, &lonstop );
+				Eclipse * pe = malloc_eclipse_data( tickstart, tickmid, tickstop, latstart, lonstart, latmid, lonmid, latstop, lonstop );
+				if( pe ) {
+					ps->pe[ps->eclipsecount] = pe;
+					ps->eclipsecount += 1;
+					retval = true;
+				}
+			}
+		} else {
+			fprintf( stderr, "ERROR: exceeded default (%i) Saros Eclipse capacity.\n", MAXSAROSECLIPSES );
+		}
+	}
+	return retval;
+}
+
+bool add_saros_to_inex_data( Inex * pi, int sarosnumber, double tick ) {
+	bool retval = false;
+	if( pi ) {
+		if( pi->saroscount < pi->maxinexsaros ) {
+			Saros * ps = malloc_saros_data( sarosnumber );
+			if( ps ) {
+				double tock = tick;
+				if( scan_for_eclipse( &tock ) ) {
+					if( add_eclipse_to_saros_data( ps, tock ) ) {
+						tock = tick - ASAROS;
+						while( scan_for_eclipse( &tock ) ) {
+							if( add_eclipse_to_saros_data( ps, tock ) ) {
+								tock -= ASAROS;
+							} else {
+								break;
+							}
+						}
+						tock = tick + ASAROS;
+						while( scan_for_eclipse( &tock ) ) {
+							if( add_eclipse_to_saros_data( ps, tock ) ) {
+								tock += ASAROS;
+							} else {
+								break;
+							}
+						}
+						sort_saros_data_reverse( ps );
+						pi->ps[pi->saroscount] = ps;
+						pi->saroscount += 1;
+						retval = true;
+					} else {
+						free_saros_data( ps );
+					}
+				} else {
+					free_saros_data( ps );
+				}
+			}
+		} else {
+			fprintf( stderr, "ERROR: exceeded default (%zu) Inex Saros capacity.\n", pi->maxinexsaros );
+		}
+	}
+	return retval;
+}
+
+Inex * create_inex( double tickseed, int sarosnumberseed, int sarosnumbermin, int sarosnumbermax ) {
+	Inex * retval = NULL;
+	Inex * pi = malloc_inex_data( sarosnumbermin, sarosnumbermax );
+	if( pi ) {
+		if( add_saros_to_inex_data( pi, sarosnumberseed, tickseed ) ) {
+			for( int loop = sarosnumberseed - 1; loop >= pi->sarosnumbermin; --loop ) {
+				double tick = 0.0;
+				if( scan_for_inex_eclipse( &tick, pi->ps[pi->saroscount - 1], -ANINEX ) ) {
+					if( ! add_saros_to_inex_data( pi, loop, tick ) ) {
+						break;
+					}
+				}
+			}
+			sort_inex_data_reverse( pi );
+			for( int loop = sarosnumberseed + 1; loop <= pi->sarosnumbermax; ++loop ) {
+				double tick = 0.0;
+				if( scan_for_inex_eclipse( &tick, pi->ps[pi->saroscount - 1], ANINEX ) ) {
+					if( ! add_saros_to_inex_data( pi, loop, tick ) ) {
+						break;
+					}
+				}
+			}
+			sort_inex_data_reverse( pi );
+			retval = pi;
 		}
 	}
 	return retval;
