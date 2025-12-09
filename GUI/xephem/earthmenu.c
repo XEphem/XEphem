@@ -3467,9 +3467,7 @@ double slat, slng;	/* satellite's lat and lng */
 	Now enow;
 	Obj esun;
 	Obj emoon;
-	init_modifiable_instances (np, db_basic(SUN), db_basic(MOON), &enow, &esun, &emoon);
-	obj_cir (&enow, &esun);
-	obj_cir (&enow, &emoon);
+	init_eclipse_now_sun_moon (&enow, &esun, &emoon, np->n_mjd);
 	if (is_eclipsing (&esun, &emoon)) {
 		double tickstart = 0.0;
 		double tickmid = 0.0;
@@ -3478,39 +3476,31 @@ double slat, slng;	/* satellite's lat and lng */
 			double elat = 0.0;
 			double elng = 0.0;
 			const double tickjump = AMINUTE * 8.0;
+			/* Draw intermediate eclipse path markers out from the center. */
 			for (double tick = tickmid; tick > tickstart; tick -= tickjump) {
-				enow.n_mjd = tick;
-				obj_cir (&enow, &esun);
-				obj_cir (&enow, &emoon);
+				update_eclipse_now_sun_moon (&enow, &esun, &emoon, tick);
 				if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
 					e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
 				}
 			}
 			for (double tick = tickmid; tick < tickstop; tick += tickjump) {
-				enow.n_mjd = tick;
-				obj_cir (&enow, &esun);
-				obj_cir (&enow, &emoon);
+				update_eclipse_now_sun_moon (&enow, &esun, &emoon, tick);
 				if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
 					e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
 				}
 			}
-			enow.n_mjd = tickstart;
-			obj_cir (&enow, &esun);
-			obj_cir (&enow, &emoon);
+			/* Draw start, mid, stop eclipse path markers. */
+			update_eclipse_now_sun_moon (&enow, &esun, &emoon, tickstart);
 			if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
 				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
 				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(2));
 			}
-			enow.n_mjd = tickmid;
-			obj_cir (&enow, &esun);
-			obj_cir (&enow, &emoon);
+			update_eclipse_now_sun_moon (&enow, &esun, &emoon, tickmid);
 			if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
 				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
 				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(2));
 			}
-			enow.n_mjd = tickstop;
-			obj_cir (&enow, &esun);
-			obj_cir (&enow, &emoon);
+			update_eclipse_now_sun_moon (&enow, &esun, &emoon, tickstop);
 			if (get_eclipse_path_location (&enow, &esun, &emoon, &elat, &elng)) {
 				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(1));
 				e_draweclipsepathlocation (d, wb, hb, elat, elng, degrad(2));
@@ -4814,10 +4804,10 @@ unsigned d, wb, hb;
 	* e.g. 3/20/2034 8:40 UTC good, 11:57 UTC bad
 	* https://eclipse.gsfc.nasa.gov/5MCSEmap/2001-2100/2034-03-20.gif
 	*/
-	/*
+/*
 	if (obj1.s_gaera > obj0.s_gaera)
 	    dRA = -dRA;
-	*/
+*/
 	if (obj1.s_gaera > obj0.s_gaera) {
 		if (diffgaera < 4.0) {
 			dRA = -dRA;	/* eastward */
