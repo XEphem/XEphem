@@ -26,8 +26,10 @@ void init_eclipse_obj( Obj * po, PLCode c ) {
 		memset( po, 0, sizeof( Obj ) );
 		po->o_type = PLANET;
 		po->pl_code = c;
-		// if( c == SUN ) strncpy( po->o_name, "Sun", MAXNM );
-		// if( c == MOON ) strncpy( po->o_name, "Moon", MAXNM );
+/*
+		if( c == SUN ) strncpy( po->o_name, "Sun", MAXNM );
+		if( c == MOON ) strncpy( po->o_name, "Moon", MAXNM );
+*/
 	} else {
 		fprintf( stderr, "ERROR: NULL passed to init_eclipse_obj().\n" );
 	}
