@@ -334,6 +334,12 @@ void sort_inex_data_reverse( Inex * pi ) {
 	}
 }
 
+/*
+ * ptick is a pointer to a MJD of interest.
+ * If an eclipse is found *ptick is updated to an eclipsing MJD.
+ * If generally useful, RANGE and INCREMENT could become function arguments.
+ * Returns true if a total solar eclipse is found near the MJD.
+*/
 bool scan_for_eclipse( double * ptick ) {
 	bool retval = false;
 	if( ptick ) {
@@ -497,30 +503,42 @@ bool add_saros_to_inex_data( Inex * pi, int sarosnumber, double tick ) {
 	return retval;
 }
 
+/*
+ * Allocates and returns a Inex->Saros->Eclipse data structure.
+ * Call free_inex_data() to free the allocated memory.
+ * tickseed is a MJD which should be during an eclipse.
+ * sarosnumberseed is a Saros number which should correlate with the tickseed eclipse.
+ * sarosnumbermin is the first Saros series of interest.
+ * sarosnumbermax is the last Saros series of interest.
+ * For example, the 8/11/1999 eclipse (36382) is part of Saros series 145.
+ * Returns an allocated Inex->Saros->Eclipse data structure.
+*/
 Inex * create_inex( double tickseed, int sarosnumberseed, int sarosnumbermin, int sarosnumbermax ) {
 	Inex * retval = NULL;
-	Inex * pi = malloc_inex_data( sarosnumbermin, sarosnumbermax );
-	if( pi ) {
-		if( add_saros_to_inex_data( pi, sarosnumberseed, tickseed ) ) {
-			for( int loop = sarosnumberseed - 1; loop >= pi->sarosnumbermin; --loop ) {
-				double tick = 0.0;
-				if( scan_for_inex_eclipse( &tick, pi->ps[pi->saroscount - 1], -ANINEX ) ) {
-					if( ! add_saros_to_inex_data( pi, loop, tick ) ) {
-						break;
+	if( sarosnumberseed >= sarosnumbermin && sarosnumberseed <= sarosnumbermax ) {
+		Inex * pi = malloc_inex_data( sarosnumbermin, sarosnumbermax );
+		if( pi ) {
+			if( add_saros_to_inex_data( pi, sarosnumberseed, tickseed ) ) {
+				for( int loop = sarosnumberseed - 1; loop >= pi->sarosnumbermin; --loop ) {
+					double tick = 0.0;
+					if( scan_for_inex_eclipse( &tick, pi->ps[pi->saroscount - 1], -ANINEX ) ) {
+						if( ! add_saros_to_inex_data( pi, loop, tick ) ) {
+							break;
+						}
 					}
 				}
-			}
-			sort_inex_data_reverse( pi );
-			for( int loop = sarosnumberseed + 1; loop <= pi->sarosnumbermax; ++loop ) {
-				double tick = 0.0;
-				if( scan_for_inex_eclipse( &tick, pi->ps[pi->saroscount - 1], ANINEX ) ) {
-					if( ! add_saros_to_inex_data( pi, loop, tick ) ) {
-						break;
+				sort_inex_data_reverse( pi );
+				for( int loop = sarosnumberseed + 1; loop <= pi->sarosnumbermax; ++loop ) {
+					double tick = 0.0;
+					if( scan_for_inex_eclipse( &tick, pi->ps[pi->saroscount - 1], ANINEX ) ) {
+						if( ! add_saros_to_inex_data( pi, loop, tick ) ) {
+							break;
+						}
 					}
 				}
+				sort_inex_data_reverse( pi );
+				retval = pi;
 			}
-			sort_inex_data_reverse( pi );
-			retval = pi;
 		}
 	}
 	return retval;
