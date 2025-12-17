@@ -4754,6 +4754,8 @@ unsigned d, wb, hb;
 	double diffgaera = 0.0;
 
 	now = *np;
+	now.n_lat = 0.0;
+	now.n_lng = 0.0;
 	obj0 = *op0;
 	obj1 = *op1;
 	diffgaera = fabs (obj1.s_gaera - obj0.s_gaera);
