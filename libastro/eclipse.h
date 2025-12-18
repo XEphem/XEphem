@@ -6,6 +6,7 @@
 extern "C" {
 #endif
 
+/* The stdbool.h header may require a true/false workaround on older systems. */
 #include <stdbool.h>
 
 #include "astro.h"
@@ -15,14 +16,19 @@ extern "C" {
 #define AMINUTE (ADAY / 24.0 / 60.0)
 #define ASECOND (ADAY / 24.0 / 60.0 / 60.0)
 #define AYEAR (ADAY * 365.2425)
+
+/* Saros and Inex are useful for increasing eclipse search speed. */
 #define ASAROS (ADAY * 6585.3211)
 #define ANINEX (ADAY * 10571.95)
 
+/* Slightly arbitrary values used by scan_for_eclipse(). */
 #define ECLIPSESCANTIMERANGE (ANHOUR * 8)
 #define ECLIPSESCANTIMEINCREMENT (ASECOND * 30)
 
+/* More than 100 eclipses per Saros series would be unusual. */
 #define MAXSAROSECLIPSES 100
 
+/* Used to store MJD and LAT/LON values of an eclipse. */
 typedef struct {
 	double tickstart;
 	double tickmid;
@@ -35,12 +41,14 @@ typedef struct {
 	double lonstop;
 } Eclipse;
 
+/* Used to store a Saros series of eclipses. */
 typedef struct {
 	int sarosnumber;
 	Eclipse * pe[MAXSAROSECLIPSES];
 	size_t eclipsecount;
 } Saros;
 
+/* Used to store Saros series. */
 typedef struct {
 	int sarosnumbermin;
 	int sarosnumbermax;
@@ -56,7 +64,7 @@ void update_eclipse_now_sun_moon( Now * pn, Obj * psun, Obj * pmoon, double tick
 
 bool calculate_decD( Obj * psun, Obj * pmoon, double * pdecD, double * pr0, double * pr1 );
 bool calculate_skyD( Obj * psun, Obj * pmoon, double decD, double * pskyD, double r0, double r1 );
-int is_eclipsing( Obj * psun, Obj * pmoon );
+bool is_eclipsing( Obj * psun, Obj * pmoon );
 void increment_eclipse_time( Now * pn, Obj * psun, Obj * pmoon, double offset );
 bool find_eclipse_start_mid_stop( Now * pn, Obj * psun, Obj * pmoon, double * pstart, double * pmid, double * pstop );
 bool get_eclipse_path_location( Now * pn, Obj * psun, Obj * pmoon, double * plt, double * plg );

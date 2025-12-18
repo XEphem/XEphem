@@ -90,7 +90,8 @@ bool calculate_skyD( Obj * psun, Obj * pmoon, double decD, double * pskyD, doubl
 	return retval;
 }
 
-int is_eclipsing( Obj * psun, Obj * pmoon ) {
+/* Call init_eclipse_now_sun_moon() or update_eclipse_now_sun_moon() first. */
+bool is_eclipsing( Obj * psun, Obj * pmoon ) {
 	double decD = 0.0;
 	double skyD = 0.0;
 	double r0 = 0.0;
@@ -100,6 +101,7 @@ int is_eclipsing( Obj * psun, Obj * pmoon ) {
 	return (validdecd && validskyd);
 }
 
+/* Change pn->n_mjd by +-offset until start/stop of eclipse. */
 void increment_eclipse_time( Now * pn, Obj * psun, Obj * pmoon, double offset ) {
 	if( pn && psun && pmoon ) {
 		double tick = pn->n_mjd;
@@ -111,6 +113,7 @@ void increment_eclipse_time( Now * pn, Obj * psun, Obj * pmoon, double offset ) 
 	}
 }
 
+/* FIX: brute force, could be more elegant. */
 bool find_eclipse_start_mid_stop( Now * pn, Obj * psun, Obj * pmoon, double * pstart, double * pmid, double * pstop ) {
 	bool retval = false;
 	if( pn && psun && pmoon ) {
@@ -149,16 +152,7 @@ bool get_eclipse_path_location( Now * pn, Obj * psun, Obj * pmoon, double * plt,
 			if( calculate_skyD( psun, pmoon, decD, &skyD, r0, r1 ) ) {
 				double theta = acos( decD / skyD );
 				double skyP = atan( skyD / r0 );
-
-				/* FIX: when asin() goes nan, kludge with arbitrary 1.3 ? */
-				/*
-				double skyT = asin( skyD * r0 / (sqrt( r0 * r0 ) + sqrt( skyD * skyD )) ) - skyP;
-				if( isnan( skyT ) ) {
-					skyT = 1.3;
-				}
-				*/
 				double skyT = asin( skyD * r0 / sqrt( r0 * r0 + skyD * skyD ) ) - skyP;
-
 				if( ! isnan( theta ) && ! isnan( skyP ) && ! isnan( skyT ) ) {
 					double sD = 0.0;
 					double dRA = 0.0;
@@ -205,6 +199,9 @@ bool get_eclipse_path_location( Now * pn, Obj * psun, Obj * pmoon, double * plt,
 	}
 	return retval;
 }
+
+
+/* Utility code for managing and sorting eclipse, Saros, and Inex data structures. */
 
 Eclipse * malloc_eclipse_data( double tickstart, double tickmid, double tickstop, double latstart, double lonstart, double latmid, double lonmid, double latstop, double lonstop ) {
 	Eclipse * retval = malloc( sizeof( Eclipse ) );
@@ -258,7 +255,7 @@ Inex * malloc_inex_data( int sarosnumbermin, int sarosnumbermax ) {
 	if( pi ) {
 		pi->sarosnumbermin = sarosnumbermin;
 		pi->sarosnumbermax = sarosnumbermax;
-		/* The + 1 is to allow for negative saros numbers. */
+		/* The + 1 supports negative saros numbers. */
 		pi->maxinexsaros = sarosnumbermax - sarosnumbermin + 1;
 		pi->ps = malloc( sizeof( Saros * ) * pi->maxinexsaros );
 		if( pi->ps ) {
@@ -334,10 +331,12 @@ void sort_inex_data_reverse( Inex * pi ) {
 	}
 }
 
+
 /*
  * ptick is a pointer to a MJD of interest.
  * If an eclipse is found *ptick is updated to an eclipsing MJD.
  * If generally useful, RANGE and INCREMENT could become function arguments.
+ * FIX: brute force, could be more elegant.
  * Returns true if a total solar eclipse is found near the MJD.
 */
 bool scan_for_eclipse( double * ptick ) {
@@ -356,6 +355,7 @@ bool scan_for_eclipse( double * ptick ) {
 			double tickplus = *ptick;
 			double increment = ECLIPSESCANTIMEINCREMENT;
 			while( ! retval ) {
+				/* before *ptick */
 				if( tickminus >= tickminusmin ) {
 					update_eclipse_now_sun_moon( &enow, &esun, &emoon, tickminus );
 					if( is_eclipsing( &esun, &emoon ) ) {
@@ -365,6 +365,7 @@ bool scan_for_eclipse( double * ptick ) {
 					}
 					tickminus -= increment;
 				}
+				/* after *ptick */
 				if( tickplus <= tickplusmax ) {
 					update_eclipse_now_sun_moon( &enow, &esun, &emoon, tickplus );
 					if( is_eclipsing( &esun, &emoon ) ) {
@@ -396,6 +397,7 @@ bool scan_for_inex_eclipse( double * ptick, Saros * ps, double offset ) {
 		size_t indexplus = indexplusmax / 2;
 		double tick = 0.0;
 		while( ! retval ) {
+			/* previous eclipse */
 			if( indexminus >= indexminusmin ) {
 				tick = ps->pe[indexminus]->tickmid + offset;
 				if( scan_for_eclipse( &tick ) ) {
@@ -405,6 +407,7 @@ bool scan_for_inex_eclipse( double * ptick, Saros * ps, double offset ) {
 				}
 				indexminus -= 1;
 			}
+			/* next eclipse */
 			if( indexplus < indexplusmax ) {
 				tick = ps->pe[indexplus]->tickmid + offset;
 				if( scan_for_eclipse( &tick ) ) {
@@ -469,6 +472,7 @@ bool add_saros_to_inex_data( Inex * pi, int sarosnumber, double tick ) {
 				double tock = tick;
 				if( scan_for_eclipse( &tock ) ) {
 					if( add_eclipse_to_saros_data( ps, tock ) ) {
+						/* previous Saros */
 						tock = tick - ASAROS;
 						while( scan_for_eclipse( &tock ) ) {
 							if( add_eclipse_to_saros_data( ps, tock ) ) {
@@ -477,6 +481,7 @@ bool add_saros_to_inex_data( Inex * pi, int sarosnumber, double tick ) {
 								break;
 							}
 						}
+						/* next Saros */
 						tock = tick + ASAROS;
 						while( scan_for_eclipse( &tock ) ) {
 							if( add_eclipse_to_saros_data( ps, tock ) ) {
@@ -491,9 +496,11 @@ bool add_saros_to_inex_data( Inex * pi, int sarosnumber, double tick ) {
 						retval = true;
 					} else {
 						free_saros_data( ps );
+						ps = NULL;
 					}
 				} else {
 					free_saros_data( ps );
+					ps = NULL;
 				}
 			}
 		} else {
@@ -504,7 +511,7 @@ bool add_saros_to_inex_data( Inex * pi, int sarosnumber, double tick ) {
 }
 
 /*
- * Allocates and returns a Inex->Saros->Eclipse data structure.
+ * Allocates and returns an Inex->Saros->Eclipse data structure.
  * Call free_inex_data() to free the allocated memory.
  * tickseed is a MJD which should be during an eclipse.
  * sarosnumberseed is a Saros number which should correlate with the tickseed eclipse.
@@ -519,6 +526,7 @@ Inex * create_inex( double tickseed, int sarosnumberseed, int sarosnumbermin, in
 		Inex * pi = malloc_inex_data( sarosnumbermin, sarosnumbermax );
 		if( pi ) {
 			if( add_saros_to_inex_data( pi, sarosnumberseed, tickseed ) ) {
+				/* previous Inex */
 				for( int loop = sarosnumberseed - 1; loop >= pi->sarosnumbermin; --loop ) {
 					double tick = 0.0;
 					if( scan_for_inex_eclipse( &tick, pi->ps[pi->saroscount - 1], -ANINEX ) ) {
@@ -527,7 +535,9 @@ Inex * create_inex( double tickseed, int sarosnumberseed, int sarosnumbermin, in
 						}
 					}
 				}
+				/* sort so ps[pi->saroscount - 1] points to correct eclipse in loop */
 				sort_inex_data_reverse( pi );
+				/* next Inex */
 				for( int loop = sarosnumberseed + 1; loop <= pi->sarosnumbermax; ++loop ) {
 					double tick = 0.0;
 					if( scan_for_inex_eclipse( &tick, pi->ps[pi->saroscount - 1], ANINEX ) ) {
@@ -536,6 +546,7 @@ Inex * create_inex( double tickseed, int sarosnumberseed, int sarosnumbermin, in
 						}
 					}
 				}
+				/* This sort order is arbitrary. */
 				sort_inex_data_reverse( pi );
 				retval = pi;
 			}
