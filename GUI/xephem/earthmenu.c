@@ -4754,12 +4754,11 @@ unsigned d, wb, hb;
 	double diffgaera = 0.0;
 
 	now = *np;
-	now.n_lat = 0.0;
-	now.n_lng = 0.0;
 	obj0 = *op0;
 	obj1 = *op1;
-	diffgaera = fabs (obj1.s_gaera - obj0.s_gaera);
 
+	now.n_lat = 0.0; /* Stabilize 'current totality' eclipse path marker. */
+	now.n_lng = 0.0; /* Stabilize 'current totality' eclipse path marker. */
 	now.n_epoch = EOD;
 	(void) obj_cir (&now, &obj0);
 	if (is_ssobj(&obj0))
@@ -4773,6 +4772,7 @@ unsigned d, wb, hb;
 	else
 	    r1 = 1e7;				/* way past pluto */
 
+	diffgaera = fabs (obj1.s_gaera - obj0.s_gaera);
 	decA = obj1.s_gaedec - obj0.s_gaedec;
 	decD = r0*r1*sin(decA)/(r0 - r1);	/* similar triangles */
 	if (fabs(decD) >= 1.0)
@@ -4802,9 +4802,10 @@ unsigned d, wb, hb;
 	/*
 	* FIX: arbitrary 4.0 kludge, to avoid eclipse path LAT/LON bugs
 	* where the eclipse path location is occassionally incorrect
-	* maybe because the Moon crosses the equator ?
-	* e.g. 3/20/2034 8:40 UTC good, 11:57 UTC bad
+	* e.g. 3/20/2034 8:40 UTC good, 11:40 UTC bad
 	* https://eclipse.gsfc.nasa.gov/5MCSEmap/2001-2100/2034-03-20.gif
+	* maybe because the Moon crosses the equator ?
+	* (see Moon s_gaera wrap at around 10:37:59 UTC)
 	*/
 /*
 	if (obj1.s_gaera > obj0.s_gaera)
