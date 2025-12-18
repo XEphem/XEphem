@@ -4685,6 +4685,8 @@ unsigned d, wb, hb;
 	obj0 = *op0;
 	obj1 = *op1;
 
+	now.n_lat = 0.0; /* Stabilize 'current totality' eclipse path marker. */
+	now.n_lng = 0.0; /* Stabilize 'current totality' eclipse path marker. */
 	now.n_epoch = EOD;
 	(void) obj_cir (&now, &obj0);
 	if (is_ssobj(&obj0))
