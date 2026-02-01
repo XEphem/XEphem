@@ -2633,6 +2633,9 @@ sv_create_svshell()
 	sr_reg (NULL, sv_viewupres(), skycategory, 0);
 
 	n = 0;
+
+	XtSetArg (args[n], XmNtraversalOn, False); n++;
+
 	svform_w = XmCreateForm (svshell_w, "SVForm", args, n);
 	XtAddCallback (svform_w, XmNhelpCallback, sv_help_cb, 0);
 	XtManageChild (svform_w);
@@ -2945,10 +2948,16 @@ sv_create_svshell()
 	XtSetArg (args[n], XmNleftWidget, fov_w); n++;
 	XtSetArg (args[n], XmNrightAttachment, XmATTACH_WIDGET); n++;
 	XtSetArg (args[n], XmNrightWidget, altdec_w); n++;
+
+	/* XtSetArg (args[n], XmNtraversalOn, False); n++; */
+
 	fr_w = XmCreateFrame (svform_w, "MapF", args, n);
 	XtManageChild (fr_w);
 
 	    n = 0;
+
+	    XtSetArg (args[n], XmNtraversalOn, False); n++;
+
 	    svda_w = XmCreateDrawingArea (fr_w, "SkyMap", args, n);
 	    XtAddCallback (svda_w, XmNexposeCallback, sv_da_exp_cb, 0);
 	    mask = Button1MotionMask | Button2MotionMask | ButtonPressMask
@@ -2989,17 +2998,17 @@ sv_create_svshell()
 	/* init toolbar to match options */
 	svtb_sync();
 
-#if XmVersion == 1001
-	/* try to connect arrow and page up/down keys to FOV initially */
-	XmProcessTraversal (fov_w, XmTRAVERSE_CURRENT);
-	XmProcessTraversal (fov_w, XmTRAVERSE_CURRENT); /* yes, twice!! */
-#endif
+/* #if XmVersion == 1001 */
+/* 	/\* try to connect arrow and page up/down keys to FOV initially *\/ */
+/* 	XmProcessTraversal (fov_w, XmTRAVERSE_CURRENT); */
+/* 	XmProcessTraversal (fov_w, XmTRAVERSE_CURRENT); /\* yes, twice!! *\/ */
+/* #endif */
 
-#ifdef XmNinitialFocus
-	/* try to connect arrow and page up/down keys to FOV initially */
-	/* this approach showed up in Motif 1.2 */
-	set_something (svform_w, XmNinitialFocus, (XtArgVal)fov_w);
-#endif
+/* #ifdef XmNinitialFocus */
+/* 	/\* try to connect arrow and page up/down keys to FOV initially *\/ */
+/* 	/\* this approach showed up in Motif 1.2 *\/ */
+/* 	set_something (svform_w, XmNinitialFocus, (XtArgVal)fov_w); */
+/* #endif */
 
 	/* make the gcs and set up pixels */
 	sv_mk_gcs();
@@ -6836,6 +6845,7 @@ Cardinal *n;
 	/* perform the action */
 	what = atoi(p[0]);
 	factor = atof(p[1]);
+	printf("SVScut %d %f\n", what, factor);
 	switch (what) {
 	case 0:			/* pan horizontal */
 	    /* account for flipping and somewhat faster near poles */

@@ -1410,6 +1410,7 @@ Cardinal *n;
 	    printf ("Bad go_action: %p %d %p\n", n, n?*n:0, p);
 	    abort();
 	}
+	printf("mm_go_action: %p %d %p\n", n, n?*n:0, p);
 
 	/* avoid runaway auto reps */
 	XSync (XtD, True);

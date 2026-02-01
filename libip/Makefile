@@ -4,6 +4,7 @@
 # gcc
 CC = gcc
 CFLAGS= -I../libastro -O2 -Wall
+#CFLAGS= -I../libastro -O2 -Wall -Werror=strict-prototypes
 
 # macosx universal binary
 # CFLAGS= -I../libastro -O2 -Wall -arch i386 -arch ppc
