@@ -2,8 +2,6 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/XEphem/XEphem)
 ![GitHub Release Date](https://img.shields.io/github/release-date/XEphem/XEphem)
 ![GitHub repo size](https://img.shields.io/github/repo-size/XEphem/XEphem)
-![GitHub all releases](https://img.shields.io/github/downloads/XEphem/XEphem/total)
-![GitHub](https://img.shields.io/github/license/XEphem/XEphem)
 
 # Welcome to XEphem!
 
