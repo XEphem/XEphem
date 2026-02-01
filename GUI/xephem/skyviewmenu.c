@@ -2633,6 +2633,10 @@ sv_create_svshell()
 	sr_reg (NULL, sv_viewupres(), skycategory, 0);
 
 	n = 0;
+
+	/* Support arrow key navigation of map. */
+	XtSetArg (args[n], XmNtraversalOn, False); n++;
+
 	svform_w = XmCreateForm (svshell_w, "SVForm", args, n);
 	XtAddCallback (svform_w, XmNhelpCallback, sv_help_cb, 0);
 	XtManageChild (svform_w);
@@ -2949,6 +2953,10 @@ sv_create_svshell()
 	XtManageChild (fr_w);
 
 	    n = 0;
+
+	    /* Support arrow key navigation of map. */
+	    XtSetArg (args[n], XmNtraversalOn, False); n++;
+
 	    svda_w = XmCreateDrawingArea (fr_w, "SkyMap", args, n);
 	    XtAddCallback (svda_w, XmNexposeCallback, sv_da_exp_cb, 0);
 	    mask = Button1MotionMask | Button2MotionMask | ButtonPressMask
@@ -2988,18 +2996,6 @@ sv_create_svshell()
 
 	/* init toolbar to match options */
 	svtb_sync();
-
-#if XmVersion == 1001
-	/* try to connect arrow and page up/down keys to FOV initially */
-	XmProcessTraversal (fov_w, XmTRAVERSE_CURRENT);
-	XmProcessTraversal (fov_w, XmTRAVERSE_CURRENT); /* yes, twice!! */
-#endif
-
-#ifdef XmNinitialFocus
-	/* try to connect arrow and page up/down keys to FOV initially */
-	/* this approach showed up in Motif 1.2 */
-	set_something (svform_w, XmNinitialFocus, (XtArgVal)fov_w);
-#endif
 
 	/* make the gcs and set up pixels */
 	sv_mk_gcs();
@@ -6824,6 +6820,7 @@ Cardinal *n;
 {
 	int what;
 	double factor;
+	double lower_alt, upper_alt, fattest_alt;
 
 	if (!(n && *n == 2)) {
 	    printf ("Bad sv_shortcuts: %p %d %p\n", n, n?*n:0, p);
@@ -6836,11 +6833,32 @@ Cardinal *n;
 	/* perform the action */
 	what = atoi(p[0]);
 	factor = atof(p[1]);
+
 	switch (what) {
 	case 0:			/* pan horizontal */
-	    /* account for flipping and somewhat faster near poles */
-	    sv_azra += factor*sv_hfov*((aa_mode ^ flip_lr) ? 1 : -1)
-					    /(1+.9*(cos(sv_altdec)-1));
+	    /* Q: How can we keep panning speed stable, when the lines
+	       of azimuth draw so close together at the zenith compared
+	       to the horizon, making steps of a given azimuth so much
+	       smaller?
+
+	       A: We figure out where on the view the "fattest" azimuth
+	       lines are, whether at the top, or the bottom, or in the
+	       middle (if the horizon or equator is currently in view).
+	       Then, we increase our rotation angle speed to give decent
+	       velocity at that "fattest" circle of altitude. */
+
+	    lower_alt = sv_altdec - sv_vfov / 2.0; /* at bottom of view */
+	    upper_alt = sv_altdec + sv_vfov / 2.0; /* at top of view */
+
+	    if (upper_alt < 0.0)
+		fattest_alt = upper_alt; /* entire view below horizon */
+	    else if (lower_alt > 0.0)
+		fattest_alt = lower_alt; /* entire view above horizon */
+	    else
+		fattest_alt = 0.0; /* the view straddles the horizon */
+
+	    factor /= cos(fattest_alt);
+	    sv_azra += factor * sv_dfov * ((aa_mode ^ flip_lr) ? 1 : -1);
 	    range (&sv_azra, 2*PI);
 	    sv_set_scale(AZRA_S, 0);
 	    break;
