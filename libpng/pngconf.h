@@ -344,36 +344,12 @@
  * them inside an appropriate ifdef/endif pair for portability.
  */
 
-#if defined(PNG_FLOATING_POINT_SUPPORTED)
-#  if defined(MACOS)
-     /* We need to check that <math.h> hasn't already been included earlier
-      * as it seems it doesn't agree with <fp.h>, yet we should really use
-      * <fp.h> if possible.
-      */
-#    if !defined(__MATH_H__) && !defined(__MATH_H) && !defined(__cmath__)
-#      include <fp.h>
-#    endif
-#  else
-#    include <math.h>
-#  endif
-#  if defined(_AMIGA) && defined(__SASC) && defined(_M68881)
-     /* Amiga SAS/C: We must include builtin FPU functions when compiling using
-      * MATH=68881
-      */
-#    include <m68881.h>
-#  endif
-#endif
-
-/* Codewarrior on NT has linking problems without this. */
-#if (defined(__MWERKS__) && defined(WIN32)) || defined(__STDC__)
-#  define PNG_ALWAYS_EXTERN
-#endif
-
-/* This provides the non-ANSI (far) memory allocation routines. */
-#if defined(__TURBOC__) && defined(__MSDOS__)
-#  include <mem.h>
-#  include <alloc.h>
-#endif
+/* XEphem tweak: previously, a tangle of `#if` guards selected 'fp.h'
+ * here under macOS.  But it looks like that hasn't been necessary for a
+ * very long time, and it now breaks under the most recent macOS.  So,
+ * with fingers crossed, let's always try `math.h`.
+ */
+#include <math.h>
 
 /* I have no idea why is this necessary... */
 #if defined(_MSC_VER) && (defined(WIN32) || defined(_Windows) || \
