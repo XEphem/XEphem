@@ -4679,7 +4679,7 @@ unsigned d, wb, hb;
 	Now now;			/* local copy to compute EOD info */
 	double lst, gst;		/* local and UTC time */
 	double lt, lg;			/* lat/long */
-	double sD, dRA;
+	double sD, dRA, dgaera;
 
 	now = *np;
 	obj0 = *op0;
@@ -4724,7 +4724,9 @@ unsigned d, wb, hb;
 
 	lt = asin(sD);
 
-	if (obj1.s_gaera > obj0.s_gaera)
+	dgaera = obj1.s_gaera - obj0.s_gaera ;
+	/* both s_gaera in the range 0.. 2*PI. dgaera in the range -2*Pi .. 2*Pi */
+	if ( dgaera > 0 && dgaera < PI || dgaera < -PI )
 	    dRA = -dRA;	/* eastward */
 
 	lst = obj0.s_gaera - dRA;
