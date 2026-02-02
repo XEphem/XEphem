@@ -11,7 +11,7 @@ on:
       - main
 
 jobs:
-  compile-linux-and-test:
+  linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -22,8 +22,8 @@ jobs:
     - name: Test
       run: make -C tests
 
-  compile-macos:
-    runs-on: macos-latest
+  macos-intel-processor:
+    runs-on: macos-15-intel
     steps:
     - uses: actions/checkout@v2
     - name: Install OpenMotif
@@ -39,7 +39,7 @@ jobs:
     - name: Test
       run: make -C tests
 
-  compile-apple-silicon:
+  macos-m1-processor:
     runs-on: macos-14
     steps:
     - uses: actions/checkout@v2
