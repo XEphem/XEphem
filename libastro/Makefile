@@ -44,6 +44,7 @@ OBJS =			\
 	deep.o		\
 	deltat.o	\
 	earthsat.o	\
+	eclipses.o	\
 	eq_ecl.o	\
 	eq_gal.o	\
 	formats.o	\
