@@ -650,6 +650,10 @@ extern double deltat (double m);
 /* earthsat.c */
 extern int obj_earthsat (Now *np, Obj *op);
 
+/* eclipses.c */
+extern int solar_eclipse_center(Obj *sunp, Obj *moonp, Now *np,
+    double *lt_out, double *lg_out);
+
 /* eq_ecl.c */
 extern void eq_ecl (double m, double ra, double dec, double *lt,double *lg);
 extern void ecl_eq (double m, double lt, double lg, double *ra,double *dec);
