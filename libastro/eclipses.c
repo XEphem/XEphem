@@ -67,7 +67,7 @@ double *lt_out, *lg_out;
 	Now now;			/* local copy to compute EOD info */
 	double lst, gst;		/* local and UTC time */
 	double lt, lg;			/* lat/long */
-	double sD, dRA;
+	double sD, dRA, dgaera;
 
 	obj0 = *sunp;
 	obj1 = *moonp;
@@ -112,8 +112,11 @@ double *lt_out, *lg_out;
 
 	lt = asin(sD);
 
-	if (obj1.s_gaera > obj0.s_gaera)
-	    dRA = -dRA;	/* eastward */
+        dgaera = obj1.s_gaera - obj0.s_gaera;
+	/* each s_gaera is in the range 0..2*PI, so dgaera is -2*Pi .. 2*Pi.
+           this prevents the longitude from wrongly switching direction. */
+	if ((dgaera > 0 && dgaera < PI) || dgaera < -PI)
+	    dRA = -dRA;  /* eastward */
 
 	lst = obj0.s_gaera - dRA;
 	utc_gst (mjd_day(mjd), mjd_hr(mjd), &gst);
