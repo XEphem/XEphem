@@ -16,7 +16,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install Ubuntu packages
-      run: grep 'sudo apt install' INSTALL | sed 's/\$//' | sh
+      run: |
+        sudo apt update
+        grep 'sudo apt install' INSTALL | sed 's/.*sudo/sudo/' | sh
     - name: Compile
       run: make -C GUI/xephem
     - name: Test
