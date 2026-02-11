@@ -75,3 +75,20 @@ for building an XEphem RPM package.
 ![Moon view](/GUI/xephem/help/png/moon.png?raw=true)
 
 ![Earth view](/GUI/xephem/help/png/earth.png?raw=true)
+
+## Releasing XEphem
+
+Here’s the list by which the current maintainer, Brandon Rhodes,
+remembers what he’s supposed to update each time he makes a new
+XEphem release:
+
+* `GUI/xephem/patchlevel.c` — update the version number and date.
+* `GUI/xephem/xephem.man` — update the year and month.
+* `INSTALL` — update the version number in the URL, ‘tar’, and ‘cd’.
+* `Site/changes.html` — add a changelog entry for the new version.
+* `xephem.spec` — update the version number.
+
+The script `Tools/check-version.sh` in the repository
+can be run to grep for the relevant lines in these files,
+to let the maintainer verify
+whether all of the version numbers match.

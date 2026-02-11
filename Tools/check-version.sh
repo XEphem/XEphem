@@ -7,9 +7,12 @@
 set -e
 cd "$(readlink -f $(dirname "${BASH_SOURCE[0]}"))"
 cd ..
+grep -H PATCHLEVEL GUI/xephem/patchlevel.c
+grep -H PATCHDATE GUI/xephem/patchlevel.c
+grep -H '^\.TH' GUI/xephem/xephem.man
 for s in archive/refs/tags 'tar xfz' 'cd xephem'
 do
     grep -H "$s" INSTALL
 done
-grep -H PATCHLEVEL GUI/xephem/patchlevel.c
+grep -H 'H3' Site/changes.html | head -1
 grep -H '^Version' xephem.spec
