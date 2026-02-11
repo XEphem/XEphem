@@ -11,11 +11,16 @@ Released 2025 February ?.
 <ul>
   <li>XEphem’s original author and longtime maintainer,
       Elwood Downey,
-      is no longer with us,
+      passed away in January,
       but he made one final contribution:
       the <tt>wmm.cof</tt> World Magnetic Model file has been updated
       to reflect the new WMM2025 data that was released on December 17, 2024.
-      Thanks for creating XEphem, Elwood!
+      We owe Elwood a great debt of thanks for creating XEphem.
+  <li>Bugfix: the small ‘X’ on the Earth View
+      that marks the center of totality during a solar eclipse
+      would sometimes stop moving east
+      and incorrectly start moving west.
+      It should now move east for the whole duration of an eclipse.
   <li>The main <tt>Makefile</tt> has been tweaked to support
       modern Apple Silicon systems.
   <li>Fixed a compiler error on Apple Silicon systems:
@@ -24,7 +29,7 @@ Released 2025 February ?.
       whose compilers are becoming more strict:
       <i>warning: implicit declaration of function `strptime'</i>.
   <li>The Celestrak URLs from which satellite elements are downloaded
-      have been upgraded from ‘http’ to ‘https’.
+      have been upgraded from ‘http://’ to ‘https://’.
 </ul>
 
 <H3>Changes from 4.1.0 to 4.2.0</H3>
