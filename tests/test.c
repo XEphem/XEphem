@@ -45,5 +45,31 @@ int main() {
                        3.6.7 RA 16:46:16.01  Dec -11:05:43.7
 */
 
+     printf("\nEclipse track for 2034 March 20 at 20-minute intervals:\n");
+
+     Obj sun, moon;
+     Now now;
+     double lt, lg;
+
+     sun.o_type = PLANET;
+     sun.pl_code = SUN;
+     sun.pl_moon = X_PLANET;
+
+     moon.o_type = PLANET;
+     moon.pl_code = MOON;
+     moon.pl_moon = X_PLANET;
+
+     cal_mjd(3, 20, 2034, &(now.n_mjd));
+     now.n_mjd += 9.0 / 24.0;  /* advance 9 more hours */
+
+     int r;
+     while (1) {
+          r = solar_eclipse_center(&sun, &moon, &now, &lt, &lg);
+          if (!r)
+               break;
+          printf("Lat %.1f Lon %.1f\n", raddeg(lt), raddeg(lg));
+          now.n_mjd += 1.0 / 24.0 / 3.0;  /* 1/3 of an hour is 20 minutes */
+     }
+
      return 0;
 }
