@@ -613,31 +613,36 @@ String fallbacks[] = {
     "XEphem*SkyView*TToolbar*spacing: 2",
     "XEphem*SkyView*translations: #override    \\n"
 
-        "None<Key>osfLeft:      SVScut(0,-.03) \\n"
-        "None<Key>osfRight:     SVScut(0, .03) \\n"
-        "None<Key>osfUp:        SVScut(1, .03) \\n"
-        "None<Key>osfDown:      SVScut(1,-.03) \\n"
-        "None<Key>osfPageUp:       SVScut(2, .95) \\n"
+    /* These seem to work (or at least they do on Linux). */
+
+        "None<Key>osfLeft:      SVScut(0,-0.03125) \\n"
+        "None<Key>osfRight:     SVScut(0, 0.03125) \\n"
+        "None<Key>osfUp:        SVScut(1, 0.03125) \\n"
+        "None<Key>osfDown:      SVScut(1,-0.03125) \\n"
+        "None<Key>osfPageUp:    SVScut(2, 0.95) \\n"
         "None<Key>osfPageDown:  SVScut(2, 1.05) \\n"
 
-        "None<Key>Prior:       SVScut(2, .98) \\n"
-        "None<Key>Next:  SVScut(2,1.02) \\n"
+    /* Not sure about these? */
 
-        "None<Key>KP_Left:      SVScut(0,-.02) \\n"
-        "Shift<Key>KP_Left:     SVScut(0,-.10) \\n"
-        "None<Key>KP_Right:     SVScut(0, .02) \\n"
-        "Shift<Key>KP_Right:    SVScut(0, .10) \\n"
-        "None<Key>KP_Up:        SVScut(1, .02) \\n"
-        "Shift<Key>KP_Up:       SVScut(1, .10) \\n"
-        "None<Key>KP_Down:      SVScut(1,-.02) \\n"
-        "Shift<Key>KP_Down:     SVScut(1,-.10) \\n"
-        "None<Key>KP_Add:       SVScut(2, .98) \\n"
-        "Shift<Key>KP_Add:      SVScut(2, .90) \\n"
-        "None<Key>KP_Subtract:  SVScut(2,1.02) \\n"
-        "Shift<Key>KP_Subtract: SVScut(2,1.10) \\n"
+        "None<Key>Prior:        SVScut(2, 0.95) \\n"
+        "None<Key>Next:         SVScut(2, 1.05) \\n"
+
+    /* These don't seem to do anything, but they've been part of XEphem
+       for years, so let's keep them just in case? */
+
+        "None<Key>KP_Left:      SVScut(0,-0.03125) \\n"
+        "None<Key>KP_Right:     SVScut(0, 0.03125) \\n"
+        "None<Key>KP_Up:        SVScut(1, 0.03125) \\n"
+        "None<Key>KP_Down:      SVScut(1,-0.03125) \\n"
+        "None<Key>KP_Add:       SVScut(2, 0.95) \\n"
+        "None<Key>KP_Subtract:  SVScut(2, 1.05) \\n"
+
+    /* TODO: investigate what these are supposed to do. */
+
         "Ctrl<Key>f: 		XeGo(1)        \\n"
         "Ctrl<Key>b: 		XeGo(-1)       \\n"
         "Ctrl<Key>u: 		XeGo(0)",
+
     "XEphem*SkyView.height: 600",
     "XEphem*SkyView.width: 600",
     "XEphem*SkyView.x: 258",
