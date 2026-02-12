@@ -6833,6 +6833,7 @@ Cardinal *n;
 {
 	int what;
 	double factor;
+	double lower_alt, upper_alt, fattest_alt;
 
 	if (!(n && *n == 2)) {
 	    printf ("Bad sv_shortcuts: %p %d %p\n", n, n?*n:0, p);
@@ -6842,21 +6843,65 @@ Cardinal *n;
 	/* disable any image display */
 	si_off();
 
+	/* when zoomed out, we want left-right to be the same amount of
+	   rotation whether aimed at the horizon or at the zenith.
+	   zoomed out means: sv_dfov at sqrt(2) * pi = 4.4428829.
+	   as we zoom in, we want motion up and down to be proportional;
+	   easy.
+	   but we also want motion sideways = spinning the globe
+	   to be proportional: at the pole, the SAME as before, so the spin
+	   at the pole stays constant even as we zoom in and out;
+	   but at the horizon, the same as the motion left and right.
+	   user should say: what fraction of the screen they want to move.
+
+	   when the user presses Left or Right, we need to adjust our
+	   step size, because at a high zoom level, an area close to the
+	   pole will move far less than an area at the horizon, because
+	   lines of azimuth / longitude are so close together near the pole.
+
+	   so let's figure out what the least latitude on the page is.
+	 */
+
 	/* perform the action */
 	what = atoi(p[0]);
 	factor = atof(p[1]);
-	printf("SVScut %d %f\n", what, factor);
+
+	/* printf("%f %f %f\n", */
+	/*        sv_altdec - sv_vfov / 2.0, */
+	/*        fattest_alt, */
+	/*        sv_altdec + sv_vfov / 2.0); */
+
 	switch (what) {
 	case 0:			/* pan horizontal */
-	    /* account for flipping and somewhat faster near poles */
-	    sv_azra += factor*sv_hfov*((aa_mode ^ flip_lr) ? 1 : -1)
-					    /(1+.9*(cos(sv_altdec)-1));
+	    /* Q: How can we keep panning speed stable, when the lines
+	       of azimuth draw so close together at the zenith compared
+	       to the horizon, making steps of a given azimuth so much
+	       smaller?
+
+	       A: We figure out where on the view the "fattest" azimuth
+	       lines are, whether at the top, or the bottom, or in the
+	       middle (if the horizon or equator is currently in view).
+	       Then, we increase our rotation angle speed to give decent
+	       velocity at that "fattest" circle of altitude. */
+
+	    lower_alt = sv_altdec - sv_vfov / 2.0; /* at bottom of view */
+	    upper_alt = sv_altdec + sv_vfov / 2.0; /* at top of view */
+
+	    if (upper_alt < 0.0)
+		fattest_alt = upper_alt; /* entire view below horizon */
+	    else if (lower_alt > 0.0)
+		fattest_alt = lower_alt; /* entire view above horizon */
+	    else
+		fattest_alt = 0.0; /* the view straddles the horizon */
+
+	    factor /= cos(fattest_alt);
+	    sv_azra += factor * sv_dfov * ((aa_mode ^ flip_lr) ? 1 : -1);
 	    range (&sv_azra, 2*PI);
 	    sv_set_scale(AZRA_S, 0);
 	    break;
 	case 1:			/* pan vertical */
 	    /* account for flipping */
-	    sv_altdec += factor*sv_vfov*(flip_tb ? -1 : 1);
+	    sv_altdec += factor * sv_dfov * (flip_tb ? -1 : 1);
 	    if (sv_altdec < -PI/2) sv_altdec = -PI/2;
 	    if (sv_altdec >  PI/2) sv_altdec =  PI/2;
 	    sv_set_scale(ALTDEC_S, 0);
