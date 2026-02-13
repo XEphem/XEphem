@@ -146,7 +146,7 @@ directory.
 
 .SH AUTHOR
 .PP
-Elwood C. Downey, email ecdowney@ClearSkyInstitute.com.
+Elwood C. Downey
 
 .SH SEE ALSO
 .PP
