@@ -28,14 +28,10 @@ jobs:
     runs-on: macos-15-intel
     steps:
     - uses: actions/checkout@v2
-    - name: Install OpenMotif
-      run: brew install openmotif && brew info openmotif
-    - name: Install OpenSSL
-      run: brew install openssl && brew info openssl
-    - name: Install XQuartz
-      run: brew install xquartz --cask && brew info xquartz
-    - name: Install groff
-      run: brew install groff && brew info groff
+    - name: Install dependencies
+      run: |
+        grep '\$ brew install' INSTALL | sed 's/^ *\$ //' > /tmp/commands
+        sh -e -x /tmp/commands
     - name: Compile
       run: make -C GUI/xephem
     - name: Test
@@ -45,14 +41,10 @@ jobs:
     runs-on: macos-14
     steps:
     - uses: actions/checkout@v2
-    - name: Install OpenMotif
-      run: brew install openmotif && brew info openmotif
-    - name: Install groff
-      run: brew install groff && brew info groff
-    - name: Install OpenSSL
-      run: brew install openssl && brew info openssl
-    - name: Install XQuartz
-      run: brew install xquartz --cask && brew info xquartz
+    - name: Install dependencies
+      run: |
+        grep '\$ brew install' INSTALL | sed 's/^ *\$ //' > /tmp/commands
+        sh -e -x /tmp/commands
     - name: Compile
       run: make -C GUI/xephem
     - name: Test

@@ -18,9 +18,22 @@ How to install XEphem, either for just yourself or system-wide:
 	$ sudo apt install build-essential groff-base libmotif-dev libssl-dev libxext-dev libxmu-dev libxt-dev
 	$ make
 
-    On Mac OS X just do this:
+    On a modern version of macOS, install Apple’s “Xcode Command Line
+    Tools”, then install Homebrew, then run:
 
-	$ make MOTIF=../../libXm/osx
+        $ brew install groff
+        $ brew install openmotif
+        $ brew install openssl
+        $ brew install xquartz --cask
+        $ make
+
+    Very old versions of Mac OS X that don’t support Homebrew might
+    still be able to compile XEphem if you’ve installed OpenSSL and its
+    header files, and then tell the compiler to use the legacy Motif
+    library “libXm.a” and header files that live in this source archive
+    alongside XEphem’s own source code:
+
+        $ make MOTIF=../../libXm/osx
 
     On OpenVMS just do this (from this directory):
 
