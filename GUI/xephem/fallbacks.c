@@ -611,7 +611,7 @@ String fallbacks[] = {
     "XEphem*SkyView*RToolbar*spacing: 2",
     "XEphem*SkyView*TToolbar*shadowThickness: 1",
     "XEphem*SkyView*TToolbar*spacing: 2",
-    "XEphem*SkyView*translations: #override    \\n"
+    "XEphem*SkyView*SkyMap*translations: #override    \\n"
 
     /* These seem to work (or at least they do on Linux). */
 
