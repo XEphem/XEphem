@@ -1,4 +1,3 @@
-
 /* explode a raw gif file already in any array of char.
  * return 0 if ok, else -1.
  * code from fit2gif.tar.gz, author unknown but thanks!
@@ -93,8 +92,7 @@ static byte *dataptr;
 
 static char *g_errmsg;
 
-/* static int LoadGIF(); */
-static int LoadGIF(PICINFO *pinfo);
+static int LoadGIF();
 
 int
 explodeGIF (raw, nraw, wp, hp, pixap, ra, ga, ba, errmsg)
