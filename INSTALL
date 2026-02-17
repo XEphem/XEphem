@@ -43,11 +43,11 @@ How to install XEphem, either for just yourself or system-wide:
 
     Otherwise edit Makefile to set the MOTIFI and MOTIFL macros for
     your system then make. If you can not find Motif on your system try
-    using your package manager to search for it, for exampe:
+    using your package manager to search for it, for example:
         $ yum search openmotif
         $ zypper search openmotif
-    or look for binary kits at http://motif.ics.com/motif or build from
-    source from http://sourceforge.net/projects/motif. You'll also need
+    or look for binary kits at https://motif.ics.com/motif/ or build from
+    source from https://sourceforge.net/projects/motif/. You'll also need
     a bunch of supporting X11 Windows stuff too, but decent package
     managers will bring those dependencies in for you also automatically.
     In all cases, you'll want the development versions so you can use them
@@ -120,7 +120,7 @@ Next do either 3a or 3b, not both:
    browser is not listed, figure out the command line to tell it to display a
    local URL, add it to the list and send it to me so I can add it to the FAQ.
 
-5) Done at least, now just run and go:
+5) Done at last, now just run and go:
 
 	$ xephem
 
