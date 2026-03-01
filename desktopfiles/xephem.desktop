@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=XEphem
+GenericName=X Window Ephemeris
+GenericName[es]=Ventana X de Efemérides
+Comment=Interactive astronomical ephemeris software
+Comment[es]=Software Interactivo de efemérides astrónomicas
+Exec=xephem
+Icon=xephem
+Terminal=false
+Categories=Science;Astronomy;Motif;
+Keywords=Astronomy;
