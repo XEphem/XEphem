@@ -197,21 +197,23 @@ OBJS =			\
 	xephem.o	\
 	xmisc.o
 
-all: libs xephem xephem.1
+LIBRARIES := libip liblilxml libjpegd libpng libz
 
-xephem: $(INCS) $(OBJS)
+all: $(LIBRARIES) xephem xephem.1
+
+xephem: $(INCS) $(OBJS) $(LIBRARIES)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
 xephem.1: xephem.man
 	nroff -man $? > $@
 
-libs:
-	cd ../../libastro; make
-	cd ../../libip; make
-	cd ../../libjpegd; make
-	cd ../../liblilxml; make
-	cd ../../libpng; make
-	cd ../../libz; make
+libs: $(LIBRARIES)
+
+$(LIBRARIES): libastro
+	$(MAKE) --directory=../../$@
+
+libastro:
+	$(MAKE) --directory=../../$@
 
 clean:
 	rm -fr *.o ../../lib*/*.[ao]
