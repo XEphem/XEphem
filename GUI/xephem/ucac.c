@@ -284,6 +284,16 @@ add5Bin (ObjFArray *oap, int rz, int dz)
 	    return (-1);
 	}
 
+	/* if oap-> +nnew ==0, the realloc actually works like a free(3) and
+	* the result will be NULL. This should not return -1 because the condition
+	* of not finding more stars is not an error, in particular in the bins around 
+	* the celestial poles with sparse populations.
+	*/
+	if ( oap->n + nnew == 0 ) {
+	    free ((char *)u) ;
+	    return 0 ;
+	}
+
 	/* expand obj memory and crack if interested */
 	if (oap->mem) {
 	    char *moreobj = realloc (oap->mem, (oap->n + nnew)*sizeof(ObjF));
@@ -440,6 +450,16 @@ add4Bin (ObjFArray *oap, int rz, int dz)
 	if (read4Raw (u, dz, nskip, nnew) < 0) {
 	    free ((char *)u);
 	    return (-1);
+	}
+
+	/* if oap-> +nnew ==0, the realloc actually works like a free(3) and
+	* the result will be NULL. This should not return -1 because the condition
+	* of not finding more stars is not an error, in particular in the bins around 
+	* the celestial poles with sparse populations.
+	*/
+	if ( oap->n + nnew == 0 ) {
+	    free ((char *)u) ;
+	    return 0 ;
 	}
 
 	/* expand obj memory and crack if interested */
@@ -655,6 +675,16 @@ add3Bin (ObjFArray *oap, int rz, int dz)
 	if (read3Raw (u, dz, nskip, nnew) < 0) {
 	    free ((char *)u);
 	    return (-1);
+	}
+
+	/* if oap-> +nnew ==0, the realloc actually works like a free(3) and
+	* the result will be NULL. This should not return -1 because the condition
+	* of not finding more stars is not an error, in particular in the bins around 
+	* the celestial poles with sparse populations.
+	*/
+	if ( oap->n + nnew == 0 ) {
+	    free ((char *)u) ;
+	    return 0 ;
 	}
 
 	/* expand obj memory and crack if interested */
