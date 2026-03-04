@@ -35,7 +35,7 @@ static void ast_icb (XtPointer client, int *fdp, XtInputId *idp);
 
 static Widget wdbshell_w;	/* the main shell */
 
-#define	WDBNFILES	10	/* number of web files in table */
+#define	WDBNFILES	11	/* number of web files in table */
 #define	WDBINDENT	20	/* table indent, pixels */
 #define	POLLINT		2000	/* ast download status polling interval, ms */
 
@@ -408,12 +408,13 @@ char *url;
 	static char https[] = "https://";
 	char *transport = http;
 	int ltransport = strlen (transport);
-	int ishttp = 0;
+	int ishttp = 0, ishttps = 0;
 	char buf[512], msg[1024];
 	char l0[512], l1[512], l2[512];
 	char *l0p = l0, *l1p = l1, *l2p = l2;
 	char host[128];
 	char *slash, *dot;
+    char *group, *ampersand;
 	char filename[256];
 	FILE *fp;
 	XE_SSL_FD ssl_fd;
@@ -429,36 +430,37 @@ char *url;
 	l0[0] = l1[0] = l2[0] = '\0';
 
 	/* find transport and host */
-	if (!strncmp (url, transport, ltransport)) {
+	if (!strncmp (url, http, strlen(http))) {
 	    ishttp = 1;
-	} else {
-	    transport = https;
-	    ltransport = strlen (transport);
+	    transport = http;
 	}
-
-	if ((!ishttp) && (strncmp (url, transport, ltransport))) {
+	if (!strncmp (url, https, strlen(https))) {
+	    ishttps = 1;
+	    transport = https;
+	}
+	if ((!ishttp) && (!ishttps)) {
 	    xe_msg (1, "URL must begin with %s or %s", http, https);
 	    watch_cursor (0);
 	    return;
 	}
-
+	ltransport = strlen (transport);
 	slash = strchr (url+ltransport, '/');
-	dot = strrchr (url, '.');
-	if (!slash || !dot) {
+	if (!slash) {
 	    xe_msg (1, "Badly formed URL");
 	    watch_cursor (0);
 	    return;
 	}
+	snprintf (host, 127, "%.*s", (int)(slash-url-ltransport), url+ltransport);
 
 	/* connect to check url */
-	sprintf (host, "%.*s", (int)(slash-url-ltransport), url+ltransport);
 	sprintf (buf, "GET %s HTTP/1.1\r\nHost: %s\r\nConnection: close\r\nUser-Agent: xephem/%s\r\n\r\n",
 						url, host, PATCHLEVEL);
 	stopd_up();
 	if (ishttp) {
 	    sockfd = httpGET (host, buf, msg);
 	    ssl_fd.fd = sockfd;
-	} else {
+	}
+	if (ishttps) {
 	    sockfd = httpsGET (host, buf, msg, &ssl_fd);
 	}
 	if (sockfd < 0) {
@@ -468,24 +470,42 @@ char *url;
 	    return;
 	}
 
-	/* create local file */
-	slash = strrchr (url+ltransport, '/');
-	sprintf (filename, "%s/%.*sedb", getPrivateDir(), (int)(dot-slash), slash+1);
+	/* create local data file name */
+	snprintf (filename, 255, "%s/badURL.edb", getPrivateDir());  /* default file name */
+	if (strstr (url+ltransport, "celestrak.org/NORAD/elements")) {
+	    /* Celestrak gp url format */
+	    group = strstr (url+ltransport, "GROUP=");
+	    if (group != NULL) {
+	        ampersand = strstr (group, "&");
+	        if (ampersand == NULL) {
+	            snprintf (filename, 255, "%s/%s.edb", getPrivateDir(), group+6);
+	        } else {
+	            snprintf (filename, 255, "%s/%.*s.edb", getPrivateDir(), (int)(ampersand-group)-6, group+6);
+	        }
+	    }
+	} else {
+	    /* generic url format */
+	    slash = strrchr (url+ltransport, '/');
+	    dot = strrchr (url, '.');
+	    if (dot < slash) {
+	        snprintf (filename, 255, "%s/%.*s.edb", getPrivateDir(), strlen(url)-(int)(slash-url)-1, slash+1);
+	    } else {
+	        snprintf (filename, 255, "%s/%.*s.edb", getPrivateDir(), (int)(dot-slash)-1, slash+1);
+	    }
+	}
+
+	/* open local data file */
 	fp = fopen (filename, "w");
 	if (!fp) {
 	    xe_msg (1, "%s:\n%s", filename, syserrstr());
 	    watch_cursor (0);
-	    if (!ishttp)
-		SSL_free (ssl_fd.ssl);
+	    if (ishttps)
+	        SSL_free (ssl_fd.ssl);
 	    close (ssl_fd.fd);
 	    return;
 	}
 
-	/* An experiment from Dave Kaye: add a header to the data file.
-	   The file will no longer be pristine and match exactly what's
-	   on the site; but users can tell how old their download is.
-	   We'll see if users report problems with the fact that no two
-	   downloads ever yield exactly the same file any more. */
+	/* add header to local data file */
 	nowtime = time(NULL);
 	datetime = localtime(&nowtime);
 	fprintf (fp, "# URL: %s\n", url);
@@ -495,8 +515,7 @@ char *url;
 		 datetime->tm_mday);
 	fprintf (fp, "#\n");
 
-	/* copy to file, insuring only .edb lines.
-	 */
+	/* copy data to file, insuring only .edb lines */
 	nfound = 0;
 	while (ssl_recvlineb (&ssl_fd, l2p, sizeof(l2)) > 0) {
 	    char *lrot;
@@ -522,11 +541,11 @@ char *url;
 
 	/* tidy up and done */
 	fclose (fp);
-	if (!ishttp)
+	if (ishttps)
 	    SSL_free (ssl_fd.ssl);
 	close (ssl_fd.fd);
 	if (!nfound) {
-	    xe_msg (1, "No objects in file");
+	    xe_msg (1, "  No objects in file\n\nCheck for malformed URL");
 	    remove (filename);
 	} else {
 	    db_read (filename);
