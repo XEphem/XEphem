@@ -14,6 +14,13 @@
       the <tt>wmm.cof</tt> World Magnetic Model file has been updated
       to reflect the new WMM2025 data that was released on December 17, 2024.
       We owe Elwood a great debt of thanks for creating XEphem.
+  <li>The Celestrak URLs from which satellite elements are downloaded
+      have been upgraded to HTTPS,
+      and instead of using the old filenames like <tt>stations.txt</tt>
+      they use the new queries that look like <tt>gp.php?GROUP=stations</tt>.
+      (Each of the old URLs now returns a ‘301 Moved Permanently’ redirect,
+      which works in the browser,
+      but unfortunately not in XEphem.)
   <li>Bugfix: the small ‘X’ on the Earth View
       that marks the center of totality during a solar eclipse
       would sometimes stop moving east
@@ -30,8 +37,6 @@
   <li>Fixed a compiler error on some recent Linux distributions
       whose compilers are becoming more strict:
       <i>warning: implicit declaration of function `strptime'</i>.
-  <li>The Celestrak URLs from which satellite elements are downloaded
-      have been upgraded from ‘http://’ to ‘https://’.
 </ul>
 
 <H3>Changes from 4.1.0 to 4.2.0</H3>
