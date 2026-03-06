@@ -1,4 +1,4 @@
-.TH XEPHEM 1 "Feb 2024"
+.TH XEPHEM 1 "March 2026"
 .SH NAME
 XEphem \- an interactive astronomical ephemeris for X11
 .SH SYNOPSIS

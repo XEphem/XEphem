@@ -4,6 +4,6 @@
 
 #include "xephem.h"
 
-char PATCHLEVEL[] = "4.2.0";
-char PATCHDATE[] = "2024 February 13";
-char COPYRIGHT[] = "Copyright (c) 1990-2021 by Elwood Charles Downey";
+char PATCHLEVEL[] = "4.3.0";
+char PATCHDATE[] = "2026 March 6";
+char COPYRIGHT[] = "Copyright (c) 1990-2025 by Elwood Charles Downey";

@@ -4,7 +4,9 @@
 </head>
 <BODY background="/bg.png" TEXT="#000000" LINK="#004400" VLINK="#004400" ALINK="#000000">
 
-<H3>Next release</H3>
+<H3>Changes from 4.2.0 to 4.3.0</H3>
+
+Released 2026 March 6.
 
 <ul>
   <li>XEphem’s original author and longtime maintainer,
@@ -13,7 +15,8 @@
       but he made one final contribution:
       the <tt>wmm.cof</tt> World Magnetic Model file has been updated
       to reflect the new WMM2025 data that was released on December 17, 2024.
-      We owe Elwood a great debt of thanks for creating XEphem.
+      We are all grateful that Elwood created XEphem
+      and supported its users through so many years.
   <li>The Celestrak URLs from which satellite elements are downloaded
       have been upgraded to HTTPS,
       and instead of using the old filenames like <tt>stations.txt</tt>
@@ -23,8 +26,8 @@
       but unfortunately not in XEphem.)
   <li>An attempt has been made to activate
       an old experimental feature that was already in the code:
-      the ability to pan and zoom the Sky View using the arrow keys,
-      PgUp and PgDn, and the plus and minus keys.
+      the ability to pan the Sky View using the arrow keys
+      and to zoom using PgUp and PgDn or the plus and minus keys.
       As is customary, the equals sign can also be used for the plus key,
       so you don’t have to press Shift.
       The keys are mapped using a standard Motif mechanism called
@@ -34,21 +37,26 @@
       <a href="https://github.com/XEphem/XEphem/blob/ce040e1c8099dc948e463bf3416e8e4d612d1815/GUI/xephem/fallbacks.c#L614"
          >here is how they are defined</a>
       in XEphem’s own source code.
-  <li>Bugfix: the small ‘X’ on the Earth View
+  <li>The main <tt>Makefile</tt> has been tweaked to support
+      modern Apple Silicon systems.
+  <li>The instructions in the <tt>INSTALL</tt> file
+      now recommend that Mac folks use Homebrew’s <tt>brew</tt> command
+      to install the libraries XEphem needs,
+      which should make compilation much easier
+      for users on modern Mac systems.
+  <li>Fix: the small ‘X’ on the Earth View
       that marks the center of totality during a solar eclipse
       would sometimes stop moving east
       and incorrectly start moving west.
       It should now move east for the whole duration of an eclipse.
-  <li>Bugfix: users should no longer see
+  <li>Fix: users should no longer see
       “Error reading UCAC data”
       when they load the UCAC star catalog
       and then point the Sky View toward either of the celestial poles.
-  <li>The main <tt>Makefile</tt> has been tweaked to support
-      modern Apple Silicon systems.
-  <li>Fixed a compiler error on Apple Silicon systems:
+  <li>Fix: Apple Silicon systems were giving a compiler error
       “fatal error: 'fp.h' file not found”.
-  <li>Fixed a compiler error on some recent Linux distributions
-      whose compilers are becoming more strict:
+  <li>Fix: some recent Linux distributions with stricter compilers
+      were complaining
       “warning: implicit declaration of function `strptime'”.
 </ul>
 
