@@ -71,8 +71,7 @@ wdb_manage()
 
 /* called to put up or remove the watch cursor.  */
 void
-wdb_cursor (c)
-Cursor c;
+wdb_cursor (Cursor c)
 {
 	Window win;
 
@@ -242,10 +241,7 @@ wdb_create()
 /* called from Close */
 /* ARGSUSED */
 static void
-close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* outta here */
 	XtPopdown (wdbshell_w);
@@ -256,10 +252,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-geturl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+geturl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget tf_w = (Widget)client;
 	char *url = XmTextFieldGetString(tf_w);
@@ -275,10 +268,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-getast_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+getast_cb (Widget w, XtPointer client, XtPointer call)
 {
 	AstInfo *ap = (AstInfo *)client;
 	char cmd[1024];
@@ -316,9 +306,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ast_tcb (client, ip)
-XtPointer client;
-XtIntervalId *ip;
+ast_tcb (XtPointer client, XtIntervalId * ip)
 {
 	AstInfo *ap = (AstInfo *)client;
 	struct stat st;
@@ -351,10 +339,7 @@ XtIntervalId *ip;
  * client is AstInfo *.
  */
 static void
-ast_icb (client, fdp, idp)
-XtPointer client;
-int *fdp;
-XtInputId *idp;
+ast_icb (XtPointer client, int * fdp, XtInputId * idp)
 {
 	AstInfo *ap = (AstInfo *)client;
 	int fd = *fdp;
@@ -385,10 +370,7 @@ XtInputId *idp;
 /* called from Ok */
 /* ARGSUSED */
 static void
-help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {"Download database files from the Web."};
 
@@ -401,8 +383,7 @@ XtPointer call;
  * collect what we find and save in basename(url).edb
  */
 static void
-getURL (url)
-char *url;
+getURL (char * url)
 {
 	static char http[] = "http://";
 	static char https[] = "https://";

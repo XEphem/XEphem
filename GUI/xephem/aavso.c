@@ -93,8 +93,7 @@ av_manage ()
 
 /* find the closest LISTROWS stars to op in AAVSO database and load dialog */
 void
-av_load (op)
-Obj *op;
+av_load (Obj * op)
 {
 	typedef struct {
 	    char line[DESCOLS+NAMCOLS];	/* designation in avdb file */
@@ -206,8 +205,7 @@ openDB()
 
 /* called to put up or remove the watch cursor.  */
 void
-av_cursor (c)
-Cursor c;
+av_cursor (Cursor c)
 {
 	Window win;
 
@@ -335,8 +333,7 @@ av_create()
 
 /* construct the top section */
 static void
-mkTop (rc_w)
-Widget rc_w;
+mkTop (Widget rc_w)
 {
 	Widget lrc_w, rrc_w, orc_w;
 	Widget f_w, w;
@@ -441,10 +438,7 @@ Widget rc_w;
 /* callback from the Close PB */
 /* ARGSUSED */
 static void
-av_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (av_w);
 }
@@ -452,10 +446,7 @@ XtPointer call;
 /* callback from the Print PB */
 /* ARGSUSED */
 static void
-av_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (curve_pm)
 	    XPSAsk ("AAVSO", av_print);
@@ -492,10 +483,7 @@ av_print()
  */
 /* ARGSUSED */
 static void
-av_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Fetch and display light curves from AAVSO."
@@ -508,10 +496,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-av_list_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_list_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmListCallbackStruct *lp = (XmListCallbackStruct *)call;
 	char *str;
@@ -532,10 +517,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-av_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	fetchAndShow();
 }
@@ -546,10 +528,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-av_name_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+av_name_cb (Widget w, XtPointer client, XtPointer call)
 {
 	String name;
 	char buf[1024];
@@ -596,11 +575,7 @@ XtPointer call;
 
 /* create a prompt/text field pair */
 static void
-mkPrompt (parent, prompt, text_wp, txtname)
-Widget parent;
-char *prompt;
-Widget *text_wp;
-char *txtname;
+mkPrompt (Widget parent, char * prompt, Widget * text_wp, char * txtname)
 {
 	Widget l_w, t_w, f_w;
 	Arg args[20];
@@ -639,9 +614,7 @@ char *txtname;
 
 /* build the query date string from the user's string */
 static void
-buildDateString (ustr, dstr, def)
-char *ustr, dstr[];
-char *def;
+buildDateString (char * ustr, char dstr[], char * def)
 {
 	/* skip leading blanks */
 	while (*ustr == ' ')
@@ -807,8 +780,7 @@ fetchpm()
 
 /* given a line from the avdb file strip of unwanted chars */
 static void
-cleanLine (line)
-char *line;
+cleanLine (char * line)
 {
 	char *p;
 

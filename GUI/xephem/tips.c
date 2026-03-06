@@ -56,9 +56,7 @@ static int tips_sorted;		/* flag set when tips array is sorted */
 
 /* connect the given string as the tip for the given widget */
 void
-wtip (w, tip)
-Widget w;
-char *tip;
+wtip (Widget w, char * tip)
 {
 	/* gadgets don't have windows and hence no events or even a XtDisplay */
 	if (XmIsGadget (w)) {
@@ -154,9 +152,7 @@ wtip_init ()
  * array as unsorted. it will be sorted before being used.
  */
 static void
-tip_new (w, s)
-Widget w;
-String s;
+tip_new (Widget w, String s)
 {
 	Tip *tp, *ltp;
 
@@ -189,8 +185,7 @@ String s;
 
 /* reclaim storage for tip info associated with w */
 static void
-tip_reclaim (w)
-Widget w;
+tip_reclaim (Widget w)
 {
 	Tip *tp;
 
@@ -210,11 +205,7 @@ Widget w;
 
 /* event handler -- c is 1 if want up, 0 for down */
 static void
-tip_eh (w, c, e, cont)
-Widget w;
-XtPointer c;
-XEvent *e;
-Boolean *cont;
+tip_eh (Widget w, XtPointer c, XEvent * e, Boolean * cont)
 {
 	Tip *tp;
 	int wantup;
@@ -242,8 +233,7 @@ Boolean *cont;
 
 /* start a timer which, if it springs, will pop up the given tip */
 static void
-tip_startup (tp)
-Tip *tp;
+tip_startup (Tip * tp)
 {
 	XtAppContext ac = XtWidgetToApplicationContext (tp->w);
 
@@ -254,9 +244,7 @@ Tip *tp;
 /* timer expired so pop up tip for widget in client unless went DOWN again */
 /* ARGSUSED */
 static void
-timer_cb (client, id)
-XtPointer client;
-XtIntervalId *id;
+timer_cb (XtPointer client, XtIntervalId * id)
 {
 	Widget w = (Widget)client;
 	Tip *tp = tip_find (w);
@@ -273,8 +261,7 @@ XtIntervalId *id;
 
 /* pop up the given tip */
 static void
-tip_up (tp)
-Tip *tp;
+tip_up (Tip * tp)
 {
 	Display *dsp = XtDisplay (tp->w);
 	Window win = XtWindow (tp->w);
@@ -322,8 +309,7 @@ Tip *tp;
 
 /* pop down the tip window */
 static void
-tip_down(tp)
-Tip *tp;
+tip_down(Tip * tp)
 {
 	XUnmapWindow (XtDisplay(tp->w), the_w);
 }
@@ -331,10 +317,7 @@ Tip *tp;
 /* w is being destroyed so reclaim its tip info */
 /* ARGSUSED */
 static void
-tip_destroy_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+tip_destroy_cb (Widget w, XtPointer client, XtPointer call)
 {
 	tip_reclaim (w);
 }
@@ -343,8 +326,7 @@ XtPointer call;
  * use a binary search. sort the array first if necessary.
  */
 static Tip *
-tip_find (w)
-Widget w;
+tip_find (Widget w)
 {
 	long wl = (long)w;
 	long s;

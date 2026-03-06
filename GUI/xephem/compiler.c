@@ -123,9 +123,7 @@ static int good_prog;	/* != 0 when program appears to be good */
  * else return -1 and a reason message in errbuf.
  */
 int
-compile_expr (ex, errbuf)
-char *ex;
-char *errbuf;
+compile_expr (char * ex, char * errbuf)
 {
 	/* init the globals.
 	 * also delete any flogs used in the previous program.
@@ -157,9 +155,7 @@ char *errbuf;
  * why not message in errbuf.
  */
 int
-execute_expr (vp, errbuf)
-double *vp;
-char *errbuf;
+execute_expr (double * vp, char * errbuf)
 {
 	int s;
 
@@ -188,9 +184,7 @@ prog_isgood()
  * don't stop when see the first one because a term might appear more than once.
  */
 void
-compiler_log (name, value)
-char *name;
-double value;
+compiler_log (char * name, double value)
 {
 	Var *vp;
 
@@ -365,8 +359,7 @@ skip_double()
  * if error, fill in a message in err_msg[] and return ERR.
  */
 static int
-compile (prec)
-int prec;
+compile (int prec)
 {
 	int expect_binop = 0;	/* set after we have seen any operand.
 				 * used by SUB so it can tell if it really 
@@ -499,8 +492,7 @@ int prec;
  * else return -1 with a reason why not message in err_msg.
  */
 static int
-execute(result)
-double *result;
+execute(double * result)
 {
 	int instr; 
 
@@ -572,9 +564,7 @@ double *result;
  * when return, leave lcexpr alone but move cexpr to just after the second '"'.
  */
 static int
-parse_fieldname (name, len)
-char name[];
-int len;
+parse_fieldname (char name[], int len)
 {
 	char c = '\0';
 

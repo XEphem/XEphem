@@ -185,10 +185,7 @@ bs_create_shell_w()
  */
 /* ARGSUSED */
 static void
-bs_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+bs_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
         Window win = XtWindow(w);

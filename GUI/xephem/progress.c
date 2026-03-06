@@ -81,8 +81,7 @@ pm_down()
 /* set the given percentage on the progress meter.
  */
 void
-pm_set (p)
-int p;
+pm_set (int p)
 {
 	if (!isUp(pmshell_w))
 	    return;
@@ -90,8 +89,7 @@ int p;
 }
 
 void
-pm_cursor(c)
-Cursor c;
+pm_cursor(Cursor c)
 {
 	Window win;
 
@@ -182,10 +180,7 @@ pm_createshell()
 /* called from the Close PB */
 /* ARGSUSED */
 static void
-pm_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pm_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (pmshell_w);
 }
@@ -194,10 +189,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pm_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pm_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 
@@ -236,9 +228,7 @@ XtPointer call;
  * update cur_per and last_per when finished.
  */
 static void
-show_progress (p, force)
-int p;
-int force;
+show_progress (int p, int force)
 {
 	int new = 0;
 

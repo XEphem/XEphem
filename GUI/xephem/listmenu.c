@@ -102,8 +102,7 @@ lst_manage ()
  * selected to inform us that that button is to be included in a listing.
  */
 void
-lst_selection (name)
-char *name;
+lst_selection (char * name)
 {
 	if (!isUp(lstshell_w) || !XmToggleButtonGetState(select_w))
 	    return;
@@ -115,9 +114,7 @@ char *name;
  * if we are potentially interested.
  */
 void
-lst_log (name, str)
-char *name;
-char *str;
+lst_log (char * name, char * str)
 {
 	if (listing_ison()) {
 	    LstFld *lp;
@@ -166,8 +163,7 @@ listing_ison()
 
 /* called to put up or remove the watch cursor.  */
 void
-lst_cursor (c)
-Cursor c;
+lst_cursor (Cursor c)
 {
 	Window win;
 
@@ -184,8 +180,7 @@ Cursor c;
  * what fields to list.
  */
 static void
-lst_select(whether)
-int whether;
+lst_select(int whether)
 {
 	all_selection_mode(whether);
 }
@@ -426,10 +421,7 @@ lst_create_shell()
  */
 /* ARGSUSED */
 static void
-lst_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+lst_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Options op = (Options) client;
@@ -477,10 +469,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-lst_loadcfg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+lst_loadcfg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	FILE *fp;
@@ -529,10 +518,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-lst_savecfg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+lst_savecfg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FILE *fp;
 	char buf[1024], *txt;
@@ -580,10 +566,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-lst_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+lst_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (lstshell_w);
 }
@@ -592,10 +575,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-lst_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+lst_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Select fields to become each column of a listing, then run xephem. Each step",
@@ -610,10 +590,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-lst_undo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+lst_undo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (nlstflds > 0)
 	    XtUnmanageChild (lstflds[--nlstflds].l_w);
@@ -719,10 +696,10 @@ lst_try_turn_on()
 
 /* turn on listing facility.
  * establish a file to use (and thereby set lst_fp, the "listing-is-on" flag).
+@param *how;	fopen how argument
  */
 static void
-lst_turn_on (how)
-char *how;	/* fopen how argument */
+lst_turn_on (char * how)
 {
 	char *txt = XmTextFieldGetString (filename_w);
 	char pn[1024];

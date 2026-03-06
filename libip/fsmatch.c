@@ -63,7 +63,7 @@ static int newTri (Tri *tp, double mina, Vtx *v0, Vtx *v1, Vtx *v2);
 static void initFITS (FImage *initial, FImage *test);
 static void prWCS (char *label, FImage *fip);
 static int lsFit (FImage *fip);
-static double chisqr(double p[]);
+static double chisqr(double p[4]);
 static int discardOutlyers(FImage *fip);
 static int pv_qscmpf (const void *v1, const void *v2);
 static void setTrLevel(void);

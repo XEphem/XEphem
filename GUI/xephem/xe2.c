@@ -182,9 +182,7 @@ ObjF **opp, char *msg)
  * else NULL with a reason in msg[].
  */
 static FILE *
-xe2open (file, msg)
-char *file;
-char msg[];
+xe2open (char * file, char msg[])
 {
 	FILE *fp = fopenh (file, "rb");
 	char header[32];
@@ -209,10 +207,7 @@ char msg[];
 
 /* crack open pkt and fill in op */
 static void
-unpackObj (pkt, np, op)
-PKT pkt;
-Now *np;
-Obj *op;
+unpackObj (PKT pkt, Now * np, Obj * op)
 {
 #define	MASRAD(mas)	degrad((mas)/(3600.*1000.))
 	double ra;
@@ -246,9 +241,7 @@ Obj *op;
  * return 0 if ok else return -1
  */
 static int
-addOneObjF (ap, fop)
-ObjFArray *ap;
-ObjF *fop;
+addOneObjF (ObjFArray * ap, ObjF * fop)
 {
 	ObjF *newf;
 
@@ -272,16 +265,7 @@ ObjF *fop;
 /* unpack the raw PKT into its basic parts.
  */
 static void
-unpack (pkt, ra, dec, pma, pmd, mag, name, spect, type)
-PKT pkt;
-double *ra;
-double *dec;
-double *pma;
-double *pmd;
-double *mag;
-char name[MAXNM];
-char *spect;
-int *type;
+unpack (PKT pkt, double * ra, double * dec, double * pma, double * pmd, double * mag, char name[MAXNM], char * spect, int *type)
 {
 	UL t;
 

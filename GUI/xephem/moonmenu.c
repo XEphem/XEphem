@@ -329,9 +329,7 @@ m_ison()
 
 /* commanded from main to update with a new set of circumstances */
 void
-m_update (np, how_much)
-Now *np;
-int how_much;
+m_update (Now * np, int how_much)
 {
 	if (!mshell_w)
 	    return;
@@ -359,8 +357,7 @@ m_newres()
  * if we are drawing background, we'd best redraw everything.
  */
 void
-m_newdb (appended)
-int appended;
+m_newdb (int appended)
 {
 	if (option[SKY_OPT] && isUp(mshell_w)) {
 	    if (!appended)
@@ -372,10 +369,10 @@ int appended;
 /* called by other menus as they want to hear from our buttons or not.
  * the "on"s and "off"s stack - only really redo the buttons if it's the
  * first on or the last off.
+@param whether;	 whether setting up for plotting or for not plotting 
  */
 void
-m_selection_mode (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+m_selection_mode (int whether)
 {
 	if (whether)
 	    m_selecting++;
@@ -391,8 +388,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 
 /* called to put up or remove the watch cursor.  */
 void
-m_cursor (c)
-Cursor c;
+m_cursor (Cursor c)
 {
 	Window win;
 
@@ -1178,10 +1174,10 @@ m_create_esform()
 
 /* go through all the buttons pickable for plotting and set whether they
  * should appear to look like buttons or just flat labels.
+@param whether;	 whether setting up for plotting or for not plotting 
  */
 static void
-m_set_buttons (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+m_set_buttons (int whether)
 {
 	buttonAsButton (sunalt_w, whether);
 	buttonAsButton (srlng_w, whether);
@@ -1196,10 +1192,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback from the Apply button in the earthshine dialog */
 /* ARGSUSED */
 static void
-m_eshine_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_eshine_cb (Widget w, XtPointer client, XtPointer call)
 {
 	m_redraw();
 }
@@ -1207,10 +1200,7 @@ XtPointer call;
 /* callback to add the current scene to the movie loop */
 /* ARGSUSED */
 static void
-m_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (m_pm, dt_w);
 }
@@ -1218,10 +1208,7 @@ XtPointer call;
 /* callback from the Close button in the earthshine dialog */
 /* ARGSUSED */
 static void
-m_eshineclose_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_eshineclose_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (esform_w);
 }
@@ -1229,10 +1216,7 @@ XtPointer call;
 /* called to toggle whether the earthshine eshineactor is dialog */
 /* ARGSUSED */
 static void
-m_eshineup_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_eshineup_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XtIsManaged(esform_w))
 	    XtUnmanageChild (esform_w);
@@ -1245,10 +1229,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_mstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_mstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (msform_w);
 }
@@ -1257,10 +1238,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_mstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_mstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (msform_w);
 	m_set_buttons(m_selecting);
@@ -1269,10 +1247,7 @@ XtPointer call;
 /* callback from the Print PB */
 /* ARGSUSED */
 static void
-m_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_print_cb (Widget w, XtPointer client, XtPointer call)
 {
         XPSAsk ("Moon View", m_print);
 }
@@ -1415,10 +1390,7 @@ m_ps_annotate ()
  */
 /* ARGSUSED */
 static void
-m_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (m_selecting) {
 	    char *name;
@@ -1431,10 +1403,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (esform_w);
 	XtUnmanageChild (msform_w);
@@ -1463,10 +1432,7 @@ XtPointer call;
 
 /* called from Close button */
 static void
-m_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (mshell_w);
 	/* let popdown do all the work */
@@ -1477,10 +1443,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Option opt = (Option)client;
 	int set;
@@ -1545,10 +1508,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_shrink_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_shrink_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int f = (long int)client;
 	int set = XmToggleButtonGetState (w);
@@ -1564,10 +1524,7 @@ XtPointer call;
 /* callback to erase all labels */
 /* ARGSUSED */
 static void
-m_elab_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_elab_cb (Widget w, XtPointer client, XtPointer call)
 {
 	MoonDB *mp;
 
@@ -1580,10 +1537,7 @@ XtPointer call;
 /* callback for when the Movie button is activated. */
 /* ARGSUSED */
 static void
-m_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
         mm_movie (option[SKY_OPT] ? MOVIE_SSTEPSZ : MOVIE_STEPSZ);
 }
@@ -1592,10 +1546,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "This is a depiction of the Moon.",
@@ -1609,10 +1560,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1623,9 +1571,7 @@ XtPointer call;
  * return 0 if ok (inside image) else -1.
  */
 static int
-xy2ll (x, y, ltp, lgp)
-int x, y;
-double *ltp, *lgp;
+xy2ll (int x, int y, double * ltp, double * lgp)
 {
 	double cx, cy;
 	double lt, lg;
@@ -1663,9 +1609,7 @@ double *ltp, *lgp;
  * return 0 if ok (on front side) else -1, but always return x and y.
  */
 static int
-ll2xy (lt, lg, xp, yp)
-double lt, lg;
-int *xp, *yp;
+ll2xy (double lt, double lg, int *xp, int *yp)
 {
 	double cx, cy, cz;
 	double coslt, sinlt;
@@ -1697,8 +1641,7 @@ int *xp, *yp;
  * lunar image, else return 0.
  */
 static int
-overMoon (x, y)
-int x, y;
+overMoon (int x, int y)
 {
 	/* convert to image center */
 	x -= BORD + leftmarg + moonrad;
@@ -1709,11 +1652,7 @@ int x, y;
 
 /* event handler from all Button events on the mda_w */
 static void
-m_pointer_eh (w, client, ev, continue_to_dispatch)
-Widget w;
-XtPointer client;
-XEvent *ev;
-Boolean *continue_to_dispatch;
+m_pointer_eh (Widget w, XtPointer client, XEvent * ev, Boolean *continue_to_dispatch)
 {
 	Display *dsp = ev->xany.display;
 	Window win = ev->xany.window;
@@ -1749,10 +1688,7 @@ Boolean *continue_to_dispatch;
  */
 /* ARGSUSED */
 static void
-m_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	XExposeEvent *e = &c->event->xexpose;
@@ -1826,8 +1762,7 @@ m_redraw()
  * if ep just copy that much, else copy all.
  */
 static void
-m_refresh(ep)
-XExposeEvent *ep;
+m_refresh(XExposeEvent *ep)
 {
 	Display *dsp = XtDisplay(mda_w);
 	Window win = XtWindow (mda_w);
@@ -1855,9 +1790,7 @@ XExposeEvent *ep;
 
 /* get the width, height and depth of the given drawable */
 static void
-m_getsize (d, wp, hp, dp)
-Drawable d;
-unsigned *wp, *hp, *dp;
+m_getsize (Drawable d, unsigned *wp, unsigned *hp, unsigned *dp)
 {
 	Window root;
 	int x, y;
@@ -1912,8 +1845,7 @@ m_init_gcs()
 
 /* given curlt/lg and Now compute supporting moon info in minfo */
 static void
-m_info(np)
-Now *np;
+m_info(Now * np)
 {
 	double tzo = pref_get(PREF_ZONE)==PREF_LOCALTZ ? -tz/24.0 : 0;
 	double srlng;
@@ -2190,9 +2122,7 @@ m_sky()
  * already close enough.
  */
 static void
-m_loadfs (np, ra, dec)
-Now *np;
-double ra, dec;
+m_loadfs (Now * np, double ra, double dec)
 {
 
 	if (fstars && fabs(dec-fsdec)<FSMOVE && cos(dec)*delra(ra-fsra)<FSMOVE)
@@ -2215,8 +2145,7 @@ double ra, dec;
 
 /* given a MoonDB entry, return 1 if we want to show its label now, else 0. */
 static int
-m_wantlabel (mp)
-MoonDB *mp;
+m_wantlabel (MoonDB *mp)
 {
 	/* always show if marked as persistent and labels are on */
 	if (option[LABELS_OPT] && mp->pl)
@@ -2423,13 +2352,13 @@ image_setup ()
 /* compute the left and right edge of earthshine for the given y.
  * all coords wrt to m_xim and current orientation.
  * sinsrl is sin of longitude of the rising sun.
+@param y;		image y 
+@param sinsrl;	 sin of longitude of the rising sun 
+@param right;	 whether shadow reaches to right limb 
+@param *lxp, *rxp;	 left and right x of edges of earthshine 
  */
 static int
-m_esedges (y, sinsrl, right, lxp, rxp)
-int y;		/* image y */
-double sinsrl;	/* sin of longitude of the rising sun */
-int right;	/* whether shadow reaches to right limb */
-int *lxp, *rxp;	/* left and right x of edges of earthshine */
+m_esedges (int y, double sinsrl, int right, int * lxp, int * rxp)
 {
 	int lx, rx;	/* left and right edge of scan line to darken */
 	int yc;		/* y with respect to moon center */
@@ -2542,8 +2471,7 @@ m_dbloc()
  * return 0 if all ok, else xe_msg() and return -1.
  */
 static int
-m_shrink (f)
-int f;
+m_shrink (int f)
 {
 	char msg[1024];
 	char fn[1024];
@@ -2688,10 +2616,7 @@ m_sizewidgets ()
  * N.B. we assume out is (nr/f) * (nr/f) bytes.
  */
 static void
-m_resize(in, nr, nc, f, out)
-unsigned char *in, *out;
-int nr, nc;
-int f;
+m_resize(unsigned char * in, int nr, int nc, int f, unsigned char * out)
 {
 	int outx, outy;
 	int noutx, nouty;
@@ -2889,10 +2814,7 @@ m_mark_libr ()
  * N.B. allow for flipping and the borders.
  */
 static void
-m_reportloc (dsp, win, x, y)
-Display *dsp;
-Window win;
-int x, y;
+m_reportloc (Display * dsp, Window win, int x, int y)
 {
 	double lt, lg;
 
@@ -2946,8 +2868,7 @@ m_pinfo()
  * leave glass_xim NULL if trouble.
  */
 static void
-makeGlassImage (dsp)
-Display *dsp;
+makeGlassImage (Display * dsp)
 {
 	int nbytes = (GLASSSZ*GLASSMAG+7) * (GLASSSZ*GLASSMAG+7) * mbpp/8;
 	char *glasspix = (char *) malloc (nbytes);
@@ -2979,9 +2900,7 @@ Display *dsp;
 
 /* make glassGC */
 static void
-makeGlassGC (dsp, win)
-Display *dsp;
-Window win;
+makeGlassGC (Display * dsp, Window win)
 {
 	XGCValues gcv;
 	unsigned int gcm;
@@ -2995,13 +2914,11 @@ Window win;
 
 /* handle the operation of the magnifying glass.
  * this is called whenever there is left button activity over the image.
+@param b1p, m1, b1r;	 button/motion state 
+@param wx, wy;		window coords of cursor 
  */
 static void
-doGlass (dsp, win, b1p, m1, b1r, wx, wy)
-Display *dsp;
-Window win;
-int b1p, m1, b1r;	/* button/motion state */
-int wx, wy;		/* window coords of cursor */
+doGlass (Display * dsp, Window win, int b1p, int m1, int b1r, int wx, int wy)
 {
 	static int lastwx, lastwy;
 	int rx, ry, rw, rh;		/* region */
@@ -3109,8 +3026,7 @@ int wx, wy;		/* window coords of cursor */
  * xc,yc. take care at the edges (m_xim is mnrows x mncols)
  */
 static void
-fillGlass (xc, yc)
-int xc, yc;
+fillGlass (int xc, int yc)
 {
 	int sx, sy;	/* coords in m_xim */
 	int gx, gy;	/* coords in glass_xim */
@@ -3338,9 +3254,7 @@ resetSkyObj ()
 
 /* add op at [x,y] to the list of background sky objects */
 static void
-addSkyObj (op, x, y)
-Obj *op;
-int x, y;
+addSkyObj (Obj * op, int x, int y)
 {
 	char *newmem;
 
@@ -3364,8 +3278,7 @@ int x, y;
  * return NULL if none within MAXR.
  */
 static Obj *
-closeSkyObj (x, y)
-int x, y;
+closeSkyObj (int x, int y)
 {
 	SkyObj *closesp = NULL;
 	int mind = 0;
@@ -3388,8 +3301,7 @@ int x, y;
 
 /* called when hit button 3 over image */
 static void
-m_popup (ep)
-XEvent *ep;
+m_popup (XEvent * ep)
 {
 	XButtonEvent *bep;
 	int x, y;
@@ -3485,9 +3397,7 @@ m_create_popup()
  *   there is no need to correct mp->{x,y} for flipping.
  */
 static void
-fill_popup (mp, x, y)
-MoonDB *mp;
-int x, y;
+fill_popup (MoonDB * mp, int x, int y)
 {
 	Now *np = mm_get_now();
 	double lt, lg;
@@ -3556,8 +3466,7 @@ int x, y;
  * N.B. we allow for flipping.
  */
 static MoonDB *
-closeMoonDB (x, y)
-int x, y;
+closeMoonDB (int x, int y)
 {
 	MoonDB *mp, *smallp;
 	double lt, lg;		/* location of [x,y] */
@@ -3645,10 +3554,7 @@ m_select_cb (Widget w, XtPointer client, XtPointer call)
  */
 /* ARGSUSED */
 static void
-m_pl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_pl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	MoonDB *mp;
 
@@ -3668,10 +3574,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_copy_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_copy_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	MoonDB *mp;
@@ -3692,10 +3595,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-m_showlo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_showlo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	MoonDB *mp;
 
@@ -3717,10 +3617,7 @@ XtPointer call;
 /* assign the object pointed to by skypu_op to Favorites
  */
 static void
-m_assign_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_assign_cb (Widget w, XtPointer client, XtPointer call)
 {
 	fav_add (skypu_op);
 }
@@ -3763,8 +3660,7 @@ m_create_skypopup()
 
 /* fill skypu_w with info from op */
 static void
-fill_skypopup (op)
-Obj *op;
+fill_skypopup (Obj * op)
 {
 	char buf[32];
 
@@ -3884,19 +3780,13 @@ mlo_create_shell()
  */
 /* ARGSUSED */
 static void
-mlo_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mlo_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 }
 
 /* called from Close button in lunar orbiter window */
 static void
-mlo_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mlo_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (mlo_shell_w);
 	/* let popdown do all the work */

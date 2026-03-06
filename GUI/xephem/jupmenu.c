@@ -183,9 +183,7 @@ jm_manage ()
  * don't bother if it doesn't exist or is unmanaged now or no one is logging.
  */
 void
-jm_update (np, how_much)
-Now *np;
-int how_much;
+jm_update (Now * np, int how_much)
 {
 	static char fmt[] = "%7.3f";
 	Obj *eop = db_basic (SUN);
@@ -258,8 +256,7 @@ jm_newres()
  */
 /* ARGSUSED */
 void
-jm_newdb (appended)
-int appended;
+jm_newdb (int appended)
 {
 	if (skybkg)
 	    jm_update (mm_get_now(), 1);
@@ -274,10 +271,10 @@ jm_ison()
 /* called by other menus as they want to hear from our buttons or not.
  * the "on"s and "off"s stack - only really redo the buttons if it's the
  * first on or the last off.
+@param whether;	whether setting up for plotting or for not plotting 
  */
 void
-jm_selection_mode (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+jm_selection_mode (int whether)
 {
 	if (whether)
 	    jm_selecting++;
@@ -292,8 +289,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 
 /* called to put up or remove the watch cursor.  */
 void
-jm_cursor (c)
-Cursor c;
+jm_cursor (Cursor c)
 {
 	Window win;
 
@@ -991,10 +987,10 @@ jm_create_tvform_w()
 
 /* go through all the buttons pickable for plotting and set whether they
  * should appear to look like buttons or just flat labels.
+@param whether;	whether setting up for plotting or for not plotting 
  */
 static void
-jm_set_buttons (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+jm_set_buttons (int whether)
 {
 	int i, j;
 
@@ -1010,10 +1006,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback when the ENTER key is typed on the GRS Long TF */
 /* ARGSUSED */
 static void
-jm_grsl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_grsl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	jm_update (mm_get_now(), 1);
 }
@@ -1021,10 +1014,7 @@ XtPointer call;
 /* callback when the Close button is activated on the stats menu */
 /* ARGSUSED */
 static void
-jm_sstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_sstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (jsform_w);
 }
@@ -1032,10 +1022,7 @@ XtPointer call;
 /* callback when the More Info button is activated */
 /* ARGSUSED */
 static void
-jm_sstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_sstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (jsform_w);
 	jm_set_buttons(jm_selecting);
@@ -1045,10 +1032,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_cpdmapping_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_cpdmapping_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtSetSensitive (tel_w, telIsOn());
 }
@@ -1059,10 +1043,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (client) {
 	    int *flagp = (int *)client;
@@ -1085,10 +1066,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_scale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_scale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	jm_update (mm_get_now(), 1);
 }
@@ -1097,10 +1075,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (jm_selecting) {
 	    char *name;
@@ -1113,10 +1088,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jt_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jt_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1171,10 +1143,7 @@ XtPointer call;
 /* called whenever the topview scene is mapped. */
 /* ARGSUSED */
 static void
-jt_map_cb (wid, client, call)
-Widget wid;
-XtPointer client;
-XtPointer call;
+jt_map_cb (Widget w, XtPointer client, XtPointer call)
 {
 	jt_track_size();
 }
@@ -1226,10 +1195,7 @@ jt_track_size()
 /* callback when topview dialog is unmapped */
 /* ARGSUSED */
 static void
-jt_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jt_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (topview_w, False, True);
 }
@@ -1237,10 +1203,7 @@ XtPointer call;
 /* callback when main shell is popped down */
 /* ARGSUSED */
 static void
-jm_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (jsform_w);
 	XtUnmanageChild (jtform_w);
@@ -1275,10 +1238,7 @@ XtPointer call;
 /* callback from the main Close button */
 /* ARGSUSED */
 static void
-jm_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do all the work */
 	XtPopdown (jupshell_w);
@@ -1287,10 +1247,7 @@ XtPointer call;
 /* callback to add scene to the movie loop */
 /* ARGSUSED */
 static void
-jm_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (jm_pm, dt_w);
 }
@@ -1299,10 +1256,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* best effect if turn off worrying about the sky background */
 	skybkg = 0;
@@ -1315,10 +1269,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1376,10 +1327,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	ScreenObj *sop;
@@ -1448,9 +1396,7 @@ jm_create_popup()
 
 /* put up a popup at ev with info about sop */
 static void
-jm_fill_popup (sop, justname)
-ScreenObj *sop;
-int justname;
+jm_fill_popup (ScreenObj * sop, int justname)
 {
 	char *name;
 	double ra, dec, mag;
@@ -1488,10 +1434,7 @@ int justname;
  */
 /* ARGSUSED */
 static void
-jm_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This is a simple schematic depiction of Jupiter and its moons.",
@@ -1505,10 +1448,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1517,10 +1457,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-jm_goto_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_goto_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = db_basic (JUPITER);
 	telGoto (op);
@@ -1529,10 +1466,7 @@ XtPointer call;
 /* add one entry to the given global screenobj array.
  */
 static void
-add_screenobj (soidx, op, x, y)
-SOIdx soidx;
-Obj *op;
-int x, y;
+add_screenobj (SOIdx soidx, Obj* op, int x, int y)
 {
 	char *mem = (char *) screenobj[soidx];
 	int nmem = nscreenobj[soidx];
@@ -1559,8 +1493,7 @@ int x, y;
 
 /* reclaim any existing screenobj entries from the given collection */
 static void
-reset_screenobj(soidx)
-SOIdx soidx;
+reset_screenobj(SOIdx soidx)
 {
 	if (screenobj[soidx]) {
 	    free ((char *)screenobj[soidx]);
@@ -1573,9 +1506,7 @@ SOIdx soidx;
  * if found return the ScreenObj *, else NULL.
  */
 static ScreenObj *
-close_screenobj (soidx, x, y)
-SOIdx soidx;
-int x, y;
+close_screenobj (SOIdx soidx, int x, int y)
 {
 	ScreenObj *scop = screenobj[soidx];
 	ScreenObj *minsop = NULL;
@@ -1601,10 +1532,7 @@ int x, y;
  */
 /* ARGSUSED */
 static void
-jm_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+jm_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Jupiter", jm_print);
 }
@@ -1656,8 +1584,7 @@ jm_print ()
 }
 
 static void
-jm_ps_annotate (np)
-Now *np;
+jm_ps_annotate (Now * np)
 {
 	int ctrx = (int)(8.5*72/2);
 	Obj *eop = db_basic (SUN);
@@ -1883,8 +1810,7 @@ Now *np;
  * return 0 if ok else -1.
  */
 static int
-jm_getgif(dsp)
-Display *dsp;
+jm_getgif(Display * dsp)
 {
 	unsigned char *gif;
 	int ngif;
@@ -1941,13 +1867,13 @@ Display *dsp;
  * rotation.
  * factoids: default orientation is E on right, S on top. So, GRS moves from
  *   right to left. Spot is in S hemisphere. CML increases with time.
+@param *dsp;		 Display 
+@param win;		 drawable 
+@param lx, ty, sz;		 left x, top y, size 
+@param grs;		 angle from center to grs, rads 
  */
 static void
-jm_fimage (dsp, win, lx, ty, sz, grs)
-Display *dsp;		/* Display */
-Drawable win;		/* drawable */
-int lx, ty, sz;		/* left x, top y, size */
-double grs;		/* angle from center to grs, rads */
+jm_fimage (Display * dsp, Drawable win, int lx, int ty, int sz, double grs)
 {
 	Obj *jop = db_basic (JUPITER);
 	Obj *sop = db_basic (SUN);
@@ -2034,13 +1960,13 @@ double grs;		/* angle from center to grs, rads */
 
 /* fill win with top image of Jupiter at the given location, size and
  * rotation.
+@param *dsp;		Display 
+@param win;		drawable 
+@param lx, ty, sz;		left x, top y, size 
+@param grs;		angle from center to grs, rads 
  */
 static void
-jm_timage (dsp, win, lx, ty, sz, grs)
-Display *dsp;		/* Display */
-Drawable win;		/* drawable */
-int lx, ty, sz;		/* left x, top y, size */
-double grs;		/* angle from center to grs, rads */
+jm_timage (Display * dsp, Drawable win, int lx, int ty, int sz, double grs)
 {
 	Obj *jop = db_basic (JUPITER);
 	XImage *xip;
@@ -2129,12 +2055,7 @@ double grs;		/* angle from center to grs, rads */
  *     +md[].z: in front, jup radii
  */
 static void
-jm_draw_map (w, jop, jupsize, cmlII, md)
-Widget w;
-Obj *jop;
-double jupsize;
-double cmlII;
-MoonData md[J_NMOONS];
+jm_draw_map (Widget w, Obj * jop, double jupsize, double cmlII, MoonData md[J_NMOONS])
 {
 	Display *dsp = XtDisplay(w);
 	Window win;
@@ -2429,14 +2350,7 @@ make_gcs ()
  * with is in a bounding box tw x th.
  */
 static void
-j_calibline (dsp, win, gc, xc, yc, tag, tw, th, l)
-Display *dsp;
-Drawable win;
-GC gc;
-int xc, yc;
-char *tag;
-int tw, th;
-int l;
+j_calibline (Display * dsp, Drawable win, GC gc, int xc, int yc, char * tag, int tw, int th, int l)
 {
 	int lx = xc - l/2;
 	int rx = lx + l;
@@ -2452,16 +2366,16 @@ int l;
  * save objects and screen locs in the global screenobj array for picking.
  * this is used to draw the backgrounds for the planet closeups.
  * Based on work by: Dan Bruton <WDB3926@acs.tamu.edu>
+@param win;		window to draw on 
+@param w, h;		window size 
+@param fmag;		faintest magnitude to display 
+@param ra0, dec0;	center of patch, rads 
+@param scale;		rads per pixel 
+@param rad;		maximum radius to draw away from ra0/dec0, rads 
+@param fliptb, fliplr;	flip direction; default is S up E right 
  */
 static void
-sky_background (win, w, h, fmag, ra0,dec0,scale,rad,fliptb,fliplr)
-Drawable win;		/* window to draw on */
-unsigned w, h;		/* window size */
-int fmag;		/* faintest magnitude to display */
-double ra0, dec0;	/* center of patch, rads */
-double scale;		/* rads per pixel */
-double rad;		/* maximum radius to draw away from ra0/dec0, rads */
-int fliptb, fliplr;	/* flip direction; default is S up E right */
+sky_background (Drawable win, unsigned w, unsigned h, int fmag, double ra0,double dec0,double scale,double rad,int fliptb,int fliplr)
 {
 	static int before;
 	double cdec0 = cos(dec0);
@@ -2526,8 +2440,7 @@ int fliptb, fliplr;	/* flip direction; default is S up E right */
  * already close enough.
  */
 static void
-jm_loadfs (ra, dec)
-double ra, dec;
+jm_loadfs (double ra, double dec)
 {
 	Now *np = mm_get_now();
 

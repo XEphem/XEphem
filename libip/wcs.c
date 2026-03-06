@@ -29,10 +29,7 @@ static int setWCScache (FImage *fip);
  * return 0 if all ok, else -1.
  */
 int
-xy2RADec (fip, x, y, rap, decp)
-FImage *fip;
-double x, y;
-double *rap, *decp;
+xy2RADec (FImage * fip, double x, double y, double * rap, double * decp)
 {
 	double xpos;		/* x (RA) coordinate (deg) */
 	double ypos;		/* y (dec) coordinate (deg) */
@@ -57,10 +54,7 @@ double *rap, *decp;
  * return 0 if all ok, else -1.
  */
 int
-RADec2xy (fip, ra, dec, xp, yp)
-FImage *fip;
-double ra, dec;
-double *xp, *yp;
+RADec2xy (FImage * fip, double ra, double dec, double * xp, double * yp)
 {
 	double xpos;		/* x (RA) coordinate (deg) */
 	double ypos;		/* y (dec) coordinate (deg) */
@@ -86,8 +80,7 @@ double *xp, *yp;
  * return 0 if ok, else return -1.
  */
 static int
-dsswcs (fip)
-FImage *fip;
+dsswcs (FImage * fip)
 {
 	double a0, d0, a1, d1;
 	double px, py;
@@ -144,10 +137,7 @@ FImage *fip;
  * return 0 if ok, else -1.
  */
 static int
-dssxy2RADec (fip, X, Y, rap, decp)
-FImage *fip;
-double X, Y;
-double *rap, *decp;
+dssxy2RADec (FImage * fip, double X, double Y, double * rap, double * decp)
 {
 	char buf[128];
 	double cnpix1, cnpix2;
@@ -230,8 +220,7 @@ double *rap, *decp;
  * return 0 if ok, else -1
  */
 static int
-setWCScache (fip)
-FImage *fip;
+setWCScache (FImage * fip)
 {
 	FITSRow typestr;
 	double tmp;
@@ -262,7 +251,7 @@ FImage *fip;
 	return (0);
 }
 
-
+
 /*  worldpos.c -- WCS Algorithms from Classic AIPS.
     Copyright (C) 1994
     Associated Universities, Inc. Washington DC, USA.
@@ -339,20 +328,8 @@ FImage *fip;
        and addition of a 360d difference test to MER case of worldpos(). 
 */
 
-static int worldpos(xpix, ypix, xref, yref, xrefpix, yrefpix, xinc, yinc, rot,
-							      type, xpos, ypos)
-double xpix;
-double ypix;
-double xref;
-double yref;
-double xrefpix;
-double yrefpix;
-double xinc;
-double yinc;
-double rot;
-char *type;
-double *xpos;
-double *ypos;
+static int worldpos(double xpix, double ypix, double xref, double yref, double xrefpix, double yrefpix, double xinc, double yinc, double rot,
+                                                             char * type, double * xpos, double * ypos)
 /*-----------------------------------------------------------------------*/
 /* routine to determine accurate position for pixel coordinates          */
 /* returns 0 if successful otherwise:                                    */
@@ -548,20 +525,8 @@ double *ypos;
   return 0;
 }  /* End of worldpos */
 
-static int xypix(xpos, ypos, xref, yref, xrefpix, yrefpix, xinc, yinc, rot,
-							      type, xpix, ypix)
-double xpos;
-double ypos;
-double xref;
-double yref; 
-double xrefpix;
-double yrefpix;
-double xinc;
-double yinc;
-double rot;
-char *type;
-double *xpix;
-double *ypix;
+static int xypix( double xpos, double ypos, double xref, double yref, double xrefpix, double yrefpix, double xinc, double yinc, double rot,
+                                                             char * type, double *xpix, double *ypix)
 /*-----------------------------------------------------------------------*/
 /* routine to determine accurate pixel coordinates for an RA and Dec     */
 /* returns 0 if successful otherwise:                                    */

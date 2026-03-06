@@ -136,8 +136,7 @@ se_unmanage()
 
 /* called to put up or remove the watch cursor.  */
 void
-se_cursor (c)
-Cursor c;
+se_cursor (Cursor c)
 {
 	Window win;
 
@@ -1000,8 +999,7 @@ se_create_eyep_w()
 
 /* read the given w or h scale and write it's value in the given label */
 static void
-se_scale_fmt (s_w, l_w)
-Widget s_w, l_w;
+se_scale_fmt (Widget s_w, Widget l_w)
 {
 	char buf[64];
 
@@ -1012,8 +1010,7 @@ Widget s_w, l_w;
 
 /* read the given pa scale and write it's value in the given label */
 static void
-se_pascale_fmt (s_w, l_w)
-Widget s_w, l_w;
+se_pascale_fmt (Widget s_w, Widget l_w)
 {
 	char buf[64];
 
@@ -1023,10 +1020,7 @@ Widget s_w, l_w;
 
 /* called when the telrad TB is activated */
 static void
-se_telrad_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_telrad_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState (w);
 
@@ -1053,10 +1047,7 @@ XtPointer call;
 
 /* drag callback from the height scale */
 static void
-se_hscale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_hscale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_scale_fmt (eyephs_w, eyephl_w);
 
@@ -1070,10 +1061,7 @@ XtPointer call;
 
 /* drag callback from the width scale */
 static void
-se_wscale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_wscale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_scale_fmt (eyepws_w, eyepwl_w);
 
@@ -1087,10 +1075,7 @@ XtPointer call;
 
 /* drag callback from the pa scale */
 static void
-se_pscale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_pscale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_pascale_fmt (eyepa_w, eyepal_w);
 }
@@ -1099,10 +1084,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_delall_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_delall_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (eyep) {
 	    if (confirm()) {
@@ -1144,10 +1126,7 @@ se_delall()
  */
 /* ARGSUSED */
 static void
-se_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (eyep_w);
 }
@@ -1155,10 +1134,7 @@ XtPointer call;
 /* called when the help button is hit in the eyepiece dialog */
 /* ARGSUSED */
 static void
-se_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "Define eyepiece shapes and sizes."
@@ -1173,10 +1149,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_skyW_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_skyW_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget angle_w = (Widget)client;
 	char *str;
@@ -1198,10 +1171,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_skyH_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_skyH_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget angle_w = (Widget)client;
 	char *str;
@@ -1221,10 +1191,7 @@ XtPointer call;
 /* called when any of the factors in formula 1 change */
 /* ARGSUSED */
 static void
-se_calc1_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_calc1_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_calc1();
 }
@@ -1268,10 +1235,7 @@ se_calc1()
 /* called when any of the factors in formula 2 change */
 /* ARGSUSED */
 static void
-se_calc2_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_calc2_cb (Widget w, XtPointer client, XtPointer call)
 {
 	se_calc2();
 }
@@ -1313,8 +1277,7 @@ se_calc2()
 
 /* read the given Scale widget and return it's current setting, in rads */
 static double
-se_getScale (w)
-Widget w;
+se_getScale (Widget w)
 {
 	int v;
 	double a;
@@ -1329,9 +1292,7 @@ Widget w;
 
 /* set the given Scale widget to the given setting, in rads */
 static void
-se_setScale (w, a)
-Widget w;
-double a;
+se_setScale (Widget w, double a)
 {
 	int v;
 
@@ -1349,8 +1310,7 @@ double a;
 
 /* read the given pos angle widget and return it's current setting, in rads */
 static double
-se_getPScale (w)
-Widget w;
+se_getPScale (Widget w)
 {
 	int v;
 
@@ -1363,10 +1323,7 @@ Widget w;
  */
 /* ARGSUSED */
 static void
-se_usefav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_usefav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FavEyeP *fp = &favs[(long int)client];
 
@@ -1385,10 +1342,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_delfav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_delfav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FavEyeP *fp = &favs[(long int)client];
 	XtDestroyWidget (fp->row_w);
@@ -1398,10 +1352,7 @@ XtPointer call;
 /* called to add a new FavEyeP */
 /* ARGSUSED */
 static void
-se_addfav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_addfav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FavEyeP newfav;
 	double aunused;
@@ -1417,10 +1368,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_loadd_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_loadd_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 	get_xmstring (w, XmNlabelString, &fn);
@@ -1433,10 +1381,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_saved_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_saved_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024], *fn;
 	char *txt;
@@ -1460,10 +1405,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_loadp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_loadp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 	get_xmstring (w, XmNlabelString, &fn);
@@ -1476,10 +1418,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-se_savep_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+se_savep_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024], *fn;
 	char *txt;
@@ -1501,8 +1440,7 @@ XtPointer call;
 /* add (or reuse) a new (or unused) entry to favs[], create and show in favrc_w.
  */
 static void
-se_addFavEyeP (newfp)
-FavEyeP *newfp;
+se_addFavEyeP (FavEyeP * newfp)
 {
 	char buf[32], wstr[32], hstr[32];
 	Widget w;

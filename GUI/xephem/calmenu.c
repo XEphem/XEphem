@@ -57,8 +57,7 @@ static Pixel fg_pix, bg_pix;		/* used to reverse colors "today" */
 /* create a calendar from parent and return the outtermost widget.
  */
 Widget
-calm_create (parent)
-Widget parent;
+calm_create (Widget parent)
 {
 	Arg args[20];
 	Widget form_w;
@@ -260,8 +259,7 @@ calm_newres()
  * only really do it if f_ison() changed or f_ison() now and day changed.
  */
 void
-calm_set (np)
-Now *np;
+calm_set (Now * np)
 {
 	static double last_jd = -1e5;
 	static double last_tz = 1e10;
@@ -405,10 +403,7 @@ Now *np;
  */
 /* ARGSUSED */
 static void
-today_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+today_cb (Widget w, XtPointer client, XtPointer call)
 {
 	TodayCuts c = (TodayCuts)client;
 	Now *np = mm_get_now();
@@ -453,10 +448,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-date_changed_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+date_changed_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	int code = (long int)client;
@@ -501,10 +493,7 @@ XtPointer call;
  * of the first day of this month and nd is number of days of month `m'.
  */
 static void
-mm_nfmoon (jd, tzone, m, f, nd)
-double jd;
-double tzone;
-int m, f, nd;
+mm_nfmoon (double jd, double tzone, int m, int f, int nd)
 {
 	static char nms[] = "NM", fms[] = "FM";
 	double jdn, jdf;	/* mjd of new and full moons near jd */

@@ -116,9 +116,7 @@ ng_manage ()
 /* commanded from main to update with a new set of circumstances */
 /* ARGSUSED */
 void
-ng_update (np, how_much)
-Now *np;
-int how_much;
+ng_update (Now * np, int how_much)
 {
 	/* only if we're up */
 	if (!ng_ison())
@@ -150,8 +148,7 @@ ng_newres()
 
 /* called to put up or remove the watch cursor.  */
 void
-ng_cursor (c)
-Cursor c;
+ng_cursor (Cursor c)
 {
 	Window win;
 
@@ -401,10 +398,7 @@ ng_create_popup()
 /* callback from the Print PB */
 /* ARGSUSED */
 static void
-ng_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_print_cb (Widget w, XtPointer client, XtPointer call)
 {
         XPSAsk ("Night-at-a-Glance", ng_print);
 }
@@ -412,10 +406,7 @@ XtPointer call;
 /* callback from the One Color TB */
 /* ARGSUSED */
 static void
-ng_1col_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_1col_cb (Widget w, XtPointer client, XtPointer call)
 {
         ng_redraw();
 }
@@ -423,10 +414,7 @@ XtPointer call;
 /* callback from the inputCallback*/
 /* ARGSUSED */
 static void
-ng_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Now *np = mm_get_now();
@@ -588,10 +576,7 @@ ng_ps_annotate ()
 /* callback from PB in popup to set XEphem time to punow. */
 /* ARGSUSED */
 static void
-ng_settime_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_settime_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_newcaldate (punow.n_mjd);
 }
@@ -599,10 +584,7 @@ XtPointer call;
 /* callback from ngshell_w being popped down. */
 /* ARGSUSED */
 static void
-ng_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (ng_pm) {
 	    XFreePixmap (XtD, ng_pm);
@@ -615,10 +597,7 @@ XtPointer call;
 
 /* called from Close button */
 static void
-ng_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (ngshell_w);
 	/* popping down ngshell_w will do all the real work */
@@ -626,10 +605,7 @@ XtPointer call;
 
 /* called to add graph to movie loop */
 static void
-ng_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (ng_pm, dt_w);
 }
@@ -638,10 +614,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ng_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "This is the night at a glance.",
@@ -654,10 +627,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ng_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ng_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay(ngda_w);
@@ -725,8 +695,7 @@ ng_redraw()
  * if ep just copy that much, else copy all.
  */
 static void
-ng_refresh(ep)
-XExposeEvent *ep;
+ng_refresh(XExposeEvent * ep)
 {
 	Display *dsp = XtDisplay(ngda_w);
 	Window win = XtWindow (ngda_w);
@@ -781,10 +750,7 @@ ng_init_gcs()
  * N.B. this is just the geometry, we ignore rp->rs_flags
  */
 static void
-rs_x (np, rp, xr, xs)
-Now *np;
-RiseSet *rp;
-int *xr, *xs;
+rs_x (Now * np, RiseSet * rp, int * xr, int * xs)
 {
 	double t;
 
@@ -799,10 +765,7 @@ int *xr, *xs;
  * N.B. do not use this for EARTHSAT, use rs_es().
  */
 static int
-rs_xrs (np, op, xr, xs)
-Now *np;
-Obj *op;
-int *xr, *xs;
+rs_xrs (Now * np, Obj * op, int * xr, int * xs)
 {
 	RiseSet rs;
 	int nowright;
@@ -856,11 +819,7 @@ int *xr, *xs;
  * set xrp to left-most rise, xsp to right-most set.
  */
 static int
-rs_es (np, op, y, xrp, xsp)
-Now *np;
-Obj *op;
-int y;
-int *xrp, *xsp;
+rs_es (Now * np, Obj * op, int y, int * xrp, int * xsp)
 {
 	Display *dsp = XtD;
 	RiseSet rs;
