@@ -21,6 +21,19 @@
       (Each of the old URLs now returns a ‘301 Moved Permanently’ redirect,
       which works in the browser,
       but unfortunately not in XEphem.)
+  <li>An attempt has been made to activate
+      an old experimental feature that was already in the code:
+      the ability to pan and zoom the Sky View using the arrow keys,
+      PgUp and PgDn, and the plus and minus keys.
+      As is customary, the equals sign can also be used for the plus key,
+      so you don’t have to press Shift.
+      The keys are mapped using a standard Motif mechanism called
+      ‘translations’ that lets the user define key bindings
+      in an application’s X resources file.
+      If you want to experiment with Sky View key bindings yourself,
+      <a href="https://github.com/XEphem/XEphem/blob/ce040e1c8099dc948e463bf3416e8e4d612d1815/GUI/xephem/fallbacks.c#L614"
+         >here is how they are defined</a>
+      in XEphem’s own source code.
   <li>Bugfix: the small ‘X’ on the Earth View
       that marks the center of totality during a solar eclipse
       would sometimes stop moving east
@@ -33,10 +46,10 @@
   <li>The main <tt>Makefile</tt> has been tweaked to support
       modern Apple Silicon systems.
   <li>Fixed a compiler error on Apple Silicon systems:
-      <i>fatal error: 'fp.h' file not found</i>.
+      “fatal error: 'fp.h' file not found”.
   <li>Fixed a compiler error on some recent Linux distributions
       whose compilers are becoming more strict:
-      <i>warning: implicit declaration of function `strptime'</i>.
+      “warning: implicit declaration of function `strptime'”.
 </ul>
 
 <H3>Changes from 4.1.0 to 4.2.0</H3>
