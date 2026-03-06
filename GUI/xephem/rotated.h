@@ -58,14 +58,15 @@ XPoint *XRotTextExtents(Display*, XFontStruct*, float,
 
 #else
 
-extern float   XRotVersion();
-extern void    XRotSetMagnification();
-extern void    XRotSetBoundingBoxPad();
-extern int     XRotDrawString();
-extern int     XRotDrawImageString();
-extern int     XRotDrawAlignedString();
-extern int     XRotDrawAlignedImageString();
-extern XPoint *XRotTextExtents();
+extern float   XRotVersion(char * str, int n) ;
+extern void    XRotSetMagnification(float m) ;
+extern void    XRotSetBoundingBoxPad(int p) ;
+extern int     XRotDrawString(Display * dpy, XFontStruct * font, float angle, Drawable drawable, GC gc, int x, int y, char * str) ;
+extern int     XRotDrawImageString(Display * dpy, XFontStruct * font, float angle, Drawable drawable, GC gc, int x, int y, char * str) ;
+extern int     XRotDrawAlignedString(Display * dpy, XFontStruct * font, float angle, Drawable drawable, GC gc, int x, int y, char * text, int align) ;
+extern int     XRotDrawAlignedImageString(Display * dpy, XFontStruct * font, float angle, Drawable drawable, GC gc, int x, int y, char * text, int align) ;
+extern XPoint *XRotTextExtents(Display * dpy, XFontStruct * font, float angle, int x, int y, char* text, int align) ;
+
 
 #endif /* __cplusplus */
 

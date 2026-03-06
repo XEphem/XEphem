@@ -301,8 +301,7 @@ si_off()
  * assigned with magnitude mag.
  */
 void
-si_setPhotomRef (ix, iy, mag)
-double ix, iy, mag;
+si_setPhotomRef (double ix, double iy, double mag)
 {
 	char magstr[32];
 
@@ -321,8 +320,7 @@ double ix, iy, mag;
  * N.B. can be called before we are created
  */
 void
-si_updateGauss (on)
-int on;
+si_updateGauss (int on)
 {
 	if (fimok && on)
 	    si_manage();
@@ -335,8 +333,7 @@ int on;
  * N.B. can be called before we are created
  */
 void
-si_updateGlass (on)
-int on;
+si_updateGlass (int on)
 {
 	/* always close, open only if window already up */
 	si_create();
@@ -348,8 +345,7 @@ int on;
  * N.B. can be called before we are created
  */
 void
-si_updateROI (on)
-int on;
+si_updateROI (int on)
 {
 	/* always close, open only if window already up */
 	si_create();
@@ -361,8 +357,7 @@ int on;
  * N.B. can be called before we are created
  */
 void
-si_updateContrast (on)
-int on;
+si_updateContrast (int on)
 {
 	if (fimok && on)
 	    si_manage();
@@ -375,8 +370,7 @@ int on;
  * N.B. can be called before we are created
  */
 void
-si_updateSlice (on)
-int on;
+si_updateSlice (int on)
 {
 	if (fimok && on)
 	    si_manage();
@@ -389,8 +383,7 @@ int on;
  * we grab the WCS window while we're at it.
  */
 void
-si_cursor (c)
-Cursor c;
+si_cursor (Cursor c)
 {
 	Window win;
 
@@ -422,8 +415,7 @@ si_getFImage ()
 
 /* set the contrast fields in the given FITS header */
 void
-si_setContrast (fip)
-FImage *fip;
+si_setContrast (FImage * fip)
 {
 	int lpix, hpix;
 	int gamma;
@@ -460,13 +452,13 @@ si_ps ()
 
 /* build a pixmap, fpm, from the XImage fim with the given size, flipping and
  * zoom inf, using the current colormap.
+@param w, h;		 screen size 
+@param lr, tb;		 display's flipping 
+@param *zp;		 entire current zoom stack 
+@param nz;			 items on zoom stack 
  */
 void
-si_newPixmap (w, h, lr, tb, zp, nz)
-int w, h;		/* screen size */
-int lr, tb;		/* display's flipping */
-ZM_Undo *zp;		/* entire current zoom stack */
-int nz;			/* items on zoom stack */
+si_newPixmap (int w, int h, int lr, int tb, ZM_Undo * zp, int nz)
 {
 	Display *dsp = XtDisplay (toplevel_w);
 	Window win = XtWindow (toplevel_w);
@@ -565,10 +557,7 @@ int nz;			/* items on zoom stack */
  * last argument determines whether contrast and WCS are set automatically.
  */
 void
-si_newfim (fip, name, autocon)
-FImage *fip;
-char *name;
-int autocon;
+si_newfim (FImage * fip, char * name, int autocon)
 {
 	double eq;
 
@@ -652,9 +641,7 @@ double *imxp, double *imyp)		/* return FITS image coords */
  * return 0 if ok, else fuss with xe_msg and return -1
  */
 static int
-getWCSSeed (wsp, vp)
-WCSSeed *wsp;
-double *vp;
+getWCSSeed (WCSSeed * wsp, double *vp)
 {
 	double v;
 	char *str;
@@ -690,9 +677,7 @@ double *vp;
 
 /* set global fmag/fximoff/fyimoff for given window and image portion */
 static void
-setMag (ww, wh, imx, imy, imw, imh)
-int ww, wh;
-double imx, imy, imw, imh;
+setMag (int ww, int wh, double imx, double imy, double imw, double imh)
 {
 	/* set mag and offsets to display desired portion */
 	fmag = wh/imh;
@@ -712,13 +697,13 @@ double imx, imy, imw, imh;
 /* find a magnification and image offsets to center image such that we always
  * fill the screen, centering and cropping if necessary.
  * in order to establish zoom current context, go through all entries in order.
+@param ww, wh;	 window w/h 
+@param lr, tb;	 user's notion of what is flipped 
+@param *zp;	 zoom info in screen coords, else NULL 
+@param nz;		 n zoom entries 
  */
 static void
-chooseMag (ww, wh, lr, tb, zp, nz)
-int ww, wh;	/* window w/h */
-int lr, tb;	/* user's notion of what is flipped */
-ZM_Undo *zp;	/* zoom info in screen coords, else NULL */
-int nz;		/* n zoom entries */
+chooseMag (int ww, int wh, int lr, int tb, ZM_Undo * zp, int nz)
 {
 	double imx, imy;	/* corner of image to display, im pixels */
 	double imw, imh;	/* size of image to display, im pixels */
@@ -824,8 +809,7 @@ build_colormap()
 
 /* given a FITS pixel, return an X pixel */
 static Pixel
-gray_pixel (fp)
-int fp;
+gray_pixel (int fp)
 {
 	int gp = (int)colormap[fp];
 
@@ -1004,9 +988,7 @@ int lr, int tb)		/* user's flip settings */
 
 /* print stats for glass given image location of center */
 static void
-printGlassStats(rp, ix, iy)
-ImRegion *rp;
-double ix, iy;
+printGlassStats(ImRegion * rp, double ix, double iy)
 {
 	ImStats ims;
 	int cx, cy;
@@ -1030,10 +1012,7 @@ double ix, iy;
  * N.B. may be called before w is realized, eg, glass row set in app defaults.
  */
 static void
-drawGlassRow (w, rp, rx, rw)
-Widget w;
-ImRegion *rp;
-int rx, rw;
+drawGlassRow (Widget w, ImRegion * rp, int rx, int rw)
 {
 	Display *dsp = XtDisplay (w);
 	Window win = XtWindow(w);
@@ -1088,10 +1067,7 @@ int rx, rw;
  * N.B. may be called before w is realized, eg, glass row set in app defaults.
  */
 static void
-drawGlassCol (w, rp, ry, rh)
-Widget w;
-ImRegion *rp;
-int ry, rh;
+drawGlassCol (Widget w, ImRegion * rp, int ry, int rh)
 {
 	Display *dsp = XtDisplay (w);
 	Window win = XtWindow(w);
@@ -1143,8 +1119,7 @@ int ry, rh;
 
 /* print overall image stats */
 static void
-printImageStats(name)
-char *name;
+printImageStats(char * name)
 {
 	char buf[1024];
 	char center[1024];
@@ -1245,8 +1220,7 @@ int lr, int tb)	/* user's flip settings */
 
 /* draw pixels along line from [x0,y0] to [x1,y1] in window of size wwXwh */
 static void
-drawSlice (x0, y0, ww, wh, x1, y1, lr, tb)
-int x0, y0, ww, wh, x1, y1, lr, tb;
+drawSlice (int x0, int y0, int ww, int wh, int x1, int y1, int lr, int tb)
 {
 	Display *dsp = XtDisplay (sda_w);
 	Window win = XtWindow (sda_w);
@@ -1338,8 +1312,7 @@ int lr, int tb)	/* user's flip settings */
  * N.B. must be called after doGlass for gaussian overlays to work.
  */
 static void
-imPhotom (ix, iy)
-double ix, iy;
+imPhotom (double ix, double iy)
 {
 	Display *dsp = XtD;
 	char buf[256], rastr[32], decstr[32], vfwhmstr[32], hfwhmstr[32];
@@ -1488,14 +1461,13 @@ ZM_Undo *zp)
 	XmTextSetString (rstxt_w, buf);
 }
 
-/* draw a nice labeled graph in the given window */
+/* draw a nice labeled graph in the given window 
+@param ww, wh;		 size of win 
+@param xmin, xmax;	 x range 
+@param ymin, ymax;	 y range 
+*/
 static void
-drawGraphGrid (dsp, win, ww, wh, xmin, xmax, ymin, ymax)
-Display *dsp;
-Window win;
-int ww, wh;		/* size of win */
-double xmin, xmax;	/* x range */
-double ymin, ymax;	/* y range */
+drawGraphGrid (Display * dsp, Window win, int ww, int wh, double xmin, double xmax, double ymin, double ymax)
 {
 	double ticks[NTICKS+2];		/* see tickmarks() */
 	XSegment xs[2*(NTICKS+2)];	/* room for both */
@@ -2344,9 +2316,7 @@ si_createdialog()
  * last argument determines whether contrast and WCS are set automatically.
  */
 static void
-si_newImage(name, autocon)
-char *name;
-int autocon;
+si_newImage(char * name, int autocon)
 {
 	double ra, dec;
 
@@ -2407,10 +2377,7 @@ si_ne()
 /* mark refstar on the image */
 /* ARGSUSED */
 static void
-si_markrefstar_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_markrefstar_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    xe_msg (1, "First open an image");
@@ -2425,10 +2392,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_newrefstar_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_newrefstar_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    xe_msg (1, "First open an image");
@@ -2447,10 +2411,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_newref_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_newref_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    xe_msg (1, "First open an image");
@@ -2466,10 +2427,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_managetb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_managetb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int state = XmToggleButtonGetState(w);
 	Widget sw = (Widget)client;
@@ -2493,10 +2451,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-si_lohi_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_lohi_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *lostr = XmTextFieldGetString (lo_w);
 	char *histr = XmTextFieldGetString (hi_w);
@@ -2524,10 +2479,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-si_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (si_w);
 }
@@ -2537,10 +2489,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *tag = (char *)client;
 
@@ -2555,9 +2504,7 @@ XtPointer call;
  * return 0 if ok, else -1 with excuse in msg[]
  */
 static int
-setWCSField (wsp, msg)
-WCSSeed *wsp;
-char msg[];
+setWCSField (WCSSeed * wsp, char msg[])
 {
 	char *kw, *bp, valu[100];
 	double dvalu;
@@ -2596,11 +2543,7 @@ char msg[];
 /* button motion and press/release event handler for the gray map */
 /* ARGSUSED */
 static void
-si_motion_eh (w, client, ev, continue_to_dispatch)
-Widget w;
-XtPointer client;
-XEvent *ev;
-Boolean *continue_to_dispatch;
+si_motion_eh (Widget w, XtPointer client, XEvent * ev, Boolean * continue_to_dispatch)
 {
 	static int moving_lopix;
 	Display *dsp = XtDisplay(w);
@@ -2663,10 +2606,7 @@ Boolean *continue_to_dispatch;
 /* expose callback for the gray map */
 /* ARGSUSED */
 static void
-si_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay(fda_w);
@@ -2704,10 +2644,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_contrast_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_contrast_cb (Widget w, XtPointer client, XtPointer call)
 {
 	void (*pfv)() = (void (*)())client;
 
@@ -2730,10 +2667,7 @@ XtPointer call;
 /* callback from Drag or ValueChanged on the gamma scale */
 /* ARGSUSED */
 static void
-si_gamma_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_gamma_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!fimok)
 	    return;
@@ -2751,10 +2685,7 @@ XtPointer call;
 /* callback for the gray map Inverse Vid TB */
 /* ARGSUSED */
 static void
-si_inv_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_inv_cb (Widget w, XtPointer client, XtPointer call)
 {
 	want_inv = XmToggleButtonGetState(w);
 
@@ -2983,11 +2914,11 @@ makeGlassImage ()
 
 /* fill glass_xim with glasssz (X pixels) view of fim centered at X
  * coords xc,yc. take care at the edges.
+@param xc, yc;	center of glass, in X window coords 
  */
 /* ARGSUSED */
 static void
-fillGlass (xc, yc)
-int xc, yc;	/* center of glass, in X window coords */
+fillGlass (int xc, int yc)
 {
 	int isz = glasssz/glassmag;	/* size of patch image */
 	int x, y, w, h;			/* pixmap patch to extract */
@@ -3161,10 +3092,7 @@ wcsMatch ()
 /* report just how well fim supposedly maps these stars to these image coords.
  */
 static void
-matchStats (fsp, sx, sy, nfs)
-ObjF *fsp;
-double *sx, *sy;
-int nfs;
+matchStats (ObjF * fsp, double * sx, double * sy, int nfs)
 {
 	double m, *med;
 	double sum;
@@ -3228,7 +3156,7 @@ glimsz()
 	return (proper >= MINGLSZ ? proper : MINGLSZ);
 }
 
-
+
 /* WCS dialog stuff
  */
 
@@ -3430,10 +3358,7 @@ si_createwcsdialog()
 
 /* add a Label to a RC */
 static void
-addLabel (rc_w, label, alignment)
-Widget rc_w;
-char *label;
-int alignment;
+addLabel (Widget rc_w, char * label, int alignment)
 {
 	Arg args[20];
 	Widget w;
@@ -3454,10 +3379,7 @@ int alignment;
 
 /* add a PB to a RC */
 static Widget
-addPB (rc_w, str, alignment)
-Widget rc_w;
-char *str;
-int alignment;
+addPB (Widget rc_w, char * str, int alignment)
 {
 	Arg args[20];
 	Widget w;
@@ -3479,10 +3401,7 @@ int alignment;
 
 /* add a TextField to a RC */
 static Widget
-addTF (rc_w, name, rw)
-Widget rc_w;
-char *name;
-int rw;
+addTF (Widget rc_w, char * name, int rw)
 {
 	Arg args[20];
 	Widget w;
@@ -3499,10 +3418,7 @@ int rw;
 
 /* ARGSUSED */
 static void
-si_wcsclose_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcsclose_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (wcs_w);
 }
@@ -3510,10 +3426,7 @@ XtPointer call;
 /* called to start a WCS solution */
 /* ARGSUSED */
 static void
-si_wcsgo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcsgo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	watch_cursor (1);
 	wcsMatch ();
@@ -3523,10 +3436,7 @@ XtPointer call;
 /* called to mark seed stars */
 /* ARGSUSED */
 static void
-si_markstars_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_markstars_cb (Widget w, XtPointer client, XtPointer call)
 {
 	double *sx, *sy;
 	int burnt;
@@ -3583,10 +3493,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-si_wcsuse_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcsuse_cb (Widget w, XtPointer client, XtPointer call)
 {
 	WCSSeed *wsp = (WCSSeed *)client;
 	char msg[1024];
@@ -3603,10 +3510,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-si_wcshelp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+si_wcshelp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "Pattern match with field stars to find a WCS solution."

@@ -108,7 +108,7 @@ typedef struct {
 typedef struct {
     char *lname;		/* label widget instance name */
     char *title;		/* sort description */
-    int (*cmp_f)();		/* qsort-style compare function */
+    int (*cmp_f)(const void *, const void *);		/* qsort-style compare function */
     Widget lw;			/* sort-order label widget */
     Widget pw;			/* sort-order pushb widget */
 } SortInfo;
@@ -187,8 +187,7 @@ sl_unmanage()
 
 /* called to put up or remove the watch cursor.  */
 void
-sl_cursor (c)
-Cursor c;
+sl_cursor (Cursor c)
 {
 	Window win;
 
@@ -499,8 +498,7 @@ sl_create_pu()
 
 /* build the sort table in the given XmForm */
 static void
-sl_cr_sorttable(f_w)
-Widget f_w;
+sl_cr_sorttable(Widget f_w)
 {
 	Arg args[20];
 	Widget fr_w;
@@ -565,10 +563,7 @@ Widget f_w;
  */
 /* ARGSUSED */
 static void
-sl_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState(w);
 	Widget otherw = (Widget)client;
@@ -579,10 +574,7 @@ XtPointer call;
 /* called when the Close button is hit in the file list prompt */
 /* ARGSUSED */
 static void
-sl_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (list_w);
 }
@@ -590,10 +582,7 @@ XtPointer call;
 /* called when the help button is hit in the file list prompt */
 /* ARGSUSED */
 static void
-sl_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "List and Save Sky View objects in two formats."
@@ -627,10 +616,7 @@ sl_clearlast()
 /* called when the Clear button is hit */
 /* ARGSUSED */
 static void
-sl_clear_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_clear_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* clear all */
 	while (nsortorder)
@@ -640,10 +626,7 @@ XtPointer call;
 /* called when the Undo button is hit */
 /* ARGSUSED */
 static void
-sl_undo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_undo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sl_clearlast();
 }
@@ -653,10 +636,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sl_so_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_so_cb (Widget w, XtPointer client, XtPointer call)
 {
 	SortInfo *sip = (SortInfo *)client;
 	char buf[10];
@@ -679,10 +659,7 @@ XtPointer call;
 /* called when the Sort button is hit */
 /* ARGSUSED */
 static void
-sl_sort_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_sort_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sl_sort();
 }
@@ -690,10 +667,7 @@ XtPointer call;
 /* called when the Save button is hit */
 /* ARGSUSED */
 static void
-sl_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sl_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -730,10 +704,7 @@ XtPointer call;
 /* called when the Mark button is hit on the popup */
 /* ARGSUSED */
 static void
-slpu_mark_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+slpu_mark_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* sanity check */
 	if (!pu.op)
@@ -745,10 +716,7 @@ XtPointer call;
 /* called when the Delete button is hit on the popup */
 /* ARGSUSED */
 static void
-slpu_del_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+slpu_del_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *txt;
 	int end;
@@ -775,11 +743,7 @@ XtPointer call;
  * used to provide few more options based on text under pointer.
  */
 static void
-sl_info_eh (w, client, ev, continue_to_dispatch)
-Widget w;
-XtPointer client;
-XEvent *ev;
-Boolean *continue_to_dispatch;
+sl_info_eh (Widget w, XtPointer client, XEvent * ev, Boolean * continue_to_dispatch)
 {
 	char objname[MAXNM];
 	DBScan dbs;
@@ -847,8 +811,7 @@ Boolean *continue_to_dispatch;
 
 /* save the text widget in the appropriate file */
 static void
-sl_save (how)
-char *how;
+sl_save (char* how)
 {
 	char *fn = XmToggleButtonGetState(txttb_w)
 			? XmTextFieldGetString (txtfn_w)
@@ -877,8 +840,7 @@ sl_write_qcb ()
 }
 
 static int
-spaceship (diff)
-double diff;
+spaceship (double diff)
 {
 	if (diff < 0)
 	    return (-1);
@@ -1298,9 +1260,7 @@ mastercmp_f (const void *v1, const void *v2)
  * update *dstp and return new final length, sans trailing '\0'.
  */
 static int
-mstrcat (dstp, dl, src, sl)
-char **dstp, *src;
-int dl, sl;
+mstrcat (char ** dstp, int dl, char * src, int sl)
 {
 	char *newdst = XtRealloc (*dstp, sl+dl+1);
 	strcpy (newdst+dl, src);
@@ -1310,9 +1270,7 @@ int dl, sl;
 
 /* fill listt_w with oinfo[noinfo] in ".edb" format */
 static void
-fill_edbfmt (oinfo, noinfo)
-ObjInfo *oinfo;
-int noinfo;
+fill_edbfmt (ObjInfo * oinfo, int noinfo)
 {
 	char *txt = NULL;
 	int txtl = 0;
@@ -1341,9 +1299,7 @@ int noinfo;
 
 /* fill listt_w with oinfo[noinfo] in ".txt" format */
 static void
-fill_txtfmt (oinfo, noinfo)
-ObjInfo *oinfo;
-int noinfo;
+fill_txtfmt (ObjInfo * oinfo, int noinfo)
 {
 	static char dashes[] = "--------------------------";
 	Now *np = mm_get_now();
@@ -1447,8 +1403,7 @@ int noinfo;
  * maintain common background color.
  */
 static void
-sl_colhdr (txt)
-char *txt;
+sl_colhdr (char * txt)
 {
 	Pixel bg;
 	char *nl1, *nl2;

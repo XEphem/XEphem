@@ -128,8 +128,7 @@ net_manage()
 /* Base64 stuff lifted from downloader */
 
 static void
-three_to_four(what, where)
-unsigned char *what, *where;
+three_to_four(unsigned char * what, unsigned char * where)
 {
 	static char Table64[64] = {
 	    'A','B','C','D','E','F','G','H',
@@ -152,8 +151,7 @@ unsigned char *what, *where;
 }
 
 static void
-string_to_base64(plain, b64)
-char *plain, *b64;
+string_to_base64(char * plain, char * b64)
 {
 	unsigned char four[4];
 	int len=strlen(plain),len2=0;
@@ -187,8 +185,7 @@ char *plain, *b64;
  * N.B. we assume buf[] ends with \r\n
  */
 static void
-addAuth (buf)
-char *buf;
+addAuth (char * buf)
 {
 	char *nm = XmTextFieldGetString (authn_w);
 	char plainbuf[1024], b64buf[1024];
@@ -1059,10 +1056,7 @@ net_save ()
 /* called from Ok */
 /* ARGSUSED */
 static void
-ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (net_save() == 0)
 	    XtPopdown (netshell_w);
@@ -1071,10 +1065,7 @@ XtPointer call;
 /* called from Ok */
 /* ARGSUSED */
 static void
-cancel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cancel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* outta here */
 	XtPopdown (netshell_w);
@@ -1085,10 +1076,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pw_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pw_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmTextVerifyCallbackStruct *vp = (XmTextVerifyCallbackStruct *)call;
 	int l = XmTextFieldGetLastPosition(w);
@@ -1117,10 +1105,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-tb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+tb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    switch ((long int)client) {
@@ -1150,10 +1135,7 @@ XtPointer call;
 /* called from Ok */
 /* ARGSUSED */
 static void
-help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {"Set up network connectivity options."};
 
@@ -1167,10 +1149,7 @@ XtPointer call;
  * return 0 if ok to proceed, else -1 if trouble or timeout.
  */
 static int
-tout (maxt, fd, w)
-int maxt;
-int fd;
-int w;
+tout (int maxt, int fd, int w)
 {
 	int i;
 	    
@@ -1216,8 +1195,7 @@ int w;
  * we do this because we don't know how portable is h_errno?
  */
 static char *
-herr (errmsg)
-char *errmsg;
+herr (char * errmsg)
 {
 #if defined(HOST_NOT_FOUND) && defined(TRY_AGAIN)
 	switch (h_errno) {
@@ -1236,10 +1214,7 @@ char *errmsg;
  * return 0 if ok, else -1.
  */
 static int
-connect_to (sockfd, serv_addr, addrlen)
-int sockfd;
-struct sockaddr *serv_addr;
-int addrlen;
+connect_to (int sockfd, struct sockaddr *serv_addr, int addrlen)
 {
 #ifdef O_NONBLOCK               /* _POSIX_SOURCE */
 #define NOBLOCK O_NONBLOCK

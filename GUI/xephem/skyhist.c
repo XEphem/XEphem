@@ -227,8 +227,7 @@ svh_create (Widget mb_w)
 
 /* called to put up or remove the watch cursor.  */
 void
-svh_cursor (c)
-Cursor c;
+svh_cursor (Cursor c)
 {
 	Window win;
 
@@ -297,9 +296,7 @@ show_entries()
 
 /* using info from hist[i] create its row in the history window */
 static void
-setup_1row (rc_w, i)
-Widget rc_w;
-int i;
+setup_1row (Widget rc_w, int i)
 {
 	Widget f_w, del_w, rep_w, go_w, up_w, down_w, lbl_w, tf_w;
 	Arg args[20];
@@ -403,10 +400,7 @@ int i;
 /* called just as the pulldown menu is cascading */
 /* ARGSUSED */
 static void
-svh_cascading_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_cascading_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i;
 
@@ -442,10 +436,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svh_ltfc_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_ltfc_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i = (long int)client;
 
@@ -457,10 +448,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svh_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Collects and Installs collections of Sky View settings",
@@ -473,10 +461,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svh_manage_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_manage_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopup (svhshell_w, XtGrabNone);
 	set_something (svhshell_w, XmNiconic, (XtArgVal)False);
@@ -485,10 +470,7 @@ XtPointer call;
 /* callback from the Close PB */
 /* ARGSUSED */
 static void
-svh_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (svhshell_w);
 }
@@ -496,10 +478,7 @@ XtPointer call;
 /* called when the Add button is hit in the history window */
 /* ARGSUSED */
 static void
-svh_add_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_add_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svh_add_current();
 }
@@ -525,10 +504,7 @@ del_i()
  */
 /* ARGSUSED */
 static void
-svh_del_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_del_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* save index */
 	deli = (long int)client;
@@ -562,10 +538,7 @@ rep_i()
  */
 /* ARGSUSED */
 static void
-svh_rep_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_rep_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* save index */
 	repi = (long int)client;
@@ -586,10 +559,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svh_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i = (long int)client;
 	svh_goto (&hist[i].h);
@@ -600,10 +570,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svh_up_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_up_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i = (long int)client;
 	SVHEntry tmp;
@@ -626,10 +593,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svh_down_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_down_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i = (long int)client;
 	SVHEntry tmp;
@@ -649,9 +613,7 @@ XtPointer call;
 
 /* setup the label lbl_w from the given SvHistory */
 static void
-setup_label (lbl_w, hp)
-Widget lbl_w;
-SvHistory *hp;
+setup_label (Widget lbl_w, SvHistory *hp)
 {
 	char *projstr = hp->cyl_proj ? "Cyl" : "Sph";
 	char str1[32], str2[32];
@@ -678,10 +640,7 @@ SvHistory *hp;
 /* called when the Save button is hit */
 /* ARGSUSED */
 static void
-svh_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FILE *histfp;
 	SvHistory *hp;
@@ -733,10 +692,7 @@ XtPointer call;
 /* called when the Load button is hit in the history pulldown */
 /* ARGSUSED */
 static void
-svh_load_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svh_load_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char fn[1024];
 	char buf[1024];
@@ -759,10 +715,7 @@ XtPointer call;
  * some sort of message is also always in msg[].
  */
 static int
-loadhist (histfp, fn, msg)
-FILE *histfp;
-char *fn;
-char *msg;
+loadhist (FILE * histfp, char * fn, char * msg)
 {
 	char buf[1024];
 	char *ulbl;
@@ -895,9 +848,7 @@ char *msg;
  * if opening for write try to create in PrivateDir.
  */
 static FILE *
-openhist(fn, how)
-char *fn;
-char *how;
+openhist(char * fn, char * how)
 {
 	FILE *fp;
 

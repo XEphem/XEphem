@@ -390,9 +390,7 @@ e_manage()
  * remove all trail history if any.
  */
 void
-e_update(np, force)
-Now *np;
-int force;
+e_update(Now * np, int force)
 {
 	EObj *eop;
 
@@ -454,8 +452,7 @@ e_newfavs()
  * so we rebuild the favorites list.
  */
 void
-e_newdb (appended)
-int appended;
+e_newdb (int appended)
 {
 	if (!eshell_w)
 	    return;
@@ -468,8 +465,7 @@ int appended;
  * the ons and offs stack.
  */
 void
-e_selection_mode (whether)
-int whether;
+e_selection_mode (int whether)
 {
 	if (whether)
 	    e_selecting++;
@@ -483,8 +479,7 @@ int whether;
 }
 
 void
-e_cursor(c)
-Cursor c;
+e_cursor(Cursor c)
 {
 	Window win;
 
@@ -531,7 +526,7 @@ e_create_shell()
 	typedef struct {
 	    char *name;
 	    char *label;
-	    void (*cb)();
+	    void (*cb)(Widget w, XtPointer client, XtPointer call);
 	    int client;
 	    Widget *wp;
 	    char *tip;
@@ -1451,10 +1446,7 @@ e_buildfavs()
 /* callback when any of the stat buttons are activated. */
 /* ARGSUSED */
 static void
-e_stat_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_stat_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (e_selecting) {
 	    char *userD;
@@ -1467,10 +1459,7 @@ XtPointer call;
 /* callback when the main form in popped down */
 /* ARGSUSED */
 static void
-e_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown(ectrl_w);
 
@@ -1491,10 +1480,7 @@ XtPointer call;
 /* callback for when the main Close button is activated */
 /* ARGSUSED */
 static void
-e_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown to the real work */
 	XtPopdown (eshell_w);
@@ -1503,10 +1489,7 @@ XtPointer call;
 /* callback for when the control dialog is closed */
 /* ARGSUSED */
 static void
-e_cclose_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_cclose_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (ectrl_w);
 }
@@ -1514,10 +1497,7 @@ XtPointer call;
 /* callback to bring up web update window */
 /* ARGSUSED */
 static void
-e_webupdate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_webupdate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	wdb_manage();
 }
@@ -1527,10 +1507,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_ontrack_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_ontrack_cb (Widget w, XtPointer client, XtPointer call)
 {
 	EObj *eop = &eobjs[(long int)client];
 
@@ -1562,10 +1539,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_onpick_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_onpick_cb (Widget w, XtPointer client, XtPointer call)
 {
 	EObj *eop;
 
@@ -1582,10 +1556,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_show_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_show_cb (Widget w, XtPointer client, XtPointer call)
 {
 	EObj *eop = &eobjs[(long int)client];
 
@@ -1611,10 +1582,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_wantlbl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_wantlbl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* if coming on, show as a courtesy */
 	if (TBISON(w)) {
@@ -1631,10 +1599,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_wantfoot_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_wantfoot_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* if coming on, show as a courtesy */
 	if (TBISON(w)) {
@@ -1651,10 +1616,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_wantorb_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_wantorb_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* if coming on, show as a courtesy */
 	if (TBISON(w)) {
@@ -1668,10 +1630,7 @@ XtPointer call;
 /* callback for when the Movie button is activated. */
 /* ARGSUSED */
 static void
-e_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_movie (MOVIE_SS);
 }
@@ -1679,20 +1638,17 @@ XtPointer call;
 /* callback to add scene to movie loop */
 /* ARGSUSED */
 static void
-e_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (e_pm, e_dt_w);
 }
 
 /* go through all the buttons and set whether they
  * should appear to look like buttons or just flat labels.
+@param whether;	whether setting up for plotting or for not plotting 
  */
 static void
-e_set_buttons (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+e_set_buttons (int whether)
 {
 	int i;
 
@@ -1712,10 +1668,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
  */
 /* ARGSUSED */
 static void
-e_mhelp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_mhelp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This is a simple schematic depiction of the Earth surface at the given time.",
@@ -1729,10 +1682,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_chelp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_chelp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Controls which objects are displayed and their current stats"
@@ -1746,10 +1696,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1758,10 +1705,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Earth", e_print);
 }
@@ -1810,8 +1754,7 @@ e_print ()
 }
 
 static void
-e_ps_annotate (np)
-Now *np;
+e_ps_annotate (Now * np)
 {
 	int unitspref = pref_get (PREF_UNITS);
 	double sslat, sslong;
@@ -1948,10 +1891,7 @@ Now *np;
 
 /* label print with center lat/long */
 static void
-e_ps_ll (tag, lt, lg, x, y)
-char *tag;
-double lt, lg;
-int x, y;
+e_ps_ll (char * tag, double lt, double lg, int x, int y)
 {
 	char ltstr[32], lgstr[32];
 	char buf[128];
@@ -1971,10 +1911,7 @@ int x, y;
  */
 /* ARGSUSED */
 static void
-e_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static unsigned last_wid, last_hei;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -2045,11 +1982,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_motion_eh (w, client, ev, continue_to_dispatch)
-Widget w;
-XtPointer client;
-XEvent *ev;
-Boolean *continue_to_dispatch;
+e_motion_eh (Widget w, XtPointer client, XEvent * ev, Boolean * continue_to_dispatch)
 {
 	static int inwin;
 	Display *dsp = XtDisplay(w);
@@ -2132,10 +2065,7 @@ Boolean *continue_to_dispatch;
  */
 /* ARGSUSED */
 static void
-e_tb_cb (wid, client, call)
-Widget wid;
-XtPointer client;
-XtPointer call;
+e_tb_cb (Widget wid, XtPointer client, XtPointer call)
 {
 	int state = TBISON (wid);
 	int want = (long int) client;
@@ -2214,10 +2144,7 @@ XtPointer call;
 /* called to open the object control window */
 /* ARGSUSED */
 static void
-e_copen_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_copen_cb (Widget w, XtPointer client, XtPointer call)
 {
 	e_set_buttons(e_selecting);
 	XtPopup (ectrl_w, XtGrabNone);
@@ -2230,10 +2157,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_trail_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_trail_cb (Widget w, XtPointer client, XtPointer call)
 {
 	EObj *eop = &eobjs[(long int)client];
 
@@ -2373,10 +2297,7 @@ e_wantorbtgl_cb (Widget w, XtPointer client, XtPointer call)
  */
 /* ARGSUSED */
 static void
-e_wxreload_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_wxreload_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (e_setupwxpm(1, 1) == 0)
 	    e_all (0);
@@ -2387,10 +2308,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_proj_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_proj_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Proj newproj = (Proj)client;
 
@@ -2559,10 +2477,7 @@ e_set_dasize()
  */
 /* ARGSUSED */
 static void
-e_setmain_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_setmain_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	int which = (long int)client;
@@ -2592,10 +2507,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_latlong_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_latlong_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *s = (XmScaleCallbackStruct *)call;
 
@@ -2619,10 +2531,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_lat0_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_lat0_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int lg;
 
@@ -2644,10 +2553,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-e_point_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+e_point_cb (Widget w, XtPointer client, XtPointer call)
 {
 	e_setelatlng (pu_info.pu_lt, pu_info.pu_lg);
 	noTrack();
@@ -2725,12 +2631,7 @@ e_copy_pm()
  */
 /* ARGSUSED */
 static void
-e_popup (wid, ev, d, xb, yb, x, y)
-Widget wid;
-XEvent *ev;
-unsigned d;
-unsigned xb, yb;
-int x, y;
+e_popup (Widget wid, XEvent * ev, unsigned d, unsigned xb, unsigned yb, int x, int y)
 {
 	Now *np = mm_get_now();
 	int mind = 10000000;		/* min pick dist so far */
@@ -3075,11 +2976,7 @@ e_create_popup()
 /* given diameter and x/y border display info at the given lat/long
  */
 static void
-e_track_latlng (w, d, xb, yb, lt, lg)
-Widget w;
-int d;
-int xb, yb;
-double lt, lg;
+e_track_latlng (Widget w, int d, int xb, int yb, double lt, double lg)
 {
 	static int last_lst_w, last_lmt_w, last_ll_w, last_db_w;
 	int topy = projection == WXMAP ? WXM_TY : 0;
@@ -3184,8 +3081,7 @@ double lt, lg;
  * -PI/2 .. elat .. PI/2 and -PI .. elng .. PI.
  */
 static void
-e_setelatlng (lt, lg)
-double lt, lg;
+e_setelatlng (double lt, double lg)
 {
 	elat = lt;
 	selat = sin(elat);
@@ -3205,10 +3101,7 @@ double lt, lg;
  * both are in rads, lat is +N, long is +E.
  */
 static void
-e_subobject(np, op, latp, longp)
-Now *np;
-Obj *op;
-double *latp, *longp;
+e_subobject(Now * np, Obj * op, double * latp, double * longp)
 {
 	if (op->o_type == EARTHSAT) {
 	    /* these are all ready to go */
@@ -3256,8 +3149,7 @@ e_edist_rate (Now *np, Obj *op)
  * turn off the display of these items.
  */
 static void
-e_show_esat_stats (eop)
-EObj *eop;
+e_show_esat_stats (EObj * eop)
 {
 	Now *np = mm_get_now();
 	Obj *op = &eop->trail[0].t_obj;
@@ -3361,13 +3253,13 @@ rd2ll (double ra, double dec, double *lp, double *Lp)
  *   x and y coords of point on screen
  * always return the coordinates, but return 1 if the point is visible or 0 if
  *   it's over the limb.
+@param d;		 diameter of drawing surface circle 
+@param wb, hb;	 width/height borders between circle and edges 
+@param pl, pL;		 point p lat, rads, +N; long, rads, +E 
+@param *xp, *yp;		 projected location onto drawing surface 
  */   
 static int
-e_coord (d, wb, hb, pl, pL, xp, yp)
-unsigned d;		/* diameter of drawing surface circle */
-unsigned wb, hb;	/* width/height borders between circle and edges */
-double pl, pL;		/* point p lat, rads, +N; long, rads, +E */
-short *xp, *yp;		/* projected location onto drawing surface */
+e_coord (unsigned d, unsigned wb, unsigned hb, double pl, double pL, short * xp, short * yp)
 {
 	switch (projection) {
 	case CYLI: /* FALLTHRU */
@@ -3418,14 +3310,14 @@ short *xp, *yp;		/* projected location onto drawing surface */
  * degrees altitude above horizon as well.
  * also draw a crosshair at the actual location.
  * return 1 if any part was visible, else 0.
+@param *np;		 circumstances 
+@param *eop;		 object info 
+@param d, wb, hb;		 dia and width/height borders of circle to use 
+@param slat, slng;	 satellite's lat and lng 
+@param el;		satellite's elevation above surface, m 
  */
 static int
-e_drawfootprint (np, eop, d, wb, hb, slat, slng, el)
-Now *np;		/* circumstances */
-EObj *eop;		/* object info */
-int d, wb, hb;		/* dia and width/height borders of circle to use */
-double slat, slng;	/* satellite's lat and lng */
-double el;		/* satellite's elevation above surface, m */
+e_drawfootprint (Now * np, EObj * eop, int d, int wb, int hb, double slat, double slng, double el)
 {
 	double rad;	/* viewing altitude radius, rads */
 	int isvis;
@@ -3447,13 +3339,13 @@ double el;		/* satellite's elevation above surface, m */
  * we do it by sweeping an arc from the given location and collecting the end
  *   points. beware going over the horizon or wrapping around the edge.
  * return 1 if any part of the circle is visible, else 0.
+@param pix;		rawing color 
+@param d, wb, hb;	ia and width/height borders of circle to use 
+@param slat, slng;	lat/long of object 
+@param rad;		angular radius of circle to draw 
  */
 static int
-e_drawcircle (pix, d, wb, hb, slat, slng, rad)
-Pixel pix;		/* drawing color */
-unsigned d, wb, hb;	/* dia and width/height borders of circle to use */
-double slat, slng;	/* lat/long of object */
-double rad;		/* angular radius of circle to draw */
+e_drawcircle (Pixel pix, unsigned d, unsigned wb, unsigned hb, double slat, double slng, double rad)
 {
 #define	MAXVCIRSEGS	62
 	XPoint xp[MAXVCIRSEGS+1];
@@ -3491,12 +3383,12 @@ double rad;		/* angular radius of circle to draw */
 
 /* draw a little crosshair or plussign at the given location with the e_olgc
  * return whether visible
+@param d, wb, hb;	dia and width/height borders of circle to use 
+@param lt, lg;		desired center location 
+@param style;		CROSSH or PLUSS 
  */
 static int
-e_drawcross (d, wb, hb, lt, lg, style)
-unsigned d, wb, hb;	/* dia and width/height borders of circle to use */
-double lt, lg;		/* desired center location */
-int style;		/* CROSSH or PLUSS */
+e_drawcross (unsigned d, unsigned wb, unsigned hb, double lt, double lg, int style)
 {
 	double lats[4], lngs[4];	/* lats and longs of endpoints */
 	XSegment xs[4];			/* one for each cardinal direction */
@@ -3577,10 +3469,11 @@ int style;		/* CROSSH or PLUSS */
 	return (1);
 }
 
-/* draw the lat/long grid lines */
+/* draw the lat/long grid lines 
+@param d, wb, hb;	dia and width/height borders of circle to use 
+*/
 static void
-e_drawgrid (d, wb, hb)
-unsigned d, wb, hb;	/* dia and width/height borders of circle to use */
+e_drawgrid (unsigned d, unsigned wb, unsigned hb)
 {
 #define	MAXGRIDSEGS	60		/* max segments per grid line */
 	int nsegs = MAXGRIDSEGS;
@@ -3621,14 +3514,14 @@ unsigned d, wb, hb;	/* dia and width/height borders of circle to use */
 /* given projection, diam and size of window and X-coord x/y, return lat/long.
  * see e_getcircle() for meanings in each projection.
  * return 1 if inside the map, else 0.
+@param proj;		which projection to use 
+@param int d;		diameter of earth limb, pixels 
+@param xb, yb;	borders around circle 
+@param x, y;		-windows coords of loc 
+@param *ltp, *lgp;	resulting lat/long, rads 
  */
 static int
-e_uncoord (proj, d, xb, yb, x, y, ltp, lgp)
-Proj proj;		/* which projection to use */
-unsigned int d;		/* diameter of earth limb, pixels */
-unsigned xb, yb;	/* borders around circle */
-int x, y;		/* X-windows coords of loc */
-double *ltp, *lgp;	/* resulting lat/long, rads */
+e_uncoord (Proj proj, unsigned int d, unsigned xb, unsigned yb, int x, int y, double * ltp, double *lgp)
 {
 	switch (proj) {
 
@@ -3709,8 +3602,7 @@ noTrack()
  * for faster redraw when we know full well the stats have not changed.
  */
 static void
-e_all (statstoo)
-int statstoo;
+e_all (int statstoo)
 {
 	Now *np = mm_get_now();
 	EObj *eop;
@@ -3763,12 +3655,12 @@ int statstoo;
  * if spherical, center a circle of max size that completely fits.
  * if cylindrical, use entire rectangle.
  * if wxmap, assume correct (fixed) size, r is horizontal half-width.
+@param *wp, *hp;			overall width and height 
+@param *dp;			circle diameter 
+@param *xbp, *ybp;			x and y border 
  */
 static void
-e_getcircle (wp, hp, dp, xbp, ybp)
-int *wp, *hp;			/* overall width and height */
-int *dp;			/* circle diameter */
-int *xbp, *ybp;			/* x and y border */
+e_getcircle (int * wp, int * hp, int * dp, int * xbp, int * ybp)
 {
 	Display *dsp = XtDisplay(e_da_w);
 	Window win = XtWindow(e_da_w);
@@ -3800,8 +3692,7 @@ int *xbp, *ybp;			/* x and y border */
 /* draw everything centered at elat/elng onto e_pm.
  */
 static void
-e_map (np)
-Now *np;
+e_map (Now * np)
 {
 	Display *dsp = XtDisplay(e_da_w);
 	int w, h, d, wb, hb;
@@ -3915,11 +3806,12 @@ e_ano (double *latp, double *longp, int *xp, int *yp, int w2x, int arg)
 	return (v);
 }
 
-/* draw the portion of the earth lit by the sun */
+/* draw the portion of the earth lit by the sun 
+@param *np;		 circumstances 
+@param int d, wb, hb;	 circle dia, width and height borders in pixmap 
+*/
 static void
-e_sunlit (np, d, wb, hb)
-Now *np;		/* circumstances */
-unsigned int d, wb, hb;	/* circle dia, width and height borders in pixmap */
+e_sunlit (Now * np, unsigned int d, unsigned int wb, unsigned int hb)
 {
 	switch (projection) {
 	case CYLI:
@@ -3941,11 +3833,11 @@ unsigned int d, wb, hb;	/* circle dia, width and height borders in pixmap */
 }
 
 /* draw the sunlit portion of the Earth in cylindrical projection.
+@param *np;		circumstances 
+@param int d, wb, hb;	circle dia, width and height borders in pixmap 
  */
 static void
-e_msunlit (np, d, wb, hb)
-Now *np;		/* circumstances */
-unsigned int d, wb, hb;	/* circle dia, width and height borders in pixmap */
+e_msunlit (Now * np, unsigned int d, unsigned int wb, unsigned int hb)
 {
 #define MAXNMPTS	256	/* n segments -- larger is finer but slower */
 	Display *dsp = XtDisplay(e_da_w);
@@ -4022,11 +3914,11 @@ unsigned int d, wb, hb;	/* circle dia, width and height borders in pixmap */
 
 /* draw the solid gibbous or crescent sun-lit portion of the Earth in spherical
  * projection.
+@param *np;		circumstances 
+@param int d, wb, hb;	circle dia, width and height borders in pixmap 
  */
 static void
-e_ssunlit (np, d, wb, hb)
-Now *np;		/* circumstances */
-unsigned int d, wb, hb;	/* circle dia, width and height borders in pixmap */
+e_ssunlit (Now * np, unsigned int d, unsigned int wb, unsigned int hb)
 {
 #define MAXNSPTS	52	/* max number of polyline points */
 #define	FULLANGLE	degrad(5)/* consider full if within this angle */
@@ -4098,8 +3990,7 @@ unsigned int d, wb, hb;	/* circle dia, width and height borders in pixmap */
 
 /* draw each continent border */
 static void
-e_drawcontinents (d, wb, hb)
-unsigned d, wb, hb;
+e_drawcontinents (unsigned d, unsigned wb, unsigned hb)
 {
 #define	MINSEP		1000	/* min sep to draw in low prec, 100ths deg */
 #define	PTCACHE		64	/* number of XPoints to cache */
@@ -4142,8 +4033,7 @@ unsigned d, wb, hb;
 
 /* draw each site */
 static void
-e_drawsites (d, wb, hb)
-unsigned d, wb, hb;
+e_drawsites (unsigned d, unsigned wb, unsigned hb)
 {
 #define	NPCACHE		64		/* number of XPoints to cache */
 	Display *dsp = XtDisplay(e_da_w);
@@ -4179,12 +4069,12 @@ unsigned d, wb, hb;
 
 /* draw all but the first object in the trails list onto e_pm relative to
  * elat/elng connected lines, with tickmarks and possible time stamps.
+@param *eop;		info about object 
+@param d;			 Earth circle diameter, pixels 
+@param wb, hb;		 width and height borders, pixels 
  */
 static void
-e_drawtrail (eop, d, wb, hb)
-EObj *eop;		/* info about object */
-int d;			/* Earth circle diameter, pixels */
-int wb, hb;		/* width and height borders, pixels */
+e_drawtrail (EObj * eop, int d, int wb,int  hb)
 {
 	int w = d + 2*wb;
 	short lx = 0, ly = 0, lv;
@@ -4268,13 +4158,13 @@ int wb, hb;		/* width and height borders, pixels */
 /* draw the first object in the trails list onto e_pm relative to elat/elng
  * with a full bullseye.
  * return 1 if any part was visible, else 0.
+@param *np;		circumstances 
+@param *eop;		which object 
+@param d;			Earth circle diameter, pixels 
+@param wb, hb;		width and height borders, pixels 
  */
 static int
-e_drawobject (np, eop, d, wb, hb)
-Now *np;		/* circumstances */
-EObj *eop;		/* which object */
-int d;			/* Earth circle diameter, pixels */
-int wb, hb;		/* width and height borders, pixels */
+e_drawobject (Now * np, EObj * eop, int d, int wb, int hb)
 {
 	Trail *tp = eop->trail;
 	int isvis;
@@ -4300,12 +4190,12 @@ int wb, hb;		/* width and height borders, pixels */
  * orbit begins over current ground location then proceeds in a sidereal
  * reference frame, ie, ignores rotation of the earth.
  * draw name if want.
+@param *eop;		which object 
+@param d;			Earth circle diameter, pixels 
+@param wb, hb;		 width and height borders, pixels 
  */
 static void
-e_draworbit (eop, d, wb, hb)
-EObj *eop;		/* which object */
-int d;			/* Earth circle diameter, pixels */
-int wb, hb;		/* width and height borders, pixels */
+e_draworbit (EObj * eop, int d, int wb, int hb)
 {
 	Now now, *np;		/* advance time through one rev */
 	Obj obj, *op;		/* advance object through one rev */
@@ -4466,12 +4356,13 @@ int wb, hb;		/* width and height borders, pixels */
 	}
 }
 
-/* draw obj's name */
+/* draw obj's name 
+@param *eop;		 which object 
+@param d;			Earth circle diameter, pixels 
+@param wb, hb;		width and height borders, pixels 
+*/
 static void
-e_drawname (eop, d, wb, hb)
-EObj *eop;		/* which object */
-int d;			/* Earth circle diameter, pixels */
-int wb, hb;		/* width and height borders, pixels */
+e_drawname (EObj * eop, int d, int wb, int hb)
 {
 	Trail *tp = &eop->trail[0];
 	char *name = tp->t_obj.o_name;
@@ -4503,17 +4394,17 @@ e_draworbname (EObj *eop, int x, int y)
 
 /* this function just captures the code we were inventing over and over to draw
  * polylines.
+@param xp[];	 working array 
+@param xpsize;	 entries in xp[] 
+@param i;		item we are on: 0..max 
+@param vis;	 is this point visible 
+@param nxp;	number of items in xp[] in use -- next goes in xp[npx] 
+@param max;	largest item number we will draw 
+@param w;		window width -- used to check top wraps 
+@param x, y;	 the point to add to polyline 
  */
 static int
-add_to_polyline (xp, xpsize, i, vis, nxp, max, w, x, y)
-XPoint xp[];	/* working array */
-int xpsize;	/* entries in xp[] */
-int i;		/* item we are on: 0..max */
-int vis;	/* is this point visible */
-int nxp;	/* number of items in xp[] in use -- next goes in xp[npx] */
-int max;	/* largest item number we will draw */
-int w;		/* window width -- used to check top wraps */
-int x, y;	/* the point to add to polyline */
+add_to_polyline (XPoint xp[], int xpsize, int i, int vis, int nxp, int max, int w, int x, int y)
 {
 	int lx = 0, ly = 0;
 	int xwrap = 0;
@@ -4608,9 +4499,7 @@ int x, y;	/* the point to add to polyline */
 
 /* mark the mainmenu location */
 static void
-e_mainmenuloc (np, d, wb, hb)
-Now *np;
-unsigned d, wb, hb;
+e_mainmenuloc (Now * np, unsigned d, unsigned wb, unsigned hb)
 {
 	XSetForeground (XtD, e_olgc, ecolors[HEREC].p);
 	e_drawcross (d, wb, hb, lat, lng, PLUSS);
@@ -4618,9 +4507,7 @@ unsigned d, wb, hb;
 
 /* mark the location of a solar eclipse, if any. */
 static void
-e_soleclipse (np, d, wb, hb)
-Now *np;
-unsigned d, wb, hb;
+e_soleclipse (Now * np, unsigned d, unsigned wb, unsigned hb)
 {
 	Obj *sunp = db_basic (SUN);
 	Obj *moonp = db_basic (MOON);
@@ -4638,13 +4525,13 @@ unsigned d, wb, hb;
  * to the point at which the given height appears at the given altitude, in
  * rads.
  * N.B. beware of negative heights (deorbited ;-))
+@param *np;	refraction circumstances 
+@param height;	satellite elevation, m above mean earth 
+@param alt;	viewing altitude, rads above horizon 
+@param *radp;	great-circle distance from subpoint to viewing circle, rads
  */
 static void
-e_viewrad (np, height, alt, radp)
-Now *np;	/* refraction circumstances */
-double height;	/* satellite elevation, m above mean earth */
-double alt;	/* viewing altitude, rads above horizon */
-double *radp;	/* great-circle distance from subpoint to viewing circle, rads*/
+e_viewrad (Now * np, double height, double alt, double *radp)
 {
 	/* remove effect of refraction from geometry */
 	unrefract (pressure, temp, alt, &alt);
@@ -4660,10 +4547,7 @@ double *radp;	/* great-circle distance from subpoint to viewing circle, rads*/
  * return 0 if ok else -1 if no memory.
  */
 static void
-e_resettrail(eop, np, discard)
-EObj *eop;
-Now *np;
-int discard;
+e_resettrail(EObj * eop, Now * np, int discard)
 {
 	Obj *op = eop->op;
 	Trail *tp = eop->trail;
@@ -4696,10 +4580,7 @@ int discard;
  */
 /* ARGSUSED */
 static int
-e_mktrail (ts, statep, client)
-TrTS ts[];
-TrState *statep;
-XtPointer client;
+e_mktrail (TrTS ts[], TrState * statep, XtPointer client)
 {
 	EObj *eop = &eobjs[(long int)client];
 	Obj *op = eop->op;
@@ -4764,8 +4645,7 @@ XtPointer client;
 /* grow the trails list by one and return the address of the new entry.
  */
 static Trail *
-e_growtrail (eop)
-EObj *eop;
+e_growtrail (EObj * eop)
 {
 	eop->trail = (Trail *) XtRealloc ((char *)eop->trail,
 					    (eop->ntrail+1)*sizeof(Trail));
@@ -4884,8 +4764,7 @@ e_getwxgif()
  * return XImage * if ok else NULL and xe_msg().
  */
 static XImage *
-e_create_xim (w, h)
-int w, h;
+e_create_xim (int w, int h)
 {
 	Display *dsp = XtDisplay(e_da_w);
 	XImage *xip;
@@ -4935,9 +4814,7 @@ int w, h;
 
 /* given a time and location, return 1 if location is in sunlight, else 0 */
 static int
-e_issunlit (np, l, L)
-Now *np;
-double l, L;
+e_issunlit (Now * np, double l, double L)
 {
 	static double last_mjd;
 	static double csslat, ssslat;
@@ -4957,8 +4834,7 @@ double l, L;
 
 /* return 1 if the given wxgifpix is gray, else 0 */
 static int
-e_wxisgray (p)
-int p;
+e_wxisgray (int p)
 {
 	int r = (int)wxxcols[p].red >> 8;
 	int g = (int)wxxcols[p].green >> 8;
@@ -5024,9 +4900,7 @@ e_newwxpm()
  * return 0 if ok, else -1.
  */
 static int
-e_setupwxpm (reload, rebuild)
-int reload;
-int rebuild;
+e_setupwxpm (int reload, int rebuild)
 {
 	static double last_mjd;
 	Now *np = mm_get_now();
@@ -5055,11 +4929,12 @@ int rebuild;
 	return (0);
 }
 
-/* convert lat/long to x/y on www.ssec.wisc.edu/data/comp/latest_cmoll.gif */
+/* convert lat/long to x/y on www.ssec.wisc.edu/data/comp/latest_cmoll.gif 
+@param l, L;		 lat, long, rads, +N, +E 
+@param *xp, *yp;		gif location 
+*/
 static void
-mollweide_llxy (l, L, xp, yp)
-double l, L;		/* lat, long, rads, +N, +E */
-short *xp, *yp;		/* gif location */
+mollweide_llxy (double l, double L, short * xp, short * yp)
 {
 	double tmp;
 
@@ -5074,11 +4949,11 @@ short *xp, *yp;		/* gif location */
 
 /* convert x/y to lat/long on www.ssec.wisc.edu/data/comp/latest_cmoll.gif.
  * return 1 if actually on the earth map, else 0.
+@param x, y;		gif location 
+@param *lp, *Lp;	lat, long, rads, +N, +E 
  */
 static int
-mollweide_xyll (x, y, lp, Lp)
-int x, y;		/* gif location */
-double *lp, *Lp;	/* lat, long, rads, +N, +E */
+mollweide_xyll (int x, int y, double * lp, double * Lp)
 {
 	double fx, fy;
 
@@ -5209,8 +5084,7 @@ loadnei()
 
 /* render deipix and neipix into e_pm */
 static void
-drawei (ww, wh, d, xb, yb)
-unsigned int ww, wh, d, xb, yb;
+drawei (unsigned int ww, unsigned int wh, unsigned int d, unsigned int xb, unsigned int yb)
 {
 	Now *np = mm_get_now();
 	Display *dsp = XtD;

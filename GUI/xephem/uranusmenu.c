@@ -169,9 +169,7 @@ um_manage ()
  * don't bother if it doesn't exist or is unmanaged now or no one is logging.
  */
 void
-um_update (np, how_much)
-Now *np;
-int how_much;
+um_update (Now * np, int how_much)
 {
 	static char fmt[] = "%7.3f";
 	Obj *eop = db_basic (SUN);
@@ -240,8 +238,7 @@ um_newres()
  */
 /* ARGSUSED */
 void
-um_newdb (appended)
-int appended;
+um_newdb (int appended)
 {
 	if (skybkg)
 	    um_update (mm_get_now(), 1);
@@ -256,10 +253,10 @@ um_ison()
 /* called by other menus as they want to hear from our buttons or not.
  * the "on"s and "off"s stack - only really redo the buttons if it's the
  * first on or the last off.
+@param whether;	 whether setting up for plotting or for not plotting 
  */
 void
-um_selection_mode (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+um_selection_mode (int whether)
 {
 	if (whether)
 	    um_selecting++;
@@ -274,8 +271,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 
 /* called to put up or remove the watch cursor.  */
 void
-um_cursor (c)
-Cursor c;
+um_cursor (Cursor c)
 {
 	Window win;
 
@@ -890,10 +886,10 @@ um_create_tvform_w()
 
 /* go through all the buttons pickable for plotting and set whether they
  * should appear to look like buttons or just flat labels.
+@param whether;	 whether setting up for plotting or for not plotting 
  */
 static void
-um_set_buttons (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+um_set_buttons (int whether)
 {
 	int i, j;
 
@@ -906,10 +902,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback when the Close button is activated on the stats menu */
 /* ARGSUSED */
 static void
-um_sstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_sstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (usform_w);
 }
@@ -917,10 +910,7 @@ XtPointer call;
 /* callback when the More Info button is activated */
 /* ARGSUSED */
 static void
-um_sstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_sstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (usform_w);
 	um_set_buttons(um_selecting);
@@ -930,10 +920,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_cpdmapping_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_cpdmapping_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtSetSensitive (tel_w, telIsOn());
 }
@@ -944,10 +931,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (client) {
 	    int *flagp = (int *)client;
@@ -970,10 +954,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_scale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_scale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	um_update (mm_get_now(), 1);
 }
@@ -982,10 +963,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (um_selecting) {
 	    char *name;
@@ -998,10 +976,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ut_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ut_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1056,10 +1031,7 @@ XtPointer call;
 /* called whenever the topview scene is mapped. */
 /* ARGSUSED */
 static void
-ut_map_cb (wid, client, call)
-Widget wid;
-XtPointer client;
-XtPointer call;
+ut_map_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ut_track_size();
 }
@@ -1111,10 +1083,7 @@ ut_track_size()
 /* callback when topview dialog is unmapped */
 /* ARGSUSED */
 static void
-ut_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ut_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (topview_w, False, True);
 }
@@ -1122,10 +1091,7 @@ XtPointer call;
 /* callback when main shell is popped down */
 /* ARGSUSED */
 static void
-um_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (usform_w);
 	XtUnmanageChild (utform_w);
@@ -1152,10 +1118,7 @@ XtPointer call;
 /* callback from the main Close button */
 /* ARGSUSED */
 static void
-um_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do all the work */
 	XtPopdown (ushell_w);
@@ -1164,10 +1127,7 @@ XtPointer call;
 /* callback to add this scene to the movie loop */
 /* ARGSUSED */
 static void
-um_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (um_pm, dt_w);
 }
@@ -1176,10 +1136,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* best effect if turn off worrying about the sky background */
 	skybkg = 0;
@@ -1192,10 +1149,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1253,10 +1207,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	ScreenObj *sop;
@@ -1320,8 +1271,7 @@ um_create_popup()
 
 /* put up a popup at ev with info about sop */
 static void
-um_fill_popup (sop)
-ScreenObj *sop;
+um_fill_popup (ScreenObj * sop)
 {
 	char *name;
 	double ra, dec, mag;
@@ -1351,10 +1301,7 @@ ScreenObj *sop;
  */
 /* ARGSUSED */
 static void
-um_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This is a simple schematic depiction of Uranus and its moons.",
@@ -1368,10 +1315,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1380,10 +1324,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-um_goto_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_goto_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = db_basic (URANUS);
 	telGoto (op);
@@ -1392,10 +1333,7 @@ XtPointer call;
 /* add one entry to the given global screenobj array.
  */
 static void
-add_screenobj (soidx, op, x, y)
-SOIdx soidx;
-Obj *op;
-int x, y;
+add_screenobj (SOIdx soidx, Obj * op, int x, int y)
 {
 	char *mem = (char *) screenobj[soidx];
 	int nmem = nscreenobj[soidx];
@@ -1422,8 +1360,7 @@ int x, y;
 
 /* reclaim any existing screenobj entries from the given collection */
 static void
-reset_screenobj(soidx)
-SOIdx soidx;
+reset_screenobj(SOIdx soidx)
 {
 	if (screenobj[soidx]) {
 	    free ((char *)screenobj[soidx]);
@@ -1436,9 +1373,7 @@ SOIdx soidx;
  * if found return the ScreenObj *, else NULL.
  */
 static ScreenObj *
-close_screenobj (soidx, x, y)
-SOIdx soidx;
-int x, y;
+close_screenobj (SOIdx soidx, int x, int y)
 {
 	ScreenObj *scop = screenobj[soidx];
 	ScreenObj *minsop = NULL;
@@ -1464,10 +1399,7 @@ int x, y;
  */
 /* ARGSUSED */
 static void
-um_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+um_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Uranus", um_print);
 }
@@ -1519,8 +1451,7 @@ um_print ()
 }
 
 static void
-um_ps_annotate (np)
-Now *np;
+um_ps_annotate (Now * np)
 {
 	int ctrx = (int)(8.5*72/2);
 	Obj *eop = db_basic (SUN);
@@ -1737,11 +1668,7 @@ Now *np;
  *     +md[].z: in front, u radii
  */
 static void
-um_draw_map (w, uop, usize, md)
-Obj *uop;
-Widget w;
-double usize;
-MoonData md[U_NMOONS];
+um_draw_map (Widget w, Obj * uop, double usize, MoonData md[U_NMOONS])
 {
 	Display *dsp = XtDisplay(w);
 	Window win;
@@ -2023,14 +1950,7 @@ make_gcs ()
  * with is in a bounding box tw x th.
  */
 static void
-u_calibline (dsp, win, gc, xc, yc, tag, tw, th, l)
-Display *dsp;
-Drawable win;
-GC gc;
-int xc, yc;
-char *tag;
-int tw, th;
-int l;
+u_calibline (Display * dsp, Drawable win, GC gc, int xc, int yc, char * tag, int tw, int th, int l)
 {
 	int lx = xc - l/2;
 	int rx = lx + l;
@@ -2053,16 +1973,16 @@ int l;
  * save objects and screen locs in the global screenobj array for picking.
  * this is used to draw the backgrounds for the planet closeups.
  * Based on work by: Dan Bruton <WDB3926@acs.tamu.edu>
+@param win;		 window to draw on 
+@param w, h;		 window size 
+@param fmag;		 faintest magnitude to display 
+@param ra0, dec0;	 center of patch, rads 
+@param scale;		 rads per pixel 
+@param rad;		 maximum radius to draw away from ra0/dec0, rads 
+@param fliptb, fliplr;	 flip direction; default is S up E right 
  */
 static void
-sky_background (win, w, h, fmag, ra0,dec0,scale,rad,fliptb,fliplr)
-Drawable win;		/* window to draw on */
-unsigned w, h;		/* window size */
-int fmag;		/* faintest magnitude to display */
-double ra0, dec0;	/* center of patch, rads */
-double scale;		/* rads per pixel */
-double rad;		/* maximum radius to draw away from ra0/dec0, rads */
-int fliptb, fliplr;	/* flip direction; default is S up E right */
+sky_background (Drawable win, unsigned w, unsigned h, int fmag, double ra0,double dec0,double scale,double rad,int fliptb,int fliplr)
 {
 	static int before;
 	double cdec0 = cos(dec0);
@@ -2128,8 +2048,7 @@ int fliptb, fliplr;	/* flip direction; default is S up E right */
  * already close enough.
  */
 static void
-um_loadfs (ra, dec)
-double ra, dec;
+um_loadfs (double ra, double dec)
 {
 	Now *np = mm_get_now();
 

@@ -64,7 +64,7 @@ static char srchvname[] = "SolveValue";
 static char solvecategory[] = "Tools -- Solve";	/* Save category */
 static char xml_srchele[] = "XEphemSolver";
 
-static int (*srch_f)();		/* 0 or pointer to one of the search functions*/
+static int (*srch_f)(double, double, double *);		/* 0 or pointer to one of the search functions*/
 static int srch_tmscalled;	/* number of iterations so far */
 static double tmlimit;		/* search accuracy, hrs */
 static char config_suffix[] = ".svc";	/* file ext for solver config files */
@@ -110,10 +110,10 @@ srch_manage ()
  * first on or the last off.
  * N.B. we cooperate with a flag from the Enable pushbutton to prevent
  *   being able use the search function result as a term in the search funtion.
+@param whether;	 whether setting up for plotting or for not plotting 
  */
 void
-srch_selection_mode (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+srch_selection_mode (int whether)
 {
 	if (srch_self_selection_mode)
 	    return;
@@ -136,8 +136,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
  * too so it might not really be us that wants to use it.
  */
 void
-srch_selection (name)
-char *name;
+srch_selection (char * name)
 {
 	int ins;
 	char *qname;
@@ -167,9 +166,7 @@ char *name;
  * return 0 if caller can continue or -1 if it is time to stop.
  */
 int
-srch_eval(Mjd, tmincp)
-double Mjd;
-double *tmincp;
+srch_eval(double Mjd, double * tmincp)
 {
 	int s;
 
@@ -214,9 +211,7 @@ srch_ison()
  *   the srch function itself.
  */
 void
-srch_log (name, value)
-char *name;
-double value;
+srch_log (char * name, double value)
 {
 	if (any_ison())
 	    compiler_log (name, value);
@@ -224,8 +219,7 @@ double value;
 
 /* called to put up or remove the watch cursor.  */
 void
-srch_cursor (c)
-Cursor c;
+srch_cursor (Cursor c)
 {
 	Window win;
 
@@ -594,10 +588,10 @@ srching_now()
 
 /* go through all the buttons pickable for plotting and set whether they
  * should appear to look like buttons.
+@param whether;	whether setting up for plotting or for not plotting 
  */
 static void
-srch_set_buttons (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+srch_set_buttons (int whether)
 {
 	buttonAsButton(valu_w, whether);
 }
@@ -609,10 +603,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
  */
 /* ARGSUSED */
 static void
-srch_use_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_use_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (srch_selecting) {
 	    if (prog_isgood()) {
@@ -627,10 +618,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_newfunc_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_newfunc_cb (Widget w, XtPointer client, XtPointer call)
 {
 	f_showit (err_w, "New function not compiled");
 }
@@ -640,10 +628,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_loadfn_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_loadfn_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char msg[1024];
 	char *g, *f, *a;
@@ -695,10 +680,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_savefn_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_savefn_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024], *txt;
 	char *goal;
@@ -751,10 +733,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_compile_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_compile_cb (Widget w, XtPointer client, XtPointer call)
 {
 	compile_func();
 }
@@ -763,10 +742,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *help_msg[] = {
 "This menu controls the automatic searching facility. You define an arithmetic",
@@ -790,10 +766,7 @@ static char *help_msg[] = {
  */
 /* ARGSUSED */
 static void
-srch_clear_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_clear_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *txt = XmTextGetString (func_w);
 	XmTextReplace (func_w, 0, strlen(txt), "");
@@ -806,10 +779,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_fields_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_fields_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int whether = XmToggleButtonGetState(w);
 
@@ -823,10 +793,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (srchshell_w);
 }
@@ -834,10 +801,7 @@ XtPointer call;
 /* user typed Return in accuracy field. get his new value and use it */
 /* ARGSUSED */
 static void
-srch_acc_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_acc_cb (Widget w, XtPointer client, XtPointer call)
 {
 	get_tmlimit();
 }
@@ -848,10 +812,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_goal_cb(w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_goal_cb(Widget w, XtPointer client, XtPointer call)
 {
 	int (*sfp)()= (int (*)())client;
 
@@ -867,10 +828,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-srch_on_off_cb(w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+srch_on_off_cb(Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg =
 	    "You must first successfully compile a search Function and\n select a Goal algorithm before searching may be enabled.";
@@ -933,10 +891,7 @@ compile_func()
  * return -1 when finished.
  */
 static int
-srch_max(Mjd, v, tmincp)
-double Mjd;
-double v;
-double *tmincp;
+srch_max(double Mjd, double v, double * tmincp)
 {
 	static double v0, lastv0, j0, v1, lastv1, j1;
 	static double lastv;
@@ -978,10 +933,7 @@ double *tmincp;
  * return -1 when finished.
  */
 static int
-srch_min(Mjd, v, tmincp)
-double Mjd;
-double v;
-double *tmincp;
+srch_min(double Mjd, double v, double * tmincp)
 {
 	static double v0, lastv0, j0, v1, lastv1, j1;
 	static double lastv;
@@ -1022,10 +974,7 @@ double *tmincp;
  * uses globals srch_tmscalled and tmlimit.
  */
 static int
-srch_solve0(Mjd, v, tmincp)
-double Mjd;
-double v;
-double *tmincp;
+srch_solve0(double Mjd, double v, double * tmincp)
 {
 	static double x0, x_1;	/* x(n-1) and x(n) */
 	static double y_0, y_1;	/* y(n-1) and y(n) */
@@ -1058,10 +1007,7 @@ double *tmincp;
  *    direction by tminc first before starting to divide down.
  */
 static int
-srch_binary(Mjd, v, tmincp)
-double Mjd;
-double v;
-double *tmincp;
+srch_binary(double Mjd, double v, double * tmincp)
 {
 	static double lb, ub;		/* lower and upper bound */
 	static int initial_state;

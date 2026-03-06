@@ -78,10 +78,10 @@ static int EGApalette[16][3] = {
   {255,100,100}, {255,100,255}, {255,255,100}, {255,255,255} };
   
 
-static int   readImage();
+static int   readImage(PICINFO * pinfo);
 static int   ReadCode();
-static void  DoInterlace();
-static int   gifError();
+static void  DoInterlace(byte Index);
+static int   gifError(PICINFO * pinfo, char * st);
 
 static int   filesize;
 static int numcols;
@@ -92,16 +92,19 @@ static byte *dataptr;
 
 static char *g_errmsg;
 
-static int LoadGIF();
+static int LoadGIF(PICINFO * pinfo);
 
+/*
+@param char *raw;		 raw gif file 
+@param nraw;			 bytes ingif file 
+@param *wp, *hp;			 RETURN: image width/height 
+@param char *pixap[];		 RETURN: malloced w*h pixels, rgba indices 
+@param char ra[], ga[], ba[];	 RETURN: color map, 256 each 
+@param errmsg[];			 excuse, if return -1 
+*/
 int
-explodeGIF (raw, nraw, wp, hp, pixap, ra, ga, ba, errmsg)
-unsigned char *raw;		/* raw gif file */
-int nraw;			/* bytes ingif file */
-int *wp, *hp;			/* RETURN: image width/height */
-unsigned char *pixap[];		/* RETURN: malloced w*h pixels, rgba indices */
-unsigned char ra[], ga[], ba[];	/* RETURN: color map, 256 each */
-char errmsg[];			/* excuse, if return -1 */
+explodeGIF (unsigned char * raw, int nraw, int * wp, int * hp, unsigned char *pixap[],
+       unsigned char ra[], unsigned char ga[], unsigned char ba[], char errmsg[])
 {
 	PICINFO pi;
 
@@ -121,8 +124,7 @@ char errmsg[];			/* excuse, if return -1 */
 
 
 /*****************************/
-static int LoadGIF(pinfo)
-     PICINFO *pinfo;
+static int LoadGIF(PICINFO * pinfo)
 /*****************************/
 {
   /* returns '1' if successful */
@@ -386,8 +388,7 @@ static int LoadGIF(pinfo)
 
 
 /********************************************/
-static int readImage(pinfo)
-     PICINFO *pinfo;
+static int readImage(PICINFO * pinfo)
 {
   register byte ch, ch1, *ptr1, *picptr;
   int           i, npixels, maxpixels;
@@ -604,8 +605,7 @@ static int ReadCode()
 
 
 /***************************/
-static void DoInterlace(Index)
-     byte Index;
+static void DoInterlace(byte Index)
 {
   static byte *ptr = NULL;
   static int   oldYC = -1;
@@ -654,9 +654,7 @@ static void DoInterlace(Index)
 
       
 /*****************************/
-static int gifError(pinfo, st)
-     PICINFO *pinfo;
-     char    *st;
+static int gifError(PICINFO * pinfo, char * st)
 {
   strcpy (g_errmsg, st);
 

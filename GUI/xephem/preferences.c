@@ -135,8 +135,7 @@ static int prefs[NPREFS];
  * also, tack on some Save and resource controls.
  */
 void
-pref_create_pulldown (menu_bar)
-Widget menu_bar;
+pref_create_pulldown (Widget menu_bar)
 {
 	Widget w, cb_w, pd;
 	Arg args[20];
@@ -191,8 +190,7 @@ Widget menu_bar;
 /* called anytime we want to know a preference.
  */
 int
-pref_get(pref)
-Preferences pref;
+pref_get(Preferences pref)
 {
 	return (prefs[pref]);
 }
@@ -201,9 +199,7 @@ Preferences pref;
  * Use this wisely.. it does *not* change the menu system.
  */
 int
-pref_set (pref, new)
-Preferences pref;
-int new;
+pref_set (Preferences pref, int new)
 {
 	int prior = pref_get(pref);
 	prefs[pref] = new;
@@ -219,11 +215,10 @@ confirm()
 
 /* build one option off the given pulldown menu.
  * for pairs, state of first fallback[] sets other; for triples must set all 3.
+@param pd;	parent pulldown menu 
  */
 static void
-pref_build (pd, pp)
-Widget pd;	/* parent pulldown menu */
-PrefSet *pp;
+pref_build (Widget pd, PrefSet * pp)
 {
 	Widget pr, cb_w;
 	Widget tb1_w, tb2_w, tb3_w;
@@ -312,10 +307,7 @@ PrefSet *pp;
  */
 /* ARGSUSED */
 static void
-pref_date_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_date_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -330,10 +322,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_units_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_units_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -348,10 +337,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_tz_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_tz_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -366,10 +352,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_dpy_prec_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_dpy_prec_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -384,10 +367,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_topogeo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_topogeo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -402,10 +382,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_msg_bell_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_msg_bell_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -419,10 +396,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_prefill_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_prefill_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -436,10 +410,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_tips_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_tips_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -453,10 +424,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_confirm_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_confirm_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 
@@ -470,10 +438,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-pref_weekstart_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+pref_weekstart_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *s = (XmToggleButtonCallbackStruct *)call;
 

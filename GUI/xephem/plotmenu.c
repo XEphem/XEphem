@@ -125,8 +125,7 @@ plot_manage ()
  * selected to inform us that that button is to be included in a plot.
  */
 void
-plt_selection (name)
-char *name;
+plt_selection (char * name)
 {
 	if (!isUp(plotshell_w) || !XmToggleButtonGetState(select_w))
 	    return;
@@ -139,9 +138,7 @@ char *name;
  * might have the same field listed more than once so can't stop if find one.
  */
 void
-plt_log (name, value)
-char *name;
-double value;
+plt_log (char * name, double value)
 {
 	if (plt_fp) {
 	    PltLine *plp;
@@ -180,8 +177,7 @@ plot_ison()
 
 /* called to put up or remove the watch cursor.  */
 void
-plt_cursor (c)
-Cursor c;
+plt_cursor (Cursor c)
 {
 	Window win;
 
@@ -198,8 +194,7 @@ Cursor c;
  * what fields to plot.
  */
 static void
-plt_select(whether)
-int whether;
+plt_select(int whether)
 {
 	all_selection_mode(whether);
 }
@@ -488,10 +483,7 @@ plot_create_shell()
  */
 /* ARGSUSED */
 static void
-plt_show_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_show_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -509,10 +501,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_loadcfg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_loadcfg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	FILE *fp;
@@ -564,10 +553,7 @@ XtPointer call;
 /* callback to save current configuration to file named by cfn_w. */
 /* ARGSUSED */
 static void
-plt_savecfg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_savecfg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FILE *fp;
 	char *txt, *fn;
@@ -619,10 +605,7 @@ XtPointer call;
 /* callback to allow selecting plot fields */
 /* ARGSUSED */
 static void
-plt_select_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_select_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    /* first turn off plotting, if on, while we change things */
@@ -639,10 +622,7 @@ XtPointer call;
 /* callback when user wants to start building a plot file */
 /* ARGSUSED */
 static void
-plt_active_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_active_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    /* first turn off selecting, if on */
@@ -661,10 +641,7 @@ XtPointer call;
 /* callback when the main plot window is closed */
 /* ARGSUSED */
 static void
-plt_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 }
 
@@ -672,10 +649,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (plotshell_w);
 }
@@ -684,10 +658,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *help_msg[] = {
 "This menu controls the plot generation and display functionality of xephem.",
@@ -701,10 +672,7 @@ static char *help_msg[] = {
  */
 /* ARGSUSED */
 static void
-plt_undo_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_undo_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (selecting_xy == X) {
 	    if (npltlines > 0) {
@@ -759,8 +727,7 @@ plt_turn_off ()
 
 /* set name as X coord on current row and change prompt to ask for Y */
 static void
-set_x (name)
-char *name;
+set_x (char * name)
 {
 	(void) strncpy (pltlines[npltlines].pl_xn, name, MAXFLDNAM-1);
 	set_xmstring (pltlines[npltlines].c_w[X], XmNlabelString, name);
@@ -770,8 +737,7 @@ char *name;
 
 /* set name as Y coord on current row */
 static void
-set_y (name)
-char *name;
+set_y (char * name)
 {
 	(void) strncpy (pltlines[npltlines].pl_yn, name, MAXFLDNAM-1);
 	set_xmstring (pltlines[npltlines].c_w[Y], XmNlabelString, name);
@@ -868,10 +834,10 @@ plt_try_turn_on()
 
 /* turn on plotting.
  * establish a file to use (and thereby set plt_fp, the plotting_is_on flag).
+@param *how;	fopen how argument
  */
 static void
-plt_turn_on (how)
-char *how;	/* fopen how argument */
+plt_turn_on (char * how)
 {
 	char buf[1024], *fn;
 	char *txt;
@@ -1141,8 +1107,7 @@ plt_da_manage(char *fn)
  *   DrawInfo and destroy the Form and hence everything in it.
  */
 static void
-plt_da_destroy (da_w)
-Widget da_w;
+plt_da_destroy (Widget da_w)
 {
 	Widget daform_w = XtParent(da_w);
 	DrawInfo *di;
@@ -1208,10 +1173,7 @@ plt_print()
  */
 /* ARGSUSED */
 static void
-plt_da_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget da_w = (Widget)client;
 
@@ -1224,10 +1186,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Widget da_w = (Widget)client;
 	XmUpdateDisplay (da_w);		/* handle expose after pulldown menu */
@@ -1239,10 +1198,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild ((Widget)client);
 }
@@ -1252,10 +1208,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	plt_da_destroy ((Widget)client);
 }
@@ -1266,10 +1219,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_flipx_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_flipx_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;
@@ -1305,10 +1255,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_flipy_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_flipy_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;
@@ -1344,10 +1291,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_grid_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_grid_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;
@@ -1383,10 +1327,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_xyr_asdate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_xyr_asdate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;
@@ -1429,10 +1370,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_xjd_asdate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+plt_da_xjd_asdate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonCallbackStruct *t = (XmToggleButtonCallbackStruct *) call;
 	Widget da_w = (Widget) client;
@@ -1475,10 +1413,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-plt_da_exp_cb (da_w, client, call)
-Widget da_w;
-XtPointer client;
-XtPointer call;
+plt_da_exp_cb (Widget da_w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 
@@ -1516,11 +1451,7 @@ XtPointer call;
  * report data at that location
  */
 static void
-plt_da_motion_eh (da_w, client, ev, continue_to_dispatch)
-Widget da_w;
-XtPointer client;
-XEvent *ev;
-Boolean *continue_to_dispatch;
+plt_da_motion_eh (Widget da_w, XtPointer client, XEvent * ev, Boolean * continue_to_dispatch)
 {
 	Display *dsp = XtDisplay(da_w);
 	Window win = XtWindow(da_w);
@@ -1543,8 +1474,7 @@ Boolean *continue_to_dispatch;
  * remember: the parent of the da is the form and it's userData is the di info.
  */
 static void
-plt_drawall (da_w)
-Widget da_w;
+plt_drawall (Widget da_w)
 {
 	Dimension w, h;
 	Widget daform_w;

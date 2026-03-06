@@ -135,8 +135,7 @@ sc_isGotoOn()
 /* send the given object to INDI if On and alt>0.
  */
 void
-sc_goto (op)
-Obj *op;
+sc_goto (Obj * op)
 {
 	char buf[1024];
 
@@ -212,8 +211,7 @@ Obj *op;
 
 /* called to put up or remove the watch cursor.  */
 void
-sc_cursor (c)
-Cursor c;
+sc_cursor (Cursor c)
 {
 	Window win;
 
@@ -517,10 +515,7 @@ Widget *b_wp)		/* intercept TF widget, or NULL */
 /* called when the help button is hit */
 /* ARGSUSED */
 static void
-sc_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sc_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "Configure how INDI services connect with XEphem."

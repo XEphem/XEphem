@@ -228,9 +228,7 @@ TrTS *ltp, TrState *sp, int lx, int ly, int x, int y)
 /* set a trail state resource
  */
 void
-tr_setres (name, state)
-char *name;
-TrState *state;
+tr_setres (char * name, TrState * state)
 {
 	char val[50];
 
@@ -244,9 +242,7 @@ TrState *state;
 /* get a trail state from a resource
  */
 void
-tr_getres (name, state)
-char *name;
-TrState *state;
+tr_getres (char * name, TrState * state)
 {
 	char *val;
 	int l, i, f, r, o, s, n, b;
@@ -276,12 +272,7 @@ TrState *state;
  * to free this whenever the window is destroyed.
  */
 static Widget
-create_form (title, hdr, init, cb, client)
-char *title;
-char *hdr;
-TrState *init;
-TrCB cb;
-XtPointer client;
+create_form (char * title, char * hdr, TrState * init, TrCB cb, XtPointer client)
 {
 	TrContext *tcp;
 	Widget ok_w, apply_w, close_w, help_w;
@@ -655,13 +646,7 @@ XtPointer client;
  * would use frame's new title child but don't want to lock into 1.2 (yet)
  */
 static void
-make_rb (rc_w, title, name, op, nop, savew)
-Widget rc_w;
-char *title;
-char *name;
-RCOption *op;
-int nop;
-Widget savew[];
+make_rb (Widget rc_w, char * title, char * name, RCOption * op, int nop, Widget savew[])
 {
 	Widget l_w, rb_w, w;
 	XmString str;
@@ -701,10 +686,7 @@ Widget savew[];
  */
 /* ARGSUSED */
 static void
-customint_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+customint_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtSetSensitive ((Widget)client, XmToggleButtonGetState(w));
 }
@@ -716,10 +698,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	TrContext *tcp;
 
@@ -737,10 +716,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-apply_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+apply_cb (Widget w, XtPointer client, XtPointer call)
 {
 	TrContext *tcp;
 
@@ -755,8 +731,7 @@ XtPointer call;
  * return 0 if ok, else -1.
  */
 static int
-do_trails (tcp)
-TrContext *tcp;
+do_trails (TrContext * tcp)
 {
 	Now *np = mm_get_now();
 	TrState state;
@@ -911,10 +886,7 @@ TrContext *tcp;
 
 /* advance t forward or backward based on state */
 static void
-tStep (tp, statep, sign)
-double *tp;
-TrState *statep;
-int sign;
+tStep (double * tp, TrState * statep, int sign)
 {
 	int m, y;
 	double d;
@@ -958,9 +930,7 @@ int sign;
  * return 0 if ok, else xe_msg() wny not and return -1.
  */
 static int
-get_options(tcp, statep)
-TrContext *tcp;
-TrState *statep;
+get_options(TrContext * tcp, TrState * statep)
 {
 	int i, j;
 
@@ -1076,10 +1046,7 @@ TrState *statep;
 /* called when unmapped */
 /* ARGSUSED */
 static void
-popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* N.B. don't free the userData here -- wait for destroy.
 	 * turns out unmap callbacks run before ok_cb!
@@ -1090,10 +1057,7 @@ XtPointer call;
 /* called when destroyed, client is TrContext to be free'd */
 /* ARGSUSED */
 static void
-destroy_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+destroy_cb (Widget w, XtPointer client, XtPointer call)
 {
 	free ((char *)client);
 }
@@ -1103,10 +1067,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	TrContext *tcp;
 
@@ -1119,10 +1080,7 @@ XtPointer call;
 /* called when the Help button is hit */
 /* ARGSUSED */
 static void
-help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+help_cb (Widget w, XtPointer client, XtPointer call)
 {
         hlp_dialog ("Trails", NULL, 0);
 }
@@ -1131,16 +1089,7 @@ XtPointer call;
  * direction, size and content depend on tp, sp and the line endpoints.
  */
 static void
-draw_stamp (dsp, win, gc, tp, sp, mark, ticklen, lx, ly, x, y)
-Display *dsp;
-Drawable win;
-GC gc;
-TrTS *tp;
-TrState *sp;
-int mark;
-int ticklen;
-int lx, ly;
-int x, y;
+draw_stamp (Display * dsp, Drawable win, GC gc, TrTS * tp, TrState * sp, int mark, int ticklen, int lx, int ly, int x, int y)
 {
 	char buf[64], *bp;
 	double mag = 1.0;
