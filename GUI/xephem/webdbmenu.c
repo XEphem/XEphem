@@ -488,7 +488,7 @@ char *url;
 	    slash = strrchr (url+ltransport, '/');
 	    dot = strrchr (url, '.');
 	    if (dot < slash) {
-	        snprintf (filename, 255, "%s/%.*s.edb", getPrivateDir(), strlen(url)-(int)(slash-url)-1, slash+1);
+	        snprintf (filename, 255, "%s/%.*s.edb", getPrivateDir(), (int)strlen(url)-(int)(slash-url)-1, slash+1);
 	    } else {
 	        snprintf (filename, 255, "%s/%.*s.edb", getPrivateDir(), (int)(dot-slash)-1, slash+1);
 	    }
