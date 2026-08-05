@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.4
+Type=Application
+Name=XEphem
+GenericName=Astronomical ephemeris calculator
+Exec=xephem
+Icon=XEphem
+Terminal=false
+Categories=Science;Astronomy
