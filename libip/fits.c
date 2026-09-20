@@ -46,11 +46,7 @@ static char simple[] = "SIMPLE  =                    T";
  * return 0 if ok, else put a short message into errmsg and return -1.
  */
 int
-writeFITS (fd, fip, errmsg, restore)
-int fd;
-FImage *fip;
-char *errmsg;
-int restore;
+writeFITS (int fd, FImage *fip, char *errmsg, int restore)
 {
 	int nbytes, n, nw;
 
@@ -144,10 +140,7 @@ writeFITSmem (FImage *fip, char **fts, char errmsg[], int restore)
  * return 0 if ok, else put a short message into errmsg and return -1.
  */
 int
-readFITS (fd, fip, errmsg)
-int fd;
-FImage *fip;
-char *errmsg;
+readFITS (int fd, FImage *fip, char *errmsg)
 {
 	int s;
 
@@ -286,10 +279,7 @@ readFITSmem (char *fits, int nfits, FImage *fip, char errmsg[])
  * N.B. read header portion first using readFITSHeader().
  */
 int
-readIncFITS (fd, fip, errmsg)
-int fd;
-FImage *fip;
-char *errmsg;
+readIncFITS (int fd, FImage *fip, char *errmsg)
 {
 #define	READCHUNK	4096
 
@@ -342,10 +332,7 @@ char *errmsg;
  * return 0 if ok, else put message into errmsg and return -1.
  */
 int
-readFITSHeader (fd, fip, errmsg)
-int fd;
-FImage *fip;
-char errmsg[];
+readFITSHeader (int fd, FImage *fip, char errmsg[])
 {
 	FITSRow row;
 	int nrows;
@@ -422,11 +409,7 @@ char errmsg[];
  * return 0 if ok else -1 if error.
  */
 int
-writeSimpleFITS (fd, pix, w, h, restore)
-int fd;
-char *pix;
-int w, h;
-int restore;
+writeSimpleFITS (int fd, char *pix, int w, int h, int restore)
 {
 	char errmsg[1024];
 	FImage fimage;
@@ -448,10 +431,7 @@ int restore;
  * we also require that if NAXISi, with i > 2, exist they be 1.
  */
 int
-getNAXIS (fip, n1p, n2p, errmsg)
-FImage *fip;
-int *n1p, *n2p;
-char errmsg[];
+getNAXIS (FImage * fip, int * n1p, int * n2p, char errmsg[])
 {
 	int n;
 	int i;
@@ -557,10 +537,7 @@ fmtFITSHeader (FImage *fip, char **mem, char *errmsg)
  * if trouble put message in errmsg and return -1, else return 0.
  */
 static int
-writeFITSHeader (fip, fd, errmsg)
-FImage *fip;
-int fd;
-char *errmsg;
+writeFITSHeader (FImage * fip, int fd, char *errmsg)
 {
 	char *hdr;
 	int nbytes, nw, n;
@@ -592,8 +569,7 @@ char *errmsg;
 /* initialize each field of a garbage fip to a default.
  */
 void
-initFImage (fip)
-FImage *fip;
+initFImage (FImage * fip)
 {
 	memset ((char *)fip, 0, sizeof(*fip));
 }
@@ -604,8 +580,7 @@ FImage *fip;
  *    pointer fields that are non-0; use initFImage for that.
  */
 void
-resetFImage (fip)
-FImage *fip;
+resetFImage (FImage *fip)
 {
 	if (fip->var)
 	    free ((char *)fip->var);
@@ -619,8 +594,7 @@ FImage *fip;
  * we assume fip->var is empty and we do not add END or pad.
  */
 void
-setSimpleFITSHeader (fip)
-FImage *fip;
+setSimpleFITSHeader (FImage * fip)
 {
 	setLogicalFITS (fip, "SIMPLE", 1, "Standard FITS");
 	setIntFITS (fip, "BITPIX", fip->bitpix, "Bits per pixel");
@@ -633,11 +607,7 @@ FImage *fip;
 
 /* add the Logical field v to fip->var */
 void
-setLogicalFITS (fip, name, v, comment)
-FImage *fip;
-char *name;
-int v;
-char *comment;
+setLogicalFITS (FImage * fip, char * name, int v, char * comment)
 {
 	char *rp;
 
@@ -652,11 +622,7 @@ char *comment;
 
 /* add (or replace) the Integer field v to fip->var */
 void
-setIntFITS (fip, name, v, comment)
-FImage *fip;
-char *name;
-int v;
-char *comment;
+setIntFITS (FImage * fip, char * name, int v, char * comment)
 {
 	char *rp;
 
@@ -671,12 +637,7 @@ char *comment;
 
 /* add (or replace) the Real field v with so many significant digits */
 void
-setRealFITS (fip, name, v, sigdig, comment)
-FImage *fip;
-char *name;
-double v;
-int sigdig;
-char *comment;
+setRealFITS (FImage * fip, char * name, double v, int sigdig, char * comment)
 {
 	char *rp;
 
@@ -694,11 +655,7 @@ char *comment;
  *   col 20, i.e. 8 characters minimum including blanks.
  */
 void
-setStringFITS (fip, name, string, comment)
-FImage *fip;
-char *name;
-char *string;
-char *comment;
+setStringFITS (FImage * fip, char * name, char * string, char * comment)
 {
 	char *rp;
 
@@ -716,10 +673,7 @@ char *comment;
  * this is generally only used for names of HISTORY and COMMENT
  */
 void
-setCommentFITS (fip, name, comment)
-FImage *fip;
-char *name;
-char *comment;
+setCommentFITS (FImage * fip, char * name, char * comment)
 {
 	char lline[FITS_HCOLS+1];	/* room for sprintf's trailing '\0' */
 	int l = strlen(comment);
@@ -741,10 +695,7 @@ char *comment;
  * return 0 and set *vp if we find it, else return -1.
  */
 int
-getLogicalFITS (fip, name, vp)
-FImage *fip;
-char *name;
-int *vp;
+getLogicalFITS (FImage * fip, char * name, int * vp)
 {
 	char *rp;
 
@@ -762,10 +713,7 @@ int *vp;
  * return 0 and set *vp if we find it, else return -1.
  */
 int
-getIntFITS (fip, name, vp)
-FImage *fip;
-char *name;
-int *vp;
+getIntFITS (FImage * fip, char * name, int * vp)
 {
 	char *rp;
 
@@ -779,10 +727,7 @@ int *vp;
  * return 0 and set *vp if we find it, else return -1.
  */
 int
-getRealFITS (fip, name, vp)
-FImage *fip;
-char *name;
-double *vp;
+getRealFITS (FImage * fip, char * name, double *vp)
 {
 	char buf[32];
 	char *dp, *rp;
@@ -803,10 +748,7 @@ double *vp;
  * buf should be at least 73 chars long.
  */
 int
-getCommentFITS (fip, name, buf)
-FImage *fip;
-char *name;
-char *buf;
+getCommentFITS (FImage * fip, char * name, char * buf)
 {
 	char *rp;
 
@@ -823,10 +765,7 @@ char *buf;
  * string should be at least 69 chars long.
  */
 int
-getStringFITS (fip, name, string)
-FImage *fip;
-char *name;
-char *string;
+getStringFITS (FImage * fip, char * name, char * string)
 {
 	char *string0 = string;
 	char *rp;
@@ -855,10 +794,7 @@ char *string;
  * if find it set *rpp to its address and return 0, else -1.
  */
 static int
-findFImageVar (fip, name, rpp)
-FImage *fip;
-char *name;
-char **rpp;
+findFImageVar (FImage * fip, char * name, char **rpp)
 {
 	char field[9];	/* FITS field name */
 	int i;
@@ -876,9 +812,7 @@ char **rpp;
 /* add the row to the end of the fip->var array.
  */
 void
-addFImageVar (fip, row)
-FImage *fip;
-FITSRow row;
+addFImageVar (FImage * fip, FITSRow row)
 {
 	char *mem;
 	int newn;
@@ -906,9 +840,7 @@ FITSRow row;
  * return 0 if ok, else -1 if field didn't exist.
  */
 int
-delFImageVar (fip, name)
-FImage *fip;
-char *name;
+delFImageVar (FImage * fip, char *name)
 {
 	char *rp;
 	char *mem;
@@ -947,9 +879,7 @@ char *name;
  * return 0 if ok, else -1 if trouble.
  */
 int
-cpyFImageVar (fip1, fip2, name)
-FImage *fip1, *fip2;
-char *name;
+cpyFImageVar (FImage * fip1, FImage * fip2, char * name)
 {
 	char *srcrow, *dstrow;
 
@@ -966,11 +896,7 @@ char *name;
  * as a F or T in column 30.
  */
 static void
-fmtLogicalFITS (line, name, value, comment)
-FITSRow line;
-char *name;
-int value;
-char *comment;
+fmtLogicalFITS (FITSRow line, char * name, int value, char * comment)
 {
 	sprintf (line, "%-8.8s=%20s%c", name, "", value ? 'T' : 'F');
 	fmtInlineComment (line, comment);
@@ -980,11 +906,7 @@ char *comment;
  * right justified in columns 11-30.
  */
 static void
-fmtIntFITS (line, name, value, comment)
-FITSRow line;
-char *name;
-int value;
-char *comment;
+fmtIntFITS (FITSRow line, char * name, int value, char * comment)
 {
 	char str[30];
 	int strl;
@@ -1000,12 +922,7 @@ char *comment;
  * in columns 11-30 with at most sigdig significant digits.
  */
 static void
-fmtRealFITS (line, name, value, sigdig, comment)
-FITSRow line;
-char *name;
-double value;
-int sigdig;
-char *comment;
+fmtRealFITS (FITSRow line, char * name, double value, int sigdig, char * comment)
 {
 	sprintf (line, "%-8.8s= %20.*G", name, sigdig, value);
 	fmtInlineComment (line, comment);
@@ -1016,11 +933,7 @@ char *comment;
  * characters minimum including blanks.
  */
 static void
-fmtStringFITS (line, name, value, comment)
-FITSRow line;
-char *name;
-char *value;
-char *comment;
+fmtStringFITS (FITSRow line, char * name, char * value, char * comment)
 {
 	char lline[FITS_HCOLS+1];	/* room for sprintf's trailing '\0' */
 	int l = strlen(value);
@@ -1044,8 +957,7 @@ char *comment;
 
 /* write the END marker to the FITS line */
 static void
-fmtENDFITS (line)
-FITSRow line;
+fmtENDFITS (FITSRow line)
 {
 	sprintf (line, "%-79s", "END");
 	line[79] = ' ';
@@ -1053,9 +965,7 @@ FITSRow line;
 
 /* attend to the final 50 chars of line */
 static void
-fmtInlineComment (line, comment)
-FITSRow line;
-char *comment;
+fmtInlineComment (FITSRow line, char * comment)
 {
 	char buf[100]; /* buffer to allow for sprintf's trailing '\0' */
 
@@ -1069,8 +979,7 @@ char *comment;
 /* turn native unsigned shorts into FITS' big-endian signed.
  */
 static void
-enFITSPixels (fip)
-FImage *fip;
+enFITSPixels (FImage * fip)
 {
 	unsigned short *pixp = (unsigned short *)fip->image;
 	int n = fip->sh * fip->sw;
@@ -1098,8 +1007,7 @@ FImage *fip;
 /* turn FITS' big-endian signed shorts into native unsigned shorts.
  */
 static void
-unFITSPixels (fip)
-FImage *fip;
+unFITSPixels (FImage * fip)
 {
 	unsigned short *pixp = (unsigned short *)fip->image;
 	int n = fip->sh * fip->sw;

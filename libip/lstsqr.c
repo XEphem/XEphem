@@ -12,7 +12,7 @@
 
 /* from Numerical Recipes */
 static int amoeba(double **p, double *y, int ndim, double ftol,
-    double (*funk)(), int *nfunk);
+    double (*funk)(double p[]), int *nfunk);
 
 /* this lets us map 1-based arrays into 0-based arrays */
 static double (*chisqr_0based)(double p[]);
@@ -92,7 +92,7 @@ double ftol)			/* desired fractional tolerance */
 /* following are from Numerical Recipes in C */
 
 static double amotry(double **p, double *y, double *psum, int ndim,
-    double (*funk)(), int ihi, int *nfunk, double fac);
+    double (*funk)(double p[]), int ihi, int *nfunk, double fac);
 static void nrerror( char error_text[]);
 static double *vector(int nl, int nh);
 static void free_vector(double *v, int nl, int nh);
@@ -108,12 +108,10 @@ static void free_vector(double *v, int nl, int nh);
 						sum += p[i][j]; psum[j]=sum;}
 
 static int
-amoeba(p,y,ndim,ftol,funk,nfunk)
-double **p,y[],ftol,(*funk)();
-int ndim,*nfunk;
+amoeba(double **p,double y[],int ndim,double ftol,double (*funk)(double p[]),int * nfunk)
 {
 	int i,j,ilo,ihi,inhi,mpts=ndim+1;
-	double ytry,ysave,sum,rtol,amotry(),*psum,*vector();
+	double ytry,ysave,sum,rtol,*psum,*vector();
 	void nrerror(),free_vector();
 	double yihilo;
 
@@ -168,9 +166,7 @@ int ndim,*nfunk;
 }
 
 static double
-amotry(p,y,psum,ndim,funk,ihi,nfunk,fac)
-double **p,*y,*psum,(*funk)(),fac;
-int ndim,ihi,*nfunk;
+amotry(double **p,double *y,double *psum,int ndim, double (*funk)(double p[]),int ihi,int * nfunk,double fac)
 {
 	int j;
 	double fac1,fac2,ytry,*ptry,*vector();
@@ -202,8 +198,7 @@ int ndim,ihi,*nfunk;
 /* nrutil.c */
 
 static void
-nrerror(error_text)
-char error_text[];
+nrerror(char error_text[])
 {
 	fprintf(stderr,"Numerical Recipes run-time error...\n");
 	fprintf(stderr,"%s\n",error_text);
@@ -214,8 +209,7 @@ char error_text[];
 
 
 static double *
-vector(nl,nh)
-int nl,nh;
+vector(int nl,int nh)
 {
 	double *v;
 
@@ -226,9 +220,7 @@ int nl,nh;
 
 
 static void
-free_vector(v,nl,nh)
-double *v;
-int nl,nh;
+free_vector(double * v,int nl,int nh)
 {
 	free((char*) (v+nl));
 }

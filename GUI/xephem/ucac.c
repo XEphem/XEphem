@@ -128,7 +128,7 @@ int nopp,       /* if opp: initial number of ObjF already in *opp */
 char msg[] 	/* status or error message if msg[0] != '\0' on return */
 )
 {
-	int (*doucac)() = 0;		/* function to process */
+	int (*doucac)(ObjFArray *oap, int rz, int dz) = 0;		/* function to process */
 	int d0z, drovz;			/* dec center and radius, in 0-zones */
 	ObjFArray oa;			/* malloc accumulator */
 	int dz;				/* scanning dec zone number */

@@ -61,7 +61,7 @@ typedef struct {
     char *acc;		/* button accelerator, if any */
     char *acctext;	/* button accelerator text, if any */
     char mne;		/* button mnemonic */
-    void (*cb)();	/* button callback, or NULL if none */
+    void (*cb)(Widget w, XtPointer client, XtPointer call);	/* button callback, or NULL if none */
     XtPointer client;	/* button callback client data */
 } ButtonInfo;
 typedef struct {
@@ -133,9 +133,7 @@ static XrmOptionDescRec options[] = {
 };
 
 int
-main(argc, argv)
-int argc;
-char *argv[];
+main(int argc, char * argv[])
 {
 	Arg args[10];
 	int n;
@@ -222,8 +220,7 @@ char *argv[];
 
 /* called to put up or remove the watch cursor.  */
 void
-main_cursor (c)
-Cursor c;
+main_cursor (Cursor c)
 {
 	Window win;
 
@@ -403,9 +400,7 @@ addOurDBs()
 
 /* ARGSUSED */
 static void
-chk_args (argc, argv)
-int argc;
-char *argv[];
+chk_args (int argc, char *argv[])
 {
 
 	if (getXRes ("log", NULL)) {
@@ -700,9 +695,7 @@ make_main_window ()
  * N.B. watch for special bip->name.
  */
 static Widget
-make_pulldown (mb_w, pdmp)
-Widget mb_w;
-PullDownMenu *pdmp;
+make_pulldown (Widget mb_w, PullDownMenu * pdmp)
 {
 	Widget pulldown_w;
 	Widget button;
@@ -890,10 +883,7 @@ initialUps()
  */
 /* ARGSUSED */
 static void
-m_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+m_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int code = (long int)client;
 

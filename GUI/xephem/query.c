@@ -65,8 +65,7 @@ void (*func2)())	/* func to call if button 2 is pushed */
 }
 
 static Widget
-query_create(tw)
-Widget tw;
+query_create(Widget tw)
 {
 	Widget q_w;
 	Arg args[20];
@@ -90,10 +89,7 @@ Widget tw;
  */
 /* ARGSUSED */
 static void
-query_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+query_cb (Widget w, XtPointer client, XtPointer call)
 {
 	void (*f)() = funcs[(long int)client];
 

@@ -118,9 +118,7 @@ static Pixel haloCache (Display *dsp, Pixel p);
 /* ask user to save or print. if ok, call his go() after we've called XPSOpen()
  */
 void
-XPSAsk (apname, go)
-char *apname;
-void (*go)();
+XPSAsk (char * apname, void (*go)())
 {
 	char buf[1024];
 
@@ -167,8 +165,7 @@ XPSDrawing()
  * not the same as not drawing, since this will white-out stuff.
  */
 void
-XPSPaperColor (p)
-unsigned long p;
+XPSPaperColor (unsigned long p)
 {
     	xpsc.papercolorset = 1;
     	xpsc.papercolor = p;
@@ -179,9 +176,7 @@ unsigned long p;
  * N.B. caller should make a copy of the returned sttring before calling again.
  */
 char *
-XPSCleanStr (s, l)
-char *s;
-int l;
+XPSCleanStr (char * s, int l)
 {
 	static char *lasts;
 	int i, o;
@@ -201,8 +196,7 @@ int l;
 
 /* called to put up or remove the watch cursor.  */
 void
-XPS_cursor (c)
-Cursor c;
+XPS_cursor (Cursor c)
 {
 	Window win;
 
@@ -222,15 +216,15 @@ Cursor c;
  * points. This allows any X rectangle to me mapped into any Postscript
  * rectangle, scaled but with the same aspect ratio.
  * we also define some handy functions.
+@param win;	 what window we are capturing 
+@param Xx0, Xy0;	ul origin of X rectangle 
+@param Xw;		width of X rectangle -- clipped if Xh > 0
+@param Xh;		height of X rectangle -- > 0 means to clip 
+@param Px0, Py0;	ul origin of Page rectangle 
+@param Pw;		width of Page rectangle 
  */
 void
-XPSXBegin (win, Xx0, Xy0, Xw, Xh, Px0, Py0, Pw)
-Window win;	/* what window we are capturing */
-int Xx0, Xy0;	/* ul origin of X rectangle */
-int Xw;		/* width of X rectangle -- clipped if Xh > 0*/
-int Xh;		/* height of X rectangle -- > 0 means to clip */
-int Px0, Py0;	/* ul origin of Page rectangle */
-int Pw;		/* width of Page rectangle */
+XPSXBegin (Window win, int Xx0, int Xy0, int Xw, int Xh, int Px0, int Py0, int Pw)
 {
 	checkState ("Begin", OPEN);
 
@@ -567,8 +561,7 @@ XPSXEnd()
 /* add a raw PS string to the file.
  */
 void
-XPSDirect (s)
-char *s;
+XPSDirect (char * s)
 {
 	checkState ("Direct", OPEN);
 
@@ -635,16 +628,13 @@ XPSClose()
 /* draw a rotated ellipse.
  * easy for postscript, not so for X.
  * all angles are 64ths degree, 0 is 3oclock, positive ccw (all like in X).
+@param x, y;	 bounding box upper left corner 
+@param a0;		 axis rotation 
+@param w, h;	 bounding box width, height 
+@param a1, a2;	 initial angle, additional extent 
  */
 void
-XPSDrawEllipse (dsp, win, gc, x, y, a0, w, h, a1, a2)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;	/* bounding box upper left corner */
-int a0;		/* axis rotation */
-unsigned w, h;	/* bounding box width, height */
-int a1, a2;	/* initial angle, additional extent */
+XPSDrawEllipse (Display * dsp, Drawable win, GC gc, int x, int y, int a0, unsigned w, unsigned h, int a1, int a2)
 {
 	doEllipse (0, dsp, win, gc, x, y, a0, w, h, a1, a2);
 }
@@ -652,16 +642,13 @@ int a1, a2;	/* initial angle, additional extent */
 /* fill a rotated ellipse.
  * easy for postscript, not so for X.
  * all angles are 64ths degree, 0 is 3oclock, positive ccw (all like in X).
+@param x, y;	 bounding box upper left corner 
+@param a0;		 axis rotation 
+@param w, h;	 bounding box width, height 
+@param a1, a2;	 initial angle, additional extent 
  */
 void
-XPSFillEllipse (dsp, win, gc, x, y, a0, w, h, a1, a2)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;	/* bounding box upper left corner */
-int a0;		/* axis rotation */
-unsigned w, h;	/* bounding box width, height */
-int a1, a2;	/* initial angle, additional extent */
+XPSFillEllipse (Display * dsp, Drawable win, GC gc, int x, int y, int a0, unsigned w, unsigned h, int a1, int a2)
 {
 	doEllipse (1, dsp, win, gc, x, y, a0, w, h, a1, a2);
 }
@@ -670,13 +657,7 @@ int a1, a2;	/* initial angle, additional extent */
  * function, then might also draw to the xpsc state if it matches the win.
  */
 void
-XPSDrawArc (dsp, win, gc, x, y, w, h, a1, a2)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;
-unsigned w, h;
-int a1, a2;
+XPSDrawArc (Display * dsp, Drawable win, GC gc, int x, int y, unsigned w, unsigned h, int a1, int a2)
 {
 	XArc xa;
 
@@ -696,12 +677,7 @@ int a1, a2;
 }
 
 void
-XPSDrawArcs (dsp, win, gc, xa, nxa)
-Display *dsp;
-Drawable win;
-GC gc;
-XArc xa[];
-int nxa;
+XPSDrawArcs (Display * dsp, Drawable win, GC gc, XArc xa[], int nxa)
 {
 	int i;
 
@@ -716,12 +692,7 @@ int nxa;
 }
 
 void
-XPSDrawLine (dsp, win, gc, x1, y1, x2, y2)
-Display *dsp;
-Drawable win;
-GC gc;
-int x1, y1;
-int x2, y2;
+XPSDrawLine (Display * dsp, Drawable win, GC gc, int x1, int y1, int x2, int y2)
 {
 	XDrawLine (dsp, win, gc, x1, y1, x2, y2);
 	if (xpsc.state != XDRAWING || xpsc.win != win)
@@ -735,13 +706,7 @@ int x2, y2;
 }
 
 void
-XPSDrawLines (dsp, win, gc, xp, nxp, mode)
-Display *dsp;
-Drawable win;
-GC gc;
-XPoint xp[];
-int nxp;
-int mode;
+XPSDrawLines (Display * dsp, Drawable win, GC gc, XPoint xp[], int nxp, int mode)
 {
 	XDrawLines (dsp, win, gc, xp, nxp, mode);
 	if (xpsc.state != XDRAWING || xpsc.win != win || nxp < 2)
@@ -753,11 +718,7 @@ int mode;
 }
 
 void
-XPSDrawPoint (dsp, win, gc, x, y)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;
+XPSDrawPoint (Display * dsp, Drawable win, GC gc, int x, int y)
 {
 	XArc xa;
 	XDrawPoint (dsp, win, gc, x, y);
@@ -777,13 +738,7 @@ int x, y;
 }
 
 void
-XPSDrawPoints (dsp, win, gc, xp, nxp, mode)
-Display *dsp;
-Drawable win;
-GC gc;
-XPoint xp[];
-int nxp;
-int mode;
+XPSDrawPoints (Display * dsp, Drawable win, GC gc, XPoint xp[], int nxp, int mode)
 {
 	int i;
 
@@ -807,12 +762,7 @@ int mode;
 }
 
 void
-XPSDrawRectangle (dsp, win, gc, x, y, w, h)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;
-unsigned w, h;
+XPSDrawRectangle (Display * dsp, Drawable win, GC gc, int x, int y, unsigned w, unsigned h)
 {
 	XDrawRectangle (dsp, win, gc, x, y, w, h);
 	if (xpsc.state != XDRAWING || xpsc.win != win)
@@ -824,12 +774,7 @@ unsigned w, h;
 }
 
 void
-XPSDrawRectangles (dsp, win, gc, xra, nxr)
-Display *dsp;
-Drawable win;
-GC gc;
-XRectangle xra[];
-int nxr;
+XPSDrawRectangles (Display * dsp, Drawable win, GC gc, XRectangle xra[], int nxr)
 {
 	XRectangle *lastxra;
 
@@ -844,12 +789,7 @@ int nxr;
 }
 
 void
-XPSDrawSegments (dsp, win, gc, xs, nxs)
-Display *dsp;
-Drawable win;
-GC gc;
-XSegment xs[];
-int nxs;
+XPSDrawSegments (Display * dsp, Drawable win, GC gc, XSegment xs[], int nxs)
 {
 	int i;
 
@@ -872,13 +812,7 @@ int nxs;
 /* draw using the font from gc which matches a previously Registered PS font.
  */
 void
-XPSDrawString (dsp, win, gc, x, y, s, l)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;
-char *s;
-int l;
+XPSDrawString (Display * dsp, Drawable win, GC gc, int x, int y, char * s, int l)
 {
 	unsigned long gcm;
 	XGCValues gcv;
@@ -913,16 +847,7 @@ int l;
  * mag is factor of how much larger than basic fs to draw.
  */
 void
-XPSRotDrawAlignedString (dsp, fs, angle, mag, win, gc, x, y, str, align)
-Display *dsp;
-XFontStruct *fs;
-double angle;
-double mag;
-Drawable win;
-GC gc;
-int x, y;
-char *str;
-int align;
+XPSRotDrawAlignedString (Display * dsp, XFontStruct *fs, double angle, double mag, Drawable win, GC gc, int x, int y, char * str, int align)
 {
 	PSFontInfo *fi;
 	char *clean;
@@ -1004,12 +929,7 @@ int align;
 /* like XPSFillArc if filling a complete circle but tries to antialias.
  */
 void
-XPSDrawStar (dsp, win, gc, x, y, d)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;
-int d;
+XPSDrawStar (Display * dsp, Drawable win, GC gc, int x, int y, int d)
 {
 	XArc xa;
 
@@ -1029,13 +949,7 @@ int d;
 }
 
 void
-XPSFillArc (dsp, win, gc, x, y, w, h, a1, a2)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;
-unsigned w, h;
-int a1, a2;
+XPSFillArc (Display * dsp, Drawable win, GC gc, int x, int y, unsigned w, unsigned h, int a1, int a2)
 {
 	XArc xa;
 
@@ -1058,12 +972,7 @@ int a1, a2;
 }
 
 void
-XPSFillArcs (dsp, win, gc, xap, na)
-Display *dsp;
-Drawable win;
-GC gc;
-XArc *xap;
-int na;
+XPSFillArcs (Display * dsp, Drawable win, GC gc, XArc *xap, int na)
 {
 	XArc *ap, *lastap;
 
@@ -1086,14 +995,7 @@ int na;
 }
 
 void
-XPSFillPolygon (dsp, win, gc, xp, nxp, shape, mode)
-Display *dsp;
-Drawable win;
-GC gc;
-XPoint xp[];
-int nxp;
-int shape;
-int mode;
+XPSFillPolygon (Display * dsp, Drawable win, GC gc, XPoint xp[], int nxp, int shape, int mode)
 {
 	XFillPolygon (dsp, win, gc, xp, nxp, shape, mode);
 	if (xpsc.state != XDRAWING || xpsc.win != win)
@@ -1112,12 +1014,7 @@ int mode;
 
 
 void
-XPSFillRectangle (dsp, win, gc, x, y, w, h)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;
-unsigned w, h;
+XPSFillRectangle (Display * dsp, Drawable win, GC gc, int x, int y, unsigned w, unsigned h)
 {
 	XFillRectangle (dsp, win, gc, x, y, w, h);
 	if (xpsc.state != XDRAWING || xpsc.win != win)
@@ -1129,12 +1026,7 @@ unsigned w, h;
 }
 
 void
-XPSFillRectangles (dsp, win, gc, xra, nxr)
-Display *dsp;
-Drawable win;
-GC gc;
-XRectangle xra[];
-int nxr;
+XPSFillRectangles (Display * dsp, Drawable win, GC gc, XRectangle xra[], int nxr)
 {
 	XRectangle *lastxra;
 
@@ -1150,14 +1042,14 @@ int nxr;
 /* print the given pixmap of size widxhei using colormap cm.
  * if bggc, print white for any pixel matching the bggc.
  * if black, force all overlay to be black when not in color.
+@param pm;		pixmap to print 
+@param int wid, hei;	pixmap size 
+@param cm;		pixels in pm are with respect to this colormap 
+@param bggc;		background pixel to not draw, or 0 
+@param black;		all drawing to be in black if !wantcolor 
  */
 void
-XPSPixmap (pm, wid, hei, cm, bggc, black)
-Pixmap pm;		/* pixmap to print */
-unsigned int wid, hei;	/* pixmap size */
-Colormap cm;		/* pixels in pm are with respect to this colormap */
-GC bggc;		/* background pixel to not draw, or 0 */
-int black;		/* all drawing to be in black if !wantcolor */
+XPSPixmap (Pixmap pm, unsigned int wid, unsigned int hei, Colormap cm, GC bggc, int black)
 {
 	Display *dsp = XtDisplay(toplevel_w);
 	Pixel white = WhitePixel (dsp, DefaultScreen (dsp));
@@ -1308,9 +1200,7 @@ toRGB (double h, double s, double v, double *rp, double *gp, double *bp)
  * TODO: check dash details.
  */
 static void
-setLineStyle (dsp, gc)
-Display *dsp;
-GC gc;
+setLineStyle (Display * dsp, GC gc)
 {
 	XGCValues gcv;
 	unsigned long gcm;
@@ -1325,9 +1215,7 @@ GC gc;
 
 /* set postscript value for FG color in gc. */
 static void
-setColor (dsp, gc)
-Display *dsp;
-GC gc;
+setColor (Display * dsp, GC gc)
 {
 	XGCValues gcv;
 	XColor xc;
@@ -1363,9 +1251,7 @@ GC gc;
 /* XFill and XDraw arc. same goofyness with whether it includes outter edge.
  */
 static void
-doArc (xap, fill)
-XArc *xap;
-int fill;
+doArc (XArc * xap, int fill)
 {
 	int x = xap->x;
 	int y = xap->y;
@@ -1390,17 +1276,13 @@ int fill;
 /* draw or fill a rotated ellipse.
  * easy for postscript, not so for X.
  * all angles are 64ths degree, 0 is 3oclock, positive ccw (all like in X).
+@param x, y;	 bounding box upper left corner 
+@param a0;		 axis rotation 
+@param w, h;	 bounding box width, height 
+@param a1, a2;	 initial angle, additional extent 
  */
 static void
-doEllipse (fill, dsp, win, gc, x, y, a0, w, h, a1, a2)
-int fill;
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;	/* bounding box upper left corner */
-int a0;		/* axis rotation */
-unsigned w, h;	/* bounding box width, height */
-int a1, a2;	/* initial angle, additional extent */
+doEllipse (int fill, Display * dsp, Drawable win, GC gc, int x, int y, int a0, unsigned w, unsigned h, int a1, int a2)
 {
 #define	MAXEPTS	50	/* n points to draw a full ellipse */
 #ifndef PI
@@ -1458,11 +1340,7 @@ int a1, a2;	/* initial angle, additional extent */
 }
 
 static void
-doPoly (xp, nxp, mode, fill)
-XPoint xp[];
-int nxp;
-int mode;
-int fill;
+doPoly (XPoint xp[], int nxp, int mode, int fill)
 {
 	int i;
 
@@ -1492,9 +1370,7 @@ int fill;
 }
 
 static void
-doRect (x, y, w, h, fill)
-int x, y, w, h;
-int fill;
+doRect (int x, int y, int w, int h, int fill)
 {
 	fprintf (FP, "newpath %d %d moveto %d %d lineto %d %d lineto\n",
 				    x, y,   x+w, y,   x+w, y+h);
@@ -1504,16 +1380,13 @@ int fill;
 
 /* draw a line from [x1,y1] to [x2,y2] */
 static void
-doSegment (x1, y1, x2, y2)
-int x1, y1, x2, y2;
+doSegment (int x1, int y1, int x2, int y2)
 {
 	fprintf (FP, " %4d %4d moveto %4d %4d lineto ", x1, y1, x2, y2);
 }
 
 /* ARGSUSED */
-static int IgnoreXError(disp, event)
-Display *disp;
-XErrorEvent *event;
+static int IgnoreXError(Display * disp, XErrorEvent * event)
 {
 	return (0);
 }
@@ -1522,8 +1395,7 @@ XErrorEvent *event;
  * xe_msg() why and return NULL if trouble.
  */
 static PSFontInfo *
-find_psfont (fid)
-Font fid;
+find_psfont (Font fid)
 {
 #define	PSDEFFAM	4		/* psmaps[] when no match found */
 #define	PSDEFSIZ	12		/* default pixel size */
@@ -1672,9 +1544,7 @@ Font fid;
 }
 
 static void
-checkState (funcname, s)
-char *funcname;
-XPSState s;
+checkState (char * funcname, XPSState s)
 {
 	if (xpsc.state != s) {
 	    printf ("XPS%s(): state is %d but expected %d\n",
@@ -1684,8 +1554,7 @@ XPSState s;
 }
 
 static void
-printTime (x, y)
-int x, y;
+printTime (int x, int y)
 {
 	char *ct;
 	int ctl;
@@ -1729,8 +1598,7 @@ int x, y;
  * return 0 if ok, else report why with xe_msg(), reset xpsc and return -1.
  */
 static int
-XPSOpen (fn)
-char *fn;
+XPSOpen (char * fn)
 {
 	checkState ("Open", ASKING);
 
@@ -2000,10 +1868,7 @@ create_print_w()
  */
 static void
 /* ARGSUSED */
-toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XmToggleButtonGetState(w)) {
 	    Widget otherw = (Widget)client;
@@ -2023,10 +1888,7 @@ no_go()
 /* called when the Ok button is hit in the print dialog */
 /* ARGSUSED */
 static void
-ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	xpsc.wantcolor = XmToggleButtonGetState (color_w);
 	xpsc.wantA4 = XmToggleButtonGetState (A4_w);
@@ -2068,10 +1930,7 @@ XtPointer call;
 /* called by Cancel */
 /* ARGSUSED */
 static void
-cancel_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cancel_cb (Widget w, XtPointer client, XtPointer call)
 {
 	no_go();
 	XtPopdown (print_w);
@@ -2080,10 +1939,7 @@ XtPointer call;
 /* called by Help */
 /* ARGSUSED */
 static void
-help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Select Color or Grayscale;",
@@ -2158,12 +2014,7 @@ call_go ()
  * use custom bitmaps because many X servers get it poorly.
  */
 static void
-x_fill_circle (dsp, win, gc, x, y, diam)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;
-int diam;
+x_fill_circle (Display * dsp, Drawable win, GC gc, int x, int y, int diam)
 {
 	static unsigned char star2_bits[] = {
 	   0x03, 0x03};
@@ -2241,12 +2092,7 @@ int diam;
  * try to simulate antialiasing.
  */
 static void
-x_drawstar (dsp, win, gc, x, y, diam)
-Display *dsp;
-Drawable win;
-GC gc;
-int x, y;
-int diam;
+x_drawstar (Display * dsp, Drawable win, GC gc, int x, int y, int diam)
 {
 	static GC gc1;
 	XGCValues gcv;

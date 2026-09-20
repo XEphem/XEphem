@@ -266,8 +266,7 @@ plot_coords (Widget da_w, DrawInfo *di, int window_x, int window_y)
 }
 
 static void
-mk_gcs (w)
-Widget w;
+mk_gcs (Widget w)
 {
 	Display *dsp = XtDisplay(w);
 	Window win = XtWindow(w);
@@ -321,11 +320,7 @@ binsplit (int i)
 }
 
 static int
-x_ticks (asdate, minx, maxx, maxticks, ticks)
-int asdate;
-double minx, maxx;
-int maxticks;
-double ticks[];
+x_ticks (int asdate, double minx, double maxx, int maxticks, double ticks[])
 {
 	double jd, minjd, maxjd;
 	double d0, d1;
@@ -385,13 +380,7 @@ double ticks[];
  * return width of string in pixels.
  */
 static int
-draw_x_label (dsp, win, asdate, v, x, y, w)
-Display *dsp;
-Window win;
-int asdate;
-double v;
-int x, y;
-int w;
+draw_x_label (Display * dsp, Window win, int asdate, double v, int x, int y, int w)
 {
 	int dir, asc, des;
 	XCharStruct ovl;

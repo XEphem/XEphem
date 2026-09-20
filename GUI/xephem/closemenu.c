@@ -110,9 +110,7 @@ c_manage()
  */
 /* ARGSUSED */
 void
-c_update (np, force)
-Now *np;
-int force;
+c_update (Now * np, int force)
 {
 	if (!isUp(cshell_w) || !XmToggleButtonGetState (autoup_w))
 	    return;
@@ -123,8 +121,7 @@ int force;
 
 /* called to put up or remove the watch cursor.  */
 void
-c_cursor (c)
-Cursor c;
+c_cursor (Cursor c)
 {
 	Window win;
 
@@ -434,10 +431,7 @@ c_create_shell ()
 /* called when the general help key is pressed */
 /* ARGSUSED */
 static void
-c_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Select desired max separation and viewpoint, then Control->Start to find all",
@@ -452,10 +446,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-c_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -463,10 +454,7 @@ XtPointer call;
 /* callback from file List control button. */
 /* ARGSUSED */
 static void
-c_flist_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_flist_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (flist_w);
 }
@@ -474,10 +462,7 @@ XtPointer call;
 /* called when our toplevel shell is popped down */
 /* ARGSUSED */
 static void
-c_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (XtIsManaged(flist_w))
 	    XtUnmanageChild (flist_w);
@@ -486,10 +471,7 @@ XtPointer call;
 /* called when the Close pushbutton is activated */
 /* ARGSUSED */
 static void
-c_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let the popdown do the rest of the work */
 	XtPopdown (cshell_w);
@@ -498,10 +480,7 @@ XtPointer call;
 /* called when a list item is double-clicked */
 /* ARGSUSED */
 static void
-c_actlist_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_actlist_cb (Widget w, XtPointer client, XtPointer call)
 {
 	(void) sky_point();
 }
@@ -509,10 +488,7 @@ XtPointer call;
 /* called when the Sky Point pushbutton is activated */
 /* ARGSUSED */
 static void
-c_skypoint_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_skypoint_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (sky_point() < 0)
 	    xe_msg (1, "First select a line from the list.");
@@ -521,10 +497,7 @@ XtPointer call;
 /* called when the Perform Search pushbutton is activated */
 /* ARGSUSED */
 static void
-c_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	do_search();
 }
@@ -646,13 +619,13 @@ do_search()
 
 /* retrieve the desired separation and other user option settings.
  * return 0 if ok, else -1
+* @param sp max separation, rads
+* @param mp limiting magnitude
+* @param wp wanderer flag
+* @param op ownmoons flag
  */
 static int
-get_options (sp, mp, wp, op)
-double *sp;	/* max separation, rads */
-double *mp;	/* limiting magnitude */
-int *wp;	/* wanderer flag */
-int *op;	/* ownmoons flag */
+get_options (double * sp, double * mp, int *wp, int *op)
 {
 	char *str;
 
@@ -680,9 +653,7 @@ int *op;	/* ownmoons flag */
  * allow for NULL pointers at any step.
  */
 static void
-free_band (bp, nb)
-Band bp[];
-int nb;
+free_band (Band bp[], int nb)
 {
 	Band *bpsav = bp;
 
@@ -704,10 +675,7 @@ int nb;
  * N.B. caller must free_band(*bpp) if we return >= 0.
  */
 static int
-init_bands (sep, mag, bpp)
-double sep;
-double mag;
-Band **bpp;
+init_bands (double sep, double mag, Band **bpp)
 {
 #define	BAND(x)		((int)floor(((x)+PI/2)/bandsiz))
 	int topo = pref_get (PREF_EQUATORIAL) == PREF_TOPO;
@@ -790,9 +758,7 @@ Band **bpp;
  * return 0 if ok, else xe_msg() and -1.
  */
 static int
-add_obj (bp, op)
-Band *bp;
-Obj *op;
+add_obj (Band * bp, Obj *op)
 {
 #define	BCHUNKS	32	/* grow the Obj * list at opp this much at a time */
 
@@ -833,15 +799,15 @@ Obj *op;
 /* malloc and fill *ppp with the close pairs in the sorted bands.
  * return count of new items in *ppp if ok else -1.
  * N.B. caller must free *ppp if it is != NULL no matter what we return.
+@param bp[];      list of bands to scan
+@param nb;                 number of bands
+@param maxsep;  max sep we are looking for, rads
+@param wander;     1 if limit to pairs with at least one wanderer (ss object)
+@param ownmoons;   1 if limit planets with their own moons
+@param **ppp;     return list of pairs we malloc
  */
 static int
-find_close (bp, nb, maxsep, wander, ownmoons, ppp)
-Band bp[];	/* list of bands to scan */
-int nb;		/* number of bands */
-double maxsep;	/* max sep we are looking for, rads */
-int wander;	/* 1 if limit to pairs with at least one wanderer (ss object) */
-int ownmoons;	/* 1 if limit planets with their own moons */
-Pair **ppp;	/* return list of pairs we malloc */
+find_close (Band bp[], int nb, double maxsep, int wander, int ownmoons, Pair **ppp)
 {
 	double stopsep = maxsep*2.3; /* stop scan at maxsep*sqrt(1**2 + 2**2) */
 	int m = 0;		/* n pairs there are room for in *ppp */
@@ -917,14 +883,14 @@ Pair **ppp;	/* return list of pairs we malloc */
  * put the smaller of op1/2 in slot op1 for later dup checking.
  * return 0 if ok, else -1.
  * N.B. the caller must free *ppp if it is not NULL no matter what we return.
+@param *op1, *op2;	the two objects to report 
+@param sep;	separation, rads 
+@param **ppp;	pointer to malloced list of lines 
+@param *mp;	pointer to number of Pairs already in *ppp 
+@param *np;	pointer to number of *ppp actually in use
  */
 static int
-add_pair (op1, op2, sep, ppp, mp, np)
-Obj *op1, *op2;	/* the two objects to report */
-double sep;	/* separation, rads */
-Pair **ppp;	/* pointer to malloced list of lines */
-int *mp;	/* pointer to number of Pairs already in *ppp */
-int *np;	/* pointer to number of *ppp actually in use */
+add_pair (Obj * op1, Obj * op2, double sep, Pair **ppp, int * mp, int * np)
 {
 #define	PCHUNKS	32	/* grow the report list this many at a time */
 	Pair *newp;
@@ -1018,10 +984,7 @@ pair_cmpf (const void *v1, const void *v2)
  * return 0 if ok else -1.
  */
 static int
-dspl_pairs (pp, np, sep)
-Pair pp[];
-int np;
-double sep;
+dspl_pairs (Pair pp[], int np, double sep)
 {
 	XmString *xmstrtbl;
 	char buf[128];
@@ -1117,10 +1080,7 @@ c_create_flist_w()
 /* called when the Ok button is hit in the file flist prompt */
 /* ARGSUSED */
 static void
-c_flistok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+c_flistok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	int icount;
@@ -1175,9 +1135,7 @@ flistok_overwrite_cb ()
 
 /* open the named flist file "a" or "w" and fill it in. */
 static void
-make_flist (name, how)
-char *name;
-char *how;
+make_flist (char * name, char * how)
 {
 	FILE *fp = fopend (name, NULL, how);
 
@@ -1192,8 +1150,7 @@ char *how;
 
 /* write out all objects currently in the list, with header, to fp */
 static void
-write_flist (fp)
-FILE *fp;
+write_flist (FILE * fp)
 {
 	XmStringTable items;
 	int icount;

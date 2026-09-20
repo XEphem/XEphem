@@ -47,10 +47,7 @@ static int nogsc;		/* set to 1 to exclude GSC stars */
  * return 0 if looks ok, else -1 and reason in msg[].
  */
 int
-USNOSetup (cdp, wantgsc, msg)
-char *cdp;
-int wantgsc;
-char msg[];
+USNOSetup (char * cdp, int wantgsc, char msg[])
 {
 	char tstname[1024];
 	FILE *fp = NULL;
@@ -90,16 +87,16 @@ char msg[];
  * we return new total number of stars or -1 if real trouble.
  * *opp is only changed if we added any.
  * msg might contain a message regardless of the return value.
+param r0;	 center RA, rads 
+param d0;	 center Dec, rads
+param fov;	 field of view, rads
+param fmag;	 faintest mag 
+param **opp;	 opp will be a malloced array of the ObjF in region 
+param nopp;        if opp: initial number of ObjF already in *opp 
+param msg[];	 filled with error message if return -1 
  */
 int
-USNOFetch (r0, d0, fov, fmag, opp, nopp, msg)
-double r0;	/* center RA, rads */
-double d0;	/* center Dec, rads */
-double fov;	/* field of view, rads */
-double fmag;	/* faintest mag */
-ObjF **opp;	/* *opp will be a malloced array of the ObjF in region */
-int nopp;       /* if opp: initial number of ObjF already in *opp */
-char msg[];	/* filled with error message if return -1 */
+USNOFetch (double r0, double d0, double fov, double fmag, ObjF **opp, int nopp, char msg[])
 {
 	double fr[2], lr[2];	/* first and last ra in each region, up to 2 */
 	double fd[2], ld[2];	/* first and last dec in each region, up to 2 */

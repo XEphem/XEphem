@@ -17,8 +17,7 @@ static double mjd0;
  * this establishes the base correspondence between the mjd and system clock.
  */
 void
-set_t0 (np)
-Now *np;
+set_t0 (Now * np)
 {
 	mjd0 = mjd;
 	c0 = time (NULL);
@@ -29,8 +28,7 @@ Now *np;
  *   many conflicting ways to do it otherwise.
  */
 void
-time_fromsys (np)
-Now *np;
+time_fromsys (Now* np)
 {
 	time_t t;
 
@@ -60,8 +58,7 @@ Now *np;
  * return 0 if it looks like it worked, else -1.
  */
 int
-tz_fromsys (np)
-Now *np;
+tz_fromsys (Now *np)
 {
 	struct tm *gtmp;
 	double m0;
@@ -103,12 +100,13 @@ Now *np;
 	    return (-1);
 }
 
+/*
+@param inc;	 hours to increment mjd 
+@param rev;	 set if want to go in reverse 
+@param rtcflag;	 relative since set mjd0 
+*/
 void
-inc_mjd (np, inc, rev, rtcflag)
-Now *np;
-double inc;	/* hours to increment mjd */
-int rev;	/* set if want to go in reverse */
-int rtcflag;	/* relative since set mjd0 */
+inc_mjd (Now * np, double inc, int rev, int rtcflag)
 {
 	if (rtcflag) {
 	    if (rev)

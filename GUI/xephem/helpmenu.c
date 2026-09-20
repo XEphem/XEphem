@@ -50,12 +50,13 @@ static char help_instructions[] =
 
 /* trigger help for the given tag.
  * if fail so and use the deflt provided, if any.
+@param *tag;      tag to look for in help file
+@param *deflt[];  help text to use if tag not found
+@param ndeflt;     number of strings in deflt[]
+
  */
 void
-hlp_dialog (tag, deflt, ndeflt)
-char *tag;	/* tag to look for in help file */
-char *deflt[];	/* help text to use if tag not found */
-int ndeflt;	/* number of strings in deflt[] */
+hlp_dialog (char * tag, char *deflt[], int ndeflt)
 {
 	static char *hurl;
 	static int triedhurl;
@@ -226,10 +227,7 @@ hlp_create ()
 /* called on Close */
 /* ARGSUSED */
 static void
-hlp_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hlp_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (hlp_w);
 }
@@ -237,10 +235,7 @@ XtPointer call;
 /* called when any TB changes */
 /* ARGSUSED */
 static void
-hlp_radio_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+hlp_radio_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState(w);
 	int i;

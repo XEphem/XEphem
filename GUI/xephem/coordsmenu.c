@@ -67,9 +67,7 @@ cc_manage ()
 
 /* new main Now: hold ra/dec and update alt/az */
 void
-cc_update (np, how_much)
-Now *np;
-int how_much;
+cc_update (Now * np, int how_much)
 {
 	if (!isUp(ccshell_w))
 	    return;
@@ -79,8 +77,7 @@ int how_much;
 
 /* called to put up or remove the watch cursor.  */
 void
-cc_cursor (c)
-Cursor c;
+cc_cursor (Cursor c)
 {
 	Window win;
 
@@ -318,10 +315,7 @@ cc_create()
 
 /* callback to Point sky at current coords */
 static void
-cc_point_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_point_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	double e = epoch == EOD ? mjd : epoch;
@@ -355,10 +349,7 @@ XtPointer call;
 
 /* how each field is formatted, depends on Hours or Degrees */
 static void
-canonFmt (buf, v, h)
-char buf[];
-double v;
-int h;
+canonFmt (char buf[], double v, int h)
 {
 	if (h)
 	    fs_sexa (buf, v, 4, 360000);
@@ -370,10 +361,7 @@ int h;
 
 /* callback to load from current Sky View center */
 static void
-cc_getsky_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_getsky_cb (Widget w, XtPointer client, XtPointer call)
 {
 	double fov, alt, az, ra, dec;
 	char buf[32];
@@ -400,9 +388,7 @@ XtPointer call;
 
 /* redisplay TF's sexagesimal value prettied up */
 static void
-reFormat (w, h)
-Widget w;
-int h;
+reFormat (Widget w, int h)
 {
 	char buf[32], *p;
 	double x;
@@ -434,10 +420,7 @@ canonAll()
 
 /* called to place an eyepiece at these coords on the sky view */
 static void
-cc_eyep_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_eyep_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	double fov, ra, dec, alt, az;
@@ -493,29 +476,20 @@ XtPointer call;
 
 /* called from either the Reformat PB or Enter from any TF */
 static void
-cc_canonFormat_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_canonFormat_cb (Widget w, XtPointer client, XtPointer call)
 {
 	canonAll();
 }
 
 static void
-cc_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do all the work */
 	XtPopdown (ccshell_w);
 }
 
 static void
-cc_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 }
 
@@ -523,10 +497,7 @@ XtPointer call;
  * N.B. do not use call, used by different callbacks.
  */
 static void
-cc_vchg_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_vchg_cb (Widget w, XtPointer client, XtPointer call)
 {
 	cc_newval (w);
 }
@@ -535,10 +506,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-cc_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+cc_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = { "Type in any field and the others are updated",};
 
@@ -549,8 +517,7 @@ XtPointer call;
  * remember in lastchg_w which widget was used to freeze it for next update.
  */
 static void
-cc_newval (w)
-Widget w;
+cc_newval (Widget w)
 {
 	Now *np = mm_get_now();
 	double e = (epoch == EOD) ? mjd : epoch;

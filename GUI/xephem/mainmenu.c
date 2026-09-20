@@ -390,8 +390,7 @@ static Pixmap empty_pm;		/* empty pixmap */
  * create and manage all the widgets as children of the mainrc.
  */
 void
-mm_create (mainrc)
-Widget mainrc;
+mm_create (Widget mainrc)
 {
 	/* create the main form */
 	splashMsg ("Building main form\n");
@@ -458,10 +457,7 @@ mm_external ()
  */
 /* ARGSUSED */
 void
-mm_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mm_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_gostop ((long int)client);
 }
@@ -470,8 +466,7 @@ XtPointer call;
  * newmjd is the new UT date/time as a modifed Julian date.
  */
 void
-mm_newcaldate (newmjd)
-double newmjd;
+mm_newcaldate (double newmjd)
 {
 	mjd = newmjd;
 	set_t0 (&now);
@@ -487,10 +482,10 @@ double newmjd;
 /* called by other menus as they want to hear from our buttons or not.
  * the "on"s and "off"s stack - only really redo the buttons if it's the
  * first on or the last off.
+@param whether;	whether setting up for plotting or for not plotting 
  */
 void
-mm_selection_mode (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+mm_selection_mode (int whether)
 {
 	if (whether)
 	    mm_selecting++;
@@ -504,8 +499,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 
 /* set and save the displayed site name */
 void
-mm_sitename (name)
-char *name;
+mm_sitename (char * name)
 {
 	setXRes (snres, name);
 	if (msitename)
@@ -519,11 +513,10 @@ char *name;
 /* called to set new lat/long Now.
  * TZ, TZName and Sitename get something generic.
  * if update we do a full update, else just set NEW CICUMSTANCES.
+@param l, L;	 lat, long 
  */
 void
-mm_setll (l, L, update)
-double l, L;	/* lat, long */
-int update;
+mm_setll (double l, double L, int update)
 {
 	int hr;
 
@@ -554,9 +547,7 @@ int update;
  * if update we do a full update, else just set NEW CICUMSTANCES.
  */
 void
-mm_setsite (sp, update)
-Site *sp;
-int update;
+mm_setsite (Site * sp, int update)
 {
 	static char envbuf[64]; /* putenv() wants stable string */
 
@@ -594,8 +585,7 @@ mm_getsite ()
 /* set the current epoch. this is used by sky fits to match the EQUINOX field.
  */
 void
-mm_setepoch (yr)
-double yr;
+mm_setepoch (double yr)
 {
 	double newepoch;
 
@@ -612,8 +602,7 @@ double yr;
 
 /* return mjed (Modified Julian Date in ET scale) from mjd (UT scale)
  */
-double mm_mjed (np)
-Now *np;
+double mm_mjed (Now * np)
 {
 	return (np->n_mjd + DeltaT/86400.0);	/* do NOT just use mjd macro! */
 }
@@ -629,10 +618,10 @@ mm_get_now()
  * if a movie is currently running, we stop it, period.
  * then if stepsz != 0 we start one by set movie=1, mspause=0, nstep=MANYSTEPS,
  *   tm_inc=stepsz and do about what the Go button does.
+@param stepsz;	step size, hours 
  */
 void
-mm_movie (stepsz)
-double stepsz;	/* step size, hours */
+mm_movie (double stepsz)
 {
 	/* stop any current external control */
 	ext_stop();
@@ -677,8 +666,7 @@ double stepsz;	/* step size, hours */
  * if how_much then redraw all fields, else just redo the graphics.
  */
 void
-redraw_screen (how_much)
-int how_much;
+redraw_screen (int how_much)
 {
 	watch_cursor(1);
 
@@ -830,8 +818,7 @@ create_pixmaps()
 }
 
 static void
-create_main_form(mainrc)
-Widget mainrc;
+create_main_form(Widget mainrc)
 {
 	Widget mrc_w, f_w;
 	Widget ulfr_w, urfr_w, llfr_w, lrfr_w;
@@ -937,15 +924,11 @@ Widget mainrc;
 	XtManageChild (go_w);
 }
 
-/* build the given Fields in a column */
+/* build the given Fields in a column 
+@param p_w;	 parent 
+*/
 static void
-make_prompts (p_w, pc, title, tip, fp, nfp)
-Widget p_w;	/* parent */
-int pc;
-char *title;
-char *tip;
-Field *fp;
-int nfp;
+make_prompts (Widget p_w, int pc, char * title, char * tip, Field * fp, int nfp)
 {
 	Widget f_w;
 	Widget l_w, b_w;
@@ -1168,8 +1151,7 @@ int nfp;
  * We do some error checking.
  */
 static Widget
-fw(fid)
-int fid;
+fw(int fid)
 {
 	Field *fp = NULL;
 
@@ -1184,8 +1166,7 @@ int fid;
  * should appear to look like buttons or just flat labels.
  */
 static void
-mm_set_buttons (whether)
-int whether;
+mm_set_buttons (int whether)
 {
 	Field *fp;
 
@@ -1211,10 +1192,7 @@ int whether;
  */
 /* ARGSUSED */
 static void
-mm_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mm_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Field *fp = (Field *)client;
 
@@ -1232,10 +1210,7 @@ XtPointer call;
 /* called when user wants XEphem time to stay in sync with computer */
 /* ARGSUSED */
 static void
-keepnow_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+keepnow_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_startrt();
 }
@@ -1309,8 +1284,7 @@ mm_initres()
 /* set up those prompts that use the alternates.
  */
 static void
-mm_set_alt_prompts(fp)
-Field *fp;
+mm_set_alt_prompts(Field * fp)
 {
 	switch (fp->id) {
 	case UD_FID:
@@ -1333,9 +1307,7 @@ Field *fp;
  */
 /* ARGSUSED */
 static void
-mm_timer_cb (client, id)
-XtPointer client;
-XtIntervalId *id;
+mm_timer_cb (XtPointer client, XtIntervalId * id)
 {
 	mm_interval_id = 0; 
 	mm_go(0);
@@ -1377,10 +1349,7 @@ mm_stop()
  */
 /* ARGSUSED */
 static void
-mm_step_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+mm_step_cb (Widget w, XtPointer client, XtPointer call)
 {
 	StepOption *sop = (StepOption *)client;
 
@@ -1399,11 +1368,7 @@ XtPointer call;
  * see mm_gostop() for meaning of arg.
  */
 static void
-mm_go_action (w, e, p, n)
-Widget w;
-XEvent *e;
-String *p;
-Cardinal *n;
+mm_go_action (Widget w, XEvent * e, String * p, Cardinal * n)
 {
 	/* assert */
 	if (!(n && *n && p)) {
@@ -1423,8 +1388,7 @@ Cardinal *n;
  * bring up pm if running fast and not a crazy number of steps.
  */
 static void
-mm_gostop(dir)
-int dir;
+mm_gostop(int dir)
 {
 	if (mm_interval_id) {
 	    mm_stop();
@@ -1447,8 +1411,7 @@ int dir;
  * dir is number of steps to go +step (+) or -step (-), or 0 to just GO.
  */
 static void
-mm_go(dir)
-int dir;
+mm_go(int dir)
 {
 	int srchdone;
 	int drawall;
@@ -1528,8 +1491,7 @@ int dir;
  * as coded in mm_step_option and possibly tminc.
  */
 static void
-mm_step_now(reverse)
-int reverse;
+mm_step_now(int reverse)
 {
 #define	RSACC	(30./3600./24.)	/* nominal rise/set accuracy, days */
 #define	BADRS	(RS_ERROR|RS_CIRCUMPOLAR|RS_NEVERUP)
@@ -1832,8 +1794,7 @@ print_idle()
 }
 
 static void
-print_running(reverse)
-int reverse;
+print_running(int reverse)
 {
 	if (reverse)
 	    print_status ("Running in reverse... press Stop to stop.");
@@ -1850,8 +1811,7 @@ print_extrunning()
 }
 
 static void
-print_status (s)
-char *s;
+print_status (char * s)
 {
 	static char *last_s;
 
@@ -1895,9 +1855,7 @@ print_mspause()
  * to update all related fields.
  */
 static int
-chg_fld (bp, fp)
-char *bp;
-Field *fp;
+chg_fld (char * bp, Field * fp)
 {
 	int new = 0;
 	double tmp;
@@ -2131,10 +2089,7 @@ Field *fp;
  */
 /* ARGSUSED */
 static void
-prompt_ok_cb (w, client, call)
-Widget w;	/* PromptDialog "widget" */
-XtPointer client;
-XtPointer call;
+prompt_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmSelectionBoxCallbackStruct *s = (XmSelectionBoxCallbackStruct *)call;
 	Field *fp;
@@ -2181,8 +2136,7 @@ XtPointer call;
  * put up a special one for STPSZ_FID and SITE_FID.
  */
 static void
-prompt (fp)
-Field *fp;
+prompt (Field * fp)
 {
 	static Widget prompt_w, steps_w;
 	Widget w, aw;
@@ -2294,8 +2248,7 @@ Field *fp;
 }
 
 static Widget
-create_prompt_w(wp)
-Widget *wp;
+create_prompt_w(Widget * wp)
 {
 	XmString title;
 	Widget prompt_w;
@@ -2353,8 +2306,7 @@ Widget *wp;
  * N.B. continue to support RTC and rtc as code strings for compatability.
  */
 static void
-mm_set_step_code (bp)
-char *bp;
+mm_set_step_code (char * bp)
 {
 	int i;
 
@@ -2409,8 +2361,7 @@ mm_pms()
  * print in a nice order, based on the field locations, as much as possible.
  */
 static void
-mm_now (all)
-int all;
+mm_now (int all)
 {
 	double lmjd = mjd - tz/24.0;
 	double jd = mjd + MJD0;
@@ -2547,8 +2498,7 @@ mm_twilight ()
 }
 
 static void
-mm_newcir (y)
-int y;
+mm_newcir (int y)
 {
 	static int flag;	/* 0:erase/stop 1:draw/pause 2:erase/pause */
 
@@ -2569,9 +2519,7 @@ int y;
  */
 /* ARGSUSED */
 static void
-mm_newcir_cb (client, id)
-XtPointer client;
-XtIntervalId *id;
+mm_newcir_cb (XtPointer client, XtIntervalId * id)
 {
 	int *flag = (int *)client;
 	Pixel p;
@@ -2664,10 +2612,7 @@ ext_readnext()
 /* called when the Ok button is hit in the external file input prompt */
 /* ARGSUSED */
 static void
-ext_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ext_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *name;
 
@@ -2716,10 +2661,7 @@ ext_stop()
 /* called when the Help button is hit in the external file input prompt */
 /* ARGSUSED */
 static void
-ext_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ext_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 static char *hlp[] = {
 "XEphem runs from entries in this file.",

@@ -148,8 +148,7 @@ version()
 
 /* called to put up or remove the watch cursor.  */
 void
-v_cursor (c)
-Cursor c;
+v_cursor (Cursor c)
 {
 	Window win;
 
@@ -257,8 +256,7 @@ v_create_vshell()
 }
 
 static void
-fill_msg (w)
-Widget w;
+fill_msg (Widget w)
 {
 	char m[100*NMSGR], *mp = m;
 	int i;
@@ -294,10 +292,7 @@ Widget w;
  */
 /* ARGSUSED */
 static void
-v_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+v_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (v_timer_id) {
 	    XtRemoveTimeOut (v_timer_id);
@@ -308,10 +303,7 @@ XtPointer call;
 /* ok */
 /* ARGSUSED */
 static void
-v_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+v_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (vshell_w);
 }
@@ -322,10 +314,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-v_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+v_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 
@@ -410,9 +399,7 @@ v_draw()
  */
 /* ARGSUSED */
 static void
-v_timer_cb (client, id)
-XtPointer client;
-XtIntervalId *id;
+v_timer_cb (XtPointer client, XtIntervalId * id)
 {
 	Display *dsp = XtDisplay(vda_w);
 	Window win = XtWindow(vda_w);
@@ -478,16 +465,13 @@ XtIntervalId *id;
 }
 
 /* draw the comet
+@param ang;	 desired angle ccw from +x, in rads 
+@param rad;	 in pixels from center 
+@param tlen;	 length of tail, in pixels 
+@param w, h;	 window width and height 
  */
 static void
-drawComet (dsp, win, gc, ang, rad, tlen, w, h)
-Display *dsp;
-Window win;
-GC gc;
-double ang;	/* desired angle ccw from +x, in rads */
-int rad;	/* in pixels from center */
-int tlen;	/* length of tail, in pixels */
-int w, h;	/* window width and height */
+drawComet (Display * dsp, Window win, GC gc, double ang, int rad, int tlen, int w, int h)
 {
 	double ca, sa;
 	int sx, sy;
@@ -512,11 +496,7 @@ int w, h;	/* window width and height */
 /* draw the planet.
  */
 static void
-drawPlanet (dsp, win, gc, sx, sy, w, h)
-Display *dsp;
-Window win;
-GC gc;
-int sx, sy, w, h;
+drawPlanet (Display * dsp, Window win, GC gc, int sx, int sy, int w, int h)
 {
 	XFillArc (dsp, win, gc, sx, sy, w, h, 0, 360*64);
 }

@@ -177,8 +177,7 @@ sf_newFITS (FImage *fip, char name[], int autocon)
  * keep hdrl up to date.
  */
 void
-sf_showHeader (fip)
-FImage *fip;
+sf_showHeader (FImage * fip)
 {
 	char *header;
 	int i;
@@ -214,11 +213,11 @@ FImage *fip;
 /* return copies of the current filename and OBJECT or TARGET keywords.
  * if either can not be determined, the returned string will be 0 length.
  * N.B. we assume the caller supplies "enough" space.
+@param *fn;	 filename 
+@param *on;	 object name 
  */
 void
-sf_getName (fn, on)
-char *fn;	/* filename */
-char *on;	/* object name */
+sf_getName (char * fn, char * on)
 {
 	FImage *fip;
 	char *savefn;
@@ -245,9 +244,7 @@ char *on;	/* object name */
 
 /* t00fri: include possibility to read .fth compressed files */
 static int
-prepOpen (fn, errmsg)
-char fn[];
-char errmsg[];
+prepOpen (char fn[], char errmsg[])
 {
 	int fd;
 	int l;
@@ -291,8 +288,7 @@ char errmsg[];
  * if all ok return 0, else return -1.
  */
 static int
-sf_readFile (name)
-char *name;
+sf_readFile (char * name)
 {
 	char buf[1024];
 	FImage fim, *fip = &fim;
@@ -664,8 +660,7 @@ sf_create()
  * we try to pull these from the basic program resources.
  */
 static void
-initFSB (fsb_w)
-Widget fsb_w;
+initFSB (Widget fsb_w)
 {
 	Widget w;
 
@@ -700,10 +695,7 @@ Widget fsb_w;
 /* callback from the Public dir PB */
 /* ARGSUSED */
 static void
-sharedDirCB (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sharedDirCB (Widget w, XtPointer client, XtPointer call)
 {
 	Widget fsb_w = (Widget)client;
 	char buf[1024];
@@ -715,10 +707,7 @@ XtPointer call;
 /* callback from the Private dir PB */
 /* ARGSUSED */
 static void
-privateDirCB (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+privateDirCB (Widget w, XtPointer client, XtPointer call)
 {
 	Widget fsb_w = (Widget)client;
 
@@ -729,8 +718,7 @@ XtPointer call;
  * set the XmNdirectory resource in the FSB fsb_w and invoke the Filter.
  */
 static void
-initPubShared (rc_w, fsb_w)
-Widget rc_w, fsb_w;
+initPubShared (Widget rc_w, Widget fsb_w)
 {
 	Arg args[20];
 	char tip[1024];
@@ -760,10 +748,7 @@ Widget rc_w, fsb_w;
 /* called when Watch TB changes */
 /* ARGSUSED */
 static void
-fw_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fw_cb (Widget w, XtPointer client, XtPointer call)
 {
 	fw_on (XmToggleButtonGetState(w));
 }
@@ -771,10 +756,7 @@ XtPointer call;
 /* called when Get PB or toolbar PB is hit */
 /* ARGSUSED */
 void
-sf_go_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_go_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (!sf_w) {
 	    sf_create();
@@ -795,10 +777,7 @@ XtPointer call;
 /* called when CR is hit in the Save text field or the Save PB is hit */
 /* ARGSUSED */
 static void
-sf_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -864,10 +843,7 @@ save_file()
 /* called when a file selected by the FSB is to be opened */
 static void
 /* ARGSUSED */
-sf_open_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_open_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmFileSelectionBoxCallbackStruct *s =
 				    (XmFileSelectionBoxCallbackStruct *)call;
@@ -889,20 +865,14 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-sf_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (sf_w);
 }
 
 /* ARGSUSED */
 static void
-sf_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "Read in local FITS files or read from Network.",
@@ -915,10 +885,7 @@ XtPointer call;
 /* callback to set main time to match FITS */
 /* ARGSUSED */
 static void
-sf_setdate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sf_setdate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	double newmjd;
 
@@ -930,8 +897,7 @@ XtPointer call;
  * preserve any existing directory.
  */
 static void
-sf_setSaveName(newfn)
-char *newfn;
+sf_setSaveName(char * newfn)
 {
 	char buf[1024];
 	char *fn;
@@ -945,8 +911,7 @@ char *newfn;
 /* return pointer to basename portion of filename fn.
  */
 static char *
-bname (fn)
-char *fn;
+bname (char * fn)
 {
 	char *base;
 
@@ -960,9 +925,7 @@ char *fn;
 
 /* return 0 if find the string str in buf, else -1 */
 static int
-chk4str (str, buf)
-char str[];
-char buf[];
+chk4str (char str[], char buf[])
 {
 	int l = strlen (str);
 
@@ -1410,10 +1373,7 @@ stsci_fits()
  * client is *FImage being accumulated.
  */
 static void
-fits_read_icb (client, fd, id)
-XtPointer client;
-int *fd;
-XtInputId *id;
+fits_read_icb (XtPointer client, int * fd, XtInputId* id)
 {
 	FImage *fip = (FImage *)client;
 	int sockfd = *fd;
@@ -1524,8 +1484,7 @@ fits_read_abort (FImage *fip)
  * return 0 if think we found something, else -1
  */
 static int
-fitsObs(mjdp)
-double *mjdp;
+fitsObs(double * mjdp)
 {
 	FImage *fip = si_getFImage();
 	char buf[128];
@@ -1608,8 +1567,7 @@ sf_setObsDate()
 /* turn on or off file watching.
  */
 static void
-fw_on (whether)
-int whether;
+fw_on (int whether)
 {
 	/* turn everything off */
 	if (fw_tid) {
@@ -1653,9 +1611,7 @@ int whether;
  * as a simple form of ACK.
  */
 static void
-fw_to (client, id)
-XtPointer client;
-XtIntervalId *id;
+fw_to (XtPointer client, XtIntervalId * id)
 {
 	char wfn[512], ffn[512];
 	char *txt, *nl;
@@ -1693,10 +1649,7 @@ XtIntervalId *id;
 /* called whenever the FITS filename fifo might have something to read.
  */
 static void
-fw_icb (client, fdp, id)
-XtPointer client;
-int *fdp;
-XtInputId *id;
+fw_icb (XtPointer client, int * fdp, XtInputId * id)
 {
 	char *nl, ffn[1024];
 	int nr;
@@ -1725,8 +1678,7 @@ XtInputId *id;
 
 /* return whether fn claims to be a fifo */
 static int
-fw_isFifo (fn)
-char *fn;
+fw_isFifo (char * fn)
 {
 	struct stat st;
 	return (!stat (fn, &st) && (st.st_mode & S_IFIFO));

@@ -100,8 +100,7 @@ xe_msg (int app_alert, char *fmt, ...)
 
 /* called to put up or remove the watch cursor.  */
 void
-msg_cursor (c)
-Cursor c;
+msg_cursor (Cursor c)
 {
 	Window win;
 
@@ -128,7 +127,7 @@ msg_create_w()
 {
 	static struct {
 	    char *name;
-	    void (*cb)();
+	    void (*cb)(Widget w, XtPointer client, XtPointer call) ;
 	    char *tip;
 	} cb[] = {
 	    {"Erase", msg_erase_cb, "Erase messages"},
@@ -198,10 +197,7 @@ msg_create_w()
 /* callback from the erase pushbutton */
 /* ARGSUSED */
 static void
-msg_erase_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+msg_erase_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmTextReplace (txt_w, 0, txtl, "");
 	txtl = 0;
@@ -211,10 +207,7 @@ XtPointer call;
 /* callback from the close pushbutton */
 /* ARGSUSED */
 static void
-msg_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+msg_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (msg_w);
 }
@@ -222,10 +215,7 @@ XtPointer call;
 /* callback from the help pushbutton */
 /* ARGSUSED */
 static void
-msg_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+msg_help_cb (Widget w, XtPointer client, XtPointer call)
 {
         static char *msg[] = {
 	    "System messages"
@@ -238,8 +228,7 @@ XtPointer call;
  * Always set the vertical scroll bar to the extreme bottom.
  */
 static void
-msg_add (msg)
-char *msg;
+msg_add (char * msg)
 {
 	int l;
 
@@ -265,8 +254,7 @@ msg_scroll_down()
 
 /* print a message, p, in shell message box */
 static void
-xe_msg_alert (p)
-char *p;
+xe_msg_alert (char *p)
 {
 	static Widget apmsg_w;
 	Arg args[20];
@@ -318,10 +306,7 @@ char *p;
 /* callback from the alert message box ok pushbutton */
 /* ARGSUSED */
 static void
-alert_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+alert_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (alert_w);
 }

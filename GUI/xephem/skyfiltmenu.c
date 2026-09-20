@@ -157,13 +157,12 @@ static char skyfcategory[] = "Sky View -- Filter";	/* Save category */
  * right away.
  */
 void
-svf_create(shell_w)
-Widget shell_w;
+svf_create(Widget shell_w)
 {
 	static struct {
 	    char *name;
 	    char *tip;
-	    void (*cb)();
+	    void (*cb)(Widget w, XtPointer client, XtPointer call);
 	} ctls[] = {
 	    /* balance in half */
 	    {"Ok", "Apply changes and close", svf_ok_cb},
@@ -391,9 +390,7 @@ svf_unmanage()
  * this is to support sky history.
  */
 void
-svf_gettables (tt, ct)
-char tt[NOBJTYPES];
-char ct[NCLASSES];
+svf_gettables (char tt[NOBJTYPES], char ct[NCLASSES])
 {
 	(void) memcpy (tt, type_table, NOBJTYPES);
 	(void) memcpy (ct, fclass_table, NCLASSES);
@@ -404,9 +401,7 @@ char ct[NCLASSES];
  * this is to support sky history.
  */
 void
-svf_settables (tt, ct)
-char tt[NOBJTYPES];
-char ct[NCLASSES];
+svf_settables (char tt[NOBJTYPES], char ct[NCLASSES])
 {
 	(void) memcpy (type_table, tt, NOBJTYPES);
 	(void) memcpy (fclass_table, ct, NCLASSES);
@@ -426,8 +421,7 @@ svf_getmaglimits (int *stmagp, int *ssmagp, int *dsmagp, int *magstpp)
 
 /* set the current deep- and near-sky limit and mag step */
 void
-svf_setmaglimits (st, ss, ds, s)
-int st, ss, ds, s;
+svf_setmaglimits (int st, int ss, int ds, int s)
 {
 	stmag = st;
 	ssmag = ss;
@@ -444,8 +438,7 @@ int st, ss, ds, s;
  *   to range check the type and class.
  */
 int
-svf_filter_ok (op)
-Obj *op;
+svf_filter_ok (Obj * op)
 {
 	int tok;
 
@@ -462,8 +455,7 @@ Obj *op;
 
 /* called to put up or remove the watch cursor.  */
 void
-svf_cursor (c)
-Cursor c;
+svf_cursor (Cursor c)
 {
 	Window win;
 
@@ -478,8 +470,7 @@ Cursor c;
 
 /* establish faintest mags according to given fov */
 void
-svf_automag(fov)
-double fov;
+svf_automag(double fov)
 {
 	static AutoMag amdef = {degrad(360.0), 6, 6, 8, 1};
 	static AutoMag *amp;
@@ -504,9 +495,7 @@ double fov;
 
 /* create one FilterCat filter category in the given RowColumn */
 static void
-svf_create_filter (mainrc, fcp)
-Widget mainrc;
-FilterCat *fcp;
+svf_create_filter (Widget mainrc, FilterCat * fcp)
 {
 	Arg args[20];
 	Widget l_w;
@@ -657,8 +646,7 @@ svf_apply()
  * is done later.
  */
 static int
-svf_bright_ok(op)
-Obj *op;
+svf_bright_ok(Obj * op)
 {
 	switch (op->o_type) {
 	case PLANET:
@@ -702,10 +690,7 @@ Obj *op;
  */
 /* ARGSUSED */
 static void
-svf_da_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_da_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	FilterTB *ftbp = (FilterTB *) client;
@@ -741,9 +726,7 @@ XtPointer call;
  * DrawingArea widget daw.
  */
 static void
-svf_draw_symbol(ftbp, daw)
-FilterTB *ftbp;
-Widget daw;
+svf_draw_symbol(FilterTB * ftbp, Widget daw)
 {
 	static GC gc;
 	static Pixel fg_p, bg_p;
@@ -789,10 +772,7 @@ Widget daw;
 /* called when either mag scale is dragged */
 /* ARGSUSED */
 static void
-svf_magdrag_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_magdrag_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sv_amagoff();
 }
@@ -800,10 +780,7 @@ XtPointer call;
 /* called when Apply is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_apply_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_apply_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_apply();
 	sv_all(mm_get_now());
@@ -812,10 +789,7 @@ XtPointer call;
 /* called when Ok is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_ok_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_ok_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_apply();
 	sv_all(mm_get_now());
@@ -825,10 +799,7 @@ XtPointer call;
 /* called when Close is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (filter_w);
 }
@@ -837,10 +808,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svf_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This allows settings the types of objects to display."
@@ -852,10 +820,7 @@ XtPointer call;
 /* called when Toggle is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i, j;
 
@@ -872,10 +837,7 @@ XtPointer call;
 /* called when All is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_all_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_all_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i, j;
 
@@ -891,10 +853,7 @@ XtPointer call;
 /* called when Reset is pushed on the filter dialog */
 /* ARGSUSED */
 static void
-svf_reset_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_reset_cb (Widget w, XtPointer client, XtPointer call)
 {
 	svf_reset();
 }
@@ -904,10 +863,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-svf_cat_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svf_cat_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	FilterCat *fcp = (FilterCat *) client;
 	int i;
@@ -944,8 +900,7 @@ am_cf (const void * v1, const void * v2)
  * N.B. don't set *ampp unless we return > 0.
  */
 static int
-svf_initautomag(ampp)
-AutoMag **ampp;
+svf_initautomag(AutoMag **ampp)
 {
 	static char AMResource[] = "AutoMag";
 	double r;

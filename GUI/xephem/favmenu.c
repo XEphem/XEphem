@@ -46,7 +46,7 @@ static void fav_save_cb (Widget w, XtPointer client, XtPointer call);
 static void fav_create (void);
 static void showFavorites (void);
 static void setup1Row (Widget rc_w, int i);
-static void loadFavs ();
+static void loadFavs (char *);
 static void saveFavs (char *filename);
 static void favRmAll(void);
 static void bldExport(void);
@@ -390,9 +390,7 @@ showFavorites()
 
 /* using info from favs[i] create its row in the favories window */
 static void
-setup1Row (rc_w, i)
-Widget rc_w;
-int i;
+setup1Row (Widget rc_w, int i)
 {
 	Widget f_w, on_w, del_w, lbl_w, up_w, dn_w;
 	Arg args[20];
@@ -470,10 +468,7 @@ int i;
  */
 /* ARGSUSED */
 static void
-fav_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 	    "Collection of favorite objects",
@@ -485,10 +480,7 @@ XtPointer call;
 /* callback from the Close PB */
 /* ARGSUSED */
 static void
-fav_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtPopdown (favshell_w);
 }
@@ -498,10 +490,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_load_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_load_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char *fn;
 
@@ -519,10 +508,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_save_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_save_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024], *fn;
 	char *txt;
@@ -548,10 +534,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_add_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_add_cb (Widget w, XtPointer client, XtPointer call)
 {
 	char buf[1024];
 	char *txt;
@@ -624,10 +607,7 @@ chg_i()
  */
 /* ARGSUSED */
 static void
-fav_on_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_on_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int wanton = XmToggleButtonGetState (w);
 	int i = (long int)client;
@@ -644,10 +624,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_up_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_up_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i = (long int)client;
 
@@ -665,10 +642,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_dn_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_dn_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int i = (long int)client;
 
@@ -686,10 +660,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-fav_del_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+fav_del_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* save index */
 	deli = (long int)client;

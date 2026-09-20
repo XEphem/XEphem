@@ -16,8 +16,7 @@
  * allow for nested requests.
  */
 void
-watch_cursor(want)
-int want;
+watch_cursor(int want)
 {
 	static Cursor wc;
 	static int nreqs;
@@ -84,9 +83,7 @@ int want;
 
 /* update stuff on all major views because time has changed */
 void
-all_update(np, how_much)
-Now *np;
-int how_much;
+all_update(Now * np, int how_much)
 {
 	watch_cursor (1);
 
@@ -126,8 +123,7 @@ all_newfavs()
  * appended is true if it grew; else it was deleted.
  */
 void
-all_newdb(appended)
-int appended;
+all_newdb(int appended)
 {
 	watch_cursor (1);
 
@@ -155,8 +151,7 @@ int appended;
  * selected.
  */
 void
-all_selection_mode(whether)
-int whether;
+all_selection_mode(int whether)
 {
 	dm_selection_mode(whether);
 	mm_selection_mode(whether);
@@ -175,8 +170,7 @@ int whether;
  * this is just to collect in one place all the modules that gather care.
  */
 void
-register_selection (name)
-char *name;
+register_selection (char * name)
 {
 	plt_selection (name);
 	lst_selection (name);
@@ -187,11 +181,7 @@ char *name;
  * N.B. only send `value' to plot and search if logv is not 0.
  */
 void
-field_log (w, value, logv, str)
-Widget w;
-double value;
-int logv;
-char *str;
+field_log (Widget w, double value, int logv, char * str)
 {
 	char *name;
 

@@ -182,9 +182,7 @@ sm_manage ()
  * don't bother if it doesn't exist or is unmanaged now or no one is logging.
  */
 void
-sm_update (np, how_much)
-Now *np;
-int how_much;
+sm_update (Now * np, int how_much)
 {
 	static char fmt[] = "%7.3f";
 	Obj *eop = db_basic (SUN);
@@ -257,8 +255,7 @@ sm_newres()
  */
 /* ARGSUSED */
 void
-sm_newdb (appended)
-int appended;
+sm_newdb (int appended)
 {
 	if (skybkg)
 	    sm_update (mm_get_now(), 1);
@@ -273,10 +270,10 @@ sm_ison()
 /* called by other menus as they want to hear from our buttons or not.
  * the "on"s and "off"s stack - only really redo the buttons if it's the
  * first on or the last off.
+@param whether;	 whether setting up for plotting or for not plotting 
  */
 void
-sm_selection_mode (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+sm_selection_mode (int whether)
 {
 	if (whether)
 	    sm_selecting++;
@@ -291,8 +288,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 
 /* called to put up or remove the watch cursor.  */
 void
-sm_cursor (c)
-Cursor c;
+sm_cursor (Cursor c)
 {
 	Window win;
 
@@ -966,10 +962,10 @@ sm_create_tvform_w()
 
 /* go through all the buttons pickable for plotting and set whether they
  * should appear to look like buttons or just flat labels.
+@param whether;	whether setting up for plotting or for not plotting 
  */
 static void
-sm_set_buttons (whether)
-int whether;	/* whether setting up for plotting or for not plotting */
+sm_set_buttons (int whether)
 {
 	int i, j;
 
@@ -985,10 +981,7 @@ int whether;	/* whether setting up for plotting or for not plotting */
 /* callback when the Close button is activated on the stats menu */
 /* ARGSUSED */
 static void
-sm_sstats_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_sstats_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (ssform_w);
 }
@@ -996,10 +989,7 @@ XtPointer call;
 /* callback when the More Info button is activated */
 /* ARGSUSED */
 static void
-sm_sstats_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_sstats_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtManageChild (ssform_w);
 	sm_set_buttons(sm_selecting);
@@ -1009,10 +999,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_cpdmapping_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_cpdmapping_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtSetSensitive (tel_w, telIsOn());
 }
@@ -1023,10 +1010,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_option_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_option_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (client) {
 	    int *flagp = (int *)client;
@@ -1049,10 +1033,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_scale_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_scale_cb (Widget w, XtPointer client, XtPointer call)
 {
 	sm_update (mm_get_now(), 1);
 }
@@ -1061,10 +1042,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	if (sm_selecting) {
 	    char *name;
@@ -1077,10 +1055,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-st_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1135,10 +1110,7 @@ XtPointer call;
 /* called whenever the topview scene is mapped. */
 /* ARGSUSED */
 static void
-st_map_cb (wid, client, call)
-Widget wid;
-XtPointer client;
-XtPointer call;
+st_map_cb (Widget w, XtPointer client, XtPointer call)
 {
 	st_track_size();
 }
@@ -1190,10 +1162,7 @@ st_track_size()
 /* callback when topview dialog is unmapped */
 /* ARGSUSED */
 static void
-st_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmToggleButtonSetState (topview_w, False, True);
 }
@@ -1201,10 +1170,7 @@ XtPointer call;
 /* callback when main shell is popped down */
 /* ARGSUSED */
 static void
-sm_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (ssform_w);
 	XtUnmanageChild (stform_w);
@@ -1231,10 +1197,7 @@ XtPointer call;
 /* callback from the main Close button */
 /* ARGSUSED */
 static void
-sm_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let pop down do all the work */
 	XtPopdown (satshell_w);
@@ -1243,10 +1206,7 @@ XtPointer call;
 /* callback to add scene to movie loop */
 /* ARGSUSED */
 static void
-sm_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (sm_pm, dt_w);
 }
@@ -1255,10 +1215,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* smoother if turn off the sky background */
 	skybkg = 0;
@@ -1271,10 +1228,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static int last_nx, last_ny;
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1332,10 +1286,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	ScreenObj *sop;
@@ -1404,9 +1355,8 @@ sm_create_popup()
 
 /* put up a popup at ev with info about sop */
 static void
-sm_fill_popup (sop, justname)
-ScreenObj *sop;
-int justname;
+sm_fill_popup (ScreenObj * sop, int justname)
+
 {
 	char *name;
 	double ra, dec, mag;
@@ -1444,10 +1394,7 @@ int justname;
  */
 /* ARGSUSED */
 static void
-sm_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This is a simple schematic depiction of Saturn and its moons.",
@@ -1461,10 +1408,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1473,10 +1417,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-sm_goto_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_goto_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = db_basic (SATURN);
 	telGoto (op);
@@ -1485,10 +1426,7 @@ XtPointer call;
 /* add one entry to the given global screenobj array.
  */
 static void
-add_screenobj (soidx, op, x, y)
-SOIdx soidx;
-Obj *op;
-int x, y;
+add_screenobj (SOIdx soidx, Obj * op, int x, int y)
 {
 	char *mem = (char *) screenobj[soidx];
 	int nmem = nscreenobj[soidx];
@@ -1515,8 +1453,7 @@ int x, y;
 
 /* reclaim any existing screenobj entries from the given collection */
 static void
-reset_screenobj(soidx)
-SOIdx soidx;
+reset_screenobj(SOIdx soidx)
 {
 	if (screenobj[soidx]) {
 	    free ((char *)screenobj[soidx]);
@@ -1529,9 +1466,7 @@ SOIdx soidx;
  * if found return the ScreenObj *, else NULL.
  */
 static ScreenObj *
-close_screenobj (soidx, x, y)
-SOIdx soidx;
-int x, y;
+close_screenobj (SOIdx soidx, int x, int y)
 {
 	ScreenObj *scop = screenobj[soidx];
 	ScreenObj *minsop = NULL;
@@ -1557,10 +1492,7 @@ int x, y;
  */
 /* ARGSUSED */
 static void
-sm_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+sm_print_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XPSAsk ("Saturn", sm_print);
 }
@@ -1612,8 +1544,7 @@ sm_print ()
 }
 
 static void
-sm_ps_annotate (np)
-Now *np;
+sm_ps_annotate (Now * np)
 {
 	int ctrx = (int)(8.5*72/2);
 	Obj *eop = db_basic (SUN);
@@ -1832,8 +1763,7 @@ Now *np;
 
 /* given a tilt return suffix of closest image, sign same as tilt */
 static int
-sm_closesttilt (tilt)
-double tilt;
+sm_closesttilt (double tilt)
 {
 	double minerr = 1e10;
 	int mini = 0;
@@ -1861,11 +1791,10 @@ double tilt;
 /* make sure the proper gif is loaded for the given ring tilt.
  * harmless if called again.
  * return 0 if ok else -1.
+@param tilt;		ring tilt from earth, front +S rads 
  */
 static int
-sm_getgif(dsp, tilt)
-Display *dsp;
-double tilt;		/* ring tilt from earth, front +S rads */
+sm_getgif(Display * dsp, double tilt)
 {
 #define	BOGUSCT	12389
 	static int lastct = BOGUSCT;	/* last index, sign set from tilt */
@@ -1947,13 +1876,13 @@ double tilt;		/* ring tilt from earth, front +S rads */
  * lx and ly are position of upper left corner of square surrounding planet.
  * factoids: default orientation is E on right, S on top.
  * return 0 if ok, else -1
+@param *dsp;		 Display 
+@param win;		 drawable 
+@param lx, ty, sz;		 left x, top y, sz 
+@param tilt;		ring tilt from earth, front +S rads 
  */
 static int
-sm_fimage (dsp, win, lx, ty, sz, tilt)
-Display *dsp;		/* Display */
-Drawable win;		/* drawable */
-int lx, ty, sz;		/* left x, top y, sz */
-double tilt;		/* ring tilt from earth, front +S rads */
+sm_fimage (Display * dsp, Drawable win, int lx, int ty, int sz, double tilt)
 {
 	Obj *sop = db_basic (SATURN);
 	XImage *xip;
@@ -2049,11 +1978,7 @@ double tilt;		/* ring tilt from earth, front +S rads */
  *     +md[].z: in front, sat radii
  */
 static void
-sm_draw_map (sop, etilt, satsize, md)
-Obj *sop;
-double etilt;
-double satsize;
-MoonData md[S_NMOONS];
+sm_draw_map (Obj * sop, double etilt, double satsize,MoonData  md[S_NMOONS])
 {
 #define RLW     3       /* ring line width, pixels */
 #define	IRR	1.528	/* inner edge of ring system */
@@ -2392,14 +2317,7 @@ make_gcs ()
  * with is in a bounding box tw x th.
  */
 static void
-sm_calibline (dsp, win, gc, xc, yc, tag, tw, th, l)
-Display *dsp;
-Drawable win;
-GC gc;
-int xc, yc;
-char *tag;
-int tw, th;
-int l;
+sm_calibline (Display * dsp, Drawable win, GC gc, int xc, int yc, char * tag, int tw, int th, int l)
 {
 	int lx = xc - l/2;
 	int rx = lx + l;
@@ -2415,16 +2333,16 @@ int l;
  * save objects and screen locs in the global screenobj array for picking.
  * this is used to draw the backgrounds for the planet closeups.
  * Based on work by: Dan Bruton <WDB3926@acs.tamu.edu>
+@param win;		 window to draw on 
+@param w, h;		 window size 
+@param fmag;		 faintest magnitude to display 
+@param ra0, dec0;	 center of patch, rads 
+@param scale;		 rads per pixel 
+@param rad;		 maximum radius to draw away from ra0/dec0, rads 
+@param fliptb, fliplr;	 flip direction; default is S up E right 
  */
 static void
-sky_background (win, w, h, fmag, ra0,dec0,scale,rad,fliptb,fliplr)
-Drawable win;		/* window to draw on */
-unsigned w, h;		/* window size */
-int fmag;		/* faintest magnitude to display */
-double ra0, dec0;	/* center of patch, rads */
-double scale;		/* rads per pixel */
-double rad;		/* maximum radius to draw away from ra0/dec0, rads */
-int fliptb, fliplr;	/* flip direction; default is S up E right */
+sky_background (Drawable win, unsigned w, unsigned h, int fmag, double ra0,double dec0,double scale,double rad,int fliptb,int fliplr)
 {
 	static int before;
 	double cdec0 = cos(dec0);
@@ -2489,8 +2407,7 @@ int fliptb, fliplr;	/* flip direction; default is S up E right */
  * already close enough.
  */
 static void
-sm_loadfs (ra, dec)
-double ra, dec;
+sm_loadfs (double ra, double dec)
 {
 	Now *np = mm_get_now();
 

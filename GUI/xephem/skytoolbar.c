@@ -649,8 +649,7 @@ static SVTBarItem svtb[] = {
 
 /* search for the SVTBarItem containing the bitmaps bits */
 static SVTBarItem *
-findSVTB (bits)
-unsigned char *bits;
+findSVTB (unsigned char * bits)
 {
 	SVTBarItem *sp;
 
@@ -668,8 +667,7 @@ unsigned char *bits;
  *   current color scheme.
  */
 void
-svtb_newpm (rc_w)
-Widget rc_w;
+svtb_newpm (Widget rc_w)
 {
 	static Pixel last_fg, last_bg;
 	Display *dsp = XtDisplay(toplevel_w);
@@ -722,8 +720,7 @@ Widget rc_w;
 
 /* create top/left/right toolbar controls in the given RowColumn widgets */
 void
-svtb_create (trc_w, lrc_w, rrc_w)
-Widget trc_w, lrc_w, rrc_w;
+svtb_create (Widget trc_w, Widget lrc_w, Widget rrc_w)
 {
 	SVTBarItem *ip;
 	Arg args[20];
@@ -785,8 +782,7 @@ Widget trc_w, lrc_w, rrc_w;
  *   implement image cropping.
  */
 void
-svtb_imMode (on)
-int on;
+svtb_imMode (int on)
 {
 	Widget zi = findSVTB(zoomin_bits)->wid;
 	Widget uz = findSVTB(unzoom_bits)->wid;
@@ -813,80 +809,70 @@ svtb_iszoomok(void)
 
 /* show whether zooming now is ok */
 void
-svtb_zoomok(ok)
-int ok;
+svtb_zoomok(int ok)
 {
 	XtSetSensitive (findSVTB(zoomin_bits)->wid, ok);
 }
 
 /* set whether unzooming now is ok */
 void
-svtb_unzoomok(ok)
-int ok;
+svtb_unzoomok(int ok)
 {
 	XtSetSensitive (findSVTB(unzoom_bits)->wid, ok);
 }
 
 /* call to set the Grid TB */
 void
-svtb_updateGrid (on)
-int on;
+svtb_updateGrid (int on)
 {
 	XmToggleButtonSetState (findSVTB(grid_bits)->wid, on, False);
 }
 
 /* call to set the LR flip TB */
 void
-svtb_updateLRFlip (on)
-int on;
+svtb_updateLRFlip (int on)
 {
 	XmToggleButtonSetState (findSVTB(fliplr_bits)->wid, on, False);
 }
 
 /* call to set the TB flip TB */
 void
-svtb_updateTBFlip (on)
-int on;
+svtb_updateTBFlip (int on)
 {
 	XmToggleButtonSetState (findSVTB(fliptb_bits)->wid, on, False);
 }
 
 /* call to set the Horizon TB */
 void
-svtb_updateHorizon (on)
-int on;
+svtb_updateHorizon (int on)
 {
 	XmToggleButtonSetState (findSVTB(horizon_bits)->wid, on, False);
 }
 
 /* call to set the Field Stars TB */
 void
-svtb_updateFStars (on)
-int on;
+svtb_updateFStars (int on)
 {
 	XmToggleButtonSetState (findSVTB(fstars_bits)->wid, on, False);
 }
 
 /* call to set the Cns TB */
 void
-svtb_updateCns (on)
-int on;
+svtb_updateCns (int on)
 {
 	XmToggleButtonSetState (findSVTB(constel_bits)->wid, on, False);
 }
 
 /* call to set the Automag TB */
 void
-svtb_updateAutoMag (on)
-int on;
+svtb_updateAutoMag (int on)
 {
 	XmToggleButtonSetState (findSVTB(automag_bits)->wid, on, False);
 }
 
 /* call to set the Cyl and Sph projection TBs */
 void
-svtb_updateCyl (on)
-int on;
+svtb_updateCyl (int on)
 {
 	XmToggleButtonSetState (findSVTB(cyl_bits)->wid, on, False);
 	XmToggleButtonSetState (findSVTB(sph_bits)->wid, !on, False);
@@ -894,81 +880,70 @@ int on;
 
 /* call to set the Names TB */
 void
-svtb_updateNames (on)
-int on;
+svtb_updateNames (int on)
 {
 	XmToggleButtonSetState (findSVTB(names_bits)->wid, on, False);
 }
 
 /* call to set the Planes TB */
 void
-svtb_updatePlanes (on)
-int on;
+svtb_updatePlanes (int on)
 {
 	XmToggleButtonSetState (findSVTB(planes_bits)->wid, on, False);
 }
 
 /* call to set the MagScale TB */
 void
-svtb_updateMagScale (on)
-int on;
+svtb_updateMagScale (int on)
 {
 	XmToggleButtonSetState (findSVTB(magscale_bits)->wid, on, False);
 }
 
 /* call to set the LiveReport TB */
 void
-svtb_updateReport (on)
-int on;
+svtb_updateReport (int on)
 {
 	XmToggleButtonSetState(findSVTB(report_bits)->wid, on, False);
 }
 
 /* call to set the Slice TB */
 void
-svtb_updateSlice (on)
-int on;
+svtb_updateSlice (int on)
 {
 	XmToggleButtonSetState (findSVTB(slice_bits)->wid, slice_on=on, False);
 }
 
 /* call to set the ROI TB */
 void
-svtb_updateROI (on)
-int on;
+svtb_updateROI (int on)
 {
 	XmToggleButtonSetState (findSVTB(roi_bits)->wid, roi_on=on, False);
 }
 
 /* call to set the Gauss TB */
 void
-svtb_updateGauss (on)
-int on;
+svtb_updateGauss (int on)
 {
 	XmToggleButtonSetState(findSVTB(gauss_bits)->wid, gauss_on=on, False);
 }
 
 /* call to set the Contrast TB */
 void
-svtb_updateContrast (on)
-int on;
+svtb_updateContrast (int on)
 {
 	XmToggleButtonSetState(findSVTB(contrast_bits)->wid, contrast_on=on, 0);
 }
 
 /* call to set the Glass TB */
 void
-svtb_updateGlass (on)
-int on;
+svtb_updateGlass (int on)
 {
 	XmToggleButtonSetState(findSVTB(glass_bits)->wid, glass_on=on, False);
 }
 
 /* call to set the Class and Solsys TB according to svf filter tables */
 void
-svtb_updateCTTT(ct, tt)
-char ct[NCLASSES];
-char tt[NOBJTYPES];
+svtb_updateCTTT(char ct[NCLASSES], char tt[NOBJTYPES])
 {
 	int i, j;
 
@@ -1051,10 +1026,7 @@ svtb_gaussIsOn()
  * client is ct list.
  */
 static void
-svtb_ct_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_ct_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState(w);
 	char *types = (char *)client;
@@ -1081,10 +1053,7 @@ XtPointer call;
  * client is tt list.
  */
 static void
-svtb_tt_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_tt_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int set = XmToggleButtonGetState(w);
 	ObjType_t *types = (ObjType_t *)client;
@@ -1107,10 +1076,7 @@ XtPointer call;
  * activate the Cyl TB to the opposite state.
  */
 static void
-svtb_sph_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_sph_cb (Widget w, XtPointer client, XtPointer call)
 {
 	SVTBarItem *ip = findSVTB (cyl_bits);
 
@@ -1121,10 +1087,7 @@ XtPointer call;
  * slace the Sph TB to the opposite state.
  */
 static void
-svtb_cyl_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_cyl_cb (Widget w, XtPointer client, XtPointer call)
 {
 	SVTBarItem *ip = findSVTB (sph_bits);
 
@@ -1135,20 +1098,14 @@ XtPointer call;
  * client is addr of int to set.
  */
 static void
-svtb_toggle_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_toggle_cb (Widget w, XtPointer client, XtPointer call)
 {
 	*(int *)client = XmToggleButtonGetState(w);
 }
 
 /* monument toggle */
 static void
-svtb_monument_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_monument_cb (Widget w, XtPointer client, XtPointer call)
 {
 	monument_on = XmToggleButtonGetState(w);
 	if (si_ison())
@@ -1157,10 +1114,7 @@ XtPointer call;
 
 /* contrast toggle */
 static void
-svtb_contrast_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_contrast_cb (Widget w, XtPointer client, XtPointer call)
 {
 	contrast_on = XmToggleButtonGetState(w);
 	si_updateContrast(contrast_on);
@@ -1168,10 +1122,7 @@ XtPointer call;
 
 /* glass toggle */
 static void
-svtb_glass_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_glass_cb (Widget w, XtPointer client, XtPointer call)
 {
 	glass_on = XmToggleButtonGetState(w);
 	si_updateGlass(glass_on);
@@ -1179,10 +1130,7 @@ XtPointer call;
 
 /* roi toggle */
 static void
-svtb_roi_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_roi_cb (Widget w, XtPointer client, XtPointer call)
 {
 	roi_on = XmToggleButtonGetState(w);
 	si_updateROI(roi_on);
@@ -1190,10 +1138,7 @@ XtPointer call;
 
 /* gauss toggle */
 static void
-svtb_gauss_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_gauss_cb (Widget w, XtPointer client, XtPointer call)
 {
 	gauss_on = XmToggleButtonGetState(w);
 	si_updateGauss(gauss_on);
@@ -1201,10 +1146,7 @@ XtPointer call;
 
 /* slice toggle */
 static void
-svtb_slice_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+svtb_slice_cb (Widget w, XtPointer client, XtPointer call)
 {
 	slice_on = XmToggleButtonGetState(w);
 	si_updateSlice(slice_on);

@@ -205,9 +205,7 @@ ss_manage ()
  */
 /* ARGSUSED */
 void
-ss_update (np, how_much)
-Now *np;
-int how_much;
+ss_update (Now * np, int how_much)
 {
 	if (!isUp(ssshell_w))
 	    return;
@@ -255,8 +253,7 @@ ss_ison()
 
 /* called to put up or remove the watch cursor.  */
 void
-ss_cursor (c)
-Cursor c;
+ss_cursor (Cursor c)
 {
 	Window win;
 
@@ -700,10 +697,7 @@ st_create_form()
  */
 /* ARGSUSED */
 static void
-ss_trail_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_trail_cb (Widget w, XtPointer client, XtPointer call)
 {
 	tr_setup ("xephem Solar System trails setup", "Solar System", &trstate,
 							    ss_newtrail, NULL);
@@ -713,10 +707,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_activate_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_activate_cb (Widget w, XtPointer client, XtPointer call)
 {
 	int what = (long int) client;
 
@@ -762,10 +753,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_changed_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_changed_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleCallbackStruct *sp = (XmScaleCallbackStruct *) call;
 
@@ -782,10 +770,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_close_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_close_cb (Widget w, XtPointer client, XtPointer call)
 {
 	/* let popdown do rest of the work */
 	XtPopdown (ssshell_w);
@@ -795,10 +780,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_mloop_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_mloop_cb (Widget w, XtPointer client, XtPointer call)
 {
 	ml_add (ss_pm, dt_w);
 }
@@ -806,10 +788,7 @@ XtPointer call;
 /* callback from popping down the main view */
 /* ARGSUSED */
 static void
-ss_popdown_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_popdown_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XtUnmanageChild (stform_w);
 
@@ -831,10 +810,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_print_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_print_cb (Widget w, XtPointer client, XtPointer call)
 {
         XPSAsk ("Solar System", ss_print);
 }
@@ -886,8 +862,7 @@ ss_print ()
 }
 
 static void
-ss_ps_annotate (np)
-Now *np;
+ss_ps_annotate (Now * np)
 {
 	char dir[128];
 	char buf[128];
@@ -963,11 +938,7 @@ Now *np;
  * SSScut(a,x) where a selects what and x is a factor.
  */
 static void
-ss_shortcuts (w, e, p, n)
-Widget w;
-XEvent *e;
-String *p;
-Cardinal *n;
+ss_shortcuts (Widget w, XEvent * e, String *p, Cardinal *n)
 {
 	int what, scale;
 	int add;
@@ -1025,10 +996,7 @@ Cardinal *n;
  */
 /* ARGSUSED */
 static void
-ss_anim_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_anim_cb (Widget w, XtPointer client, XtPointer call)
 {
 	mm_movie (MOVIE_STEPSZ);
 }
@@ -1037,10 +1005,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_help_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_help_cb (Widget w, XtPointer client, XtPointer call)
 {
 	static char *msg[] = {
 "This displays the solar system. The sun is always at the center. The left",
@@ -1057,10 +1022,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_helpon_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_helpon_cb (Widget w, XtPointer client, XtPointer call)
 {
 	hlp_dialog ((char *)client, NULL, 0);
 }
@@ -1069,10 +1031,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay (w);
@@ -1129,10 +1088,7 @@ XtPointer call;
 
 /* ARGSUSED */
 static void
-st_parallax_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_parallax_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmScaleGetValue (w, &parallax);
 	ss_all ();
@@ -1141,10 +1097,7 @@ XtPointer call;
 /* called whenever the stereo scene is mapped. */
 /* ARGSUSED */
 static void
-st_map_cb (wid, client, call)
-Widget wid;
-XtPointer client;
-XtPointer call;
+st_map_cb (Widget w, XtPointer client, XtPointer call)
 {
 	st_track_size();
 }
@@ -1186,10 +1139,7 @@ st_track_size()
 /* callback from unmapping the stereo view */
 /* ARGSUSED */
 static void
-st_unmap_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_unmap_cb (Widget w, XtPointer client, XtPointer call)
 {
 	stereo = 0;
 	XmToggleButtonSetState(stereo_w, False, False);
@@ -1204,10 +1154,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-st_da_exp_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+st_da_exp_cb (Widget w, XtPointer client, XtPointer call)
 {
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
 	Display *dsp = XtDisplay (w);
@@ -1266,10 +1213,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_da_input_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_da_input_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Now *np = mm_get_now();
 	XmDrawingAreaCallbackStruct *c = (XmDrawingAreaCallbackStruct *)call;
@@ -1907,15 +1851,12 @@ st_refresh()
 /* draw all the comets and asteroids in the db.
  * if stview it's the stereo view so use st_pm and HLoc.stx, else ss_pm/sx.
  * add the coordinates in allp[] unless drawing the stereo view.
+@param scale;		 pixels per au 
+@param selt, celt;	 heliocentric lat of eye, rads 
+@param selg, celg;	 heliocentric lng of eye, rads 
  */
 static void
-ss_allobj (dsp, stview, scale, selt, celt, selg, celg, nx, ny)
-Display *dsp;
-int stview;
-double scale;		/* pixels per au */
-double selt, celt;	/* heliocentric lat of eye, rads */
-double selg, celg;	/* heliocentric lng of eye, rads */
-unsigned nx, ny;
+ss_allobj (Display * dsp, int stview, double scale, double selt, double celt, double selg, double celg, unsigned nx, unsigned ny)
 {
 #define	ASCHSZ		50
 	Now *np = mm_get_now();
@@ -2021,14 +1962,13 @@ unsigned nx, ny;
 
 /* compute location of HLoc in window of size [nx,ny].
  * N.B. others assume we only use hp->{x,y,z} and set lp->{sx,sy,sty}
+@param scale;		 mag factor 
+@param selt, celt;	 sin/cos heliocentric lat of eye, rads 
+@param selg, celg;	 sin/cos heliocentric lng of eye, rads 
+@param nx, ny;	 size of drawing area, in pixels 
  */
 static void
-ss_loc (hp, scale, selt, celt, selg, celg, nx, ny)
-HLoc *hp;
-double scale;		/* mag factor */
-double selt, celt;	/* sin/cos heliocentric lat of eye, rads */
-double selg, celg;	/* sin/cos heliocentric lng of eye, rads */
-unsigned nx, ny;	/* size of drawing area, in pixels */
+ss_loc (HLoc *hp, double scale, double selt, double celt, double selg, double celg, unsigned nx, unsigned ny)
 {
 	double x, y, z;	/* progressive transform values... */
 	double xp, yp, zp;
@@ -2081,10 +2021,7 @@ unsigned nx, ny;	/* size of drawing area, in pixels */
  */
 /* ARGSUSED */
 static int
-ss_newtrail (ts, statep, client)
-TrTS ts[];
-TrState *statep;
-XtPointer client;
+ss_newtrail (TrTS ts[], TrState * statep, XtPointer client)
 {
 	Now *np = mm_get_now();
 	int i;
@@ -2146,8 +2083,7 @@ XtPointer client;
  * new favorite at *np, and erase any other entries.
  */
 static void
-hloc_reset (np)
-Now *np;
+hloc_reset (Now * np)
 {
 	int i;
 
@@ -2182,8 +2118,7 @@ Now *np;
  *   return its new address or NULL and xe_msg() if no more memory.
  */
 static HLoc *
-hloc_grow (favi)
-int favi;
+hloc_grow (int favi)
 {
 	char *newmem;
 	int i, n;
@@ -2222,10 +2157,7 @@ int favi;
  * return 0 if ok else xe_msg() and -1 if trouble.
  */
 static int
-hloc_add (favi, np, lbl)
-int favi;
-Now *np;
-int lbl;
+hloc_add (int favi, Now * np, int lbl)
 {
 	Obj *op = favs[favi];
 	HLoc *hp;
@@ -2289,9 +2221,7 @@ ap_free()
  * return 0 if ok else -1.
  */
 static int
-ap_add (op, hp)
-Obj *op;
-HLoc *hp;
+ap_add (Obj * op, HLoc * hp)
 {
 	AllP *ap;
 
@@ -2322,10 +2252,7 @@ HLoc *hp;
  */
 /* ARGSUSED */
 static void
-ap_label_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ap_label_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = pu.op;
 
@@ -2341,10 +2268,7 @@ XtPointer call;
  */
 /* ARGSUSED */
 static void
-ss_fav_cb (w, client, call)
-Widget w;
-XtPointer client;
-XtPointer call;
+ss_fav_cb (Widget w, XtPointer client, XtPointer call)
 {
 	Obj *op = pu.op;
 	if (op == db_basic(MOON))

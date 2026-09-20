@@ -91,8 +91,7 @@ db_n()
  * updated Obj in the database.
  */
 Obj *
-db_basic(id)
-int id;
+db_basic(int id)
 {
 	Obj *op;
 
@@ -184,8 +183,7 @@ db_dups (DupName **dnpp)
  * N.B. dbcp not valid on return
  */
 void
-db_catdel (dbcp)
-DBCat *dbcp;
+db_catdel (DBCat * dbcp)
 {
 	int t, c;
 
@@ -242,8 +240,7 @@ db_opfindcat (Obj *op)
  * if find it return pointer to DBCat, else return NULL.
  */
 static DBCat *
-db_nmfindcat (name)
-char *name;
+db_nmfindcat (char * name)
 {
 	char *base;
 	int i;
@@ -267,8 +264,7 @@ char *name;
  * return pointer if ok, else NULL if no more memory.
  */
 static DBCat *
-db_catadd (name)
-char *name;
+db_catadd (char* name)
 {
 	DBCat *dbcp;
 	int i;
@@ -325,11 +321,7 @@ db_invalidate()
  * N.B. nothing should be assumed as to the order these are returned.
  */
 void
-db_scaninit (sp, tmask, op, nop)
-DBScan *sp;
-int tmask;
-ObjF *op;
-int nop;
+db_scaninit (DBScan * sp, int tmask, ObjF * op, int nop)
 {
 	if (!DBINITED)
 	    db_init();
@@ -346,8 +338,7 @@ int nop;
  * N.B. the s_ fields are *not* updated -- call db_update() when you need that.
  */
 Obj *
-db_scan (sp)
-DBScan *sp;
+db_scan (DBScan * sp)
 {
 	if (!DBINITED)
 	    db_init();
@@ -389,8 +380,7 @@ DBScan *sp;
  *   although we guarantee an actual update occurs if it's not.
  */
 void
-db_update(op)
-Obj *op;
+db_update(Obj * op)
 {
 	static char me[] = "db_update()";
 
@@ -466,8 +456,7 @@ db_del_all()
  * N.B. caller is responsible for calling all_newdb().
  */
 void
-db_read (fn)
-char *fn;
+db_read (char * fn)
 {
 	char bufs[3][MAXDBLINE];
 	char *brot, *b0 = bufs[0], *b1 = bufs[1], *b2 = bufs[2];
@@ -710,13 +699,13 @@ DBCatObj (DBCat *dbcp, int t, int i)
  * N.B. do EXACTLY ONE read -- don't know that more won't block.
  * set the watch cursor while we work and call all_newdb() when we're done.
  *   we guess we are "done" when we end up without a partial line.
+@param client;       file name 
+@param *fdp;               pointer to file descriptor 
+@param *idp;         pointer to input id 
  */
 /* ARGSUSED */
 static void
-dbfifo_cb (client, fdp, idp)
-XtPointer client;       /* file name */
-int *fdp;               /* pointer to file descriptor */
-XtInputId *idp;         /* pointer to input id */
+dbfifo_cb (XtPointer client, int * fdp, XtInputId * idp)
 {
 	static char partial[MAXDBLINE];	/* partial line from before */
 	static int npartial;		/* length of stuff in partial[] */
