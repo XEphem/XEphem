@@ -2195,7 +2195,7 @@ prompt (Field * fp)
 		    char *txt0, *txt;
 
 		    get_xmstring (fp->pb_w, XmNlabelString, &txt0);
-		    for (txt = txt0; *txt && !isdigit(*txt); txt++)
+		    for (txt = txt0; *txt && !isdigit((unsigned char)*txt); txt++)
 			continue;
 		    set_xmstring (prompt_w, XmNtextString, txt);
 		    XtFree (txt0);

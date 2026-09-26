@@ -206,7 +206,7 @@ next_token ()
 	int tok = ERR;	/* just something illegal */
 	char c;
 
-	while (isspace(c = *cexpr))
+	while (isspace((unsigned char)(c = *cexpr)))
 	    cexpr++;
 	lcexpr = cexpr++;
 

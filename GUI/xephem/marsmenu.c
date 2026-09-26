@@ -995,7 +995,7 @@ m_create_mfform()
 		int j;
 
 		/* widget name is first word in type */
-		for (j = 0; isalpha(mfsp->type[j]); j++)
+		for (j = 0; isalpha((unsigned char)mfsp->type[j]); j++)
 		    buf[j] = mfsp->type[j];
 		buf[j] = '\0';
 
@@ -2143,7 +2143,7 @@ noTrWhite (char * name)
 {
 	int l;
 
-	for (l = strlen(name)-1; l >= 0 && isspace(name[l]); --l)
+	for (l = strlen(name)-1; l >= 0 && isspace((unsigned char)name[l]); --l)
 	    name[l] = '\0';
 }
 

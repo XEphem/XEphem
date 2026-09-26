@@ -1078,7 +1078,7 @@ strtolower (char *str)
 
 	/* actually faster to /not/ call isupper() first */
 	do
-	    *s = tolower (*s);
+	    *s = tolower ((unsigned char)*s);
 	while (*s++);
 
 	return (str);

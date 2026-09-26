@@ -108,7 +108,7 @@ from64tobits(char *out, const char *in)
                 ++len;
             }
         }
-	while (isspace(*in))
+	while (isspace((unsigned char)*in))
 	    in++;
     } while (*in && digit4 != '=');
 
