@@ -8149,9 +8149,10 @@ guarantee that XEphem works properly in any way. </div>
  style="font-weight: bold;">Proper Motion catalogs</span></h3>
 <br>
 These large catalogs include information regarding proper motion.
-Two such catalogs are currently available ready for XEphem. You may
-only use one at a time, by choosing the corresponding toggle<span
- style="font-weight: bold;"><br>
+Two such catalogs are currently available ready for XEphem - PPM and
+Hipparcos/Tycho-2. You may also download the UCAC catalog and directly access
+the catalog data. You may only use one at a time, by choosing the
+corresponding toggle.<span style="font-weight: bold;"><br>
 <br>
 PPM catalog</span><br>
 <br>
@@ -8187,20 +8188,20 @@ particular GSC field was evidently taken in early 1983.<br>
 <br>
 UCAC</span>
 <div style="margin-left: 40px;"><br>
-This choice allows using the USNO Astrographic catalog with XEphem. For
-more information on this catalog please refer to
-<a target="_blank" href="https://www.usno.navy.mil/USNO/astrometry/optical-IR-prod/ucac">here</a>.
-
-The catalogs must be available on the local disk in the (top) directory
-that is in the Data -> Field stars -> UCAC menu, and the button
-in the menu must be activated (sunk). The catalogs can be downloaded
-from https://cdsarc.cds.unistra.fr/ftp/I/322A/ (UCAC4) 
-or https://cdsarc.cds.unistra.fr/ftp/I/340/ (UCAC5), 
-or https://cdsarc.cds.unistra.fr/ftp/I/315/ (UCAC3) for example.
-
-As of release UCAC4, the directory specified must be that which contains
-the u4b and u4i directories. In turn, u4b must contain all 900 z files and
-u4i must contain u4index.unf and u4hpm.dat.
+This choice allows using a USNO CCD Astrograph Catalog with XEphem.
+There are several revisions of the UCAC. The catalogs can be downloaded
+from https://cdsarc.cds.unistra.fr/ftp/I/289/u2/ (UCAC2) or
+https://cdsarc.cds.unistra.fr/ftp/I/315/UCAC3/ (UCAC3) or
+https://cdsarc.cds.unistra.fr/ftp/I/322A/UCAC4/ (UCAC4) or
+https://cdsarc.cds.unistra.fr/ftp/I/340/UCAC5/ (UCAC5).
+<br><br>
+The desired catalog must be available on the local disk in the (top) directory
+that is in the Data -> Field stars -> UCAC menu. This directory must contain
+the u2index.da file and all 288 z files (uncompressed) for UCAC2;
+the u3index.unf and all 360 z files (uncompressed) for UCAC3;
+the u4b and u4i directories where u4b must contain all 900 z files and
+u4i must contain u4index.unf and u4hpm.dat for UCAC4;
+or the u5z directory where u5z must contain u5index.unf and all 900 z files for UCAC5.
 <br>
 </div>
 <h3><a class="mozTocH3" name="mozTocId802428"></a> 7.5.4 <span

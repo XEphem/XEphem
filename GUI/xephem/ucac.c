@@ -362,7 +362,7 @@ read5Raw (U5Star u[], int dz, int nskip, int nnew)
 	char fn[1024];
 	FILE *fp;
 
-	sprintf (fn, "%s/z%03d", basedir, dz+1);
+	sprintf (fn, "%s/u5z/z%03d", basedir, dz+1);
 	fp = fopen (fn, "r");
 	if (!fp) {
 	    xe_msg (0, "UCAC: open %s: %s", fn, syserrstr());
@@ -956,7 +956,7 @@ openIndex (char dir[], char msg[], int *ucacvp)
 		if (fp) {
 		    *ucacvp = 4;
 		} else {
-		    sprintf (full, "%s/%s", dir, u5);
+		    sprintf (full, "%s/u5z/%s", dir, u5);
 		    fp = fopen (full, "r");
 		    if (fp) {
 			*ucacvp = 5;
