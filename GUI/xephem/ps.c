@@ -1419,7 +1419,7 @@ find_psfont (Font fid)
 	    {"times",      "Times",            0,       "Bold", "Italic"},
 	};
 	Display *dsp = XtDisplay(toplevel_w);
-	int (*oldhandler)();
+	int (*oldhandler)(Display * disp, XErrorEvent * event);
 	int bold, ital;
 	char *fam;
 	char psname[64];

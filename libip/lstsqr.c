@@ -111,8 +111,7 @@ static int
 amoeba(double **p,double y[],int ndim,double ftol,double (*funk)(double p[]),int * nfunk)
 {
 	int i,j,ilo,ihi,inhi,mpts=ndim+1;
-	double ytry,ysave,sum,rtol,*psum,*vector();
-	void nrerror(),free_vector();
+	double ytry,ysave,sum,rtol,*psum;
 	double yihilo;
 
 	psum=vector(1,ndim);
@@ -169,8 +168,7 @@ static double
 amotry(double **p,double *y,double *psum,int ndim, double (*funk)(double p[]),int ihi,int * nfunk,double fac)
 {
 	int j;
-	double fac1,fac2,ytry,*ptry,*vector();
-	void nrerror(),free_vector();
+	double fac1,fac2,ytry,*ptry;
 
 	ptry=vector(1,ndim);
 	fac1=(1.0-fac)/ndim;
@@ -194,7 +192,6 @@ amotry(double **p,double *y,double *psum,int ndim, double (*funk)(double p[]),in
 #undef GAMMA
 #undef NMAX
 
-
 /* nrutil.c */
 
 static void
@@ -206,8 +203,6 @@ nrerror(char error_text[])
 	exit(1);
 }
 
-
-
 static double *
 vector(int nl,int nh)
 {
@@ -218,10 +213,8 @@ vector(int nl,int nh)
 	return v-nl;
 }
 
-
 static void
 free_vector(double * v,int nl,int nh)
 {
 	free((char*) (v+nl));
 }
-

@@ -814,7 +814,8 @@ srch_acc_cb (Widget w, XtPointer client, XtPointer call)
 static void
 srch_goal_cb(Widget w, XtPointer client, XtPointer call)
 {
-	int (*sfp)()= (int (*)())client;
+	int (*sfp)(double, double, double *) =
+	    (int (*)(double, double, double *))client;
 
 	if (XmToggleButtonGetState(w)) {
 	    /* better turn off searching if changing the search function! */
