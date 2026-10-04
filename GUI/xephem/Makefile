@@ -48,6 +48,17 @@ LDFLAGS = $(LIBLNK) $(CLDFLAGS) -L$(MOTIFL) $(PLATL)
 XLIBS = -lXm -lXt -lXext -lXmu -lX11
 LIBS = $(XLIBS) $(LIBLIB) -lm -lssl
 
+# Variables installation for Linux
+# For install XEphem without root permission, use a directory local
+# such $(HOME)/local or another of your preference in the prefix variable.
+ifeq ($(UNAME_S),Linux)
+  prefix = $(HOME)/local
+  bindir = $(prefix)/bin
+  datadir = $(prefix)/share
+  mandir = $(datadir)/man
+  export datadir
+endif
+
 # static linking on Apple using X11 libs from ports
 # CC = gcc
 # OLI = /opt/local/include
@@ -203,7 +214,7 @@ xephem: $(INCS) $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
 xephem.1: xephem.man
-	nroff -man $? > $@
+	cp $? $@
 
 libs:
 	cd ../../libastro; make
@@ -218,3 +229,24 @@ clean:
 
 clobber: clean
 	rm -fr xephem xephem.1
+
+# Installation in Linux systems
+ifeq ($(UNAME_S),Linux)
+install: install-binary install-man install-data install-desktopfiles
+
+install-binary:
+	install -Dm 755 xephem -t $(DESTDIR)$(bindir)
+
+install-man:
+	install -Dm 644 xephem.1 -t $(DESTDIR)$(mandir)/man1
+
+install-data:
+	install -dm 755 $(DESTDIR)$(datadir)/xephem
+	@for d in auxil catalogs fifos fits gallery help lo; do \
+	  echo "cp -R $$d $(DESTDIR)$(datadir)/xephem"; \
+	  cp -R $$d $(DESTDIR)$(datadir)/xephem; \
+	done
+
+install-desktopfiles:
+	cd ../../desktopfiles; make DESTDIR=$(DESTDIR) install
+endif
