@@ -661,7 +661,7 @@ trimws (char *s)
 {
 	char *s0;
 
-	while (isspace(*s))
+	while (isspace((unsigned char)*s))
 	    s++;
 	s0 = s;
 
@@ -670,7 +670,7 @@ trimws (char *s)
 
 	do
 	    *s-- = '\0';
-	while (s >= s0 && isspace(*s));
+	while (s >= s0 && isspace((unsigned char)*s));
 
 	return (s0);
 }

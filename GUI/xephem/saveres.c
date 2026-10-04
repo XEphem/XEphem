@@ -1743,10 +1743,10 @@ cpyNoWS (char * to, char * from)
 {
 	char *lastnwsp;		/* last non w/s char in to not counting '\0' */
 
-	while (isspace(*from))
+	while (isspace((unsigned char)*from))
 	    from++;
 	for (lastnwsp = NULL; (*to = *from) != '\0'; to++, from++)
-	    if (!isspace(*to))
+	    if (!isspace((unsigned char)*to))
 		lastnwsp = to;
 	if (lastnwsp)
 	    *++lastnwsp = '\0';

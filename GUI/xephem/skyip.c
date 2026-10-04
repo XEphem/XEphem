@@ -2520,8 +2520,8 @@ setWCSField (WCSSeed * wsp, char msg[])
 
 	/* relax need for user to type in upper case */
 	for (bp = kw; *bp; bp++)
-	    if (islower(*bp))
-		*bp = toupper(*bp);
+	    if (islower((unsigned char)*bp))
+		*bp = toupper((unsigned char)*bp);
 
 	/* get from FITS header and copy to our value field */
 	if (getStringFITS (&fim, kw, valu) == 0) {

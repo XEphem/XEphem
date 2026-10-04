@@ -9415,7 +9415,7 @@ draw_label (Window win, GC gc, Obj * op, int flags, int x, int y, int d)
 	    if (sv_ggc && chk_greeklabel (name, &gl, &g)) {
 		XTextExtents (sv_gf, &g, 1, &dir, &asc, &des, &xcs);
 		gw = xcs.width;
-		if (isdigit(name[4+gl])) {
+		if (isdigit((unsigned char)name[4+gl])) {
 		    /* don't crowd the superscript */
 		    XTextExtents (sv_pf, name+gl+4, 1, &dir, &asc, &des, &xcs);
 		    gw += 1;
@@ -9514,7 +9514,7 @@ chk_greeklabel (char name[], int * glp, char * gcodep)
 
 	/* find length of potentionally greek portion */
 	for (gl = 0; ; gl++)
-	    if (!isalpha(name[4+gl]))
+	    if (!isalpha((unsigned char)name[4+gl]))
 		break;
 	if (gl < 2)	/* shortest greek name is 2 chars */
 	    return (0);

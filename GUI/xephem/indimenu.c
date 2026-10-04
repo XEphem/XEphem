@@ -2520,7 +2520,7 @@ handleOneBLOB (XMLEle *root, IBLOB *bp, char errmsg[])
 
 	/* rig up a file name from the timestamp and format */
 	for (i = 0, tsp = bvp->timestamp; *tsp != '\0'; tsp++)
-	    if (isdigit(*tsp))
+	    if (isdigit((unsigned char)*tsp))
 		fn[i++] = *tsp;
 	fn[i] = '\0';
 	strcat (fn, bp->format);
