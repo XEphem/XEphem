@@ -36,13 +36,23 @@ gzip -c %{name}.man > %{name}.1x.gz
 mkdir -p %{buildroot}/%{_bindir}
 mkdir -p %{buildroot}/%{_mandir}/man1x/
 
-cd GUI/xephem
+pushd GUI/xephem
 install -m 0755 %{name} %{buildroot}/%{_bindir}
 install -m 0444 %{name}.1x.gz %{buildroot}/%{_mandir}/man1x/
+popd
+
+# Provide a desktop entry
+mkdir -p %{buildroot}%{_datadir}/applications
+install -m 0644 system_integration/Linux/share/applications/io.github.%{name}.desktop %{buildroot}%{_datadir}/applications
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/
+install -m 0644 GUI/xephem/XEphem.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/
+
 
 %files
 %{_bindir}/%{name}
 %{_mandir}/man1x/%{name}.1x.gz
+%{_datadir}/applications/io.github.%{name}.desktop
+%{_datadir}/icons/hicolor/128x128/apps/XEphem.png
 
 %changelog
 * Fri Mar 05 2021 Douglas Needham <cinnion+github@gmail.com> 4.0.1-1
